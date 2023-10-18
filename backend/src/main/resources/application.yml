@@ -23,3 +23,17 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
     org.springframework.web.socket: trace
+
+# s3
+cloud:
+  aws:
+    s3:
+      bucket: showeat
+    credentials:
+      accessKey: AKIAYNGI6IUDYVBYW33G
+      secretKey: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

@@ -40,6 +40,9 @@ public class User extends BaseTimeEntity {
 	@Column(nullable = false, length = 100)
 	private String userImgUrl;
 
+	@Column(nullable = false, length = 20)
+	private String userAddress;
+
 	@Column(nullable = false)
 	private boolean userBusiness;
 
@@ -52,4 +55,17 @@ public class User extends BaseTimeEntity {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Notification> notifications;
+
+	//닉네임 수정
+	public void updateuserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+	//프로필사진 수정
+	public void updateuserImgUrl(String userImgUrl) {
+		this.userImgUrl = userImgUrl;
+	}
+	//관심지역 수정
+	public void updateAddress(String userAddress) {
+		this.userAddress = userAddress;
+	}
 }
