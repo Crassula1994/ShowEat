@@ -3,13 +3,14 @@ package com.ssafy.showeat.domain.user.service.implement;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ssafy.showeat.domain.S3.dto.S3FileDto;
+import com.ssafy.showeat.domain.s3.dto.S3FileDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateAddressRequestDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateNicknameRequestDto;
 import com.ssafy.showeat.domain.user.dto.response.UserResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.domain.user.service.UserService;
+import com.ssafy.showeat.global.exception.NotExistUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserServiceImpl_getUserById -> 사용자 정보 조회 시도");
         //사용자 정보 조회
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistUserException::new);
         return new UserResponseDto(user.getUserId(),user.getUserNickname(),
                 user.getUserImgUrl(),user.getUserAddress(),user.getUserMoney());
     }
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateNickname(UpdateNicknameRequestDto updateNicknameRequestDto) {
         log.info("UserServiceImpl_updateNickname -> 사용자 닉네임 수정 시도");
-        User user = userRepository.findByUserId(updateNicknameRequestDto.getUserId()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findByUserId(updateNicknameRequestDto.getUserId()).orElseThrow(NotExistUserException::new);
         user.updateuserNickname(updateNicknameRequestDto.getUserNickname());
 
     }
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
             // S3에 업로드한 폴더 및 파일 URL
             uploadFileUrl = amazonS3Client.getUrl(bucketName, keyName).toString();
-            User user = userRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
+            User user = userRepository.findByUserId(userId).orElseThrow(NotExistUserException::new);
             user.updateuserImgUrl(uploadFileUrl);
         } catch (IOException e) {
             log.error("UserServiceImpl_updateImage -> 사용자 이미지 변경 실패: {}", e.getMessage());
@@ -100,7 +101,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateAddress(UpdateAddressRequestDto updateAddressRequestDto) {
         log.info("UserServiceImpl_updateAddress -> 사용자 관심 지역 수정 시도");
-        User user = userRepository.findByUserId(updateAddressRequestDto.getUserId()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findByUserId(updateAddressRequestDto.getUserId()).orElseThrow(NotExistUserException::new);
         user.updateAddress(updateAddressRequestDto.getUserAddress());
     }
 }

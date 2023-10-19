@@ -20,4 +20,10 @@ public class ExceptionController {
 		return ResponseResult.exceptionResponse(ExceptionCode.SERVER_EXCEPTION, err.getMessage());
 	}
 
+	@ExceptionHandler(NotExistUserException.class)
+	public ResponseResult NotExistUserException(NotExistUserException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_USER_EXCEPTION, err.getMessage());
+	}
 }

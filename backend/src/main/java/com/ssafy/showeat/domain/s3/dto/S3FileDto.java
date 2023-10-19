@@ -1,4 +1,4 @@
-package com.ssafy.showeat.domain.S3.dto;
+package com.ssafy.showeat.domain.s3.dto;
 
 import lombok.Builder;
 import lombok.Getter;
