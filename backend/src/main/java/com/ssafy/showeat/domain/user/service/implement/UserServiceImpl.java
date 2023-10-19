@@ -3,7 +3,7 @@ package com.ssafy.showeat.domain.user.service.implement;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ssafy.showeat.domain.s3.dto.S3FileDto;
+import com.ssafy.showeat.global.s3.dto.S3FileDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateAddressRequestDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateNicknameRequestDto;
 import com.ssafy.showeat.domain.user.dto.response.UserResponseDto;

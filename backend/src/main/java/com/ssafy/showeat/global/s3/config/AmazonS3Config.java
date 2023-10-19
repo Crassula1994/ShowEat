@@ -1,4 +1,4 @@
-package com.ssafy.showeat.domain.s3.config;
+package com.ssafy.showeat.global.s3.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
