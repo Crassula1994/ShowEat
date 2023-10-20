@@ -1,4 +1,8 @@
 package com.ssafy.showeat.domain.funding.repository;
 
-public interface FundingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ssafy.showeat.domain.funding.entity.Funding;
+
+public interface FundingRepository extends JpaRepository<Funding,Long> {
 }

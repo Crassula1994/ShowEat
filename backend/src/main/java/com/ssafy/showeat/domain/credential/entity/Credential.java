@@ -34,7 +34,7 @@ public class Credential extends BaseTimeEntity {
 	@Column(nullable = false, length = 10)
 	private String credentialSocialPlatform;
 
-	@Column(nullable = false)
+	@Column()
 	@Enumerated(EnumType.STRING)
 	private CredentialRole credentialRole;
 }

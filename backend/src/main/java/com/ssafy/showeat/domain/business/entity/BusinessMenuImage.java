@@ -1,4 +1,4 @@
-package com.ssafy.showeat.domain.funding.entity;
+package com.ssafy.showeat.domain.business.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.ssafy.showeat.global.entity.BaseTimeEntity;
+import com.ssafy.showeat.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,16 +21,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class FundingImage extends BaseTimeEntity {
+public class BusinessMenuImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long fundingImageId;
+	private Long businessMenuImageId;
 
-	@Column(nullable = false, length = 1000)
-	private String fundingImgUrl;
+	@Column(nullable = false)
+	private String businessMenuImageUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "funding_id", nullable = false)
-	private Funding funding;
+	@JoinColumn(name = "business_menu_id", nullable = false)
+	private BusinessMenu businessMenu;
+
+	public void setBusinessMenu(BusinessMenu businessMenu){
+		this.businessMenu = businessMenu;
+	}
+
 }

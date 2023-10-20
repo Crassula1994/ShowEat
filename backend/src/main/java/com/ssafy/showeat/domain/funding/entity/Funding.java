@@ -1,6 +1,9 @@
 package com.ssafy.showeat.domain.funding.entity;
 
-import javax.persistence.AttributeOverride;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,9 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
 import com.ssafy.showeat.domain.business.entity.Business;
-import com.ssafy.showeat.domain.notification.entity.NotificationType;
+import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +37,9 @@ public class Funding extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long fundingId;
 
+	@Column(nullable = false, length = 100)
+	private String fundingTitle;
+
 	@Column(nullable = false)
 	private int fundingMaxLimit;
 
@@ -40,9 +48,6 @@ public class Funding extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private int fundingCurCount;
-
-	@Column(nullable = false)
-	private int fundingPrice;
 
 	@Column(nullable = false)
 	private int fundingDiscountPrice;
@@ -54,15 +59,35 @@ public class Funding extends BaseTimeEntity {
 	private String fundingMenu;
 
 	@Column(nullable = false)
+	private int fundingPrice;
+
+	@Column(nullable = false)
+	private LocalDate fundingEndDate;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private FundingIsActive fundingIsActive;
 
-	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private FundingIsSuccess fundingIsSuccess;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "business_id", nullable = false)
 	private Business business;
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<FundingTag> fundingTags;
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<FundingImage> fundingImages;
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<UserFunding> userFundings;
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Bookmark> bookmarks;
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Coupon> coupons;
 
 }
