@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
 import com.ssafy.showeat.domain.business.service.BusinessService;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
+import com.ssafy.showeat.global.response.ListResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 import com.ssafy.showeat.global.response.SingleResponseResult;
 
@@ -54,7 +55,17 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "메뉴 조회 실패"),
 	})
 	@GetMapping("/menu/{menuId}")
-	public ResponseResult getMenuInfo(@PathVariable Long menuId) throws IOException {
+	public ResponseResult getMenuInfo(@PathVariable Long menuId) {
 		return new SingleResponseResult<>(businessService.getMenuInfo(menuId));
+	}
+
+	@ApiOperation(value = "업체 메뉴 리스트 조회" , notes = "업주가 업체의 메뉴리스트를 조회합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "메뉴 조회 성공"),
+		@ApiResponse(code = 400, message = "메뉴 조회 실패"),
+	})
+	@GetMapping("/menu")
+	public ResponseResult getMenuList() {
+		return new ListResponseResult<>(businessService.getMenuList());
 	}
 }

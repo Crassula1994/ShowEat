@@ -1,8 +1,10 @@
 package com.ssafy.showeat.global.response;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SingleResponseResult<T> extends ResponseResult {
 
 	private T data;

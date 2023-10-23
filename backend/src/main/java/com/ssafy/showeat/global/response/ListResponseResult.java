@@ -2,6 +2,11 @@ package com.ssafy.showeat.global.response;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class ListResponseResult<T> extends ResponseResult {
 
 	private List<T> data;

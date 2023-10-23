@@ -2,6 +2,7 @@ package com.ssafy.showeat.domain.business.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,5 +48,16 @@ public class BusinessServiceImpl implements BusinessService{
 	public BusinessMenuResponseDto getMenuInfo(Long menuId) {
 		log.info("BusinessServiceImpl_getMenuInfo || 업체 메뉴 조회");
 		return businessMenuRepository.findById(menuId).get().toBusinessMenuResponseDto();
+	}
+
+	@Override
+	public List<BusinessMenuResponseDto> getMenuList() {
+		log.info("BusinessServiceImpl_getMenuInfo || 업체 메뉴 리스트 조회");
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		return business.getBusinessMenus()
+						.stream()
+						.map(businessMenu -> businessMenu.toBusinessMenuResponseDto())
+						.collect(Collectors.toList());
 	}
 }
