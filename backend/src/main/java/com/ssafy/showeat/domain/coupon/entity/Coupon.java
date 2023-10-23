@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.showeat.domain.coupon.dto.response.CouponResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
@@ -46,4 +47,18 @@ public class Coupon extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
+
+	public CouponResponseDto toCouponResponseDto() {
+		return CouponResponseDto.builder()
+			.couponId(couponId)
+			.couponPrice(couponPrice)
+			.couponState(couponState)
+			.user(user)
+			.funding(funding)
+			.build();
+	}
+
+	public void updateState(CouponState couponState) {
+		this.couponState = couponState;
+	}
 }
