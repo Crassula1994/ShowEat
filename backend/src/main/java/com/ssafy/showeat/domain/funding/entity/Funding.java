@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
+import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -98,5 +99,31 @@ public class Funding extends BaseTimeEntity {
 	public void addFundingTag(FundingTag fundingTag){
 		this.fundingTags.add(fundingTag);
 		fundingTag.setFunding(this);
+	}
+
+	public void addUserFunding(Funding funding , User user){
+		UserFunding userFunding = UserFunding.builder()
+			.user(user)
+			.funding(funding)
+			.build();
+
+		this.userFundings.add(userFunding);
+		userFunding.setFunding(funding);
+		this.fundingCurCount += 1;
+	}
+
+	public boolean isApply(){
+		if(this.fundingCurCount + 1 > this.fundingMaxLimit) return false;
+		return true;
+	}
+
+	public boolean isMaxLimit(){
+		if(this.fundingCurCount == this.fundingMaxLimit) return true;
+		return false;
+	}
+
+	public void changeFundingStatusByMaxApply(){
+		this.fundingIsActive = FundingIsActive.INACTIVE;
+		this.fundingIsSuccess = FundingIsSuccess.SUCCESS;
 	}
 }

@@ -53,6 +53,8 @@ public class CreateFundingRequestDto {
 			BusinessMenu businessMenu,
 			int discountPrice){
 
+		double discountRate = ((double) (businessMenu.getBusinessMenuPrice() - discountPrice) / businessMenu.getBusinessMenuPrice() ) * 100;
+
 		Funding funding = Funding.builder()
 			.fundingTitle(title)
 			.fundingMaxLimit(maxLimit)
@@ -63,6 +65,7 @@ public class CreateFundingRequestDto {
 			.fundingIsActive(FundingIsActive.ACTIVE)
 			.fundingIsSuccess(FundingIsSuccess.UNDECIEDED)
 			.fundingDiscountPrice(discountPrice)
+			.fundingDiscountRate((int) Math.round(discountRate))
 			.fundingEndDate(endDate)
 			.business(business)
 			.fundingTags(new ArrayList<>())

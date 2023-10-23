@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,17 @@ public class FundingController {
 	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto
 	){
 		fundingService.createFunding(createFundingRequestDto);
+		return ResponseResult.successResponse;
+	}
+
+	@ApiOperation(value = "펀딩 참여" , notes = "펀딩에 참여합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 참여 성공"),
+		@ApiResponse(code = 400, message = "펀딩 참여 실패"),
+	})
+	@PostMapping("/user/{fundingId}")
+	public ResponseResult applyFunding(@PathVariable Long fundingId){
+		fundingService.applyFunding(fundingId);
 		return ResponseResult.successResponse;
 	}
 }

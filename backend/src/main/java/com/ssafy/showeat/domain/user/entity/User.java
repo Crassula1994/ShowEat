@@ -68,4 +68,13 @@ public class User extends BaseTimeEntity {
 	public void updateAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
+
+	public boolean haveMoney(int fundingPrice){
+		if(this.userMoney < fundingPrice) return false;
+		return true;
+	}
+
+	public void spendMoney(int fundingPrice){
+		this.userMoney -= fundingPrice;
+	}
 }
