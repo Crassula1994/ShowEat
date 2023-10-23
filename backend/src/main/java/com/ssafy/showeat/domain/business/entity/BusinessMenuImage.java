@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.showeat.domain.business.dto.response.BusinessMenuImageResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
@@ -38,4 +39,10 @@ public class BusinessMenuImage {
 		this.businessMenu = businessMenu;
 	}
 
+	public BusinessMenuImageResponseDto toBusinessMenuImageResponseDto(){
+		return BusinessMenuImageResponseDto.builder()
+			.menuImageId(businessMenuImageId)
+			.menuImageUrl(businessMenuImageUrl)
+			.build();
+	}
 }
