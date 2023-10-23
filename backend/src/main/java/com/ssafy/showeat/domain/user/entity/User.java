@@ -77,4 +77,7 @@ public class User extends BaseTimeEntity {
 	public void spendMoney(int fundingPrice){
 		this.userMoney -= fundingPrice;
 	}
+	public void refundMoney(int fundingPrice){
+		this.userMoney += fundingPrice;
+	}
 }

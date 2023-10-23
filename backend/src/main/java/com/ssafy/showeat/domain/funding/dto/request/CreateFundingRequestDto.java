@@ -60,6 +60,7 @@ public class CreateFundingRequestDto {
 			.fundingMaxLimit(maxLimit)
 			.fundingMinLimit(minLimit)
 			.fundingCurCount(0)
+			.fundingTotalAmount(0)
 			.fundingMenu(businessMenu.getBusinessMenuName())
 			.fundingPrice(businessMenu.getBusinessMenuPrice())
 			.fundingIsActive(FundingIsActive.ACTIVE)

@@ -51,6 +51,9 @@ public class Funding extends BaseTimeEntity {
 	private int fundingCurCount;
 
 	@Column(nullable = false)
+	private int fundingTotalAmount;
+
+	@Column(nullable = false)
 	private int fundingDiscountPrice;
 
 	@Column(nullable = false)
@@ -120,6 +123,15 @@ public class Funding extends BaseTimeEntity {
 	public boolean isMaxLimit(){
 		if(this.fundingCurCount == this.fundingMaxLimit) return true;
 		return false;
+	}
+
+	public void addMoney(){
+		this.fundingTotalAmount += this.fundingDiscountPrice;
+	}
+
+	public void cancelFunding(){
+		this.fundingTotalAmount -= this.fundingDiscountPrice;
+		this.fundingCurCount -= 1;
 	}
 
 	public void changeFundingStatusByMaxApply(){

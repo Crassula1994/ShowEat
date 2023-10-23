@@ -75,4 +75,11 @@ public class ExceptionController {
 		log.info("Error Message : {}", err.getMessage());
 		return ResponseResult.exceptionResponse(ExceptionCode.LACK_POINT_USER_FUNDING_EXCEPTION, err.getMessage());
 	}
+
+	@ExceptionHandler(ImpossibleCancelFundingException.class)
+	public ResponseResult ImpossibleCancelFundingException(ImpossibleCancelFundingException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_CANCEL_FUNDING_EXCEPTION, err.getMessage());
+	}
 }

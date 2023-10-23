@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,6 +51,17 @@ public class FundingController {
 	@PostMapping("/user/{fundingId}")
 	public ResponseResult applyFunding(@PathVariable Long fundingId){
 		fundingService.applyFunding(fundingId);
+		return ResponseResult.successResponse;
+	}
+
+	@ApiOperation(value = "펀딩 참여 취소" , notes = "펀딩 참여를 취소 합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 참여 취소 성공"),
+		@ApiResponse(code = 400, message = "펀딩 참여 취소 실패"),
+	})
+	@DeleteMapping("/user/{fundingId}")
+	public ResponseResult cancelFunding(@PathVariable Long fundingId){
+		fundingService.cancelFunding(fundingId);
 		return ResponseResult.successResponse;
 	}
 }

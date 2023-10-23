@@ -17,6 +17,7 @@ import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.global.exception.DuplicationApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleApplyFundingException;
+import com.ssafy.showeat.global.exception.ImpossibleCancelFundingException;
 import com.ssafy.showeat.global.exception.InactiveFundingException;
 import com.ssafy.showeat.global.exception.LackPointUserFundingException;
 import com.ssafy.showeat.global.exception.NotExistFundingException;
@@ -45,7 +46,6 @@ public class FundingServiceImpl implements FundingService {
 		User loginUser = userRepository.findById(userId).get();
 
 		// TODO : 업주가 아닌 사람이 펀딩을 생성하려고 하면 예외처리를 해줘야함
-
 		Business business = businessRepository.findByUser(loginUser).get();
 
 
@@ -68,11 +68,31 @@ public class FundingServiceImpl implements FundingService {
 
 		funding.addUserFunding(funding,loginUser);
 		loginUser.spendMoney(funding.getFundingDiscountPrice());
+		funding.addMoney();
 
 		if(!funding.isMaxLimit()) return;
 		funding.changeFundingStatusByMaxApply();
 		// TODO : 쿠폰 발급
 		// TODO : HISTORY 생성
+	}
+
+	@Override
+	@Transactional
+	public void cancelFunding(Long fundingId) {
+		log.info("FundingServiceImpl_cancelFunding ||  펀딩 참여 취소");
+		Long userId = 1l;
+		User loginUser = userRepository.findById(userId).get();
+		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
+
+		if(funding.getFundingIsActive().equals(FundingIsActive.INACTIVE))
+			throw new InactiveFundingException();
+
+		if(!userFundingRepository.existsByUserAndFunding(loginUser,funding))
+			throw new ImpossibleCancelFundingException();
+
+		userFundingRepository.delete(userFundingRepository.findByUserAndFunding(loginUser,funding));
+		loginUser.refundMoney(funding.getFundingDiscountPrice());
+		funding.cancelFunding();
 	}
 
 	private void fundingValidation(Funding funding , User loginUser){

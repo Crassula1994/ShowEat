@@ -8,4 +8,5 @@ import com.ssafy.showeat.domain.user.entity.User;
 
 public interface UserFundingRepository extends JpaRepository<UserFunding,Long> {
 	boolean existsByUserAndFunding(User user, Funding funding);
+	UserFunding findByUserAndFunding(User user,Funding funding);
 }
