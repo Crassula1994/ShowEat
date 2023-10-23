@@ -90,4 +90,13 @@ public class Funding extends BaseTimeEntity {
 	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Coupon> coupons;
 
+	public void addFundingImage(FundingImage fundingImage){
+		this.fundingImages.add(fundingImage);
+		fundingImage.setFunding(this);
+	}
+
+	public void addFundingTag(FundingTag fundingTag){
+		this.fundingTags.add(fundingTag);
+		fundingTag.setFunding(this);
+	}
 }

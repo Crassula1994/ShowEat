@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FundingServiceImpl implements FundingService {
 
+	private final UserRepository userRepository;
 	private final FundingRepository fundingRepository;
 	private final BusinessRepository businessRepository;
 	private final BusinessMenuRepository businessMenuRepository;
@@ -32,8 +33,8 @@ public class FundingServiceImpl implements FundingService {
 		log.info("FundingServiceImpl_createFunding || 업주가 펀딩을 생성");
 
 		// TODO : USERID를 받든 , Request에서 JWT토큰 기반으로 유저를 찾아오든 해야함
-		int userId = 1;
-		User loginUser = new User();
+		Long userId = 1l;
+		User loginUser = userRepository.findById(userId).get();
 
 		// TODO : 업주가 아닌 사람이 펀딩을 생성하려고 하면 예외처리를 해줘야함
 

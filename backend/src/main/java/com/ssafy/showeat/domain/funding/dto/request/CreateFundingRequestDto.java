@@ -53,17 +53,7 @@ public class CreateFundingRequestDto {
 			BusinessMenu businessMenu,
 			int discountPrice){
 
-		List<FundingTag> fundingTags = tags.stream()
-			.map(s -> FundingTag.builder().fundingTag(s).build())
-			.collect(Collectors.toList());
-
-		List<FundingImage> fundingImages = businessMenu.getBusinessMenuImages().stream()
-			.map(businessMenuImage -> FundingImage.builder()
-				.fundingImgUrl(businessMenuImage.getBusinessMenuImageUrl())
-				.build())
-			.collect(Collectors.toList());
-
-		return Funding.builder()
+		Funding funding = Funding.builder()
 			.fundingTitle(title)
 			.fundingMaxLimit(maxLimit)
 			.fundingMinLimit(minLimit)
@@ -75,9 +65,20 @@ public class CreateFundingRequestDto {
 			.fundingDiscountPrice(discountPrice)
 			.fundingEndDate(endDate)
 			.business(business)
-			.fundingTags(fundingTags)
-			.fundingImages(fundingImages)
+			.fundingTags(new ArrayList<>())
+			.fundingImages(new ArrayList<>())
 			.build();
+
+		businessMenu.getBusinessMenuImages().stream()
+			.map(businessMenuImage -> FundingImage.builder()
+				.fundingImgUrl(businessMenuImage.getBusinessMenuImageUrl())
+				.build()).forEach(fundingImage -> funding.addFundingImage(fundingImage));
+
+		tags.stream()
+			.map(s -> FundingTag.builder().fundingTag(s).build())
+			.forEach(fundingTag -> funding.addFundingTag(fundingTag));
+
+		return funding;
 	}
 
 

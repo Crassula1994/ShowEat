@@ -34,4 +34,8 @@ public class FundingTag extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
+
+	public void setFunding(Funding funding){
+		this.funding = funding;
+	}
 }
