@@ -36,10 +36,10 @@ public class Business extends BaseDateEntity {
 	@Column(nullable = false, length = 20)
 	private String businessName;
 
-	@Column(nullable = false, length = 1000)
+	@Column(length = 1000)
 	private String businessBio;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 1000)
 	private String businessImgUrl;
 
 	@Column(nullable = false, length = 20)
@@ -62,6 +62,21 @@ public class Business extends BaseDateEntity {
 
 	@Column(nullable = false, length = 100)
 	private String businessAddress;
+
+	@Column(nullable = false, length = 10)
+	private String businessAccountHolder;
+
+	@Column(nullable = false, length = 100)
+	private String businessAccount;
+
+	@Column(nullable = false)
+	private int businessNumber;
+
+	@Column(nullable = false, length = 1000)
+	private String businessRegistrationUrl;
+
+	@Column(nullable = false, length = 1000)
+	private String bankBookUrl;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)

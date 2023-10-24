@@ -47,4 +47,21 @@ public class S3Service {
 
 		return businessMenu;
 	}
+
+	public String uploadImageToS3(MultipartFile image) throws IOException {
+		String originalName = image.getOriginalFilename(); // 파일 이름
+		long size = image.getSize(); // 파일 크기
+
+		ObjectMetadata objectMetaData = new ObjectMetadata();
+		objectMetaData.setContentType(image.getContentType());
+		objectMetaData.setContentLength(size);
+
+		// S3에 업로드
+		amazonS3Client.putObject(
+				new PutObjectRequest(bucketName, originalName, image.getInputStream(), objectMetaData)
+						.withCannedAcl(CannedAccessControlList.PublicRead)
+		);
+
+		return amazonS3Client.getUrl(bucketName, originalName).toString();
+	}
 }
