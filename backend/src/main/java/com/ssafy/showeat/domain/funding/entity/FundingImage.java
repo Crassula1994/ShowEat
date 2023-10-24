@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.showeat.domain.funding.dto.response.FundingImageResponseDto;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -36,5 +37,12 @@ public class FundingImage extends BaseTimeEntity {
 
 	public void setFunding(Funding funding){
 		this.funding = funding;
+	}
+
+	public FundingImageResponseDto toFundingImageResponseDto(){
+		return FundingImageResponseDto.builder()
+			.imageId(fundingImageId)
+			.imageUrl(fundingImgUrl)
+			.build();
 	}
 }

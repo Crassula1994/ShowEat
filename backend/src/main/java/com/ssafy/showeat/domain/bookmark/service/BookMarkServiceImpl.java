@@ -32,6 +32,19 @@ public class BookMarkServiceImpl implements BookmarkService{
 			bookmarkRepository.delete(bookmarkRepository.findByUserAndFunding(loginUser,funding));
 		else
 			bookmarkRepository.save(Bookmark.builder().user(loginUser).funding(funding).build());
+	}
 
+	@Override
+	public boolean isBookmark(User user, Funding funding) {
+		log.info("BookMarkServiceImpl_isBookmark || 유저의 펀딩 참여 여부");
+		if(bookmarkRepository.existsByUserAndFunding(user,funding))
+			return true;
+		return false;
+	}
+
+	@Override
+	public int getBookmarkCountByFundingId(Long fundingId) {
+		log.info("BookMarkServiceImpl_getBookmarkCountByFundingId || 펀딩의 좋아요 갯수 조회");
+		return bookmarkRepository.countByFundingId(fundingId);
 	}
 }

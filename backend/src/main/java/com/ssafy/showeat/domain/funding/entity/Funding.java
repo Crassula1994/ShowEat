@@ -2,6 +2,7 @@ package com.ssafy.showeat.domain.funding.entity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
+import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
@@ -40,6 +42,9 @@ public class Funding extends BaseTimeEntity {
 
 	@Column(nullable = false, length = 100)
 	private String fundingTitle;
+
+	@Column(nullable = false, length = 100)
+	private String fundingCategory;
 
 	@Column(nullable = false)
 	private int fundingMaxLimit;
@@ -64,6 +69,9 @@ public class Funding extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private int fundingPrice;
+
+	@Column(nullable = false)
+	private String fundingDescription;
 
 	@Column(nullable = false)
 	private LocalDate fundingEndDate;
@@ -137,5 +145,36 @@ public class Funding extends BaseTimeEntity {
 	public void changeFundingStatusByMaxApply(){
 		this.fundingIsActive = FundingIsActive.INACTIVE;
 		this.fundingIsSuccess = FundingIsSuccess.SUCCESS;
+	}
+
+	public FundingResponseDto toFundingResponseDto(int bookemarkCount , boolean isBookmark){
+		return FundingResponseDto.builder()
+			.title(fundingTitle)
+			.category(fundingCategory)
+			.maxLimit(fundingMaxLimit)
+			.minLimit(fundingMinLimit)
+			.curCount(fundingCurCount)
+			.menu(fundingMenu)
+			.price(fundingPrice)
+			.discountPrice(fundingDiscountPrice)
+			.discountRate(fundingDiscountRate)
+			.startDate(LocalDate.from(this.getCreatedDate()))
+			.endDate(fundingEndDate)
+			.fundingIsActive(fundingIsActive)
+			.fundingIsSuccess(fundingIsSuccess)
+			.bookmarkCount(bookemarkCount)
+			.fundingIsBookmark(isBookmark)
+			.fundingTagResponseDtos(
+					this.fundingTags
+						.stream()
+						.map(fundingTag -> fundingTag.toFundingTagResponseDto())
+						.collect(Collectors.toList()))
+			.fundingImageResponseDtos(
+					this.fundingImages
+						.stream()
+						.map(fundingImage -> fundingImage.toFundingImageResponseDto())
+						.collect(Collectors.toList())
+			)
+			.build();
 	}
 }

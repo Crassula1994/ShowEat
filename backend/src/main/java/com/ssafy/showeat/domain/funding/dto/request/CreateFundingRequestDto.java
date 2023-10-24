@@ -39,6 +39,9 @@ public class CreateFundingRequestDto {
 	@ApiModelProperty(value = "펀딩 최소 갯수 제한" , example = "5")
 	private int minLimit;
 
+	@ApiModelProperty(value = "펀딩 설명" , example = "이 펀딩은...")
+	private String description;
+
 	@ApiModelProperty(value = "펀딩 메뉴 관련 정보")
 	private List<MenuRequestDto> menuRequestDtos;
 
@@ -59,6 +62,7 @@ public class CreateFundingRequestDto {
 			.fundingTitle(title)
 			.fundingMaxLimit(maxLimit)
 			.fundingMinLimit(minLimit)
+			.fundingCategory(category)
 			.fundingCurCount(0)
 			.fundingTotalAmount(0)
 			.fundingMenu(businessMenu.getBusinessMenuName())
@@ -67,6 +71,7 @@ public class CreateFundingRequestDto {
 			.fundingIsSuccess(FundingIsSuccess.UNDECIEDED)
 			.fundingDiscountPrice(discountPrice)
 			.fundingDiscountRate((int) Math.round(discountRate))
+			.fundingDescription(description)
 			.fundingEndDate(endDate)
 			.business(business)
 			.fundingTags(new ArrayList<>())

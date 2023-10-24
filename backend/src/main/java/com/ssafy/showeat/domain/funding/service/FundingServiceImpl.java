@@ -3,12 +3,14 @@ package com.ssafy.showeat.domain.funding.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.showeat.domain.bookmark.service.BookmarkService;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.business.repository.BusinessMenuRepository;
 import com.ssafy.showeat.domain.business.repository.BusinessRepository;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.MenuRequestDto;
+import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
@@ -35,6 +37,7 @@ public class FundingServiceImpl implements FundingService {
 	private final FundingRepository fundingRepository;
 	private final BusinessRepository businessRepository;
 	private final BusinessMenuRepository businessMenuRepository;
+	private final BookmarkService bookmarkService;
 
 	@Override
 	@Transactional
@@ -93,6 +96,20 @@ public class FundingServiceImpl implements FundingService {
 		userFundingRepository.delete(userFundingRepository.findByUserAndFunding(loginUser,funding));
 		loginUser.refundMoney(funding.getFundingDiscountPrice());
 		funding.cancelFunding();
+	}
+
+	@Override
+	public FundingResponseDto getFunding(Long fundingId) {
+		log.info("FundingServiceImpl_getFunding ||  펀딩 조회");
+
+		Long userId = 1l;
+		User loginUser = userRepository.findById(userId).get();
+		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
+		// TODO : 로그인 한 유저가 존재하지 않는다면 isBookmark = false
+		boolean isBookmark = bookmarkService.isBookmark(loginUser,funding);
+		int bookmarkCount = bookmarkService.getBookmarkCountByFundingId(fundingId);
+
+		return funding.toFundingResponseDto(bookmarkCount , isBookmark);
 	}
 
 	private void fundingValidation(Funding funding , User loginUser){

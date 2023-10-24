@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.showeat.domain.funding.dto.response.FundingTagResponseDto;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -37,5 +38,13 @@ public class FundingTag extends BaseTimeEntity {
 
 	public void setFunding(Funding funding){
 		this.funding = funding;
+	}
+
+	public FundingTagResponseDto toFundingTagResponseDto(){
+		return FundingTagResponseDto
+			.builder()
+			.tagId(fundingTagId)
+			.fundingTag(fundingTag)
+			.build();
 	}
 }
