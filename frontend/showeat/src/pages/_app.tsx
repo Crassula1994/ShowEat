@@ -1,6 +1,22 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* Import */
 import type { AppProps } from "next/app";
+import { Global, ThemeProvider } from "@emotion/react";
+import globalStyles from "@styles/global";
+import theme from "@styles/theme";
 
-export default function App({ Component, pageProps }: AppProps) {
-    return <Component {...pageProps} />;
+// ----------------------------------------------------------------------------------------------------
+
+/* App Component */
+function App({ Component, pageProps }: AppProps) {
+    return (
+        <ThemeProvider theme={theme}>
+            <Global styles={globalStyles} />
+            <Component {...pageProps} />
+        </ThemeProvider>
+    );
 }
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
+export default App;

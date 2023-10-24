@@ -1,9 +1,19 @@
+/* Import */
 import { Html, Head, Main, NextScript } from "next/document";
 
-export default function Document() {
+// ----------------------------------------------------------------------------------------------------
+
+/* Document Component */
+function Document() {
     return (
         <Html lang="ko">
-            <Head />
+            <Head>
+                <meta
+                    name="description"
+                    content="소비자와 소상공인을 잇는 펀딩 플랫폼, 쑈잇입니다."
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <body>
                 <Main />
                 <NextScript />
@@ -11,3 +21,8 @@ export default function Document() {
         </Html>
     );
 }
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
+export default Document;
