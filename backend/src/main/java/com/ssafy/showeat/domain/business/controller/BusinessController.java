@@ -48,7 +48,17 @@ public class BusinessController {
 		return ResponseResult.successResponse;
 	}
 
-	@ApiOperation(value = "업체 메뉴 등록", notes = "업주가 메뉴를 등록합니다.")
+	@ApiOperation(value = "셀러 정보 조회" , notes = "셀러 정보를 조회합니다.")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "셀러 조회 성공"),
+			@ApiResponse(code = 400, message = "셀러 조회 실패"),
+	})
+	@GetMapping("/seller/{businessId}")
+	public ResponseResult getSellerInfo(@PathVariable Long businessId) {
+		return new SingleResponseResult<>(businessService.getSellerInfo(businessId));
+	}
+
+	@ApiOperation(value = "업체 메뉴 등록" , notes = "업주가 메뉴를 등록합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "메뉴 등록 성공"),
 		@ApiResponse(code = 400, message = "메뉴 등록 실패"),

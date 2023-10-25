@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
-
+import com.ssafy.showeat.domain.business.dto.response.SellerResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +50,12 @@ public class BusinessServiceImpl implements BusinessService {
 		String businessRegistrationUrl = s3Service.uploadImageToS3(businessRegistration);
 		String bankBookUrl = s3Service.uploadImageToS3(bankBook);
 		businessRepository.save(businessUserRequestDto.toEntity(businessRegistrationUrl, bankBookUrl, loginUser));
+	}
+
+	@Override
+	public SellerResponseDto getSellerInfo(Long businessId) {
+		log.info("BusinessServiceImpl_getSellerInfo || 셀러 정보 조회");
+		return businessRepository.findBusinessWithBusinessMenusByBusinessId(businessId).toSellerResponseDto();
 	}
 
 	@Override

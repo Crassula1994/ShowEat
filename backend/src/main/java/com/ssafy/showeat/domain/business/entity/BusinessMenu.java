@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import com.ssafy.showeat.domain.business.dto.response.BusinessMenuResponseDto;
 
+import com.ssafy.showeat.domain.business.dto.response.SellerMenuResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -64,5 +65,12 @@ public class BusinessMenu {
 					.collect(Collectors.toList())
 			)
 			.build();
+	}
+
+	public SellerMenuResponseDto toSellerMenuResponseDto() {
+		return SellerMenuResponseDto.builder()
+				.menuId(businessMenuId)
+				.menu(businessMenuName)
+				.build();
 	}
 }

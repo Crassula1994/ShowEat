@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 
+import com.ssafy.showeat.domain.business.dto.response.SellerResponseDto;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
@@ -19,10 +21,15 @@ public interface BusinessService {
 
 	List<BusinessMenuResponseDto> getMenuList();
 
+    void registerBusinessUser(BusinessUserRequestDto businessUserRequestDto, MultipartFile businessRegistration, MultipartFile bankBook) throws IOException;
+	SellerResponseDto getSellerInfo(Long businessId);
+
+
 	List<BusinessMonthlyStatResponseDto> getMonthlyStatList(Long businessId);
 
 	BusinessTotalStatResponseDto getTotalStatList(Long businessId);
 
 	void registerBusinessUser(BusinessUserRequestDto businessUserRequestDto, MultipartFile businessRegistration,
 		MultipartFile bankBook) throws IOException;
+
 }
