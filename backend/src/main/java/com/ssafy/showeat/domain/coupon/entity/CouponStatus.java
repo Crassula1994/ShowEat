@@ -1,6 +1,6 @@
 package com.ssafy.showeat.domain.coupon.entity;
 
-public enum CouponState {
+public enum CouponStatus {
 	// 사용되지 않음
 	ACTIVE,
 

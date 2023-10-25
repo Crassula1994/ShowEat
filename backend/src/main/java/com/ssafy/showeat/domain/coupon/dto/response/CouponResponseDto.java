@@ -1,6 +1,8 @@
 package com.ssafy.showeat.domain.coupon.dto.response;
 
-import com.ssafy.showeat.domain.coupon.entity.CouponState;
+import java.time.LocalDate;
+
+import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +18,16 @@ import lombok.Setter;
 public class CouponResponseDto {
 
 	private Long couponId;
+	private CouponStatus couponStatus;
 	private int couponPrice;
-	private CouponState couponState;
-	private long userId;
-	private String userNickname;
-	private Long fundingId;
+	private LocalDate expirationDate;
+	private String businessName;
+	private String businessImgUrl;
+	private String fundingTitle;
 	private String fundingMenu;
+	private int fundingDiscountPrice;
+	private int fundingPrice;
+	private String fundingImageUrl;
+	private Long remainingDays;
 
 }

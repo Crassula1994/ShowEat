@@ -33,7 +33,7 @@ public class CouponControllerTest {
 				PayloadDocumentation.responseFields(
 					PayloadDocumentation.fieldWithPath("[].couponId").description("The ID of the coupon"),
 					PayloadDocumentation.fieldWithPath("[].couponPrice").description("The price of the coupon"),
-					PayloadDocumentation.fieldWithPath("[].couponState").description("The state of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].CouponStatus").description("The state of the coupon"),
 					PayloadDocumentation.fieldWithPath("[].user").description("The user associated with the coupon"),
 					PayloadDocumentation.fieldWithPath("[].funding")
 						.description("The funding associated with the coupon")
@@ -42,20 +42,20 @@ public class CouponControllerTest {
 	}
 
 	@Test
-	public void updateCouponState() throws Exception {
-		// Create a request body with the couponId and couponState
+	public void updateCouponStatus() throws Exception {
+		// Create a request body with the couponId and CouponStatus
 		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
 		requestParams.add("couponId", "1");
-		requestParams.add("couponState", "USED");
+		requestParams.add("CouponStatus", "USED");
 
-		mockMvc.perform(patch("/api/coupon/couponstate")
+		mockMvc.perform(patch("/api/coupon/CouponStatus")
 				.params(requestParams))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andDo(MockMvcRestDocumentation.document("updateCouponState",
+			.andDo(MockMvcRestDocumentation.document("updateCouponStatus",
 				RequestDocumentation.requestParameters(
 					RequestDocumentation.parameterWithName("couponId").description("The ID of the coupon"),
-					RequestDocumentation.parameterWithName("couponState").description("The new state of the coupon")
+					RequestDocumentation.parameterWithName("CouponStatus").description("The new state of the coupon")
 				),
 				PayloadDocumentation.responseFields(
 					PayloadDocumentation.fieldWithPath("message").description("A success message")

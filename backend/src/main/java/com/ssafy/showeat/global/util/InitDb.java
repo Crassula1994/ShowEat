@@ -1,6 +1,6 @@
 package com.ssafy.showeat.global.util;
 
-import static com.ssafy.showeat.domain.coupon.entity.CouponState.*;
+import static com.ssafy.showeat.domain.coupon.entity.CouponStatus.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -135,7 +135,7 @@ public class InitDb {
 			// Coupon coupon1 = Coupon.builder()
 			// 	.couponId(1L)
 			// 	.couponPrice(100)
-			// 	.couponState(ACTIVE)
+			// 	.CouponStatus(ACTIVE)
 			// 	.user(user1)
 			// 	.funding(funding1)
 			// 	.build();

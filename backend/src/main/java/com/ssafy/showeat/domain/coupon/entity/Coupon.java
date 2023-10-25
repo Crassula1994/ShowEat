@@ -1,6 +1,8 @@
 package com.ssafy.showeat.domain.coupon.entity;
 
-import javax.persistence.AttributeOverride;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,7 +40,10 @@ public class Coupon extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private CouponState couponState;
+	private CouponStatus couponStatus;
+
+	@Column(nullable = false)
+	private LocalDate couponExpirationDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -49,18 +54,25 @@ public class Coupon extends BaseTimeEntity {
 	private Funding funding;
 
 	public CouponResponseDto toCouponResponseDto() {
+		LocalDate currentDate = LocalDate.now();
+
 		return CouponResponseDto.builder()
 			.couponId(couponId)
 			.couponPrice(couponPrice)
-			.couponState(couponState)
-			.userId(user.getUserId())
-			.userNickname(user.getUserNickname())
-			.fundingId(funding.getFundingId())
+			.couponStatus(couponStatus)
+			.expirationDate(couponExpirationDate)	// TODO : 60, 90, 180일 더한 날짜 반환
+			.businessName(funding.getBusiness().getBusinessName())
+			.businessImgUrl(funding.getBusiness().getBusinessImgUrl())
+			.fundingTitle(funding.getFundingTitle())
 			.fundingMenu(funding.getFundingMenu())
+			.fundingDiscountPrice(funding.getFundingDiscountPrice())
+			.fundingPrice(funding.getFundingPrice())
+			.fundingImageUrl(funding.getFundingImages().get(0).getFundingImgUrl())
+			.remainingDays(ChronoUnit.DAYS.between(currentDate, couponExpirationDate)) // TODO: 만료 날짜 - 현재 날짜 반환
 			.build();
 	}
 
-	public void updateState(CouponState couponState) {
-		this.couponState = couponState;
+	public void updateStatus(CouponStatus couponStatus) {
+		this.couponStatus = couponStatus;
 	}
 }
