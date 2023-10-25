@@ -1,7 +1,8 @@
 package com.ssafy.showeat.global.util;
 
+import static com.ssafy.showeat.domain.coupon.entity.CouponState.*;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.business.entity.BusinessMenuImage;
+import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.credential.entity.Credential;
 import com.ssafy.showeat.domain.user.entity.User;
 
@@ -102,12 +104,39 @@ public class InitDb {
 				.user(user1)
 				.build();
 
+
+			// Funding funding1 = Funding.builder()
+			// 	.fundingId(1L)
+			// 	.fundingTitle("맛있는 과자에요")
+			// 	.fundingMaxLimit(150)
+			// 	.fundingMinLimit(50)
+			// 	.fundingCurCount(100)
+			// 	.fundingDiscountPrice(7000)
+			// 	.fundingDiscountRate(10)
+			// 	.fundingMenu("과자")
+			// 	.fundingPrice(10000)
+			// 	.fundingEndDate(LocalDate.now())
+			// 	.fundingIsActive(FundingIsActive.ACTIVE)
+			// 	.fundingIsSuccess(FundingIsSuccess.SUCCESS)
+			// 	.business(business)
+			// 	.build();
+
+
+			// 쿠폰
+			// Coupon coupon1 = Coupon.builder()
+			// 	.couponId(1L)
+			// 	.couponPrice(100)
+			// 	.couponState(ACTIVE)
+			// 	.user(user1)
+			// 	.funding(funding1)
+			// 	.build();
+
 			business.addBusinessMenu(businessMenu1);
 			business.addBusinessMenu(businessMenu2);
 
 			em.persist(user1);
 			em.persist(business);
-
+			// em.persist(coupon1);
 		}
 	}
 }

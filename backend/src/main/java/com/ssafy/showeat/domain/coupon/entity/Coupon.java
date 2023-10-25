@@ -53,8 +53,10 @@ public class Coupon extends BaseTimeEntity {
 			.couponId(couponId)
 			.couponPrice(couponPrice)
 			.couponState(couponState)
-			.user(user)
-			.funding(funding)
+			.userId(user.getUserId())
+			.userNickname(user.getUserNickname())
+			.fundingId(funding.getFundingId())
+			.fundingMenu(funding.getFundingMenu())
 			.build();
 	}
 
