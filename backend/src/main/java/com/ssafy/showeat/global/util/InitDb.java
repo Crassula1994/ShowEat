@@ -2,6 +2,7 @@ package com.ssafy.showeat.global.util;
 
 import static com.ssafy.showeat.domain.coupon.entity.CouponState.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,9 @@ import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.business.entity.BusinessMenuImage;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.credential.entity.Credential;
+import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
+import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
 import com.ssafy.showeat.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -100,6 +104,11 @@ public class InitDb {
 				.businessFundingCount(10)
 				.businessSupporterCount(10)
 				.businessAddress("주소")
+				.bankBookUrl("aaa")
+				.businessAccount("zzz")
+				.businessRegistrationUrl("zbcb")
+				.businessSupporterCount(5)
+				.businessAccountHolder("zxczxc")
 				.businessMenus(new ArrayList<>())
 				.user(user1)
 				.build();
@@ -120,9 +129,9 @@ public class InitDb {
 			// 	.fundingIsSuccess(FundingIsSuccess.SUCCESS)
 			// 	.business(business)
 			// 	.build();
-
-
-			// 쿠폰
+			//
+			//
+			// // 쿠폰
 			// Coupon coupon1 = Coupon.builder()
 			// 	.couponId(1L)
 			// 	.couponPrice(100)

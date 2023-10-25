@@ -35,8 +35,8 @@ public class FundingController {
 
 	@ApiOperation(value = "펀딩 생성" , notes = "업주가 펀딩을 생성합니다.")
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "펀딩 생성"),
-		@ApiResponse(code = 400, message = "펀딩 실패"),
+		@ApiResponse(code = 200, message = "펀딩 생성 성공"),
+		@ApiResponse(code = 400, message = "펀딩 생성 실패"),
 	})
 	@PostMapping
 	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto

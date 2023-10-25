@@ -82,4 +82,11 @@ public class ExceptionController {
 		log.info("Error Message : {}", err.getMessage());
 		return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_CANCEL_FUNDING_EXCEPTION, err.getMessage());
 	}
+
+	@ExceptionHandler(ImpossibleReviewException.class)
+	public ResponseResult ImpossibleReviewException(ImpossibleReviewException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_REVIEW_EXCEPTION, err.getMessage());
+	}
 }

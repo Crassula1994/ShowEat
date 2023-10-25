@@ -34,9 +34,6 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false, length = 1000)
 	private String reviewMessage;
 
-	@Column(nullable = false, length = 1000)
-	private String reviewImgUrl;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
