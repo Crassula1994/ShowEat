@@ -23,7 +23,7 @@
             "@icons/*": ["src/assets/icons/*"],
             "@images/*": ["src/assets/images/*"],
             "@styles/*": ["src/styles/*"],
-            "@types/*": ["src/types/*"],
+            "@customTypes/*": ["src/customTypes/*"],
             "@utils/*": ["src/utils/*"]
         }
     },

@@ -1,5 +1,5 @@
 /* Import */
-import { TextInputProps } from "@/types/commonProps";
+import { TextInputProps } from "@customTypes/commonProps";
 import styled from "@emotion/styled";
 import { useTheme } from "@emotion/react";
 import Image from "next/image";

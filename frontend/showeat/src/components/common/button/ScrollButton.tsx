@@ -1,5 +1,5 @@
 /* Import */
-import { ButtonProps } from "@/types/commonProps";
+import { ButtonProps } from "@customTypes/commonProps";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
