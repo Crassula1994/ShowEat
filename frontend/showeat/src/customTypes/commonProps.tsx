@@ -21,3 +21,13 @@ export interface TextInputProps {
     svgSRC?: string;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
+
+export interface RadioButtonProps {
+    width: string;
+    id: string;
+    name: string;
+    value: string;
+    radioName: string;
+    height?: string;
+    iconURL?: string;
+}
