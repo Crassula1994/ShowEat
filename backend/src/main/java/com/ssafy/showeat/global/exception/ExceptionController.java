@@ -19,7 +19,6 @@ public class ExceptionController {
 		log.info("Error Message : {}", err.getMessage());
 		return ResponseResult.exceptionResponse(ExceptionCode.SERVER_EXCEPTION, err.getMessage());
 	}
-
 	@ExceptionHandler(NotExistBusinessException.class)
 	public ResponseResult NotExistBusinessException(NotExistBusinessException err) {
 		log.info("Error : {}", err.getClass());
@@ -38,7 +37,28 @@ public class ExceptionController {
 	public ResponseResult NotExistUserException(NotExistUserException err) {
 		log.info("Error : {}", err.getClass());
 		log.info("Error Message : {}", err.getMessage());
-		return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_USER_EXCEPTION, err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.INVALID_REFRESH_TOKEN_EXCEPTION, err.getMessage());
+	}
+
+	@ExceptionHandler(ExpiredTokenException.class)
+	public ResponseResult ExpiredTokenException(ExpiredTokenException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.EXPIRED_TOKEN_EXCEPTION, err.getMessage());
+	}
+
+	@ExceptionHandler(UnAuthorizedAccessException.class)
+	public ResponseResult UnAuthorizedAccessException(UnAuthorizedAccessException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.UNAUTHORIZED_ACCESS_EXCEPTION, err.getMessage());
+	}
+
+	@ExceptionHandler(WrongTokenException.class)
+	public ResponseResult WrongTokenException(WrongTokenException err) {
+		log.info("Error : {}", err.getClass());
+		log.info("Error Message : {}", err.getMessage());
+		return ResponseResult.exceptionResponse(ExceptionCode.WRONG_TOKEN_EXCEPTION, err.getMessage());
 	}
 
 	@ExceptionHandler(NotExistFundingException.class)

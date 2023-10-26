@@ -11,6 +11,33 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 100MB
+  #security
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: e7241531adb08e465feca7b14ecea6d9
+            client-secret: dbBLjfYWuIXyROt2TBaeuOTS8hb7yjQj
+            redirect-uri: http://localhost:8081
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  #redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
@@ -40,3 +67,16 @@ cloud:
       auto: false
     stack:
       auto: false
+
+# jwt
+jwt:
+  secret: asdlfkjp124112asAWghFDkk21923kkkj14238H3G3sdaASDasd124asdfjlhSLDKHsldhflSDJHF1237SA218SASDkcv2df
+  authorities:
+    key: "auth"
+  bearer:
+    type: "Bearer"
+    prefix: "Bearer "
+  filter:
+    skip:
+      paths: auth/login/kakao
+#      ,/auth/logout

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+import com.ssafy.showeat.domain.user.entity.Credential;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,6 @@ import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.business.entity.BusinessMenuImage;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
-import com.ssafy.showeat.domain.credential.entity.Credential;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
@@ -45,8 +45,7 @@ public class InitDb {
 			Credential credential1 =
 				Credential.builder()
 					.credentialId("qqq")
-					.credentialRefreshToken("qq")
-					.credentialEmail("qwe@qwe.com")
+					.email("qwe@qwe.com")
 					.credentialSocialPlatform("kakao")
 					.build();
 

@@ -1,10 +1,10 @@
 package com.ssafy.showeat.domain.review.service;
 
+import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
-import com.ssafy.showeat.domain.coupon.entity.CouponState;
 import com.ssafy.showeat.domain.coupon.repository.CouponRepository;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.review.dto.request.ReviewRequestDto;
@@ -36,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService{
 		Coupon coupon = couponRepository.findById(reviewRequestDto.getCouponId())
 			.orElseThrow(NotExistCouponException::new);
 
-		if(!CouponState.USED.equals(coupon.getCouponState()))
+		if(!CouponStatus.USED.equals(coupon.getCouponStatus()))
 			throw new ImpossibleReviewException();
 
 		reviewRepository.save(reviewRequestDto.toEntity(loginUser,coupon.getFunding()));

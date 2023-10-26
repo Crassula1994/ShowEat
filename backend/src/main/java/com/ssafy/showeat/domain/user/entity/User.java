@@ -2,19 +2,8 @@ package com.ssafy.showeat.domain.user.entity;
 
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-import com.ssafy.showeat.domain.credential.entity.Credential;
 import com.ssafy.showeat.domain.notification.entity.Notification;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
@@ -40,17 +29,15 @@ public class User extends BaseTimeEntity {
 	@Column(nullable = false, length = 100)
 	private String userImgUrl;
 
-	@Column(nullable = false, length = 20)
+	@Column(length = 20)
 	private String userAddress;
 
-	@Column(nullable = false)
 	private boolean userBusiness;
 
-	@Column(nullable = false)
 	private int userMoney;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "credential_id", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "credential_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Credential credential;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
