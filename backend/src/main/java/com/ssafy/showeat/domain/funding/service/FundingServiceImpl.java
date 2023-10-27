@@ -1,5 +1,7 @@
 package com.ssafy.showeat.domain.funding.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.funding.repository.UserFundingRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
+import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.exception.DuplicationApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleCancelFundingException;
@@ -32,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FundingServiceImpl implements FundingService {
 
-	private final UserRepository userRepository;
+	private final UserService userService;
 	private final UserFundingRepository userFundingRepository;
 	private final FundingRepository fundingRepository;
 	private final BusinessRepository businessRepository;
@@ -41,16 +44,12 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void createFunding(CreateFundingRequestDto createFundingRequestDto) {
+	public void createFunding(CreateFundingRequestDto createFundingRequestDto , HttpServletRequest request) {
 		log.info("FundingServiceImpl_createFunding || 업주가 펀딩을 생성");
 
-		// TODO : USERID를 받든 , Request에서 JWT토큰 기반으로 유저를 찾아오든 해야함
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
-
-		// TODO : 업주가 아닌 사람이 펀딩을 생성하려고 하면 예외처리를 해줘야함
+		User loginUser = userService.getUserFromRequest(request);
+		// TODO : 업주가 아닌 사람이 펀딩을 생성하려고 하면 예외처리를 해줘야함 -> 이 부분은 security 단위에서 처리
 		Business business = businessRepository.findByUser(loginUser).get();
-
 
 		// TODO : 각 메뉴ID에 대해서 정보 가지고 오기
 		for (MenuRequestDto menuRequestDto : createFundingRequestDto.getMenuRequestDtos()) {
@@ -61,10 +60,9 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void applyFunding(Long fundingId) {
+	public void applyFunding(Long fundingId , HttpServletRequest request) {
 		log.info("FundingServiceImpl_applyFunding ||  펀딩 참여");
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
+		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
 
 		fundingValidation(funding,loginUser);
@@ -81,10 +79,9 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void cancelFunding(Long fundingId) {
+	public void cancelFunding(Long fundingId , HttpServletRequest request) {
 		log.info("FundingServiceImpl_cancelFunding ||  펀딩 참여 취소");
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
+		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
 
 		if(funding.getFundingIsActive().equals(FundingIsActive.INACTIVE))
@@ -99,11 +96,10 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
-	public FundingResponseDto getFunding(Long fundingId) {
+	public FundingResponseDto getFunding(Long fundingId , HttpServletRequest request) {
 		log.info("FundingServiceImpl_getFunding ||  펀딩 조회");
 
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
+		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
 		// TODO : 로그인 한 유저가 존재하지 않는다면 isBookmark = false
 		boolean isBookmark = bookmarkService.isBookmark(loginUser,funding);

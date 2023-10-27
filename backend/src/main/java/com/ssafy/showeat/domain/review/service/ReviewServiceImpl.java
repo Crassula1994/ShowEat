@@ -3,6 +3,8 @@ package com.ssafy.showeat.domain.review.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import com.ssafy.showeat.domain.review.entity.Review;
 import com.ssafy.showeat.domain.review.repository.ReviewRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
+import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.exception.ImpossibleReviewException;
 import com.ssafy.showeat.global.exception.NotExistCouponException;
 
@@ -33,15 +36,14 @@ public class ReviewServiceImpl implements ReviewService{
 
 	private final ReviewRepository reviewRepository;
 	private final CouponRepository couponRepository;
-	private final UserRepository userRepository;
+	private final UserService userService;
 
 	@Override
 	@Transactional
-	public void createReview(ReviewRequestDto reviewRequestDto) {
+	public void createReview(ReviewRequestDto reviewRequestDto , HttpServletRequest request) {
 		log.info("ReviewServiceImpl_createReview || 리뷰 작성");
 
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
+		User loginUser = userService.getUserFromRequest(request);
 		Coupon coupon = couponRepository.findById(reviewRequestDto.getCouponId())
 			.orElseThrow(NotExistCouponException::new);
 

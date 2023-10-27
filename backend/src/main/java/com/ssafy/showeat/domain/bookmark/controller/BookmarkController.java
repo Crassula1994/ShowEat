@@ -1,5 +1,7 @@
 package com.ssafy.showeat.domain.bookmark.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,8 @@ public class BookmarkController {
 		@ApiResponse(code = 400, message = "관심 펀딩 추가/삭제 실패"),
 	})
 	@PostMapping("/{fundingId}")
-	public ResponseResult addBookmark(@PathVariable Long fundingId){
-		bookmarkService.addBookmark(fundingId);
+	public ResponseResult addBookmark(@PathVariable Long fundingId , HttpServletRequest request){
+		bookmarkService.addBookmark(fundingId,request);
 		return ResponseResult.successResponse;
 	}
 }

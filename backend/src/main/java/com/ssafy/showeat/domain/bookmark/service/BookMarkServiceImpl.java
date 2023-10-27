@@ -1,5 +1,7 @@
 package com.ssafy.showeat.domain.bookmark.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
@@ -8,6 +10,7 @@ import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
+import com.ssafy.showeat.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BookMarkServiceImpl implements BookmarkService{
 
-	private final UserRepository userRepository;
+	private final UserService userService;
 	private final BookmarkRepository bookmarkRepository;
 	private final FundingRepository fundingRepository;
 
 	@Override
-	public void addBookmark(Long fundingId) {
+	public void addBookmark(Long fundingId, HttpServletRequest request) {
 		log.info("BookMarkServiceImpl_addBookMark || 관심 펀딩 추가 또는 삭제");
-		Long userId = 1l;
-		User loginUser = userRepository.findById(userId).get();
+		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).get();
 
 		if(bookmarkRepository.existsByUserAndFunding(loginUser,funding))

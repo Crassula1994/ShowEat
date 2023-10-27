@@ -1,5 +1,6 @@
 package com.ssafy.showeat.domain.review.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ public class ReviewController {
 		@ApiResponse(code = 400, message = "리뷰 작성 실패"),
 	})
 	@PostMapping
-	public ResponseResult createReview(@Valid @RequestBody ReviewRequestDto reviewRequestDto){
-		reviewService.createReview(reviewRequestDto);
+	public ResponseResult createReview(@Valid @RequestBody ReviewRequestDto reviewRequestDto , HttpServletRequest request){
+		reviewService.createReview(reviewRequestDto,request);
 		return ResponseResult.successResponse;
 	}
 

@@ -2,6 +2,7 @@ package com.ssafy.showeat.domain.funding.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,9 +40,10 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "펀딩 생성 실패"),
 	})
 	@PostMapping
-	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto
+	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto ,
+		HttpServletRequest request
 	){
-		fundingService.createFunding(createFundingRequestDto);
+		fundingService.createFunding(createFundingRequestDto , request);
 		return ResponseResult.successResponse;
 	}
 
@@ -51,8 +53,8 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "펀딩 조회 실패"),
 	})
 	@GetMapping("/{fundingId}")
-	public ResponseResult getFunding(@PathVariable Long fundingId){
-		return new SingleResponseResult<>(fundingService.getFunding(fundingId));
+	public ResponseResult getFunding(@PathVariable Long fundingId , HttpServletRequest request){
+		return new SingleResponseResult<>(fundingService.getFunding(fundingId,request));
 	}
 
 	@ApiOperation(value = "펀딩 참여" , notes = "펀딩에 참여합니다.")
@@ -61,8 +63,8 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "펀딩 참여 실패"),
 	})
 	@PostMapping("/user/{fundingId}")
-	public ResponseResult applyFunding(@PathVariable Long fundingId){
-		fundingService.applyFunding(fundingId);
+	public ResponseResult applyFunding(@PathVariable Long fundingId , HttpServletRequest request){
+		fundingService.applyFunding(fundingId,request);
 		return ResponseResult.successResponse;
 	}
 
@@ -72,8 +74,8 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "펀딩 참여 취소 실패"),
 	})
 	@DeleteMapping("/user/{fundingId}")
-	public ResponseResult cancelFunding(@PathVariable Long fundingId){
-		fundingService.cancelFunding(fundingId);
+	public ResponseResult cancelFunding(@PathVariable Long fundingId , HttpServletRequest request){
+		fundingService.cancelFunding(fundingId,request);
 		return ResponseResult.successResponse;
 	}
 }

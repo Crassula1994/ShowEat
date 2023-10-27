@@ -3,6 +3,8 @@ package com.ssafy.showeat.domain.business.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 
 import org.springframework.web.bind.annotation.GetMapping;
