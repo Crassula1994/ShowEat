@@ -27,6 +27,9 @@ const ButtonContainer = styled("div")<{ width: number; height: number }>`
     // Interaction Attribute
     cursor: pointer;
     user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     transition: all 0.3s ease;
     &:hover {
         img {
@@ -45,7 +48,7 @@ const ImageWrapper = styled("div")`
     position: relative;
 
     // Box Model Attribute
-    min-width: 50px;
+    max-width: 50px;
     max-height: 50px;
 `;
 
@@ -53,7 +56,9 @@ const ImageWrapper = styled("div")`
 
 /* Icon Button Component */
 function IconButton(props: IconButtonProps) {
-    const { width, height = Number(width), source, alternative, onClick } = props;
+    // States and Variables
+    const { width, height = Number(width), onClick, source, alternative } = props;
+
     return (
         <ButtonContainer
             width={Number(width) * 1.2}

@@ -31,6 +31,9 @@ const ButtonContainer = styled("div")`
     // Interaction Attribute
     cursor: pointer;
     user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     transition: all 0.3s ease;
     &:hover {
         transform: scale(1.1);
