@@ -1,5 +1,6 @@
 /* Import */
 import { ButtonProps } from "@customTypes/commonProps";
+import fontWeightChanger from "@/utils/fontWeightChanger";
 import styled from "@emotion/styled";
 
 // ----------------------------------------------------------------------------------------------------
@@ -57,36 +58,7 @@ function TagButton({
     buttonColor = "",
     textColor = "black",
 }: TagButtonProps) {
-    // ...텍스트... 처럼 ... 사이에 있는 텍스트들을 찾아서 font-weight를 바꾼 span태그로 만들어줌.
-    // ...사이에 있는건 fw 700, --- 사이에 있는건 fw 300
-    const thinText = tagDescription.match(/---(.*?)---/g);
-    const boldText = tagDescription.match(/\.\.\.(.*?)\.\.\./g);
-
-    let fixedDescription = tagDescription;
-
-    if (thinText) {
-        thinText.forEach((text) => {
-            fixedDescription = fixedDescription.replace(
-                text,
-                `<span style="font-weight: 300; font-size: 14px;">${text.substring(
-                    3,
-                    text.length - 3,
-                )}</span>`,
-            );
-        });
-    }
-
-    if (boldText) {
-        boldText.forEach((text) => {
-            fixedDescription = fixedDescription.replace(
-                text,
-                `<span style="font-weight: 700; font-size: 14px;">${text.substring(
-                    3,
-                    text.length - 3,
-                )}</span>`,
-            );
-        });
-    }
+    const fixedDescription = fontWeightChanger(tagDescription);
 
     return (
         <TagButtonWrapper width={width} height={height} buttonColor={buttonColor}>

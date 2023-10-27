@@ -10,6 +10,7 @@ import LogoutIcon from "./logout-icon.svg";
 import ModifyIcon from "./modify-icon.svg";
 import RightArrowIcon from "./right-arrow-icon.svg";
 import SearchIcon from "./search-icon.svg";
+import RoundAddIcon from "./round_add_icon.svg";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -26,4 +27,5 @@ export {
     ModifyIcon,
     RightArrowIcon,
     SearchIcon,
+    RoundAddIcon,
 };
