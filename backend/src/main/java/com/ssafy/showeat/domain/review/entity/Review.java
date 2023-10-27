@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.review.dto.response.ReviewResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
@@ -41,4 +42,18 @@ public class Review extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
+
+	public ReviewResponseDto toReviewResponseDto(){
+		return ReviewResponseDto.builder()
+			.reviewId(reviewId)
+			.userId(user.getUserId())
+			.userImgUrl(user.getUserImgUrl())
+			.userNickname(user.getUserNickname())
+			.fundingId(funding.getFundingId())
+			.fundingTitle(funding.getFundingTitle())
+			.fundingCategory(funding.getFundingCategory())
+			.fundingMenu(funding.getFundingMenu())
+			.modifiedDate(this.getModifiedDate())
+			.build();
+	}
 }
