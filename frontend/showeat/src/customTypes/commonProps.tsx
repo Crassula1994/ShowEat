@@ -10,6 +10,13 @@ export interface ButtonProps {
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
+export interface InputProps {
+    width: string;
+    height?: string;
+    id: string;
+    name?: string;
+}
+
 export interface TextInputProps {
     width: string;
     id: string;

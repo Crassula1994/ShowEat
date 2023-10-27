@@ -16,15 +16,10 @@ interface TextButtonProps extends ButtonProps {
     icon?: React.ReactElement;
 }
 
-interface ButtonContainerType extends ButtonProps {
-    colorType: "primary" | "secondary" | "gray";
-    curve: "curved" | "round";
-}
-
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const ButtonContainer = styled("div")<ButtonContainerType>`
+const ButtonContainer = styled("div")<Partial<TextButtonProps>>`
     // Layout Attribute
     display: flex;
     align-items: center;
