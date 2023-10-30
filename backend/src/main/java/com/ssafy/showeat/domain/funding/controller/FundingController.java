@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
+import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.service.FundingService;
+import com.ssafy.showeat.global.response.PageResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 import com.ssafy.showeat.global.response.SingleResponseResult;
 
@@ -77,5 +80,20 @@ public class FundingController {
 	public ResponseResult cancelFunding(@PathVariable Long fundingId , HttpServletRequest request){
 		fundingService.cancelFunding(fundingId,request);
 		return ResponseResult.successResponse;
+	}
+
+	@ApiOperation(value = "펀딩 목록 조회", notes = "펀딩 목록을 조회 합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 목록 조회 성공"),
+		@ApiResponse(code = 400, message = "펀딩 목록 조회 실패"),
+	})
+	@GetMapping("/business/{businessId}")
+	public ResponseResult getFundingList(
+		HttpServletRequest request,
+		@PathVariable Long businessId,
+		FundingIsActive state,
+		@RequestParam int page
+	) {
+		return new PageResponseResult<>(fundingService.getFundingList(businessId, state, page, request));
 	}
 }

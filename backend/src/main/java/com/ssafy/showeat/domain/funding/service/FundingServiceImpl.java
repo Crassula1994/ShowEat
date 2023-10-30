@@ -2,6 +2,8 @@ package com.ssafy.showeat.domain.funding.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,13 +14,13 @@ import com.ssafy.showeat.domain.business.repository.BusinessMenuRepository;
 import com.ssafy.showeat.domain.business.repository.BusinessRepository;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.MenuRequestDto;
+import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.funding.repository.UserFundingRepository;
 import com.ssafy.showeat.domain.user.entity.User;
-import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.exception.DuplicationApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleApplyFundingException;
@@ -120,5 +122,20 @@ public class FundingServiceImpl implements FundingService {
 
 		if(!loginUser.haveMoney(funding.getFundingPrice()))
 			throw new LackPointUserFundingException();
+	}
+
+	@Override
+	public Page<FundingListResponseDto> getFundingList(
+		Long businessId,
+		FundingIsActive state,
+		int page,
+		HttpServletRequest request
+	) {
+		User loginUser = userService.getUserFromRequest(request);
+		Business business = businessRepository.findById(businessId).get();
+		return fundingRepository.findByBusinessAndFundingIsActive(business, state, PageRequest.of(page, 6))
+			.map(funding -> funding.toFundingListResponseDto(
+				bookmarkService.isBookmark(loginUser, funding)
+			));
 	}
 }
