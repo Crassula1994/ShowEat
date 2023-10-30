@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
+import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.service.CouponService;
 import com.ssafy.showeat.global.response.ListResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
@@ -27,6 +28,17 @@ import lombok.extern.slf4j.Slf4j;
 public class CouponController {
 
 	private final CouponService couponService;
+
+	@ApiOperation(value = "상태별 쿠폰 리스트 조회", notes = "유저의 상태별 쿠폰 리스트를 조회합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "상태별 쿠폰 리스트 조회 성공"),
+		@ApiResponse(code = 400, message = "상태별 쿠폰 리스트 조회 실패"),
+	})
+	@GetMapping("/{userId}/{status}")
+	public ResponseResult getCouponListByUserIdAndStatus(@PathVariable Long userId, CouponStatus status) {
+		log.info("CouponController_getCouponListByUserIdAndStatus -> 해당 유저의 상태별 쿠폰 리스트 조회");
+		return new ListResponseResult<>(couponService.getCouponListByUserIdAndStatus(userId, status));
+	}
 
 	@ApiOperation(value = "사용가능 쿠폰 리스트 조회", notes = "유저의 사용가능 쿠폰 리스트를 조회합니다.")
 	@ApiResponses(value = {

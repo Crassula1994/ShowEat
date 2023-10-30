@@ -3,17 +3,20 @@ package com.ssafy.showeat.domain.coupon.service;
 import java.util.List;
 
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
-import com.ssafy.showeat.domain.coupon.dto.response.CouponResponseDto;
-import com.ssafy.showeat.domain.coupon.entity.Coupon;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
+import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 
 public interface CouponService {
-	List<CouponResponseDto> getActiveCouponListByUserId(Long userId);
+	List<CouponListResponseDto> getCouponListByUserIdAndStatus(Long userId, CouponStatus status);
 
-	List<CouponResponseDto> getUsedCouponListByUserId(Long userId);
+	List<CouponListResponseDto> getActiveCouponListByUserId(Long userId);
 
-	List<CouponResponseDto> getExpiredCouponListByUserId(Long userId);
+	List<CouponListResponseDto> getUsedCouponListByUserId(Long userId);
 
-	CouponResponseDto getCouponDetailByCouponId(Long couponId);
+	List<CouponListResponseDto> getExpiredCouponListByUserId(Long userId);
+
+	CouponDetailResponseDto getCouponDetailByCouponId(Long couponId);
 
 	void updateCouponStatus(UpdateCouponStatusRequestDto updateCouponStatusRequestDto);
 }

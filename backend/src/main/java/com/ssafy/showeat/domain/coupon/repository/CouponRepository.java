@@ -11,9 +11,7 @@ import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.user.entity.User;
 
 @Repository
-public interface CouponRepository extends JpaRepository<Coupon, Long> {
-
-	List<Coupon> findByUser(User user);
+public interface CouponRepository extends JpaRepository<Coupon, Long>, CouponCustomRepository {
 
 	@Query("SELECT c FROM Coupon c WHERE c.user = :user AND c.couponStatus = 'ACTIVE'")
 	List<Coupon> findActiveCouponByUser(@Param("user") User user);

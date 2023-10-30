@@ -22,21 +22,27 @@ public class CouponControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	public void getCouponListByUserId() throws Exception {
-		mockMvc.perform(get("/api/coupon/{userId}", 1L))
+	public void getActiveCouponListByUserId() throws Exception {
+		mockMvc.perform(get("/api/coupon/active/{userId}", 1L))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andDo(MockMvcRestDocumentation.document("getCouponListByUserId",
+			.andDo(MockMvcRestDocumentation.document("getActiveCouponListByUserId",
 				RequestDocumentation.pathParameters(
 					RequestDocumentation.parameterWithName("userId").description("The ID of the user")
 				),
 				PayloadDocumentation.responseFields(
 					PayloadDocumentation.fieldWithPath("[].couponId").description("The ID of the coupon"),
-					PayloadDocumentation.fieldWithPath("[].couponPrice").description("The price of the coupon"),
-					PayloadDocumentation.fieldWithPath("[].CouponStatus").description("The state of the coupon"),
-					PayloadDocumentation.fieldWithPath("[].user").description("The user associated with the coupon"),
-					PayloadDocumentation.fieldWithPath("[].funding")
-						.description("The funding associated with the coupon")
+					PayloadDocumentation.fieldWithPath("[].CouponStatus").description("The status of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].couponPrice").description("The remaining price of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].expirationDate").description("The expiration date of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].businessName").description("The business name of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].businessImgUrl").description("The business image url of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].fundingTitle").description("The funding title of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].fundingMenu").description("The funding menu of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].fundingDiscountPrice").description("The discount price of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].fundingPrice").description("The original price of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].fundingImgUrl").description("The funding image url of the coupon"),
+					PayloadDocumentation.fieldWithPath("[].remainingDays").description("The remaining days of the coupon")
 				)
 			));
 	}
