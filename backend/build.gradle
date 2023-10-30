@@ -43,7 +43,6 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
-	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -76,6 +75,13 @@ dependencies {
     // QueryDSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // Elastic Search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    compile 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.6'
+    compile 'org.elasticsearch.client:elasticsearch-rest-client:8.4.1'
+    compile 'org.elasticsearch:elasticsearch:8.4.1'
 }
 
 // QueryDSL 빌드 옵션
