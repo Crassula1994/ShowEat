@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 import com.ssafy.showeat.domain.business.dto.response.*;
+import com.ssafy.showeat.global.exception.ImpossibleDeleteMenuException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,6 +62,47 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
+	public void updateBusinessImg(MultipartFile businessImg) throws IOException {
+		log.info("BusinessServiceImpl_updateBusinessImg || 셀러 프로필 변경");
+		//todo 회원 Id 가져오기
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		String businessImgUrl = s3Service.uploadImageToS3(businessImg);
+		business.updateImgUrl(businessImgUrl);
+	}
+
+	@Override
+	@Transactional
+	public void updateBusinessBio(String businessBio) {
+		log.info("BusinessServiceImpl_updateBusinessBio || 셀러 소개 변경");
+		//todo 회원 Id 가져오기
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		business.updateBio(businessBio);
+	}
+
+	@Override
+	@Transactional
+	public void updateBusinessOperatingTime(String operatingTime) {
+		log.info("BusinessServiceImpl_updateBusinessOperatingTime || 셀러 운영시간 변경");
+		//todo 회원 Id 가져오기
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		business.updateOperatingTime(operatingTime);
+	}
+
+	@Override
+	@Transactional
+	public void updateBusinessClosedDays(String businessClosedDays) {
+		log.info("BusinessServiceImpl_updateBusinessClosedDays || 셀러 휴무일 변경");
+		//todo 회원 Id 가져오기
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		business.updateClosedDays(businessClosedDays);
+	}
+
+	@Override
+	@Transactional
 	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles) throws
 		IOException {
 		log.info("BusinessServiceImpl_registMenu || 업체 메뉴 등록");
@@ -86,6 +128,23 @@ public class BusinessServiceImpl implements BusinessService {
 			.stream()
 			.map(businessMenu -> businessMenu.toBusinessMenuResponseDto())
 			.collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional
+	public void deleteMenu(Long menuId) {
+		log.info("BusinessServiceImpl_deleteMenu || 업체 메뉴 삭제");
+		User loginUser = userRepository.findById(1L).get();
+		Business business = businessRepository.findByUser(loginUser).get();
+		BusinessMenu businessMenu = businessMenuRepository.findById(menuId).get();
+
+		//본인이면 삭제
+		if(businessMenu.getBusiness().equals(business)){
+			businessMenuRepository.delete(businessMenu);
+			return;
+		}
+
+		throw new ImpossibleDeleteMenuException();
 	}
 
 	@Override

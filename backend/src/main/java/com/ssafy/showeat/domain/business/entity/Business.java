@@ -96,37 +96,53 @@ public class Business extends BaseDateEntity {
 	@OneToMany(mappedBy = "business", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessMenu> businessMenus;
 
-	public void addBusinessMenu(BusinessMenu businessMenu){
+	public void addBusinessMenu(BusinessMenu businessMenu) {
 		this.businessMenus.add(businessMenu);
 		businessMenu.setBusiness(this);
 	}
 
 	public SellerResponseDto toSellerResponseDto() {
 		return SellerResponseDto.builder()
-				.businessId(businessId)
-				.businessImgUrl(businessImgUrl)
-				.businessBio(businessBio)
-				.businessOperatingTime(businessOperatingTime)
-				.businessClosedDays(businessClosedDays)
-				.sellerMenuResponseDtos(
-						businessMenus.stream()
-								.map(businessMenu -> businessMenu.toSellerMenuResponseDto())
-								.collect(Collectors.toList())
-				)
-				.build();
+			.businessId(businessId)
+			.businessImgUrl(businessImgUrl)
+			.businessBio(businessBio)
+			.businessOperatingTime(businessOperatingTime)
+			.businessClosedDays(businessClosedDays)
+			.sellerMenuResponseDtos(
+				businessMenus.stream()
+					.map(businessMenu -> businessMenu.toSellerMenuResponseDto())
+					.collect(Collectors.toList())
+			)
+			.build();
 	}
 
 	public RegistrationResponseDto toRegistrationResponseDto() {
 		return RegistrationResponseDto.builder()
-				.businessId(businessId)
-				.businessName(businessName)
-				.businessNumber(businessNumber)
-				.businessAddress(businessAddress)
-				.businessPhone(businessPhone)
-				.businessCeo(businessCeo)
-				.businessEmail(businessEmail)
-				.businessAccountHolder(businessAccountHolder)
-				.businessAccount(businessAccount)
-				.build();
+			.businessId(businessId)
+			.businessName(businessName)
+			.businessNumber(businessNumber)
+			.businessAddress(businessAddress)
+			.businessPhone(businessPhone)
+			.businessCeo(businessCeo)
+			.businessEmail(businessEmail)
+			.businessAccountHolder(businessAccountHolder)
+			.businessAccount(businessAccount)
+			.build();
+	}
+
+	public void updateImgUrl(String businessImgUrl) {
+		this.businessImgUrl = businessImgUrl;
+	}
+
+	public void updateBio(String businessBio) {
+		this.businessBio = businessBio;
+	}
+
+	public void updateOperatingTime(String operatingTime) {
+		this.businessOperatingTime = operatingTime;
+	}
+
+	public void updateClosedDays(String businessClosedDays) {
+		this.businessClosedDays = businessClosedDays;
 	}
 }

@@ -118,4 +118,11 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.INVALID_REFRESH_TOKEN_EXCEPTION, err.getMessage());
     }
 
+    @ExceptionHandler(ImpossibleDeleteMenuException.class)
+    public ResponseResult ImpossibleDeleteMenuException(ImpossibleDeleteMenuException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_DELETE_MENU_EXCEPTION, err.getMessage());
+    }
+
 }

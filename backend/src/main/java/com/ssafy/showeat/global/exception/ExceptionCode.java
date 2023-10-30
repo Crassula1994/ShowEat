@@ -20,6 +20,7 @@ public enum ExceptionCode {
 	DUPLICATION_APPLY_FUNDING_EXCEPTION(483,"펀딩 중복 참여는 불가능합니다."),
 	LACK_POINT_USER_FUNDING_EXCEPTION(484,"펀딩에 참여할 유저의 포인트가 부족합니다."),
 	IMPOSSIBLE_CANCEL_FUNDING_EXCEPTION(485,"참여하지 않은 펀딩은 취소할 수 없습니다."),
+	IMPOSSIBLE_DELETE_MENU_EXCEPTION(490,"메뉴를 삭제할 수 없습니다."),
 	SERVER_EXCEPTION(500, "서버에서 예측하지 못한 에러가 발생했습니다.");
 
 	private final int errorCode;
