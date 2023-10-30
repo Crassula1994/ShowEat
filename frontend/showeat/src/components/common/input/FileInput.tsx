@@ -1,10 +1,10 @@
 /* Import */
-import { ButtonProps } from "@/customTypes/commonProps";
-import fontWeightChanger from "@/utils/fontWeightChanger";
-import { useRef, useState } from "react";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
+import { ButtonProps } from "@customTypes/commonProps";
+import { changeFontWeight } from "@utils/format";
 import Image from "next/image";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useRef, useState } from "react";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -295,7 +295,7 @@ function FileInput({
         }
     };
 
-    const countText = fontWeightChanger(`...${count}개...까지 업로드 가능합니다.`);
+    const countText = changeFontWeight(`...${count}개...까지 업로드 가능합니다.`);
 
     return (
         <FileInputContainer>

@@ -9,9 +9,7 @@ interface TextareaProps extends TextInputProps {
     maxLength: number;
     textareaName: string;
     focusColor: "primary" | "secondary" | "gray";
-    // eslint-disable-next-line react/require-default-props
     fontSize?: string;
-    // eslint-disable-next-line react/require-default-props
     labelFontSize?: string;
 }
 

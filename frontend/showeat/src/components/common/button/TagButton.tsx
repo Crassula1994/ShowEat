@@ -1,6 +1,6 @@
 /* Import */
 import { ButtonProps } from "@customTypes/commonProps";
-import fontWeightChanger from "@/utils/fontWeightChanger";
+import { changeFontWeight } from "@utils/format";
 import styled from "@emotion/styled";
 
 // ----------------------------------------------------------------------------------------------------
@@ -8,9 +8,7 @@ import styled from "@emotion/styled";
 /* Type */
 interface TagButtonProps extends ButtonProps {
     tagDescription: string;
-    // eslint-disable-next-line react/require-default-props
     buttonColor?: string;
-    // eslint-disable-next-line react/require-default-props
     textColor?: string;
 }
 
@@ -58,7 +56,7 @@ function TagButton({
     buttonColor = "",
     textColor = "black",
 }: TagButtonProps) {
-    const fixedDescription = fontWeightChanger(tagDescription);
+    const fixedDescription = changeFontWeight(tagDescription);
 
     return (
         <TagButtonWrapper width={width} height={height} buttonColor={buttonColor}>

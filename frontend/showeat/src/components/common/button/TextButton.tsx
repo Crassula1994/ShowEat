@@ -2,7 +2,7 @@
 import { ButtonProps } from "@customTypes/commonProps";
 import styled from "@emotion/styled";
 import React from "react";
-import parseNumber from "@utils/format";
+import { parseNumber } from "@utils/format";
 
 // ----------------------------------------------------------------------------------------------------
 
