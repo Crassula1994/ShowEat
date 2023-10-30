@@ -75,7 +75,7 @@ public class AuthService {
             response.setHeader("access-token", newAccessToken.getAccessToken());
             log.info(email + "님의 accessToken 재발급 : " + newAccessToken.getAccessToken());
         } else {
-            log.info("refreshToken 없어요...ㅠㅠ");
+            log.info("유효하지 않거나 만료된 리프레시 토큰");
             // 유효하지 않거나 만료된 리프레시 토큰
             new InvalidRefreshTokenException();
         }

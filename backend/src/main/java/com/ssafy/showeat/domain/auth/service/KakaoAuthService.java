@@ -34,7 +34,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KakaoAuthService {
+public class KakaoAuthService{
 
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String KAKAO_CLIENT_ID;
@@ -92,6 +92,7 @@ public class KakaoAuthService {
                         .userImgUrl(user.getUserImgUrl())
                         .userNickname(user.getUserNickname())
                         .userAddress(user.getUserAddress())
+                        .userBusiness(user.isUserBusiness())
                         .userMoney(user.getUserMoney())
                         .credentialRole(user.getCredential().getCredentialRole())
                         .createdDate(user.getCreatedDate())
@@ -181,13 +182,11 @@ public class KakaoAuthService {
 
         if (credential != null) {
             log.info("이미 존재하는 email입니다. 바로 유저 정보를 반환합니다.");
-//            credential.updateRefreshToken(tokenDto.getRefreshToken());
             return userRepository.findByCredential(credential).orElse(null);
         }
 
         credential = Credential.builder()
                 .email(email)
-//                .refreshToken(tokenDto.getRefreshToken())
                 .credentialId(UUID.randomUUID().toString())
                 .credentialRole(CredentialRole.USER)
                 .credentialSocialPlatform("kakao")
@@ -203,4 +202,3 @@ public class KakaoAuthService {
     }
 
 }
-

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(NotExistUserException::new);
         return new UserResponseDto(user.getUserId(),user.getUserNickname(),
-                user.getUserImgUrl(),user.getUserAddress(),user.getUserMoney());
+                user.getUserImgUrl(),user.getUserAddress(),user.isUserBusiness(),user.getUserMoney());
     }
 
     @Override

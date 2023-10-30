@@ -13,5 +13,6 @@ public class UserResponseDto {
     private String userNickname;
     private String userImgUrl;
     private String userAddress;
+    private boolean userBusiness;
     private int userMoney;
 }
