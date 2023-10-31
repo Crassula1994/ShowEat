@@ -148,13 +148,13 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public List<BusinessMonthlyStatResponseDto> getMonthlyStatList(Long businessId) {
+	public List<BusinessMonthlyStatResponseDto> getMonthlyStatistic(Long businessId) {
 		log.info("BusinessServiceImpl_getMonthlyStatList || 업체 월간 통계 조회");
 		return fundingRepository.findMonthlyStatListById(businessId);
 	}
 
 	@Override
-	public BusinessTotalStatResponseDto getTotalStatList(Long businessId) {
+	public BusinessTotalStatResponseDto getTotalStatistic(Long businessId) {
 		log.info("BusinessServiceImpl_getTotalStatList || 업체 누적 통계 조회");
 		return fundingRepository.findTotalStatById(businessId);
 	}

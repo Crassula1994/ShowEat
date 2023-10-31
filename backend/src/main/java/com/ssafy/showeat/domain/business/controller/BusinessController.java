@@ -164,9 +164,9 @@ public class BusinessController {
 		@ApiResponse(code = 200, message = "월간 통계 조회 성공"),
 		@ApiResponse(code = 400, message = "월간 통계 조회 실패"),
 	})
-	@GetMapping("/monthlystat/{businessId}")
-	public ResponseResult getMonthlyStatList(@PathVariable Long businessId) {
-		return new ListResponseResult<>(businessService.getMonthlyStatList(businessId));
+	@GetMapping("/stat/monthly/{businessId}")
+	public ResponseResult getMonthlyStatistic(@PathVariable Long businessId) {
+		return new ListResponseResult<>(businessService.getMonthlyStatistic(businessId));
 	}
 
 	@ApiOperation(value = "누적 통계 조회", notes = "업주가 업체의 누적 통계를 조회합니다.")
@@ -174,8 +174,8 @@ public class BusinessController {
 		@ApiResponse(code = 200, message = "누적 통계 조회 성공"),
 		@ApiResponse(code = 400, message = "누적 통계 조회 실패"),
 	})
-	@GetMapping("/totalstat/{businessId}")
-	public ResponseResult getTotalStatList(@PathVariable Long businessId) {
-		return new SingleResponseResult<>(businessService.getTotalStatList(businessId));
+	@GetMapping("/stat/total/{businessId}")
+	public ResponseResult getTotalStatistic(@PathVariable Long businessId) {
+		return new SingleResponseResult<>(businessService.getTotalStatistic(businessId));
 	}
 }
