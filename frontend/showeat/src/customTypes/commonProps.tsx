@@ -17,6 +17,11 @@ export interface InputProps {
     name?: string;
 }
 
+export interface OverlayProps {
+    zIndex: number;
+    children: React.ReactNode;
+}
+
 export interface TextInputProps {
     width: string;
     id: string;
