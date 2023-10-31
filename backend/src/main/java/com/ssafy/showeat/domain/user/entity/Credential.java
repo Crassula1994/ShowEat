@@ -1,10 +1,14 @@
 package com.ssafy.showeat.domain.user.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
@@ -32,6 +36,10 @@ public class Credential extends BaseTimeEntity {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private CredentialRole credentialRole;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	public String getRoleKey() {
 		return this.credentialRole.getCode();

@@ -6,15 +6,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExceptionCode {
+	PAYMENT_INVALID_PRICE_EXCEPTION(420, "유효하지 않은 가격입니다."),
+	PAYMENT_INVALID_PAY_TYPE_EXCEPTION(421, "유효하지 않은 결제수단입니다."),
+	PAYMENT_INVALID_ORDER_AMOUNT_EXCEPTION(422, "결제 요청과 승인 금액이 다릅니다."),
 	INVALID_REFRESH_TOKEN_EXCEPTION(430,"유효하지 않은 토큰입니다."),
 	EXPIRED_TOKEN_EXCEPTION(431,"만료된 토큰입니다."),
 	UNAUTHORIZED_ACCESS_EXCEPTION(432,"접근 권한이 없습니다."),
 	WRONG_TOKEN_EXCEPTION(433,"잘못된 토큰입니다."),
 	IMPOSSIBLE_REVIEW_EXCEPTION(440, "사용된 쿠폰에 한해서 리뷰가 작성 가능합니다."),
-	NOT_EXIST_USER_EXCEPTION(450,"사용자를 찾을 수 없습니다."),
-	NOT_EXIST_BUSINESS_EXCEPTION(460, "해당 업체가 존재하지 않습니다."),
-	NOT_EXIST_COUPON_EXCEPTION(470, "해당 쿠폰이 존재하지 않습니다."),
-	NOT_EXIST_FUNDING_EXCEPTION(480,"펀딩을 찾을 수 없습니다."),
+	NOT_EXIST_USER_EXCEPTION(450,"사용자가 존재하지 않습니다."),
+	NOT_EXIST_BUSINESS_EXCEPTION(451, "해당 업체가 존재하지 않습니다."),
+	NOT_EXIST_COUPON_EXCEPTION(452, "해당 쿠폰이 존재하지 않습니다."),
+	NOT_EXIST_FUNDING_EXCEPTION(453,"해당 펀딩이 존재하지 않습니다."),
+	NOT_EXIST_PAYMENT_EXCEPTION(454, "해당 결제 내역이 존재하지 않습니다."),
 	INACTIVE_FUNDING_EXCEPTION(481,"이미 종료된 펀딩입니다."),
 	IMPOSSIBLE_APPLY_FUNDING_EXCEPTION(482,"펀딩 참여 가능한 자리가 없습니다."),
 	DUPLICATION_APPLY_FUNDING_EXCEPTION(483,"펀딩 중복 참여는 불가능합니다."),

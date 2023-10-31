@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.ssafy.showeat.domain.notification.entity.Notification;
+import com.ssafy.showeat.domain.payment.entity.Payment;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -45,14 +46,19 @@ public class User extends BaseTimeEntity {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Notification> notifications;
 
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Payment> payments;
+
 	//닉네임 수정
 	public void updateuserNickname(String userNickname) {
 		this.userNickname = userNickname;
 	}
+
 	//프로필사진 수정
 	public void updateuserImgUrl(String userImgUrl) {
 		this.userImgUrl = userImgUrl;
 	}
+
 	//관심지역 수정
 	public void updateAddress(String userAddress) {
 		this.userAddress = userAddress;
@@ -67,10 +73,15 @@ public class User extends BaseTimeEntity {
 		return true;
 	}
 
-	public void spendMoney(int fundingPrice){
+	public void spendMoney(int fundingPrice) {
 		this.userMoney -= fundingPrice;
 	}
-	public void refundMoney(int fundingPrice){
+
+	public void refundMoney(int fundingPrice) {
 		this.userMoney += fundingPrice;
+	}
+
+	public void addPayment(Payment payment) {
+		payments.add(payment);
 	}
 }

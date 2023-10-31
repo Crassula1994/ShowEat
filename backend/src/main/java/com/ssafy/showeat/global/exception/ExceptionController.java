@@ -125,6 +125,32 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_DELETE_MENU_EXCEPTION, err.getMessage());
     }
 
+    @ExceptionHandler(PaymentInvalidPriceException.class)
+    public ResponseResult PaymentInvalidPriceException(PaymentInvalidPriceException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.PAYMENT_INVALID_PRICE_EXCEPTION, err.getMessage());
+    }
+
+    @ExceptionHandler(PaymentInvalidPayTypeException.class)
+    public ResponseResult PaymentInvalidPayTypeException(PaymentInvalidPayTypeException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.PAYMENT_INVALID_PAY_TYPE_EXCEPTION, err.getMessage());
+    }
+    @ExceptionHandler(PaymentInvalidOrderAmountException.class)
+    public ResponseResult PaymentInvalidOrderAmountException(PaymentInvalidOrderAmountException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.PAYMENT_INVALID_ORDER_AMOUNT_EXCEPTION, err.getMessage());
+    }
+
+    @ExceptionHandler(NotExistPaymentException.class)
+    public ResponseResult NotExistPaymentException(NotExistPaymentException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_PAYMENT_EXCEPTION, err.getMessage());
+
     @ExceptionHandler(NotExistPageFundingException.class)
     public ResponseResult NotExistPageFundingException(NotExistPageFundingException err) {
         log.info("Error : {}", err.getClass());
