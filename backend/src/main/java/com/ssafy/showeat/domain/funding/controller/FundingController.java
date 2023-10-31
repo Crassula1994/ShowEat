@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -96,6 +97,17 @@ public class FundingController {
 		FundingIsActive state,
 		@RequestParam int page
 	) {
-		return new PageResponseResult<>(fundingService.getFundingList(businessId, state, page, request));
+		return new PageResponseResult<>(fundingService.getFundingList(businessId, state, page, userService.getUserFromRequest(request)));
+	}
+
+	@ApiOperation(value = "사용자 참여 펀딩 조회", notes = "사용자가 자신이 참여한 펀딩을 조회합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "사용자 참여 펀딩 조회 성공"),
+		@ApiResponse(code = 400, message = "사용자 참여 펀딩 조회 실패"),
+	})
+	@PatchMapping("/user")
+	public ResponseResult getUserFundings(HttpServletRequest request, @RequestParam int page) {
+		log.info("FundingController_getUserFundings");
+		return new PageResponseResult<>(fundingService.getUserFundingList(userService.getUserFromRequest(request),page));
 	}
 }

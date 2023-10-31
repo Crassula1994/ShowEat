@@ -15,6 +15,6 @@ public interface FundingService {
 	void applyFunding(Long fundingId , User user);
 	void cancelFunding(Long fundingId , User user);
 	FundingResponseDto getFunding(Long fundingId , User user);
-	Page<FundingListResponseDto> getFundingList(Long businessId, FundingIsActive state, int pageable,HttpServletRequest request);
-
+	Page<FundingListResponseDto> getFundingList(Long businessId, FundingIsActive state, int pageable,User user);
+	Page<FundingListResponseDto> getUserFundingList(User user,int page);
 }

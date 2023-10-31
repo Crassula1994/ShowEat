@@ -125,4 +125,11 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.IMPOSSIBLE_DELETE_MENU_EXCEPTION, err.getMessage());
     }
 
+    @ExceptionHandler(NotExistPageFundingException.class)
+    public ResponseResult NotExistPageFundingException(NotExistPageFundingException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_PAGE_FUNDING_EXCEPTION, err.getMessage());
+    }
+
 }

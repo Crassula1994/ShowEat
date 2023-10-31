@@ -24,5 +24,4 @@ public interface FundingRepository extends JpaRepository<Funding,Long>, FundingC
 	Optional<Funding> findByIdWithOptimisticLock(@Param("fundingId") Long fundingId);
 
 	Page<Funding> findByBusinessAndFundingIsActive(Business business, FundingIsActive state,Pageable pageable);
-
 }
