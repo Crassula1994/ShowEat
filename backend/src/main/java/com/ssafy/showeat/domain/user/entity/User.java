@@ -36,6 +36,8 @@ public class User extends BaseTimeEntity {
 
 	private int userMoney;
 
+	private boolean visited;
+
 	@OneToOne
 	@JoinColumn(name = "credential_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Credential credential;
@@ -55,7 +57,11 @@ public class User extends BaseTimeEntity {
 	public void updateAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-
+	//방문여부
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+	
 	public boolean haveMoney(int fundingPrice){
 		if(this.userMoney < fundingPrice) return false;
 		return true;

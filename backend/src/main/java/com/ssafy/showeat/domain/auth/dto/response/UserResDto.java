@@ -17,6 +17,7 @@ public class UserResDto {
     private String userImgUrl;
     private String userAddress;
     private boolean userBusiness;
+    private boolean visited;
     private int userMoney;
     private CredentialRole credentialRole;
     private LocalDateTime createdDate;

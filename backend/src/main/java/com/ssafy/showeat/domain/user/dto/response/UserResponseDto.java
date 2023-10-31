@@ -15,4 +15,5 @@ public class UserResponseDto {
     private String userAddress;
     private boolean userBusiness;
     private int userMoney;
+    private boolean visited;
 }

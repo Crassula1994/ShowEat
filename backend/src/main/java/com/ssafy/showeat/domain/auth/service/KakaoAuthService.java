@@ -93,6 +93,7 @@ public class KakaoAuthService{
                         .userNickname(user.getUserNickname())
                         .userAddress(user.getUserAddress())
                         .userBusiness(user.isUserBusiness())
+                        .visited(user.isVisited())
                         .userMoney(user.getUserMoney())
                         .credentialRole(user.getCredential().getCredentialRole())
                         .createdDate(user.getCreatedDate())
