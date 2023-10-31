@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
 import com.ssafy.showeat.domain.bookmark.service.BookmarkService;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
@@ -150,6 +151,25 @@ public class FundingServiceImpl implements FundingService {
 			throw new NotExistPageFundingException();
 
 		return new PageImpl<>(result, pageable, userFundings.getTotalElements());
+	}
+
+	@Override
+	public Page<FundingListResponseDto> getUserFundingListByBookmark(User user, int page) {
+		log.info("FundingServiceImpl_getUserFundingListByBookmark ||  유저가 좋아요한 펀딩 리스트 조회");
+		Pageable pageable = PageRequest.of(page, 6 , Sort.by(Sort.Direction.DESC, "createdDate"));
+		Page<Bookmark> userBookmarkFundingList = bookmarkService.getUserBookmarkFundingList(user, page, pageable);
+
+		List<FundingListResponseDto> result = userBookmarkFundingList.getContent()
+			.stream()
+			.map(bookmark -> {
+				Funding funding = bookmark.getFunding();
+				return funding.toFundingListResponseDto(true);
+			}).collect(Collectors.toList());
+
+		if(userBookmarkFundingList.getTotalPages() <= page)
+			throw new NotExistPageFundingException();
+
+		return new PageImpl<>(result, pageable, userBookmarkFundingList.getTotalElements());
 	}
 
 	@Override

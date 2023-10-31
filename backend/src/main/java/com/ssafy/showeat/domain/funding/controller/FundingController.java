@@ -105,9 +105,20 @@ public class FundingController {
 		@ApiResponse(code = 200, message = "사용자 참여 펀딩 조회 성공"),
 		@ApiResponse(code = 400, message = "사용자 참여 펀딩 조회 실패"),
 	})
-	@PatchMapping("/user")
+	@GetMapping("/user")
 	public ResponseResult getUserFundings(HttpServletRequest request, @RequestParam int page) {
 		log.info("FundingController_getUserFundings");
 		return new PageResponseResult<>(fundingService.getUserFundingList(userService.getUserFromRequest(request),page));
+	}
+
+	@ApiOperation(value = "사용자 좋아요 펀딩 조회", notes = "사용자가 자신이 좋아요한 펀딩을 조회합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "사용자 좋아요 펀딩 조회 성공"),
+		@ApiResponse(code = 400, message = "사용자 좋아요 펀딩 조회 실패"),
+	})
+	@GetMapping("/user/bookmark")
+	public ResponseResult getUserFundingsByBookmark(HttpServletRequest request, @RequestParam int page) {
+		log.info("FundingController_getUserFundingsByBookmark");
+		return new PageResponseResult<>(fundingService.getUserFundingListByBookmark(userService.getUserFromRequest(request),page));
 	}
 }

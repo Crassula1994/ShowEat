@@ -1,7 +1,13 @@
 package com.ssafy.showeat.domain.bookmark.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.showeat.domain.bookmark.entity.Bookmark;
@@ -20,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BookMarkServiceImpl implements BookmarkService{
 
-	private final UserService userService;
 	private final BookmarkRepository bookmarkRepository;
 	private final FundingRepository fundingRepository;
 
@@ -47,5 +52,11 @@ public class BookMarkServiceImpl implements BookmarkService{
 	public int getBookmarkCountByFundingId(Long fundingId) {
 		log.info("BookMarkServiceImpl_getBookmarkCountByFundingId || 펀딩의 좋아요 갯수 조회");
 		return bookmarkRepository.countByFundingId(fundingId);
+	}
+
+	@Override
+	public Page<Bookmark> getUserBookmarkFundingList(User user,int page, Pageable pageable) {
+		log.info("BookMarkServiceImpl_getUserBookmarkFundingList");
+		return bookmarkRepository.findByUser(user,pageable);
 	}
 }

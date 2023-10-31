@@ -1,5 +1,9 @@
 package com.ssafy.showeat.domain.bookmark.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +18,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark,Long> {
 
 	@Query("SELECT COUNT(b) FROM Bookmark b WHERE b.funding.fundingId = :fundingId")
 	int countByFundingId(@Param("fundingId") Long fundingId);
+
+	Page<Bookmark> findByUser(User user, Pageable pageable);
 }
