@@ -19,6 +19,7 @@ import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
+import com.ssafy.showeat.domain.user.entity.CredentialRole;
 import com.ssafy.showeat.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,10 @@ public class InitDb {
 				Credential.builder()
 					.credentialId("qqq")
 					.email("qwe@qwe.com")
+					.credentialRole(CredentialRole.USER)
 					.credentialSocialPlatform("kakao")
 					.build();
+			em.persist(credential1);
 
 			User user1 = User.builder()
 				.userNickname("테스트1")

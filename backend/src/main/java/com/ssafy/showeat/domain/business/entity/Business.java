@@ -86,7 +86,7 @@ public class Business extends BaseDateEntity {
 	@Column
 	private String businessClosedDays;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 

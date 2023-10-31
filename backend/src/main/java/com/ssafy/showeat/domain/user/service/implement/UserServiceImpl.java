@@ -125,10 +125,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User getUserFromRequest(HttpServletRequest request) {
         log.info("UserServiceImpl_getUserFromRequest | Request의 토큰 값을 바탕으로 유저를 찾아옴");
         String accessToken = request.getHeader("Authorization").split(" ")[1];
-        System.out.println("accessToken = " + accessToken);
         jwtProvider.parseClaims(accessToken);
         Claims accessTokenClaims = jwtProvider.parseClaims(accessToken);
         String userEmail = accessTokenClaims.getSubject();

@@ -46,10 +46,9 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void createFunding(CreateFundingRequestDto createFundingRequestDto , HttpServletRequest request) {
+	public void createFunding(CreateFundingRequestDto createFundingRequestDto , User loginUser) {
 		log.info("FundingServiceImpl_createFunding || 업주가 펀딩을 생성");
 
-		User loginUser = userService.getUserFromRequest(request);
 		// TODO : 업주가 아닌 사람이 펀딩을 생성하려고 하면 예외처리를 해줘야함 -> 이 부분은 security 단위에서 처리
 		Business business = businessRepository.findByUser(loginUser).get();
 
@@ -62,18 +61,19 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void applyFunding(Long fundingId , HttpServletRequest request) {
+	public void applyFunding(Long fundingId ,User loginUser) {
 		log.info("FundingServiceImpl_applyFunding ||  펀딩 참여");
-		User loginUser = userService.getUserFromRequest(request);
-		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
-
+		Funding funding = fundingRepository.findByIdWithLock(fundingId).orElseThrow(NotExistFundingException::new);
 		fundingValidation(funding,loginUser);
 
 		funding.addUserFunding(funding,loginUser);
 		loginUser.spendMoney(funding.getFundingDiscountPrice());
-		funding.addMoney();
+		funding.addMoneyForApply();
+		funding.addCountForApply();
 
-		if(!funding.isMaxLimit()) return;
+		if(!funding.isMaxLimit())
+			return;
+
 		funding.changeFundingStatusByMaxApply();
 		// TODO : 쿠폰 발급
 		// TODO : HISTORY 생성
@@ -81,9 +81,9 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	@Transactional
-	public void cancelFunding(Long fundingId , HttpServletRequest request) {
+	public void cancelFunding(Long fundingId , User loginUser) {
 		log.info("FundingServiceImpl_cancelFunding ||  펀딩 참여 취소");
-		User loginUser = userService.getUserFromRequest(request);
+
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
 
 		if(funding.getFundingIsActive().equals(FundingIsActive.INACTIVE))
@@ -98,10 +98,9 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
-	public FundingResponseDto getFunding(Long fundingId , HttpServletRequest request) {
+	public FundingResponseDto getFunding(Long fundingId , User loginUser) {
 		log.info("FundingServiceImpl_getFunding ||  펀딩 조회");
 
-		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
 		// TODO : 로그인 한 유저가 존재하지 않는다면 isBookmark = false
 		boolean isBookmark = bookmarkService.isBookmark(loginUser,funding);
@@ -120,7 +119,7 @@ public class FundingServiceImpl implements FundingService {
 		if(userFundingRepository.existsByUserAndFunding(loginUser,funding))
 			throw new DuplicationApplyFundingException();
 
-		if(!loginUser.haveMoney(funding.getFundingPrice()))
+		if(!loginUser.haveMoney(funding.getFundingDiscountPrice()))
 			throw new LackPointUserFundingException();
 	}
 

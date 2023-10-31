@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.service.FundingService;
+import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.response.PageResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 import com.ssafy.showeat.global.response.SingleResponseResult;
@@ -36,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FundingController {
 
 	private final FundingService fundingService;
+	private final UserService userService;
 
 	@ApiOperation(value = "펀딩 생성" , notes = "업주가 펀딩을 생성합니다.")
 	@ApiResponses(value = {
@@ -46,7 +48,7 @@ public class FundingController {
 	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto ,
 		HttpServletRequest request
 	){
-		fundingService.createFunding(createFundingRequestDto , request);
+		fundingService.createFunding(createFundingRequestDto , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
@@ -57,7 +59,7 @@ public class FundingController {
 	})
 	@GetMapping("/{fundingId}")
 	public ResponseResult getFunding(@PathVariable Long fundingId , HttpServletRequest request){
-		return new SingleResponseResult<>(fundingService.getFunding(fundingId,request));
+		return new SingleResponseResult<>(fundingService.getFunding(fundingId,userService.getUserFromRequest(request)));
 	}
 
 	@ApiOperation(value = "펀딩 참여" , notes = "펀딩에 참여합니다.")
@@ -67,7 +69,7 @@ public class FundingController {
 	})
 	@PostMapping("/user/{fundingId}")
 	public ResponseResult applyFunding(@PathVariable Long fundingId , HttpServletRequest request){
-		fundingService.applyFunding(fundingId,request);
+		fundingService.applyFunding(fundingId,userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
@@ -78,7 +80,7 @@ public class FundingController {
 	})
 	@DeleteMapping("/user/{fundingId}")
 	public ResponseResult cancelFunding(@PathVariable Long fundingId , HttpServletRequest request){
-		fundingService.cancelFunding(fundingId,request);
+		fundingService.cancelFunding(fundingId,userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 

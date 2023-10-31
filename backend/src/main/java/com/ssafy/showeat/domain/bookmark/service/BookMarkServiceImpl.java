@@ -25,9 +25,8 @@ public class BookMarkServiceImpl implements BookmarkService{
 	private final FundingRepository fundingRepository;
 
 	@Override
-	public void addBookmark(Long fundingId, HttpServletRequest request) {
+	public void addBookmark(Long fundingId, User loginUser) {
 		log.info("BookMarkServiceImpl_addBookMark || 관심 펀딩 추가 또는 삭제");
-		User loginUser = userService.getUserFromRequest(request);
 		Funding funding = fundingRepository.findById(fundingId).get();
 
 		if(bookmarkRepository.existsByUserAndFunding(loginUser,funding))

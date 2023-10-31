@@ -121,7 +121,6 @@ public class Funding extends BaseTimeEntity {
 
 		this.userFundings.add(userFunding);
 		userFunding.setFunding(funding);
-		this.fundingCurCount += 1;
 	}
 
 	public boolean isApply(){
@@ -134,8 +133,12 @@ public class Funding extends BaseTimeEntity {
 		return false;
 	}
 
-	public void addMoney(){
+	public void addMoneyForApply(){
 		this.fundingTotalAmount += this.fundingDiscountPrice;
+	}
+
+	public void addCountForApply() {
+		this.fundingCurCount += 1;
 	}
 
 	public void cancelFunding(){
