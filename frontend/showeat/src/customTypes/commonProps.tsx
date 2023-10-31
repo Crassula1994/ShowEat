@@ -22,6 +22,12 @@ export interface OverlayProps {
     children: React.ReactNode;
 }
 
+export interface TableProps {
+    headerWidth?: string;
+    headers: string[];
+    contents: (string | number)[];
+}
+
 export interface TextInputProps {
     width: string;
     id: string;
