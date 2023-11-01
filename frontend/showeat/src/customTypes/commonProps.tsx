@@ -28,6 +28,12 @@ export interface TableProps {
     contents: (string | number)[];
 }
 
+export interface TextBoxProps {
+    text: string;
+    colorType?: "primary" | "secondary" | "gray";
+    fontSize?: number;
+}
+
 export interface TextInputProps {
     width: string;
     id: string;

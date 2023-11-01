@@ -1,37 +1,37 @@
-/* Function for Changing Font Weight */
-function changeFontWeight(description: string) {
-    // ...텍스트... 처럼 ... 사이에 있는 텍스트들을 찾아서 font-weight를 바꾼 span태그로 만들어줌.
-    // ...사이에 있는건 fw 700, --- 사이에 있는건 fw 300
-    const thinText = description.match(/---(.*?)---/g);
-    const boldText = description.match(/\.\.\.(.*?)\.\.\./g);
+/* Function for Line Breaking Text by '\n' */
+function breakTextLine(text: string): string {
+    return text
+        .split("\n")
+        .map((line) => line)
+        .join("<br />");
+}
 
-    let fixedDescription = description;
+/* Function for Changing Font Weight */
+function changeFontWeight(text: string): string {
+    const thinText = text.match(/---(.*?)---/g);
+    const boldText = text.match(/\.\.\.(.*?)\.\.\./g);
+
+    let weightedText = text;
 
     if (thinText) {
-        thinText.forEach((text: string) => {
-            fixedDescription = fixedDescription.replace(
-                text,
-                `<span style="font-weight: 300; font-size: 14px;">${text.substring(
-                    3,
-                    text.length - 3,
-                )}</span>`,
+        thinText.forEach((phrase: string) => {
+            weightedText = weightedText.replace(
+                phrase,
+                `<span style="font-weight: 300;">${phrase.substring(3, phrase.length - 3)}</span>`,
             );
         });
     }
 
     if (boldText) {
-        boldText.forEach((text: string) => {
-            fixedDescription = fixedDescription.replace(
-                text,
-                `<span style="font-weight: 700; font-size: 14px;">${text.substring(
-                    3,
-                    text.length - 3,
-                )}</span>`,
+        boldText.forEach((phrase: string) => {
+            weightedText = weightedText.replace(
+                phrase,
+                `<span style="font-weight: 700;">${phrase.substring(3, phrase.length - 3)}</span>`,
             );
         });
     }
 
-    return fixedDescription;
+    return weightedText;
 }
 
 /* Function for Extracting and Parsing Number */
@@ -48,4 +48,4 @@ function parseNumber(text: string): number {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { changeFontWeight, parseNumber };
+export { breakTextLine, changeFontWeight, parseNumber };
