@@ -3,6 +3,7 @@ package com.ssafy.showeat.domain.coupon.dto.response;
 import java.time.LocalDate;
 
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
+import com.ssafy.showeat.domain.coupon.entity.CouponType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class CouponDetailResponseDto {
 
 	private Long couponId;
 	private CouponStatus couponStatus;
+	private CouponType couponType;
 	private int couponPrice;
 	private LocalDate expirationDate;
 	private String businessName;

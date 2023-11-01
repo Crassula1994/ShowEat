@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Repository
 public class CouponCustomRepositoryImpl implements CouponCustomRepository {
+
 	private final JPAQueryFactory jpaQueryFactory;
 	private final QCoupon coupon = QCoupon.coupon;
 
@@ -34,5 +35,4 @@ public class CouponCustomRepositoryImpl implements CouponCustomRepository {
 
 		return query.fetch();
 	}
-
 }

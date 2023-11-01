@@ -84,4 +84,8 @@ public class User extends BaseTimeEntity {
 	public void addPayment(Payment payment) {
 		payments.add(payment);
 	}
+
+	public void updateUserMoney(Long amount) {
+		this.userMoney += amount;
+	}
 }

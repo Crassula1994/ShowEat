@@ -91,6 +91,7 @@ public class PaymentServiceImpl implements PaymentService {
 				P -> {
 					if (P.getAmount().equals(amount)) {
 						P.setPaymentKey(paymentKey);
+						P.getUser().updateUserMoney(amount);
 					} else {
 						throw new PaymentInvalidOrderAmountException();
 					}

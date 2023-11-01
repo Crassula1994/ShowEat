@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum CouponStatus {
+public enum CouponType {
 
-	ACTIVE("미사용"),
-	USED("사용 완료"),
-	EXPIRED("사용 불가");
+	SINGLE("단일 메뉴권"),
+	GIFTCARD("금액권");
 
 	private final String description;
 }

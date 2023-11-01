@@ -37,8 +37,7 @@ public class Credential extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private CredentialRole credentialRole;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false)
+	@OneToOne
 	private User user;
 
 	public String getRoleKey() {

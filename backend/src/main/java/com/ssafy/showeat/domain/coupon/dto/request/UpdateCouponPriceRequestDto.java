@@ -1,6 +1,5 @@
 package com.ssafy.showeat.domain.coupon.dto.request;
 
-import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.entity.CouponType;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -11,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateCouponStatusRequestDto {
+public class UpdateCouponPriceRequestDto {
 
-	@ApiModelProperty(value = "쿠폰ID", example = "1")
+	@ApiModelProperty(value = "쿠폰 ID", example = "1")
 	private Long couponId;
 
-	@ApiModelProperty(value = "쿠폰 상태", example = "ACTIVE")
-	private CouponStatus couponStatus;
+	@ApiModelProperty(value = "차감 금액", example = "5000")
+	private int couponAmount;
 }

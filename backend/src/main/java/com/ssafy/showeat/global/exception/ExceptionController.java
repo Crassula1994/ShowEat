@@ -150,12 +150,27 @@ public class ExceptionController {
         log.info("Error : {}", err.getClass());
         log.info("Error Message : {}", err.getMessage());
         return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_PAYMENT_EXCEPTION, err.getMessage());
+    }
 
     @ExceptionHandler(NotExistPageFundingException.class)
     public ResponseResult NotExistPageFundingException(NotExistPageFundingException err) {
         log.info("Error : {}", err.getClass());
         log.info("Error Message : {}", err.getMessage());
         return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_PAGE_FUNDING_EXCEPTION, err.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCouponTypeException.class)
+    public ResponseResult InvalidCouponTypeException(InvalidCouponTypeException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.INVALID_COUPON_TYPE_EXCEPTION, err.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCouponPriceException.class)
+    public ResponseResult InvalidCouponPriceException(InvalidCouponPriceException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.INVALID_COUPON_PRICE_EXCEPTION, err.getMessage());
     }
 
     @ExceptionHandler(InvalidSearchTypeException.class)

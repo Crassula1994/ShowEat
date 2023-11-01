@@ -19,6 +19,7 @@ import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
+import com.ssafy.showeat.global.exception.InvalidCouponPriceException;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +45,14 @@ public class Coupon extends BaseTimeEntity {
 	private CouponStatus couponStatus;
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private CouponType couponType;
+
+	@Column(nullable = false)
 	private LocalDate couponExpirationDate;
+
+	@Column()
+	private String couponQrCodeImgUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -58,8 +66,9 @@ public class Coupon extends BaseTimeEntity {
 		return CouponDetailResponseDto.builder()
 			.couponId(couponId)
 			.couponStatus(couponStatus)
+			.couponType(couponType)
 			.couponPrice(couponPrice)
-			.expirationDate(couponExpirationDate)	// TODO : 60, 90, 180일 더한 날짜 반환
+			.expirationDate(couponExpirationDate)    // TODO : 60, 90, 180일 더한 날짜 반환
 			.businessName(funding.getBusiness().getBusinessName())
 			.fundingTitle(funding.getFundingTitle())
 			.fundingMenu(funding.getFundingMenu())
@@ -74,7 +83,8 @@ public class Coupon extends BaseTimeEntity {
 		return CouponListResponseDto.builder()
 			.couponId(couponId)
 			.couponStatus(couponStatus)
-			.expirationDate(couponExpirationDate)	// TODO : 60, 90, 180일 더한 날짜 반환
+			.couponType(couponType)
+			.expirationDate(couponExpirationDate)    // TODO : 60, 90, 180일 더한 날짜 반환
 			.businessName(funding.getBusiness().getBusinessName())
 			.businessImgUrl(funding.getBusiness().getBusinessImgUrl())
 			.fundingMenu(funding.getFundingMenu())
@@ -85,5 +95,18 @@ public class Coupon extends BaseTimeEntity {
 
 	public void updateStatus(CouponStatus couponStatus) {
 		this.couponStatus = couponStatus;
+	}
+
+	public void updatePrice(int amount) {
+		int newPrice = this.couponPrice - amount;
+		if (newPrice < 0) {
+			throw new InvalidCouponPriceException();
+		} else {
+			this.couponPrice = newPrice;
+		}
+	}
+
+	public void addCouponQrCodeFileUrl(String s3QrCodeImageUrl) {
+		this.couponQrCodeImgUrl = s3QrCodeImageUrl;
 	}
 }

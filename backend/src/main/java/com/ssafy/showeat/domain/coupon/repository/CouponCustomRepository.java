@@ -7,6 +7,5 @@ import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.user.entity.User;
 
 public interface CouponCustomRepository {
-
 	List<Coupon> findCouponListByUserAndStatus(User user, CouponStatus couponStatus);
 }

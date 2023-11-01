@@ -7,14 +7,18 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponPriceRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
+import com.ssafy.showeat.domain.coupon.entity.CouponType;
 import com.ssafy.showeat.domain.coupon.repository.CouponRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
+import com.ssafy.showeat.global.exception.InvalidCouponPriceException;
+import com.ssafy.showeat.global.exception.InvalidCouponTypeException;
 import com.ssafy.showeat.global.exception.NotExistCouponException;
 import com.ssafy.showeat.global.exception.NotExistUserException;
 
@@ -37,30 +41,6 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public List<CouponListResponseDto> getActiveCouponListByUserId(Long userId) {
-		log.info("CouponService_getActiveCouponLIstByUserid || 유저의 사용가능 쿠폰 조회");
-		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
-		List<Coupon> couponList = couponRepository.findActiveCouponByUser(user);
-		return couponList.stream().map(Coupon::toCouponListResponseDto).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<CouponListResponseDto> getUsedCouponListByUserId(Long userId) {
-		log.info("CouponService_getUsedCouponLIstByUserid || 유저의 사용완료 쿠폰 조회");
-		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
-		List<Coupon> couponList = couponRepository.findUsedCouponByUser(user);
-		return couponList.stream().map(Coupon::toCouponListResponseDto).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<CouponListResponseDto> getExpiredCouponListByUserId(Long userId) {
-		log.info("CouponService_getExpiredCouponLIstByUserid || 유저의 사용완료 쿠폰 조회");
-		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
-		List<Coupon> couponList = couponRepository.findExpiredCouponByUser(user);
-		return couponList.stream().map(Coupon::toCouponListResponseDto).collect(Collectors.toList());
-	}
-
-	@Override
 	public CouponDetailResponseDto getCouponDetailByCouponId(Long couponId) {
 		log.info("CouponService_getCouponDetailByCouponId || 해당 쿠폰의 상세 정보 조회");
 		Coupon coupon = couponRepository.findById(couponId).orElseThrow(NotExistCouponException::new);
@@ -70,9 +50,28 @@ public class CouponServiceImpl implements CouponService {
 	@Override
 	@Transactional
 	public void updateCouponStatus(UpdateCouponStatusRequestDto updateCouponStatusRequestDto) {
-		log.info("CouponService_updateCouponStatus || 해당 쿠폰 사용 처리");
+		log.info("CouponService_updateCouponStatus || 해당 쿠폰의 상태를 변경");
 		Coupon coupon = couponRepository.findById(updateCouponStatusRequestDto.getCouponId()).orElseThrow(
 			NotExistCouponException::new);
 		coupon.updateStatus(updateCouponStatusRequestDto.getCouponStatus());
+	}
+
+	@Override
+	@Transactional
+	public void updateCouponPrice(UpdateCouponPriceRequestDto updateCouponPriceRequestDto) {
+		log.info("CouponService_updateCouponPrice || 해당 쿠폰의 금액을 차감");
+		Coupon coupon = couponRepository.findById(updateCouponPriceRequestDto.getCouponId()).orElseThrow(
+			NotExistCouponException::new);
+
+		if (coupon.getCouponType() != CouponType.GIFTCARD) {
+			throw new InvalidCouponTypeException();
+		}
+
+		int amount = updateCouponPriceRequestDto.getCouponAmount();
+		coupon.updatePrice(amount);
+		System.out.println(coupon.getCouponPrice());
+		if (coupon.getCouponPrice() == 0) {
+			coupon.updateStatus(CouponStatus.USED);
+		}
 	}
 }

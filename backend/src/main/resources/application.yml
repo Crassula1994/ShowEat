@@ -5,7 +5,7 @@ spring:
   jpa:
     properties: # property 사용 설정
       hibernate: # hibernate property 설정
-        format_sql: true # 보여지는 쿼리를 예쁘게 포맷팅 -> 사용하지 않으면 긴 줄 형태로 출력됌
+        format_sql: true # 보여지는 쿼리를 예쁘게 포맷팅 -> 사용하지 않으면 긴 줄 형태로 출력됨
   servlet:
     multipart:
       enabled: true
@@ -60,8 +60,8 @@ cloud:
     s3:
       bucket: showeat
     credentials:
-      accessKey: AKIAYNGI6IUDYVBYW33G
-      secretKey: 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
+      access-key: AKIAYNGI6IUDYVBYW33G
+      secret-key: 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
     region:
       static: ap-northeast-2
       auto: false
