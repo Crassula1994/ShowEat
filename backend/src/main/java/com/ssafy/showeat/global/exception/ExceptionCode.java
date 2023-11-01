@@ -6,6 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExceptionCode {
+	INVALID_SEARCH_TYPE_EXCEPTION(410,"유효하지 않은 검색 조건입니다."),
+	INVALID_SORT_TYPE_EXCEPTION(411,"유효하지 않은 정렬 조건입니다."),
+	INVALID_CATEGORY_TYPE_EXCEPTION(412,"유효하지 않은 카테고리 조건입니다."),
+	BLANK_SEARCH_KEYWORD_EXCEPTION(413,"검색어를 입력해 주세요."),
 	PAYMENT_INVALID_PRICE_EXCEPTION(420, "유효하지 않은 가격입니다."),
 	PAYMENT_INVALID_PAY_TYPE_EXCEPTION(421, "유효하지 않은 결제수단입니다."),
 	PAYMENT_INVALID_ORDER_AMOUNT_EXCEPTION(422, "결제 요청과 승인 금액이 다릅니다."),

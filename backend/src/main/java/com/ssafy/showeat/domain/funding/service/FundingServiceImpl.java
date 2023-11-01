@@ -22,19 +22,27 @@ import com.ssafy.showeat.domain.business.repository.BusinessMenuRepository;
 import com.ssafy.showeat.domain.business.repository.BusinessRepository;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.MenuRequestDto;
+import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.FundingCategory;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
+import com.ssafy.showeat.domain.funding.entity.FundingSearchType;
+import com.ssafy.showeat.domain.funding.entity.FundingSortType;
 import com.ssafy.showeat.domain.funding.entity.UserFunding;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.funding.repository.UserFundingRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.service.UserService;
+import com.ssafy.showeat.global.exception.BlankSearchKeywordException;
 import com.ssafy.showeat.global.exception.DuplicationApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleApplyFundingException;
 import com.ssafy.showeat.global.exception.ImpossibleCancelFundingException;
 import com.ssafy.showeat.global.exception.InactiveFundingException;
+import com.ssafy.showeat.global.exception.InvalidCategoryTypeException;
+import com.ssafy.showeat.global.exception.InvalidSearchTypeException;
+import com.ssafy.showeat.global.exception.InvalidSortTypeException;
 import com.ssafy.showeat.global.exception.LackPointUserFundingException;
 import com.ssafy.showeat.global.exception.NotExistBusinessException;
 import com.ssafy.showeat.global.exception.NotExistFundingException;
@@ -173,6 +181,16 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
+	public Page<FundingListResponseDto> searchFunding(SearchFundingRequestDto searchFundingRequestDto, User user) {
+		log.info("FundingServiceImpl_searchFunding || 펀딩 검색");
+		validateSearch(searchFundingRequestDto);
+		Pageable pageable = PageRequest.of(searchFundingRequestDto.getPage(), 9);
+
+
+		return null;
+	}
+
+	@Override
 	public Page<FundingListResponseDto> getFundingList(
 		Long businessId,
 		FundingIsActive state,
@@ -184,5 +202,46 @@ public class FundingServiceImpl implements FundingService {
 			.map(funding -> funding.toFundingListResponseDto(
 				bookmarkService.isBookmark(loginUser, funding)
 			));
+	}
+
+	private void validateSearch(SearchFundingRequestDto searchFundingRequestDto){
+		searchFundingRequestDto.getSearchType().stream().forEach(searchType -> validateSearchType(searchType));
+		searchFundingRequestDto.getCategory().stream().forEach(category -> validateCategoryType(category));
+		validateSortType(searchFundingRequestDto.getSortType());
+		validateBlankKeyword(searchFundingRequestDto.getKeyword());
+	}
+
+	private void validateSortType(String sortType) {
+		if (sortType.equals(FundingSortType.POPULARITY.name())
+			|| sortType.equals(FundingSortType.CLOSING_SOON.name())
+			|| sortType.equals(FundingSortType.LOW_PRICE.name())
+			|| sortType.equals(FundingSortType.HIGH_DISCOUNT_RATE.name())) return;
+
+		throw new InvalidSortTypeException();
+	}
+
+	private void validateSearchType(String searchType){
+		if (searchType.equals(FundingSearchType.FUNDING_MENU.name())
+			|| searchType.equals(FundingSearchType.FUNDING_TAG.name())
+			|| searchType.equals(FundingSearchType.BUSINESS_NAME.name())) return;
+
+		throw new InvalidSearchTypeException();
+	}
+
+	private void validateCategoryType(String categoryType){
+		if (categoryType.equals(FundingCategory.ASIAN.name())
+			|| categoryType.equals(FundingCategory.CHINESE.name())
+			|| categoryType.equals(FundingCategory.CAFE_DESSERT.name())
+			|| categoryType.equals(FundingCategory.WESTERN.name())
+			|| categoryType.equals(FundingCategory.JAPANESE_SUSHI.name())
+			|| categoryType.equals(FundingCategory.KOREAN.name())
+			|| categoryType.equals(FundingCategory.SNACKS_LATE_NIGHT.name())
+			|| categoryType.equals(FundingCategory.CHICKEN_BURGER.name())) return;
+
+		throw new InvalidCategoryTypeException();
+	}
+
+	private void validateBlankKeyword(String keyword) {
+		if (keyword.isBlank()) throw new BlankSearchKeywordException();
 	}
 }

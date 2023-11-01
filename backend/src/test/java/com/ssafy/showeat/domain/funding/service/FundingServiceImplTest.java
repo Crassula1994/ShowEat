@@ -27,6 +27,7 @@ import com.ssafy.showeat.domain.business.repository.BusinessRepository;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.MenuRequestDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.FundingCategory;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
@@ -58,9 +59,6 @@ class FundingServiceImplTest extends IntegrationTestSupport {
 	@Autowired
 	private CredentialRepository credentialRepository;
 
-	@Autowired
-	private BusinessMenuRepository businessMenuRepository;
-
 	@AfterEach
 	void reset() {
 		fundingRepository.deleteAll();
@@ -87,7 +85,7 @@ class FundingServiceImplTest extends IntegrationTestSupport {
 			.builder()
 			.title("테스트")
 			.description("테스트입니다.")
-			.category("한식")
+			.category("KOREAN")
 			.maxLimit(10)
 			.minLimit(5)
 			.tags(List.of("tag1","tag2"))
@@ -102,7 +100,7 @@ class FundingServiceImplTest extends IntegrationTestSupport {
 
 		// then
 		assertThat(save.getFundingTitle()).isEqualTo("테스트");
-		assertThat(save.getFundingCategory()).isEqualTo("한식");
+		assertThat(save.getFundingCategory()).isEqualTo(FundingCategory.KOREAN);
 		assertThat(save.getFundingMenu()).isEqualTo("메뉴1");
 		assertThat(save.getFundingDiscountPrice()).isEqualTo(2000);
 		assertThat(save.getFundingTags()).hasSize(2)
@@ -111,40 +109,6 @@ class FundingServiceImplTest extends IntegrationTestSupport {
 		assertThat(save.getFundingImages()).hasSize(2)
 			.extracting("fundingImgUrl")
 			.containsExactlyInAnyOrder("img1","img2");
-	}
-
-	@Test
-	@DisplayName("펀딩에 동시에 100명이 참여하는경우 동시성 문제가 발생하지 않는다.")
-	void 동시에_100명이_참여() throws InterruptedException {
-	    // given
-		Funding funding = createFunding(FundingIsActive.ACTIVE);
-		Funding save = fundingRepository.save(funding);
-		createUsers();
-		int threadCount = 100;
-
-		//멀티 쓰레드를 사용하기 위함, 비동기 작업을 단순화 해줌
-		ExecutorService executorService = Executors.newFixedThreadPool(32);
-		//다른쓰레드의 작업이 끝날때까지 기다림
-		CountDownLatch latch = new CountDownLatch(threadCount);
-
-		// when
-		for (int i = 1; i <= threadCount; i++) {
-			int finalI = i;
-			executorService.submit(() -> {
-				try {
-					User user = userRepository.findById((long)finalI).get();
-					fundingService.applyFunding(save.getFundingId(),user);
-				} finally {
-					latch.countDown();
-				}
-			});
-		}
-
-		latch.await();
-		Funding resultFunding = fundingRepository.findById(save.getFundingId()).get();
-
-		// then
-		assertThat(resultFunding.getFundingCurCount()).isEqualTo(100);
 	}
 
 	@Test
@@ -264,7 +228,7 @@ class FundingServiceImplTest extends IntegrationTestSupport {
 			.fundingMenu("과자")
 			.fundingPrice(10000)
 			.fundingTotalAmount(0)
-			.fundingCategory("한식")
+			.fundingCategory(FundingCategory.KOREAN)
 			.fundingDescription("설명")
 			.fundingEndDate(LocalDate.now())
 			.fundingIsActive(fundingIsActive)

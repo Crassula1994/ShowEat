@@ -103,11 +103,10 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles) throws
+	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles , User loginUser) throws
 		IOException {
 		log.info("BusinessServiceImpl_registMenu || 업체 메뉴 등록");
 
-		User loginUser = userRepository.findById(1L).get();
 		Business business = businessRepository.findByUser(loginUser).get();
 		BusinessMenu businessMenu = s3Service.uploadMenuImageToS3(registMenuRequestDto.toEntity(), multipartFiles);
 		business.addBusinessMenu(businessMenu);
@@ -120,9 +119,9 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public List<BusinessMenuResponseDto> getMenuList() {
+	public List<BusinessMenuResponseDto> getMenuList(User loginUser) {
 		log.info("BusinessServiceImpl_getMenuInfo || 업체 메뉴 리스트 조회");
-		User loginUser = userRepository.findById(1L).get();
+
 		Business business = businessRepository.findByUser(loginUser).get();
 		return business.getBusinessMenus()
 			.stream()

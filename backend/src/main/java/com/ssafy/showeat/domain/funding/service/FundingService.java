@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
+import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
@@ -18,4 +19,5 @@ public interface FundingService {
 	Page<FundingListResponseDto> getFundingList(Long businessId, FundingIsActive state, int pageable,User user);
 	Page<FundingListResponseDto> getUserFundingList(User user,int page);
 	Page<FundingListResponseDto> getUserFundingListByBookmark(User user,int page);
+	Page<FundingListResponseDto> searchFunding(SearchFundingRequestDto searchFundingRequestDto,User user);
 }

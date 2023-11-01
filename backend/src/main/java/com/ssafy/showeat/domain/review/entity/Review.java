@@ -51,7 +51,7 @@ public class Review extends BaseTimeEntity {
 			.userNickname(user.getUserNickname())
 			.fundingId(funding.getFundingId())
 			.fundingTitle(funding.getFundingTitle())
-			.fundingCategory(funding.getFundingCategory())
+			.fundingCategory(funding.getFundingCategory().name())
 			.fundingMenu(funding.getFundingMenu())
 			.modifiedDate(this.getModifiedDate())
 			.build();

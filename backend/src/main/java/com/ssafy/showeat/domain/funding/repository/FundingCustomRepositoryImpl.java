@@ -3,6 +3,8 @@ package com.ssafy.showeat.domain.funding.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.ExpressionUtils;
@@ -11,6 +13,8 @@ import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.showeat.domain.business.dto.response.BusinessMonthlyStatResponseDto;
 import com.ssafy.showeat.domain.business.dto.response.BusinessTotalStatResponseDto;
+import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
+import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
 import com.ssafy.showeat.domain.funding.entity.QFunding;
 
@@ -129,5 +133,17 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
 			.fetch();
 
 		return totalStatResponseDto.get(0);
+	}
+
+	@Override
+	public Page<FundingListResponseDto> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto , Pageable pageable) {
+
+		// 카테고리가 없다면 모든 카테고리내에서 검색
+
+		// 지역이 없다면 모든 지역에서 검색
+
+		//
+
+		return null;
 	}
 }

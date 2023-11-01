@@ -45,7 +45,7 @@ public class Funding extends BaseTimeEntity {
 	private String fundingTitle;
 
 	@Column(nullable = false, length = 100)
-	private String fundingCategory;
+	private FundingCategory fundingCategory;
 
 	@Column(nullable = false)
 	private int fundingMaxLimit;
@@ -154,7 +154,7 @@ public class Funding extends BaseTimeEntity {
 	public FundingResponseDto toFundingResponseDto(int bookemarkCount , boolean isBookmark){
 		return FundingResponseDto.builder()
 			.title(fundingTitle)
-			.category(fundingCategory)
+			.category(fundingCategory.name())
 			.maxLimit(fundingMaxLimit)
 			.minLimit(fundingMinLimit)
 			.curCount(fundingCurCount)
@@ -186,7 +186,7 @@ public class Funding extends BaseTimeEntity {
 		return FundingListResponseDto.builder()
 			.fundingId(fundingId)
 			.title(fundingTitle)
-			.category(fundingCategory)
+			.category(fundingCategory.name())
 			.maxLimit(fundingMaxLimit)
 			.minLimit(fundingMinLimit)
 			.curCount(fundingCurCount)

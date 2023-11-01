@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.FundingCategory;
 import com.ssafy.showeat.domain.funding.entity.FundingImage;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.entity.FundingIsSuccess;
@@ -62,7 +63,7 @@ public class CreateFundingRequestDto {
 			.fundingTitle(title)
 			.fundingMaxLimit(maxLimit)
 			.fundingMinLimit(minLimit)
-			.fundingCategory(category)
+			.fundingCategory(FundingCategory.valueOf(category))
 			.fundingCurCount(0)
 			.fundingTotalAmount(0)
 			.fundingMenu(businessMenu.getBusinessMenuName())

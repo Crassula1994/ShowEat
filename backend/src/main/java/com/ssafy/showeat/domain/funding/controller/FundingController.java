@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
+import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.service.FundingService;
 import com.ssafy.showeat.domain.user.service.UserService;
@@ -121,4 +122,17 @@ public class FundingController {
 		log.info("FundingController_getUserFundingsByBookmark");
 		return new PageResponseResult<>(fundingService.getUserFundingListByBookmark(userService.getUserFromRequest(request),page));
 	}
+
+	@ApiOperation(value = "펀딩 검색", notes = "필터링을 한 후 펀딩 검색을 합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 검색 성공"),
+		@ApiResponse(code = 400, message = "펀딩 검색 실패"),
+	})
+	@GetMapping
+	public ResponseResult searchFunding(SearchFundingRequestDto searchFundingRequestDto , HttpServletRequest request) {
+		log.info("FundingController_searchFunding");
+		return null;
+	}
+
+
 }
