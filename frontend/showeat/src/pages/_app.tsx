@@ -1,21 +1,24 @@
 /* Import */
-import { AppProps } from "next/app";
+import { AppPropsWithLayout } from "@customTypes/layoutProps";
 import { Global, ThemeProvider } from "@emotion/react";
 import globalStyles from "@styles/global";
+import { ReactNode } from "react";
 import { RecoilRoot } from "recoil";
 import theme from "@styles/theme";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* App Component */
-function App({ Component, pageProps }: AppProps) {
-    return (
+function App({ Component, pageProps }: AppPropsWithLayout) {
+    const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
+
+    return getLayout(
         <RecoilRoot>
             <ThemeProvider theme={theme}>
                 <Global styles={globalStyles} />
                 <Component {...pageProps} />
             </ThemeProvider>
-        </RecoilRoot>
+        </RecoilRoot>,
     );
 }
 

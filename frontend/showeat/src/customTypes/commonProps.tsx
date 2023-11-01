@@ -1,5 +1,5 @@
 /* Import */
-import React from "react";
+import { Dispatch, MouseEvent, ReactNode, SetStateAction } from "react";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ import React from "react";
 export interface ButtonProps {
     width: string;
     height?: string;
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export interface InputProps {
@@ -19,7 +19,7 @@ export interface InputProps {
 
 export interface OverlayProps {
     zIndex: number;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export interface TableProps {
@@ -31,13 +31,13 @@ export interface TableProps {
 export interface TextInputProps {
     width: string;
     id: string;
-    setTextValue: React.Dispatch<React.SetStateAction<string>>;
+    setTextValue: Dispatch<SetStateAction<string>>;
     height?: string;
     placeholder?: string;
     defaultValue?: string;
     labelName?: string;
     svgSRC?: string;
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export interface RadioButtonProps {

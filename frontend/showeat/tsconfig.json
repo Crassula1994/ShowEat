@@ -19,11 +19,12 @@
             "@apis/*": ["src/apis/*"],
             "@configs/*": ["src/configs/*"],
             "@components/*": ["src/components/*"],
+            "@customTypes/*": ["src/customTypes/*"],
             "@hooks/*": ["src/hooks/*"],
+            "@layouts/*": ["src/layouts/*"],
             "@icons/*": ["src/assets/icons/*"],
             "@images/*": ["src/assets/images/*"],
             "@styles/*": ["src/styles/*"],
-            "@customTypes/*": ["src/customTypes/*"],
             "@utils/*": ["src/utils/*"]
         }
     },
