@@ -80,6 +80,9 @@ dependencies {
     // Redisson
 //    implementation 'org.redisson:redisson-spring-boot-starter:3.17.4'
 
+    //json
+    implementation 'org.json:json:20090211'
+
     // Elastic Search
 //    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 //    compile 'org.springframework.boot:spring-boot-starter-data-elasticsearch'

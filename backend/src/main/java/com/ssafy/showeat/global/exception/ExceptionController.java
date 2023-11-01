@@ -159,6 +159,19 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_PAGE_FUNDING_EXCEPTION, err.getMessage());
     }
 
+    @ExceptionHandler(InvalidRegistrationException.class)
+    public ResponseResult InvalidRegistrationException(InvalidRegistrationException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.INVALID_REGISTRATION_EXCEPTION, err.getMessage());
+    }
+
+    @ExceptionHandler(ClovaOcrException.class)
+    public ResponseResult ClovaOcrException(ClovaOcrException err) {
+        log.info("Error : {}", err.getClass());
+        log.info("Error Message : {}", err.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.CLOVA_OCR_EXCEPTION, err.getMessage());
+
     @ExceptionHandler(InvalidCouponTypeException.class)
     public ResponseResult InvalidCouponTypeException(InvalidCouponTypeException err) {
         log.info("Error : {}", err.getClass());

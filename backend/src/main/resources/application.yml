@@ -81,6 +81,14 @@ jwt:
       paths: auth/login/kakao
 #      ,/auth/logout
 
+clova:
+  url: "https://ntuel8zci6.apigw.ntruss.com/custom/v1/25840/11e8d01964315380ff54eb2db300bc588129efabbc17f82a56444f20d8867303/infer"
+  secretKey: "bGtVZFl5T29SUkh3TGFwRE16WVlWUENxb2J1dGF4UEo="
+
+business:
+  url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey="
+  secretKey: "4SlBHvxNa576fRWhPJN31xw3YYDXDhysrpBFU8sDMMgR9oZJi%2FVsGSsqvkhiJP5%2FCLueZqxvPobQMMVPQMzxIA%3D%3D"
+
 # TossPayments
 payments:
   toss:
@@ -88,3 +96,4 @@ payments:
     test_secret_api_key: test_sk_Ba5PzR0ArnWLjDw7vPe18vmYnNeD
     success_url: http://localhost:8081/api/payments/request/success
     fail_url: http://localhost:8081/api/payments/request/fail
+

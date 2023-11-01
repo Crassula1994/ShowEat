@@ -3,6 +3,7 @@ package com.ssafy.showeat.domain.business.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.ssafy.showeat.domain.business.dto.request.BusinessInfoRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 
 import com.ssafy.showeat.domain.business.dto.response.*;
@@ -42,4 +43,5 @@ public interface BusinessService {
 
 	void updateBusinessClosedDays(String businessClosedDays);
 
+	boolean verifyBusiness(BusinessInfoRequestDto businessInfoRequestDto, MultipartFile businessRegistration);
 }

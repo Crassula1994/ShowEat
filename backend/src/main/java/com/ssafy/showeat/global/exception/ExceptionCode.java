@@ -32,6 +32,10 @@ public enum ExceptionCode {
 	IMPOSSIBLE_CANCEL_FUNDING_EXCEPTION(485,"참여하지 않은 펀딩은 취소할 수 없습니다."),
 	NOT_EXIST_PAGE_FUNDING_EXCEPTION(486,"해당 페이지는 데이터가 없기에 조회할 수 없습니다."),
 	IMPOSSIBLE_DELETE_MENU_EXCEPTION(490,"메뉴를 삭제할 수 없습니다."),
+
+	INVALID_REGISTRATION_EXCEPTION(461, "입력 정보와 사업자 등록증 정보가 일치하지 않습니다."),
+	CLOVA_OCR_EXCEPTION(462, "CLOVA OCR에서 예측하지 못한 에러가 발생했습니다."),
+	BUSINESS_REGISTRATION_EXCEPTION(463, "국세청 사업자등록정보 진위확인에서 예측하지 못한 에러가 발생했습니다."),
 	SERVER_EXCEPTION(500, "서버에서 예측하지 못한 에러가 발생했습니다.");
 
 	private final int errorCode;

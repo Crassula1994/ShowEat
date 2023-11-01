@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
-import com.ssafy.showeat.domain.business.dto.response.*;
-import com.ssafy.showeat.global.exception.ImpossibleDeleteMenuException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.showeat.domain.business.dto.request.BusinessInfoRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
+import com.ssafy.showeat.domain.business.dto.response.BusinessMenuResponseDto;
+import com.ssafy.showeat.domain.business.dto.response.BusinessMonthlyStatResponseDto;
+import com.ssafy.showeat.domain.business.dto.response.BusinessTotalStatResponseDto;
+import com.ssafy.showeat.domain.business.dto.response.RegistrationResponseDto;
+import com.ssafy.showeat.domain.business.dto.response.SellerResponseDto;
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 import com.ssafy.showeat.domain.business.repository.BusinessMenuRepository;
@@ -19,7 +23,14 @@ import com.ssafy.showeat.domain.business.repository.BusinessRepository;
 import com.ssafy.showeat.domain.funding.repository.FundingRepository;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
+import com.ssafy.showeat.global.exception.ImpossibleDeleteMenuException;
+import com.ssafy.showeat.global.exception.InvalidRegistrationException;
+import com.ssafy.showeat.global.response.ocr.ClovaOcrResponseDto;
+import com.ssafy.showeat.global.response.ocr.FieldInfo;
+import com.ssafy.showeat.global.response.ocr.ImageInfo;
 import com.ssafy.showeat.global.s3.S3Service;
+import com.ssafy.showeat.global.util.BusinessRegistrationService;
+import com.ssafy.showeat.global.util.ClovaOcrService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +45,8 @@ public class BusinessServiceImpl implements BusinessService {
 	private final BusinessMenuRepository businessMenuRepository;
 	private final FundingRepository fundingRepository;
 	private final S3Service s3Service;
+	private final ClovaOcrService clovaOcrService;
+	private final BusinessRegistrationService businessRegistrationService;
 
 	@Override
 	@Transactional
@@ -138,7 +151,7 @@ public class BusinessServiceImpl implements BusinessService {
 		BusinessMenu businessMenu = businessMenuRepository.findById(menuId).get();
 
 		//본인이면 삭제
-		if(businessMenu.getBusiness().equals(business)){
+		if (businessMenu.getBusiness().equals(business)) {
 			businessMenuRepository.delete(businessMenu);
 			return;
 		}
@@ -157,4 +170,44 @@ public class BusinessServiceImpl implements BusinessService {
 		log.info("BusinessServiceImpl_getTotalStatList || 업체 누적 통계 조회");
 		return fundingRepository.findTotalStatById(businessId);
 	}
+
+	@Override
+	public boolean verifyBusiness(BusinessInfoRequestDto businessInfoRequestDto, MultipartFile businessRegistration) {
+		//사업자 등록증 ocr
+		ClovaOcrResponseDto clovaOcrResponseDto = clovaOcrService.readOcr(businessRegistration);
+
+		//업체 입력 정보와 ocr 일치 확인
+		checkOcrAndBusinessInfo(clovaOcrResponseDto, businessInfoRequestDto);
+
+		//국세청 사업자등록정보 진위확인
+		return businessRegistrationService.verifyBusinessRegistration(businessInfoRequestDto);
+	}
+
+	private void checkOcrAndBusinessInfo(ClovaOcrResponseDto clovaOcrResponseDto,
+		BusinessInfoRequestDto businessInfoRequestDto) {
+		List<ImageInfo> images = clovaOcrResponseDto.getImages();
+		for (ImageInfo imageInfo : images) {
+			List<FieldInfo> fields = imageInfo.getFields();
+			FieldInfo businessNumber = fields.get(0);
+			FieldInfo businessName = fields.get(1);
+			FieldInfo businessCeo = fields.get(2);
+			FieldInfo startDate = fields.get(3);
+
+			if(!businessNumber.getInferText().replaceAll("[^\\d]", "")
+				.equals(businessInfoRequestDto.getBusinessNumber())){
+				throw new InvalidRegistrationException("사업자등록번호가 일치하지 않습니다.");
+			}
+			if(!businessName.getInferText().equals(businessInfoRequestDto.getBusinessName())){
+				throw new InvalidRegistrationException("상호명이 일치하지 않습니다.");
+			}
+			if(!businessCeo.getInferText().equals(businessInfoRequestDto.getBusinessCeo())){
+				throw new InvalidRegistrationException("대표자명이 일치하지 않습니다.");
+			}
+			if(!startDate.getInferText().replaceAll("[^\\d]", "")
+				.equals(businessInfoRequestDto.getStartDate())){
+				throw new InvalidRegistrationException("사업 시작일이 일치하지 않습니다.");
+			}
+		}
+	}
+
 }
