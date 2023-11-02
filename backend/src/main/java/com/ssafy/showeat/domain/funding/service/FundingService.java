@@ -1,5 +1,7 @@
 package com.ssafy.showeat.domain.funding.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
@@ -20,4 +22,5 @@ public interface FundingService {
 	Page<FundingListResponseDto> getUserFundingList(User user,int page);
 	Page<FundingListResponseDto> getUserFundingListByBookmark(User user,int page);
 	Page<FundingListResponseDto> searchFunding(SearchFundingRequestDto searchFundingRequestDto,User user);
+	List<FundingListResponseDto> getFundingByType(String type,User user);
 }

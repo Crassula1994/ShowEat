@@ -22,6 +22,7 @@ import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
 import com.ssafy.showeat.domain.funding.service.FundingService;
 import com.ssafy.showeat.domain.user.service.UserService;
+import com.ssafy.showeat.global.response.ListResponseResult;
 import com.ssafy.showeat.global.response.PageResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 import com.ssafy.showeat.global.response.SingleResponseResult;
@@ -132,6 +133,17 @@ public class FundingController {
 	public ResponseResult searchFunding(SearchFundingRequestDto searchFundingRequestDto , HttpServletRequest request) {
 		log.info("FundingController_searchFunding");
 		return new PageResponseResult<>(fundingService.searchFunding(searchFundingRequestDto,userService.getUserFromRequest(request)));
+	}
+
+	@ApiOperation(value = "종류별 펀딩 조회", notes = "홈화면에 보여줄 종류별 펀딩 조회")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 조회 성공"),
+		@ApiResponse(code = 400, message = "펀딩 조회 실패"),
+	})
+	@GetMapping("/home")
+	public ResponseResult getFundingInHome(@RequestParam String type , HttpServletRequest request) {
+		log.info("FundingController_getFundingInHome");
+		return new ListResponseResult<>(fundingService.getFundingByType(type,userService.getUserFromRequest(request)));
 	}
 
 

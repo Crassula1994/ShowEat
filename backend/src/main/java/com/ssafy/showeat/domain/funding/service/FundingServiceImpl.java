@@ -192,6 +192,15 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
+	public List<FundingListResponseDto> getFundingByType(String type, User user) {
+		log.info("FundingServiceImpl_getFundingByType");
+		return fundingRepository.findByType(type)
+				.stream()
+				.map(funding -> funding.toFundingListResponseDto(bookmarkService.isBookmark(user,funding)))
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public Page<FundingListResponseDto> getFundingList(
 		Long businessId,
 		FundingIsActive state,

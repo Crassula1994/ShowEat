@@ -16,4 +16,5 @@ public interface FundingCustomRepository {
 	Page<Funding> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto,
 		Pageable pageable);
 	BusinessTotalStatResponseDto findTotalStatById(Long businessId);
+	List<Funding>  findByType(String type);
 }

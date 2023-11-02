@@ -155,6 +155,16 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
 	}
 
 	@Override
+	public List<Funding> findByType(String type) {
+		return jpaQueryFactory
+			.selectFrom(funding)
+			.where(funding.fundingIsActive.eq(FundingIsActive.ACTIVE))
+			.orderBy(fundingSort(type))
+			.limit(15)
+			.fetch();
+	}
+
+	@Override
 	public Page<Funding> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto , Pageable pageable) {
 		List<Funding> content = jpaQueryFactory
 			.selectFrom(funding)
