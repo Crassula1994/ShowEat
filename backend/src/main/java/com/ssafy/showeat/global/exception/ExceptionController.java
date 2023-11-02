@@ -171,6 +171,7 @@ public class ExceptionController {
         log.info("Error : {}", err.getClass());
         log.info("Error Message : {}", err.getMessage());
         return ResponseResult.exceptionResponse(ExceptionCode.CLOVA_OCR_EXCEPTION, err.getMessage());
+    }
 
     @ExceptionHandler(InvalidCouponTypeException.class)
     public ResponseResult InvalidCouponTypeException(InvalidCouponTypeException err) {

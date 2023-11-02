@@ -185,9 +185,10 @@ public class FundingServiceImpl implements FundingService {
 		log.info("FundingServiceImpl_searchFunding || 펀딩 검색");
 		validateSearch(searchFundingRequestDto);
 		Pageable pageable = PageRequest.of(searchFundingRequestDto.getPage(), 9);
+		Page<Funding> searchFundingList = fundingRepository.findBySearchFundingRequestDto(
+			searchFundingRequestDto, pageable);
 
-
-		return null;
+		return searchFundingList.map(funding -> funding.toFundingListResponseDto(bookmarkService.isBookmark(user,funding)));
 	}
 
 	@Override

@@ -131,7 +131,7 @@ public class FundingController {
 	@GetMapping
 	public ResponseResult searchFunding(SearchFundingRequestDto searchFundingRequestDto , HttpServletRequest request) {
 		log.info("FundingController_searchFunding");
-		return null;
+		return new PageResponseResult<>(fundingService.searchFunding(searchFundingRequestDto,userService.getUserFromRequest(request)));
 	}
 
 

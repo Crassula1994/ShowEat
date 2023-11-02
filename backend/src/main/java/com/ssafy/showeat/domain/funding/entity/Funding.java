@@ -44,6 +44,7 @@ public class Funding extends BaseTimeEntity {
 	@Column(nullable = false, length = 100)
 	private String fundingTitle;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 100)
 	private FundingCategory fundingCategory;
 
@@ -55,6 +56,9 @@ public class Funding extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private int fundingCurCount;
+
+	@Column(nullable = true)
+	private int participationRate;
 
 	@Column(nullable = false)
 	private int fundingTotalAmount;

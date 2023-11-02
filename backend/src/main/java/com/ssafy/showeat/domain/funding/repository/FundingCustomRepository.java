@@ -9,10 +9,11 @@ import com.ssafy.showeat.domain.business.dto.response.BusinessMonthlyStatRespons
 import com.ssafy.showeat.domain.business.dto.response.BusinessTotalStatResponseDto;
 import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
+import com.ssafy.showeat.domain.funding.entity.Funding;
 
 public interface FundingCustomRepository {
 	List<BusinessMonthlyStatResponseDto> findMonthlyStatListById(Long businessId);
-	Page<FundingListResponseDto> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto,
+	Page<Funding> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto,
 		Pageable pageable);
 	BusinessTotalStatResponseDto findTotalStatById(Long businessId);
 }
