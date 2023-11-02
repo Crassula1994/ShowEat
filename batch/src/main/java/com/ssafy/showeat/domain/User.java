@@ -31,6 +31,9 @@ public class User extends BaseTimeEntity {
 	@Column(length = 20)
 	private String userAddress;
 
+	@Column(length = 11)
+	private String userPhone;
+
 	private boolean userBusiness;
 
 	private int userMoney;

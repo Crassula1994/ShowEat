@@ -25,3 +25,7 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     org.springframework.web.socket: trace
 
+sms:
+  key: "NCSLC4FNKZ8P694C"
+  secretKey: "Z4QQIAQPPITWUUW1DEZK6GJ0CDGRKLUB"
+  sender: "01064731506"
