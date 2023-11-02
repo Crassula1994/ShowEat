@@ -9,6 +9,10 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    batch:
+      job:
+        enabled: false
+
 server:
   port: 8083
 
