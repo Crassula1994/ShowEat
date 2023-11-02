@@ -1,6 +1,7 @@
 /* Import */
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { UserType } from "@customTypes/storeProps";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -8,57 +9,29 @@ import { recoilPersist } from "recoil-persist";
 const sessionStorage = typeof window !== "undefined" ? window.sessionStorage : undefined;
 
 const { persistAtom } = recoilPersist({
-    key: "userState",
+    key: "userStorage",
     storage: sessionStorage,
 });
 
 // ----------------------------------------------------------------------------------------------------
 
 /* States */
-const userIdState = atom<number>({
-    key: "userIdState",
-    default: 0,
-    effects_UNSTABLE: [persistAtom],
-});
+const userDefaultValue: UserType = {
+    userId: 0,
+    userNickname: "본웅이는아가야지켜조야해",
+    userImgUrl: "/assets/images/service-logo.png",
+    userAddress: "",
+    userBusiness: false,
+    userMoney: 0,
+};
 
-const userNicknameState = atom<string>({
-    key: "userNicknameState",
-    default: "",
-    effects_UNSTABLE: [persistAtom],
-});
-
-const userImgUrlState = atom<string>({
-    key: "userImgURLState",
-    default: "",
-    effects_UNSTABLE: [persistAtom],
-});
-
-const userAddressState = atom<string>({
-    key: "userAdressState",
-    default: "",
-    effects_UNSTABLE: [persistAtom],
-});
-
-const userBusinessState = atom<boolean>({
-    key: "userBusinessState",
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-});
-
-const userMoneyState = atom<number>({
-    key: "userMoneyState",
-    default: 0,
+const userState = atom<UserType>({
+    key: "userState",
+    default: userDefaultValue,
     effects_UNSTABLE: [persistAtom],
 });
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export {
-    userIdState,
-    userNicknameState,
-    userImgUrlState,
-    userAddressState,
-    userBusinessState,
-    userMoneyState,
-};
+export { userState, userDefaultValue };

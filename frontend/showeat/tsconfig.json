@@ -22,8 +22,7 @@
             "@customTypes/*": ["src/customTypes/*"],
             "@hooks/*": ["src/hooks/*"],
             "@layouts/*": ["src/layouts/*"],
-            "@icons/*": ["src/assets/icons/*"],
-            "@images/*": ["src/assets/images/*"],
+            "@stores/*": ["src/stores/*"],
             "@styles/*": ["src/styles/*"],
             "@utils/*": ["src/utils/*"]
         }

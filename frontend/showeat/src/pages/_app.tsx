@@ -12,13 +12,13 @@ import theme from "@styles/theme";
 function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
 
-    return getLayout(
+    return (
         <RecoilRoot>
             <ThemeProvider theme={theme}>
                 <Global styles={globalStyles} />
-                <Component {...pageProps} />
+                {getLayout(<Component {...pageProps} />)}
             </ThemeProvider>
-        </RecoilRoot>,
+        </RecoilRoot>
     );
 }
 

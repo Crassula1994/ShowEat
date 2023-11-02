@@ -1,4 +1,5 @@
 /* Import */
+import Header from "@components/header";
 import { LayoutProps } from "@customTypes/layoutProps";
 
 // ----------------------------------------------------------------------------------------------------
@@ -9,6 +10,7 @@ function FundingLayout(props: LayoutProps) {
 
     return (
         <>
+            <Header />
             <div>여기는 펀딩 페이지입니다.</div>
             <article>{children}</article>
         </>

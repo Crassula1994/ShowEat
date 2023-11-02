@@ -31,7 +31,7 @@ const ButtonContainer = styled("div")<Partial<TextButtonProps>>`
     height: ${(props) => props.height};
 
     // Style Attribute
-    border-radius: ${(props) => (props.curve === "curved" ? "20px" : props.height)};
+    border-radius: ${(props) => (props.curve === "curved" ? "15px" : props.height)};
     path {
         fill: ${(props) => (props.colorType === "secondary" ? "white" : "black")};
     }
@@ -108,9 +108,9 @@ function TextButton(props: TextButtonProps) {
     // States and Variables
     const {
         width,
-        height = "50px",
+        height = "40px",
         onClick,
-        fontSize = 20,
+        fontSize = 16,
         text,
         colorType = "primary",
         fill = "positive",

@@ -47,6 +47,11 @@ const ImageWrapper = styled("div")`
     // Position Attribute
     position: relative;
 
+    // Layout Attribute
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     // Box Model Attribute
     max-width: 50px;
     max-height: 50px;

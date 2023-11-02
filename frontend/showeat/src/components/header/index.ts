@@ -1,7 +1,7 @@
 /* Import */
-import { userState, userDefaultValue } from "./atoms";
+import Header from "./Header";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { userState, userDefaultValue };
+export default Header;

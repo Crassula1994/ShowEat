@@ -1,4 +1,5 @@
 /* Import */
+import Header from "@components/header";
 import { LayoutProps } from "@customTypes/layoutProps";
 
 // ----------------------------------------------------------------------------------------------------
@@ -9,6 +10,7 @@ function SellerLayout(props: LayoutProps) {
 
     return (
         <>
+            <Header />
             <div>여기는 셀러 페이지입니다.</div>
             <article>{children}</article>
         </>

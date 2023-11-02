@@ -1,31 +1,28 @@
 /* Import */
-import Head from "next/head";
 import MainLayout from "@layouts/MainLayout";
 import { ReactNode } from "react";
+import styled from "@emotion/styled";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Home Component */
-function Home() {
-    return (
-        <>
-            <Head>
-                <title>쑈잇: ShowEat</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-            </Head>
-            <main>구건, 그는 신인가!</main>
-        </>
-    );
+/* Style */
+const SignInContainer = styled("div")``;
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Sign In Page */
+function SignIn() {
+    return <SignInContainer>로그인 페이지입니다.</SignInContainer>;
 }
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Layout */
-Home.getLayout = function getLayout(page: ReactNode) {
+SignIn.getLayout = function getLayout(page: ReactNode) {
     return <MainLayout>{page}</MainLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default Home;
+export default SignIn;
