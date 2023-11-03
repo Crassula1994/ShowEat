@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String DEFAULT_IMAGE = "기본이미지 주소";
 
-    private String bucketName = "showeat/user";
+    private String bucketName = "showeatbucket/user";
     private final AmazonS3Client amazonS3Client;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;

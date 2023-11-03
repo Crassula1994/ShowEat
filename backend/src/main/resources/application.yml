@@ -60,10 +60,10 @@ logging:
 cloud:
   aws:
     s3:
-      bucket: showeat
+      bucket: showeatbucket
     credentials:
-      access-key: AKIAYNGI6IUDYVBYW33G
-      secret-key: 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
+      access-key: AKIAUVNMCFRSKJUQDXFP
+      secret-key: 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
     region:
       static: ap-northeast-2
       auto: false

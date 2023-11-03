@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class S3Service {
 
-	private String bucketName = "showeat/user";
+	private String bucketName = "showeatbucket/user";
 	private final AmazonS3Client amazonS3Client;
 
 	public BusinessMenu uploadMenuImageToS3(BusinessMenu businessMenu , List<MultipartFile> menuImages) throws IOException {
