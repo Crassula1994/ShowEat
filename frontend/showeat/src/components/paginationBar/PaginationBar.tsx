@@ -41,7 +41,7 @@ to {
 
 const clickAnimation = keyframes`
 from {
-  transform: scale(1)
+  transform: scale(1.08)
 }
 to {
   transform: scale(1.16)
