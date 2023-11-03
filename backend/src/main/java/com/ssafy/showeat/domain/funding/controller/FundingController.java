@@ -46,6 +46,7 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 생성 성공"),
 		@ApiResponse(code = 400, message = "펀딩 생성 실패"),
+		@ApiResponse(code = 451, message = "업주가 아닌 사람은 펀딩을 생성할 수 없음")
 	})
 	@PostMapping
 	public ResponseResult createFunding(@Valid @RequestBody CreateFundingRequestDto createFundingRequestDto ,
@@ -59,6 +60,7 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 조회 성공"),
 		@ApiResponse(code = 400, message = "펀딩 조회 실패"),
+		@ApiResponse(code = 452, message = "해당 펀딩이 존재하지 않음"),
 	})
 	@GetMapping("/{fundingId}")
 	public ResponseResult getFunding(@PathVariable Long fundingId , HttpServletRequest request){
@@ -69,6 +71,11 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 참여 성공"),
 		@ApiResponse(code = 400, message = "펀딩 참여 실패"),
+		@ApiResponse(code = 452, message = "해당 펀딩이 존재하지 않음"),
+		@ApiResponse(code = 481, message = "해당 펀딩은 이미 종료되었음"),
+		@ApiResponse(code = 482, message = "해당 펀딩의 참여가능한 자리가 없음"),
+		@ApiResponse(code = 483, message = "해당 펀딩에 중복참여 불가능"),
+		@ApiResponse(code = 484, message = "해당 펀딩에 참여할 포인트 부족"),
 	})
 	@PostMapping("/user/{fundingId}")
 	public ResponseResult applyFunding(@PathVariable Long fundingId , HttpServletRequest request){
@@ -80,6 +87,8 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 참여 취소 성공"),
 		@ApiResponse(code = 400, message = "펀딩 참여 취소 실패"),
+		@ApiResponse(code = 452, message = "해당 펀딩이 존재하지 않음"),
+		@ApiResponse(code = 485, message = "참여하지 않은 펀딩에 대해 취소 불가능"),
 	})
 	@DeleteMapping("/user/{fundingId}")
 	public ResponseResult cancelFunding(@PathVariable Long fundingId , HttpServletRequest request){
@@ -106,6 +115,7 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "사용자 참여 펀딩 조회 성공"),
 		@ApiResponse(code = 400, message = "사용자 참여 펀딩 조회 실패"),
+		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
 	})
 	@GetMapping("/user")
 	public ResponseResult getUserFundings(HttpServletRequest request, @RequestParam int page) {
@@ -117,6 +127,7 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "사용자 좋아요 펀딩 조회 성공"),
 		@ApiResponse(code = 400, message = "사용자 좋아요 펀딩 조회 실패"),
+		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
 	})
 	@GetMapping("/user/bookmark")
 	public ResponseResult getUserFundingsByBookmark(HttpServletRequest request, @RequestParam int page) {
@@ -128,6 +139,11 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 검색 성공"),
 		@ApiResponse(code = 400, message = "펀딩 검색 실패"),
+		@ApiResponse(code = 410, message = "유효하지 않은 검색 조건"),
+		@ApiResponse(code = 411, message = "유효하지 않은 정렬 조건"),
+		@ApiResponse(code = 412, message = "유효하지 않은 카테고리 조건"),
+		@ApiResponse(code = 413, message = "검색어를 입력하지 않음"),
+		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
 	})
 	@GetMapping
 	public ResponseResult searchFunding(SearchFundingRequestDto searchFundingRequestDto , HttpServletRequest request) {
@@ -139,11 +155,28 @@ public class FundingController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "펀딩 조회 성공"),
 		@ApiResponse(code = 400, message = "펀딩 조회 실패"),
+		@ApiResponse(code = 411, message = "유효하지 않은 종류(type)"),
 	})
 	@GetMapping("/home")
 	public ResponseResult getFundingInHome(@RequestParam String type , HttpServletRequest request) {
 		log.info("FundingController_getFundingInHome");
 		return new ListResponseResult<>(fundingService.getFundingByType(type,userService.getUserFromRequest(request)));
+	}
+
+	@ApiOperation(value = "카테고리별 펀딩 조회", notes = "홈화면에 보여줄 종류별 펀딩 조회")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "펀딩 조회 성공"),
+		@ApiResponse(code = 400, message = "펀딩 조회 실패"),
+		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
+	})
+	@GetMapping("/home/category")
+	public ResponseResult getFundingInHomeByCategory(
+		@RequestParam String category,
+		@RequestParam String sortType,
+		@RequestParam int page,
+		HttpServletRequest request) {
+		log.info("FundingController_getFundingInHomeByCategory");
+		return new PageResponseResult<>(fundingService.getFundingByCategory(category,sortType,page,userService.getUserFromRequest(request)));
 	}
 
 

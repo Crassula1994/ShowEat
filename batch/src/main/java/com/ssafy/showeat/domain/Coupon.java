@@ -38,6 +38,10 @@ public class Coupon extends BaseTimeEntity {
 	private CouponStatus couponStatus;
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private CouponType couponType;
+
+	@Column(nullable = false)
 	private LocalDate couponExpirationDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -52,6 +56,7 @@ public class Coupon extends BaseTimeEntity {
 		return Coupon.builder()
 			.couponPrice(funding.getFundingDiscountPrice())
 			.couponStatus(CouponStatus.ACTIVE)
+			.couponType(CouponType.SINGLE)
 			.couponExpirationDate(LocalDate.now().plusDays(1))
 			.user(user)
 			.funding(funding)

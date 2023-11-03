@@ -61,6 +61,7 @@ public class CreateFundingRequestDto {
 
 		Funding funding = Funding.builder()
 			.fundingTitle(title)
+			.fundingBusinessName(business.getBusinessName())
 			.fundingMaxLimit(maxLimit)
 			.fundingMinLimit(minLimit)
 			.fundingCategory(FundingCategory.valueOf(category))

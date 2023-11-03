@@ -110,4 +110,15 @@ public class Coupon extends BaseTimeEntity {
 	public void addCouponQrCodeFileUrl(String s3QrCodeImageUrl) {
 		this.couponQrCodeImgUrl = s3QrCodeImageUrl;
 	}
+
+	public static Coupon createCouponByFundingSuccess(User user , Funding funding){
+		return Coupon.builder()
+			.couponPrice(funding.getFundingDiscountPrice())
+			.couponStatus(CouponStatus.ACTIVE)
+			.couponType(CouponType.SINGLE)
+			.couponExpirationDate(LocalDate.now().plusDays(1))
+			.user(user)
+			.funding(funding)
+			.build();
+	}
 }

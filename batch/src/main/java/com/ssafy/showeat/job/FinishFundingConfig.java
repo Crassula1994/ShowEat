@@ -123,21 +123,21 @@ public class FinishFundingConfig {
 		return items -> {
 			//log.info("Writer 실행");
 			List<Funding> fundingList = new ArrayList<>();
-			List<Coupon> coupontList = new ArrayList<>();
+			List<Coupon> couponList = new ArrayList<>();
 
 			for (Pair<Funding, List<Coupon>> item : items) {
 				fundingList.add(item.getFirst());
 
 				if (item.getSecond().isEmpty())
 					continue;
-				item.getSecond().stream().forEach(coupon -> coupontList.add(coupon));
+				item.getSecond().stream().forEach(coupon -> couponList.add(coupon));
 			}
 
 			if (!fundingList.isEmpty())
 				fundingRepository.saveAll(fundingList);
 
-			if (!coupontList.isEmpty())
-				couponRepository.saveAll(coupontList);
+			if (!couponList.isEmpty())
+				couponRepository.saveAll(couponList);
 		};
 	}
 

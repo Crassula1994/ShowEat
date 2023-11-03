@@ -26,6 +26,9 @@ public class FundingListResponseDto {
 	@ApiModelProperty(value = "펀딩 제목")
 	private String title;
 
+	@ApiModelProperty(value = "업체명")
+	private String businessName;
+
 	@ApiModelProperty(value = "펀딩 분류")
 	private String category;
 

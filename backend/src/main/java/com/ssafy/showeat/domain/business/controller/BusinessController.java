@@ -173,8 +173,8 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "메뉴 삭제 실패"),
 	})
 	@DeleteMapping("/menu/{menuId}")
-	public ResponseResult deleteMenu(@PathVariable Long menuId) {
-		businessService.deleteMenu(menuId);
+	public ResponseResult deleteMenu(@PathVariable Long menuId , HttpServletRequest request) {
+		businessService.deleteMenu(menuId , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 

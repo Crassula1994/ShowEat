@@ -165,6 +165,31 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
 	}
 
 	@Override
+	public Page<Funding> findByCategory(String category, String sortType, Pageable pageable) {
+		List<Funding> content = jpaQueryFactory
+			.selectFrom(funding)
+			.where(
+				funding.fundingIsActive.eq(FundingIsActive.ACTIVE),
+				funding.fundingCategory.eq(FundingCategory.valueOf(category))
+			)
+			.orderBy(fundingSort(sortType))
+			.limit(pageable.getPageSize())
+			.offset(pageable.getOffset())
+			.fetch();
+
+		Long count = jpaQueryFactory
+			.select(funding.count())
+			.from(funding)
+			.where(
+				funding.fundingIsActive.eq(FundingIsActive.ACTIVE),
+				funding.fundingCategory.eq(FundingCategory.valueOf(category))
+			)
+			.fetchOne();
+
+		return new PageImpl<>(content, pageable, count);
+	}
+
+	@Override
 	public Page<Funding> findBySearchFundingRequestDto(SearchFundingRequestDto searchFundingRequestDto , Pageable pageable) {
 		List<Funding> content = jpaQueryFactory
 			.selectFrom(funding)
@@ -192,6 +217,7 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
 
 		return new PageImpl<>(content, pageable, count);
 	}
+
 	private BooleanBuilder searchFundingByCondition(SearchFundingRequestDto searchFundingRequestDto){
 		BooleanBuilder mainBuilder = new BooleanBuilder();
 		BooleanBuilder searchTypeBuilder = new BooleanBuilder();

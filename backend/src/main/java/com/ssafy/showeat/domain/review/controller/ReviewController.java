@@ -34,6 +34,8 @@ public class ReviewController {
 	@ApiResponses(value = {
 		@ApiResponse(code = 200, message = "리뷰 작성 성공"),
 		@ApiResponse(code = 400, message = "리뷰 작성 실패"),
+		@ApiResponse(code = 440, message = "직접 사용한 쿠폰에 한하여 리뷰가 작성 가능"),
+		@ApiResponse(code = 460, message = "존재하지 않은 쿠폰"),
 	})
 	@PostMapping
 	public ResponseResult createReview(@Valid @RequestBody ReviewRequestDto reviewRequestDto , HttpServletRequest request){

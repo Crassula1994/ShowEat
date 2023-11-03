@@ -28,7 +28,7 @@ public interface BusinessService {
 
 	List<BusinessMonthlyStatResponseDto> getMonthlyStatistic(Long businessId);
 
-	void deleteMenu(Long menuId);
+	void deleteMenu(Long menuId , User user);
 
 	BusinessTotalStatResponseDto getTotalStatistic(Long businessId);
 

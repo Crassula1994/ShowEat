@@ -1,5 +1,6 @@
 package com.ssafy.showeat.domain.coupon.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,8 @@ import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.entity.CouponType;
 import com.ssafy.showeat.domain.coupon.repository.CouponRepository;
+import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.UserFunding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.global.exception.InvalidCouponPriceException;
@@ -73,5 +76,24 @@ public class CouponServiceImpl implements CouponService {
 		if (coupon.getCouponPrice() == 0) {
 			coupon.updateStatus(CouponStatus.USED);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void createCoupon(Funding funding) {
+		log.info("CouponService_createCoupon || 펀딩 성공에 따른 쿠폰 발급");
+		List<Coupon> couponList = new ArrayList<>();
+
+		for (UserFunding userFunding : funding.getUserFundings()) {
+			// 쿠폰 발급
+			User user = userFunding.getUser();
+			Coupon coupon = Coupon.createCouponByFundingSuccess(user, funding);
+			couponList.add(coupon);
+
+			// 쿠폰 알림 생성
+
+		}
+		if (!couponList.isEmpty())
+			couponRepository.saveAll(couponList);
 	}
 }

@@ -144,9 +144,9 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void deleteMenu(Long menuId) {
+	public void deleteMenu(Long menuId , User loginUser) {
 		log.info("BusinessServiceImpl_deleteMenu || 업체 메뉴 삭제");
-		User loginUser = userRepository.findById(1L).get();
+
 		Business business = businessRepository.findByUser(loginUser).get();
 		BusinessMenu businessMenu = businessMenuRepository.findById(menuId).get();
 

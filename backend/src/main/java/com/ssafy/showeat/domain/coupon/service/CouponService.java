@@ -7,6 +7,7 @@ import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
+import com.ssafy.showeat.domain.funding.entity.Funding;
 
 public interface CouponService {
 	List<CouponListResponseDto> getCouponListByUserIdAndStatus(Long userId, CouponStatus status);
@@ -16,4 +17,6 @@ public interface CouponService {
 	void updateCouponStatus(UpdateCouponStatusRequestDto updateCouponStatusRequestDto);
 
 	void updateCouponPrice(UpdateCouponPriceRequestDto updateCouponPriceRequestDto);
+
+	void createCoupon(Funding funding);
 }
