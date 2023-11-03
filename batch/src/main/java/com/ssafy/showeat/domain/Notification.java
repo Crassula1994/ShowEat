@@ -41,4 +41,12 @@ public class Notification extends BaseTimeEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	public static Notification create(User user, String message, NotificationType notificationType) {
+		return Notification.builder()
+			.notificationIsChecked(false)
+			.notificationType(notificationType)
+			.notificationMessage(message)
+			.user(user)
+			.build();
+	}
 }
