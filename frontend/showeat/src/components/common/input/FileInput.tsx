@@ -352,7 +352,7 @@ function FileInput({
                 >
                     {uploadedFiles.length === 0 && (
                         <AddIconWrapper
-                            src="/assets/icons/round_add_icon.svg"
+                            src="/assets/icons/round-add-icon.svg"
                             alt="add-icon"
                             width={40}
                             height={40}

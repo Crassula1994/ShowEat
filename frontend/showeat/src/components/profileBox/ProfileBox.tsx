@@ -68,7 +68,7 @@ function ProfileBox(props: ProfileBoxProps) {
     return (
         <ProfileContainer>
             <ProfileImageWrapper>
-                <ProfileImage src={source} width={40} height={40} alt="user-profile" />
+                <ProfileImage src={source} width={40} height={40} alt="user-profile" priority />
             </ProfileImageWrapper>
             <NicknameWrapper>{nickname}</NicknameWrapper>
         </ProfileContainer>

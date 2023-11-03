@@ -28,6 +28,7 @@ const theme: Theme = {
         normalGreen: "#008635",
         darkGreen: "#145826",
         cow: "#E28D62",
+        kakao: "#FEE500",
     },
 };
 

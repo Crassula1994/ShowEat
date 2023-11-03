@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
+    images: {
+        domains: ["k.kakaocdn.net", "localhost"],
+    },
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,

@@ -1,8 +1,8 @@
 /* Import */
 import { ButtonProps } from "@customTypes/commonProps";
-import styled from "@emotion/styled";
-import React from "react";
 import { parseNumber } from "@utils/format";
+import { ReactElement } from "react";
+import styled from "@emotion/styled";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ interface TextButtonProps extends ButtonProps {
     colorType?: "primary" | "secondary" | "gray";
     fill?: "positive" | "negative";
     curve?: "curved" | "round";
-    icon?: React.ReactElement;
+    icon?: ReactElement;
 }
 
 // ----------------------------------------------------------------------------------------------------

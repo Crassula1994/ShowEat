@@ -1,20 +1,17 @@
 /* Import */
-import Footer from "@components/footer";
 import Header from "@components/header";
 import { LayoutProps } from "@customTypes/layoutProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Main Page Layout */
-function MainLayout(props: LayoutProps) {
+/* Single Page Layout */
+function SingleLayout(props: LayoutProps) {
     const { children } = props;
 
     return (
         <>
             <Header />
-            <div>여기는 메인 페이지입니다.</div>
             <article>{children}</article>
-            <Footer />
         </>
     );
 }
@@ -22,4 +19,4 @@ function MainLayout(props: LayoutProps) {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default MainLayout;
+export default SingleLayout;
