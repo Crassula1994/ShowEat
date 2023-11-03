@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String DEFAULT_IMAGE = "기본이미지 주소";
 
-    private String bucketName = "showeatbucket/user";
+    private String bucketName = "showeatbucket";
     private final AmazonS3Client amazonS3Client;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
         //사용자 정보 조회
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(NotExistUserException::new);
-        return new UserResponseDto(user.getUserId(),user.getUserNickname(),
-                user.getUserImgUrl(),user.getUserAddress(),user.isUserBusiness(),user.getUserMoney(),user.isVisited());
+        return new UserResponseDto(user.getUserId(), user.getUserNickname(),
+                user.getUserImgUrl(), user.getUserAddress(), user.isUserBusiness(), user.getUserMoney(), user.isVisited());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<S3FileDto> updateuserImgUrl(List<MultipartFile> multipartFiles,Long userId) {
+    public List<S3FileDto> updateuserImgUrl(List<MultipartFile> multipartFiles, Long userId) {
         log.info("UserServiceImpl_updateImage -> 사용자 프로필 사진 수정 시도");
         List<S3FileDto> s3files = new ArrayList<>();
         String originalFileName = multipartFiles.get(0).getOriginalFilename();
@@ -83,10 +83,10 @@ public class UserServiceImpl implements UserService {
 
             // S3에 폴더 및 파일 업로드
             amazonS3Client.putObject(
-                    new PutObjectRequest(bucketName, keyName, inputStream, objectMetadata));
+                    new PutObjectRequest(bucketName + "/user", keyName, inputStream, objectMetadata));
 
             // S3에 업로드한 폴더 및 파일 URL
-            uploadFileUrl = amazonS3Client.getUrl(bucketName, keyName).toString();
+            uploadFileUrl = amazonS3Client.getUrl(bucketName + "/user", keyName).toString();
             User user = userRepository.findByUserId(userId).orElseThrow(NotExistUserException::new);
             user.updateuserImgUrl(uploadFileUrl);
         } catch (IOException e) {
@@ -143,6 +143,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(updateInfoRequestDto.getUserId()).orElseThrow(NotExistUserException::new);
         user.updateuserNickname(updateInfoRequestDto.getUserNickname());
         user.updateAddress(updateInfoRequestDto.getUserAddress());
+        user.setUserPhone(updateInfoRequestDto.getUserPhone());
         user.setVisited(true);
     }
 }

@@ -23,4 +23,6 @@ public class UpdateInfoRequestDto {
     @NotBlank
     private String userAddress;
 
+    @NotBlank
+    private String userPhone;
 }

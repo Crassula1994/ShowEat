@@ -20,72 +20,81 @@ import lombok.NoArgsConstructor;
 @Entity
 public class User extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-	@Column(nullable = false, length = 20)
-	private String userNickname;
+    @Column(nullable = false, length = 20)
+    private String userNickname;
 
-	@Column(nullable = false, length = 100)
-	private String userImgUrl;
+    @Column(nullable = false, length = 100)
+    private String userImgUrl;
 
-	@Column(length = 20)
-	private String userAddress;
+    @Column(length = 20)
+    private String userAddress;
 
-	private boolean userBusiness;
+    private boolean userBusiness;
 
-	private int userMoney;
+    private int userMoney;
 
-	private boolean visited;
+    @Column(length = 11)
+    private String userPhone;
 
-	@OneToOne
-	@JoinColumn(name = "credential_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private Credential credential;
+    private boolean visited;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Notification> notifications;
+    @OneToOne
+    @JoinColumn(name = "credential_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Credential credential;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Payment> payments;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Notification> notifications;
 
-	//닉네임 수정
-	public void updateuserNickname(String userNickname) {
-		this.userNickname = userNickname;
-	}
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Payment> payments;
 
-	//프로필사진 수정
-	public void updateuserImgUrl(String userImgUrl) {
-		this.userImgUrl = userImgUrl;
-	}
+    //닉네임 수정
+    public void updateuserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
 
-	//관심지역 수정
-	public void updateAddress(String userAddress) {
-		this.userAddress = userAddress;
-	}
-	//방문여부
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
-	
-	public boolean haveMoney(int fundingPrice){
-		if(this.userMoney < fundingPrice) return false;
-		return true;
-	}
+    //프로필사진 수정
+    public void updateuserImgUrl(String userImgUrl) {
+        this.userImgUrl = userImgUrl;
+    }
 
-	public void spendMoney(int fundingPrice) {
-		this.userMoney -= fundingPrice;
-	}
+    //관심지역 수정
+    public void updateAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
 
-	public void refundMoney(int fundingPrice) {
-		this.userMoney += fundingPrice;
-	}
+    //방문여부
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
-	public void addPayment(Payment payment) {
-		payments.add(payment);
-	}
+    //전화번호 설정
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
-	public void updateUserMoney(Long amount) {
-		this.userMoney += amount;
-	}
+    public boolean haveMoney(int fundingPrice) {
+        if (this.userMoney < fundingPrice) return false;
+        return true;
+    }
+
+    public void spendMoney(int fundingPrice) {
+        this.userMoney -= fundingPrice;
+    }
+
+    public void refundMoney(int fundingPrice) {
+        this.userMoney += fundingPrice;
+    }
+
+    public void addPayment(Payment payment) {
+        payments.add(payment);
+    }
+
+    public void updateUserMoney(Long amount) {
+        this.userMoney += amount;
+    }
 }
