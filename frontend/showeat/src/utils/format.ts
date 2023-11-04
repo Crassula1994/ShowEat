@@ -45,7 +45,36 @@ function parseNumber(text: string): number {
     return parseInt(numStrArray[0], 10);
 }
 
+/* Function for Calculate Remaining Time */
+function calcRemainTime(targetDate: string) {
+    const currentDate = new Date();
+    const parsedTargetDate = new Date(targetDate);
+    const timeRemaining = parsedTargetDate.getTime() - currentDate.getTime();
+
+    if (timeRemaining < 0) {
+        return "이미 마감되었습니다";
+    }
+    if (timeRemaining === 0) {
+        return "오늘이 마감!";
+    }
+
+    const secondsRemaining = Math.floor(timeRemaining / 1000);
+    if (secondsRemaining >= 86400) {
+        const daysRemaining = Math.floor(secondsRemaining / 86400);
+        return `${daysRemaining}일`;
+    }
+    if (secondsRemaining >= 3600) {
+        const hoursRemaining = Math.floor(secondsRemaining / 3600);
+        return `${hoursRemaining}시간`;
+    }
+    if (secondsRemaining >= 60) {
+        const minutesRemaining = Math.floor(secondsRemaining / 60);
+        return `${minutesRemaining}분`;
+    }
+    return `${secondsRemaining}초`;
+}
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { breakTextLine, changeFontWeight, parseNumber };
+export { breakTextLine, changeFontWeight, parseNumber, calcRemainTime };
