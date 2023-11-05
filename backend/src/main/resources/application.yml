@@ -19,7 +19,7 @@ spring:
           kakao:
             client-id: e7241531adb08e465feca7b14ecea6d9
             client-secret: dbBLjfYWuIXyROt2TBaeuOTS8hb7yjQj
-            redirect-uri: http://localhost:8081
+            redirect-uri: http://localhost:3000/sign-in/loading
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao

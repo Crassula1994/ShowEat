@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import useUserState from "@hooks/useUserState";
 import { useRouter } from "next/router";
+import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -76,4 +77,4 @@ function SignInLoading() {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default SignInLoading;
+export default withAuth({ WrappedComponent: SignInLoading, guardType: "GUEST_ONLY" });

@@ -4,6 +4,7 @@ import { LoginButton } from "@components/common/button";
 import { ReactNode } from "react";
 import SingleLayout from "@layouts/SingleLayout";
 import styled from "@emotion/styled";
+import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -105,12 +106,17 @@ function SignIn() {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Middleware */
+const SignInWithAuth = withAuth({ WrappedComponent: SignIn, guardType: "GUEST_ONLY" });
+
+// ----------------------------------------------------------------------------------------------------
+
 /* Layout */
-SignIn.getLayout = function getLayout(page: ReactNode) {
+SignInWithAuth.getLayout = function getLayout(page: ReactNode) {
     return <SingleLayout>{page}</SingleLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default SignIn;
+export default SignInWithAuth;
