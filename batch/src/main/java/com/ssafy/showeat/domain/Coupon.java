@@ -1,7 +1,6 @@
 package com.ssafy.showeat.domain;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +43,9 @@ public class Coupon extends BaseTimeEntity {
 	@Column(nullable = false)
 	private LocalDate couponExpirationDate;
 
+	@Column
+	private String couponQrCodeImgUrl;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -52,14 +54,20 @@ public class Coupon extends BaseTimeEntity {
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
 
-	public static Coupon createCouponByFundingSuccess(User user , Funding funding){
+	public static Coupon createCouponByFundingSuccess(User user, Funding funding) {
 		return Coupon.builder()
 			.couponPrice(funding.getFundingDiscountPrice())
 			.couponStatus(CouponStatus.ACTIVE)
 			.couponType(CouponType.SINGLE)
 			.couponExpirationDate(LocalDate.now().plusDays(1))
+			.couponType(CouponType.SINGLE)
+			.couponQrCodeImgUrl("")
 			.user(user)
 			.funding(funding)
 			.build();
+	}
+
+	public void updateStatus(CouponStatus couponStatus) {
+		this.couponStatus = couponStatus;
 	}
 }

@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -25,6 +26,7 @@ import com.ssafy.showeat.domain.NotificationType;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 public class MessageService {
 
 	public static final String SHOWEAT = "[쑈잇] ";

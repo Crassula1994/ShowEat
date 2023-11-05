@@ -37,6 +37,9 @@ public class Notification extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private NotificationType notificationType;
 
+	@Column(nullable = false)
+	private boolean notificationSent;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
@@ -45,12 +48,18 @@ public class Notification extends BaseTimeEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	public static Notification create(User user, String message, NotificationType notificationType) {
+	//user, 문자메시지, NotificationType.FUNDING_FAIL
+	public static Notification create(User user, Funding funding, String message, NotificationType notificationType) {
 		return Notification.builder()
 			.notificationIsChecked(false)
 			.notificationType(notificationType)
 			.notificationMessage(message)
+			.funding(funding)
 			.user(user)
 			.build();
+	}
+
+	public void updateSent() {
+		this.notificationSent = true;
 	}
 }

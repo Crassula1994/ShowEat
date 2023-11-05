@@ -51,7 +51,7 @@ public class Coupon extends BaseTimeEntity {
 	@Column(nullable = false)
 	private LocalDate couponExpirationDate;
 
-	@Column()
+	@Column
 	private String couponQrCodeImgUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)

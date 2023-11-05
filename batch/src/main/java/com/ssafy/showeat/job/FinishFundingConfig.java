@@ -92,7 +92,9 @@ public class FinishFundingConfig {
 					// 펀딩 실패 알림
 					User user = userFunding.getUser();
 					notificationList.add(
-						Notification.create(user, funding.getFundingTitle(), NotificationType.FUNDING_FAIL));
+						Notification.create(user, funding,
+							funding.getFundingTitle() + NotificationType.FUNDING_FAIL.getMessage(),
+							NotificationType.FUNDING_FAIL));
 				}
 			} else {
 				// 성공
@@ -109,7 +111,7 @@ public class FinishFundingConfig {
 					String message = funding.getFundingTitle() + NotificationType.COUPON_CREATE.getMessage()
 						+ coupon.getCouponExpirationDate();
 					notificationList.add(
-						Notification.create(user, message, NotificationType.COUPON_CREATE));
+						Notification.create(user, funding, message, NotificationType.COUPON_CREATE));
 				}
 			}
 			notificationRepository.saveAll(notificationList);

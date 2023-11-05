@@ -36,11 +36,14 @@ public class Notification extends BaseTimeEntity {
 	private boolean notificationIsChecked;
 
 	@Column(nullable = false)
-	private String notificationMessage;
+	private String notificationMessage; //문자메시지임
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private NotificationType notificationType;
+
+	@Column(nullable = false)
+	private boolean notificationSent;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_id", nullable = false)
@@ -54,7 +57,7 @@ public class Notification extends BaseTimeEntity {
 		return NotificationListResponseDto.builder()
 			.notificationId(notificationId)
 			.fundingId(funding.getFundingId())
-			.notificationMessage(funding.getFundingTitle() + notificationType.getSubject())
+			.notificationMessage(funding.getFundingTitle() + notificationType.getSubject()) //웹 알림용 메시지
 			.notificationType(notificationType)
 			.build();
 	}

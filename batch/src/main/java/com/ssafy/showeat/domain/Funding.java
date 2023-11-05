@@ -1,8 +1,8 @@
 package com.ssafy.showeat.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,8 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
@@ -78,7 +76,10 @@ public class Funding extends BaseTimeEntity {
 	private FundingIsSuccess fundingIsSuccess;
 
 	@OneToMany(mappedBy = "funding", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<UserFunding> userFundings;
+	private List<UserFunding> userFundings = new ArrayList<>();
+
+	@OneToMany(mappedBy = "funding", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Bookmark> bookmarks = new ArrayList<>();
 
 	public void changeFundingStatusByFail(){
 		this.fundingIsSuccess = FundingIsSuccess.FAIL;
