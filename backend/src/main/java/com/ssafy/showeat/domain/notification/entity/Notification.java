@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.notification.dto.response.NotificationListResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
@@ -52,6 +53,10 @@ public class Notification extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "coupon_id")
+	private Coupon coupon;
 
 	public NotificationListResponseDto toNotificationListResponseDto() {
 		return NotificationListResponseDto.builder()

@@ -1,6 +1,7 @@
 package com.ssafy.showeat.job;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class SendNotificationBeforeExpireCouponJobConfig {
 	private final int CHUNK_SIZE = 10;
+	private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
@@ -82,7 +84,7 @@ public class SendNotificationBeforeExpireCouponJobConfig {
 		log.info("addExpireCouponNotificationItemProcessor 실행");
 		return coupon -> {
 			String message = coupon.getFunding().getFundingTitle() + NotificationType.COUPON_DEADLINE.getMessage()
-				+ coupon.getCouponExpirationDate();
+				+ dateFormat.format(coupon.getCouponExpirationDate());
 			return Notification.create(coupon.getUser(), coupon.getFunding(), message,
 				NotificationType.COUPON_DEADLINE);
 		};

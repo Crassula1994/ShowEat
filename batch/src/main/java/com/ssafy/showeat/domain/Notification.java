@@ -48,12 +48,33 @@ public class Notification extends BaseTimeEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "coupon_id")
+	private Coupon coupon;
+
 	//user, 문자메시지, NotificationType.FUNDING_FAIL
 	public static Notification create(User user, Funding funding, String message, NotificationType notificationType) {
 		return Notification.builder()
 			.notificationIsChecked(false)
 			.notificationType(notificationType)
 			.notificationMessage(message)
+			.funding(funding)
+			.user(user)
+			.build();
+	}
+
+	public static Notification createMms(
+		User user,
+		Funding funding,
+		String message,
+		NotificationType notificationType,
+		Coupon coupon
+	) {
+		return Notification.builder()
+			.notificationIsChecked(false)
+			.notificationType(notificationType)
+			.notificationMessage(message)
+			.coupon(coupon)
 			.funding(funding)
 			.user(user)
 			.build();

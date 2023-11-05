@@ -1,12 +1,17 @@
 package com.ssafy.showeat.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum CouponStatus {
-	// 사용되지 않음
-	ACTIVE,
 
-	// 사용됨
-	USED,
+	NONE("미발급"),
+	CREATE("QR 생성"),
+	ACTIVE("발송 완료, 미사용"),
+	USED("사용 완료"),
+	EXPIRED("사용 불가");
 
-	// 기한만료
-	EXPIRED,
+	private final String description;
 }

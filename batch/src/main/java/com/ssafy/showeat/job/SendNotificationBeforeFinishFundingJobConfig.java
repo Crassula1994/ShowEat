@@ -1,6 +1,7 @@
 package com.ssafy.showeat.job;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class SendNotificationBeforeFinishFundingJobConfig {
 	private final int CHUNK_SIZE = 10;
+	private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
@@ -90,7 +92,7 @@ public class SendNotificationBeforeFinishFundingJobConfig {
 		log.info("addNotificationItemProcessor 실행");
 		return funding -> {
 			String message = funding.getFundingTitle() + NotificationType.FUNDING_DEADLINE.getMessage()
-				+ funding.getFundingEndDate();
+				+ dateFormat.format(funding.getFundingEndDate());
 
 			List<Notification> notifications = new ArrayList<>(funding.getUserFundings().size());
 			for (UserFunding userFunding : funding.getUserFundings()) {

@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
-import com.ssafy.showeat.domain.NotificationType;
+import com.ssafy.showeat.domain.Notification;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,19 +45,15 @@ public class MessageService {
 	/**
 	 * 단일 메시지 발송
 	 */
-	public SingleMessageSentResponse sendMessage(
-		String fundingTitle,
-		LocalDate deadLine,
-		String userPhone,
-		NotificationType notificationType
-	) {
+	public SingleMessageSentResponse sendMessage(Notification notification) {
 		Message message = new Message();
 		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
 		message.setFrom(sender);
-		message.setTo(userPhone);
-		message.setSubject("[쑈잇] " + fundingTitle + notificationType.getSubject());
-		String deadLineDate = dateFormat.format(deadLine);
-		message.setText(fundingTitle + notificationType.getMessage() + deadLineDate);
+		message.setTo(notification.getUser().getUserPhone());
+		message.setSubject(SHOWEAT
+			+ notification.getFunding().getFundingTitle()
+			+ notification.getNotificationType().getSubject());
+		message.setText(notification.getNotificationMessage());
 
 		return this.messageService.sendOne(new SingleMessageSendingRequest(message));
 	}
@@ -68,41 +62,36 @@ public class MessageService {
 	 * MMS 발송
 	 * 단일 발송, 여러 건 발송 상관없이 이용 가능
 	 */
-	public SingleMessageSentResponse sendMmsQR(
-		String fundingTitle,
-		LocalDate deadLine,
-		String userPhone,
-		String qrUrl,
-		NotificationType notificationType
-	) throws IOException {
-		// UUID 생성
-		UUID uuid = UUID.randomUUID();
+	public void sendMmsQR(Notification notification) throws IOException {
+		log.info("notification {} , coupon {}", notification.getNotificationId(),
+			notification.getCoupon().getCouponId());
 
-		// UUID를 문자열로 변환
-		String uuidString = uuid.toString();
 		// 로컬에 저장할 파일 경로
-		String localFilePath = uuidString + ".png";
+		String localFilePath = notification.getNotificationId() + ".jpg";
 
-		File imageFile = convertUrlToFile(qrUrl, localFilePath);
+		File imageFile = convertUrlToFile(notification.getCoupon().getCouponQrCodeImgUrl(), localFilePath);
 
-		// 이제 'imageFile'은 원격 URL에서 다운로드한 파일을 나타내는 File 객체입니다.
-		String imageId = this.messageService.uploadFile(imageFile, StorageType.MMS, null);
-		System.gc();
+		try {
+			// 이제 'imageFile'은 원격 URL에서 다운로드한 파일을 나타내는 File 객체입니다.
+			String imageId = this.messageService.uploadFile(imageFile, StorageType.MMS, null);
+			Message message = new Message();
+			// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
+			message.setFrom(sender);
+			message.setTo(notification.getUser().getUserPhone());
+			message.setSubject(SHOWEAT
+				+ notification.getFunding().getFundingTitle()
+				+ notification.getNotificationType().getSubject());
+			message.setText(notification.getNotificationMessage());
+			message.setType(MessageType.MMS);
+			message.setImageId(imageId);
 
-		Message message = new Message();
-		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-		message.setFrom(sender);
-		message.setTo(userPhone);
-		message.setType(MessageType.MMS);
-		message.setSubject(SHOWEAT + fundingTitle + notificationType.getSubject());
-		String deadLineDate = dateFormat.format(deadLine);
-		message.setText(fundingTitle + notificationType.getMessage() + deadLineDate);
-		message.setImageId(imageId);
-
-		// 여러 건 메시지 발송일 경우 send many 예제와 동일하게 구성하여 발송할 수 있습니다.
-		SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-		deleteFile(localFilePath);
-		return response;
+			SingleMessageSentResponse singleMessageSentResponse = this.messageService.sendOne(
+				new SingleMessageSendingRequest(message));
+			log.info("singleMessageSentResponse = " + singleMessageSentResponse);
+		} finally {
+			System.gc();
+			deleteFile(localFilePath);
+		}
 	}
 
 	public File convertUrlToFile(String imageUrl, String localFilePath) throws IOException {

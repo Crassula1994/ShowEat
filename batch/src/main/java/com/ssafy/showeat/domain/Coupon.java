@@ -57,7 +57,7 @@ public class Coupon extends BaseTimeEntity {
 	public static Coupon createCouponByFundingSuccess(User user, Funding funding) {
 		return Coupon.builder()
 			.couponPrice(funding.getFundingDiscountPrice())
-			.couponStatus(CouponStatus.ACTIVE)
+			.couponStatus(CouponStatus.NONE)
 			.couponType(CouponType.SINGLE)
 			.couponExpirationDate(LocalDate.now().plusDays(1))
 			.couponType(CouponType.SINGLE)
@@ -70,4 +70,10 @@ public class Coupon extends BaseTimeEntity {
 	public void updateStatus(CouponStatus couponStatus) {
 		this.couponStatus = couponStatus;
 	}
+
+	public void addCouponQrCodeFileUrl(String s3QrCodeImageUrl) {
+		this.couponStatus = CouponStatus.CREATE;
+		this.couponQrCodeImgUrl = s3QrCodeImageUrl;
+	}
+
 }
