@@ -30,8 +30,7 @@ interface CardProps {
         fundingIsBookmark: boolean;
     };
     onFundingClick: (fundingId: number) => void;
-    onBookmarkAdd: (fundingId: number) => void;
-    onBookmarkCancle: (fundingId: number) => void;
+    onBookmark: (fundingId: number) => void;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -302,7 +301,7 @@ const RemainingTimeWrapper = styled("span")`
 // ----------------------------------------------------------------------------------------------------
 
 /* Card Component */
-function Card({ fundingData, onFundingClick, onBookmarkAdd, onBookmarkCancle }: CardProps) {
+function Card({ fundingData, onFundingClick, onBookmark }: CardProps) {
     const maxPeopleText = changeFontWeight(
         `최대 참여 인원까지 ...${fundingData.maxLimit - fundingData.curCount}명... 남았습니다!`,
     );
@@ -322,6 +321,11 @@ function Card({ fundingData, onFundingClick, onBookmarkAdd, onBookmarkCancle }: 
     const formattedSalePrice = numberWithCommas(fundingData.discountPrice);
 
     const remainTime = calcRemainTime(fundingData.endDate);
+
+    const handleBookmark = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        onBookmark(fundingData.fundingId);
+    };
 
     return (
         <CardContainer onClick={() => onFundingClick(fundingData.fundingId)}>
@@ -343,7 +347,7 @@ function Card({ fundingData, onFundingClick, onBookmarkAdd, onBookmarkCancle }: 
                                 alt="heart-full-icon"
                                 width={30}
                                 height={30}
-                                onClick={() => onBookmarkCancle(fundingData.fundingId)}
+                                onClick={(e) => handleBookmark(e)}
                             />
                         ) : (
                             <BlankHeartWrapper
@@ -351,7 +355,7 @@ function Card({ fundingData, onFundingClick, onBookmarkAdd, onBookmarkCancle }: 
                                 alt="heart-blank-icon"
                                 width={30}
                                 height={30}
-                                onClick={() => onBookmarkAdd(fundingData.fundingId)}
+                                onClick={(e) => handleBookmark(e)}
                             />
                         )}
                     </HeartContainer>

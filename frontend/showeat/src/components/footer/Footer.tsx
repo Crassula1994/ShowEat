@@ -17,7 +17,7 @@ const FooterContainer = styled("div")<{ isPageOverflow: boolean }>`
     width: 100%;
     height: 150px;
 
-    margin-top: 1em;
+    margin-top: 5em;
 
     border-top: 1px solid ${(props) => props.theme.colors.gray2};
     background-color: white;
@@ -145,20 +145,16 @@ function Footer() {
     const stackFlowURL =
         "https://crassula.notion.site/crassula/ShowEat-0585e8062752423894341133346581d6";
 
-    // 페이지 height가 window를 넘는지를 나타내는 상태 변수
     const [isPageOverflow, setIsPageOverflow] = useState(false);
 
     useEffect(() => {
-        // 페이지 height가 window를 넘는지 확인하는 함수
         const checkIfPageIsOverflowing = () => {
-            const { scrollY } = window;
-            setIsPageOverflow(scrollY + window.innerHeight < document.documentElement.scrollHeight);
+            setIsPageOverflow(document.documentElement.scrollHeight > window.innerHeight - 150);
         };
+        checkIfPageIsOverflowing();
 
-        // 스크롤 이벤트 리스너 등록
         window.addEventListener("scroll", checkIfPageIsOverflowing);
 
-        // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
         return () => {
             window.removeEventListener("scroll", checkIfPageIsOverflowing);
         };

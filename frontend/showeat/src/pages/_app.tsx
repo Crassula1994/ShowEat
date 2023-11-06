@@ -5,6 +5,8 @@ import globalStyles from "@styles/global";
 import { ReactNode } from "react";
 import { RecoilRoot } from "recoil";
 import theme from "@styles/theme";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // ----------------------------------------------------------------------------------------------------
 

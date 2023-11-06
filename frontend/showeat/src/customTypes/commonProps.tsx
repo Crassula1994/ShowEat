@@ -42,8 +42,10 @@ export interface TextInputProps {
     placeholder?: string;
     defaultValue?: string;
     labelName?: string;
-    svgSRC?: string;
-    onClick?: (event: MouseEvent<HTMLElement>) => void;
+    iconUrl?: string;
+    error?: boolean;
+    labelFontSize?: string;
+    onClick?: () => void;
 }
 
 export interface RadioButtonProps {

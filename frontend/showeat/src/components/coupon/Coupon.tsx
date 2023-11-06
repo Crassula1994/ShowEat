@@ -7,16 +7,18 @@ import { keyframes } from "@emotion/react";
 
 /* Type */
 interface CouponProps {
-    fundingImgUrl: string;
-    businessImgUrl: string;
-    couponId: number;
-    couponStatus: "ACTIVE" | "USED" | "EXPIRED";
-    businessName: string;
-    remainingDays: number;
-    couponType: "SINGLE" | "GIFTCARD";
+    couponData: {
+        couponId: number;
+        couponStatus: "ACTIVE" | "USED" | "EXPIRED";
+        couponType: "SINGLE" | "GIFTCARD";
+        couponOriginalPrice: number;
+        businessName: string;
+        businessImgUrl: string;
+        fundingMenu?: string;
+        fundingImgUrl: string;
+        remainingDays: number;
+    };
     onClick: (couponId: number) => void;
-    fundingMenu?: string;
-    couponOriginalPrice: number;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -232,36 +234,28 @@ const SellerImageWrapper = styled(Image)`
 // ----------------------------------------------------------------------------------------------------
 
 /* Coupon Component */
-function Coupon({
-    fundingImgUrl,
-    businessImgUrl,
-    couponId,
-    couponStatus,
-    businessName,
-    fundingMenu,
-    remainingDays,
-    couponType = "SINGLE",
-    couponOriginalPrice,
-    onClick,
-}: CouponProps) {
+function Coupon({ couponData, onClick }: CouponProps) {
     return (
-        <CouponContainer onClick={() => onClick(couponId)} couponStatus={couponStatus}>
+        <CouponContainer
+            onClick={() => onClick(couponData.couponId)}
+            couponStatus={couponData.couponStatus}
+        >
             <CouponUpperContainer>
                 <CouponImageWrapper
                     className="coupon-image"
-                    src={fundingImgUrl}
+                    src={couponData.fundingImgUrl}
                     alt="coupon-image"
                     fill
-                    couponStatus={couponStatus}
+                    couponStatus={couponData.couponStatus}
                 />
-                <CouponPeriodWrapper>{`D-${remainingDays}`}</CouponPeriodWrapper>
+                <CouponPeriodWrapper>{`D-${couponData.remainingDays}`}</CouponPeriodWrapper>
 
-                {couponStatus !== "ACTIVE" && (
-                    <CouponCheckBorderWrapper couponStatus={couponStatus}>
-                        <CouponCheckWrapper couponStatus={couponStatus}>
+                {couponData.couponStatus !== "ACTIVE" && (
+                    <CouponCheckBorderWrapper couponStatus={couponData.couponStatus}>
+                        <CouponCheckWrapper couponStatus={couponData.couponStatus}>
                             사용
                             <br />
-                            {couponStatus === "USED" ? "완료" : "불가"}
+                            {couponData.couponStatus === "USED" ? "완료" : "불가"}
                         </CouponCheckWrapper>
                     </CouponCheckBorderWrapper>
                 )}
@@ -269,13 +263,15 @@ function Coupon({
             <CouponDividerWrapper />
             <CouponLowerContainer className="coupon-lower-container">
                 <SellerTextContainer>
-                    <BusinessNameWrapper>{businessName}</BusinessNameWrapper>
+                    <BusinessNameWrapper>{couponData.businessName}</BusinessNameWrapper>
                     <MenuNameWrapper>
-                        {couponType === "SINGLE" ? fundingMenu : `${couponOriginalPrice}원`}
+                        {couponData.couponType === "SINGLE"
+                            ? couponData.fundingMenu
+                            : `${couponData.couponOriginalPrice}원`}
                     </MenuNameWrapper>
                 </SellerTextContainer>
                 <SellerImageWrapper
-                    src={businessImgUrl}
+                    src={couponData.businessImgUrl}
                     alt="seller-image"
                     width={40}
                     height={40}

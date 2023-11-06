@@ -10,55 +10,58 @@ interface TextareaProps extends TextInputProps {
     textareaName: string;
     focusColor: "primary" | "secondary" | "gray";
     fontSize?: string;
-    labelFontSize?: string;
+}
+
+interface TextareaWrapperType {
+    width: string;
+    height: string;
+    focusColor: "primary" | "secondary" | "gray";
+    error: boolean;
+}
+
+interface TextareaBoxType {
+    width: string;
+    height: string;
+    fontSize?: string;
 }
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
 const TextareaContainer = styled("div")`
-    border: 1px solid ${(props) => props.theme.colors.gray2};
+    /* border: 1px solid ${(props) => props.theme.colors.gray2}; */
 `;
 
-const TextareaWrapper = styled("div")<{
-    width: string;
-    height: string | undefined;
-    focusColor: "primary" | "secondary" | "gray";
-}>`
+const TextareaWrapper = styled("div")<TextareaWrapperType>`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
 
-    padding: 20px 30px;
+    padding: 15px 20px;
     margin-top: 5px;
 
-    border: 1px solid ${(props) => props.theme.colors.gray2};
+    box-shadow: ${(props) =>
+        props.error
+            ? `0px 0px 4px 2px ${props.theme.colors.normalRed}`
+            : `0px 0px 4px 2px ${props.theme.colors.gray5}`};
     border-radius: 20px;
 
     &:focus-within {
         box-shadow: 0px 0px 4px 2px
-            ${(props) =>
-                // eslint-disable-next-line no-nested-ternary
-                props.focusColor === "primary"
-                    ? props.theme.colors.primary2
-                    : props.focusColor === "secondary"
-                    ? props.theme.colors.secondary2
-                    : props.theme.colors.gray2};
-        outline: 1px solid
-            ${(props) =>
-                // eslint-disable-next-line no-nested-ternary
-                props.focusColor === "primary"
-                    ? props.theme.colors.primary3
-                    : props.focusColor === "secondary"
-                    ? props.theme.colors.secondary3
-                    : props.theme.colors.gray3};
+            ${(props) => {
+                let focusColor;
+                if (props.focusColor === "primary") {
+                    focusColor = props.theme.colors.primary3;
+                } else if (props.focusColor === "secondary") {
+                    focusColor = props.theme.colors.secondary3;
+                } else {
+                    focusColor = props.theme.colors.gray3;
+                }
+                return focusColor;
+            }};
     }
 `;
 
-const TextareaBox = styled("textarea")<{
-    width: string;
-    height: string | undefined;
-    fontSize?: string;
-}>`
+const TextareaBox = styled("textarea")<TextareaBoxType>`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
 
@@ -78,6 +81,8 @@ const TextareaBox = styled("textarea")<{
 const TextareaLabelWrapper = styled("label")<{ labelFontSize?: string }>`
     font-size: ${(props) => (props.labelFontSize ? props.labelFontSize : "20px")};
     font-weight: 700;
+
+    margin-left: 0.5em;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -85,7 +90,7 @@ const TextareaLabelWrapper = styled("label")<{ labelFontSize?: string }>`
 /* Textarea Button Component */
 function Textarea({
     width,
-    height,
+    height = "80px",
     maxLength,
     id,
     textareaName,
@@ -93,6 +98,7 @@ function Textarea({
     focusColor,
     fontSize,
     labelFontSize,
+    error = false,
 }: TextareaProps) {
     const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = e.target.value;
@@ -104,7 +110,7 @@ function Textarea({
             <TextareaLabelWrapper labelFontSize={labelFontSize}>
                 {textareaName}
             </TextareaLabelWrapper>
-            <TextareaWrapper width={width} height={height} focusColor={focusColor}>
+            <TextareaWrapper width={width} height={height} focusColor={focusColor} error={error}>
                 <TextareaBox
                     id={id}
                     name={id}

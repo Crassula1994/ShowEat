@@ -6,6 +6,12 @@ import { keyframes } from "@emotion/react";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Type */
+interface MenuButtonProps extends ButtonProps {
+    imageUrl: string;
+    menuName: string;
+}
+
 /* Style */
 const clickAnimation = keyframes`
 from {
@@ -19,8 +25,6 @@ to {
 const ImageWrapper = styled("div")<ButtonProps>`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
-    /* max-height: 100px;
-    max-width: 100px; */
     min-width: 70px;
     min-height: 70px;
 
@@ -60,7 +64,7 @@ const MenuButtonContainer = styled("div")<ButtonProps>`
 
     &:hover {
         > div > img {
-            filter: brightness(0.8) saturate(1.5);
+            filter: brightness(0.8) saturate(1.2);
             box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray4};
             cursor: pointer;
         }
@@ -70,7 +74,7 @@ const MenuButtonContainer = styled("div")<ButtonProps>`
     }
     &:active {
         > div > img {
-            filter: brightness(0.5) saturate(2);
+            filter: brightness(0.6) saturate(1.5);
             box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray5};
             cursor: pointer;
             animation: ${clickAnimation} 0.1s linear forwards;
@@ -81,25 +85,11 @@ const MenuButtonContainer = styled("div")<ButtonProps>`
 // ----------------------------------------------------------------------------------------------------
 
 /* Menu Button Component */
-function MenuButton({
-    width,
-    onClick,
-    imageURL,
-    menuName,
-}: ButtonProps & {
-    imageURL: string;
-    menuName: string;
-}) {
+function MenuButton({ width, onClick, imageUrl, menuName }: MenuButtonProps) {
     return (
         <MenuButtonContainer width={width} onClick={onClick}>
             <ImageWrapper width={width} height={width} draggable="false">
-                <Image
-                    src={imageURL}
-                    alt="Menu Button Image"
-                    fill
-                    draggable="false"
-                    objectFit="cover"
-                />
+                <Image src={imageUrl} alt="Menu Button Image" fill draggable="false" />
             </ImageWrapper>
             <TextWrapper>{menuName}</TextWrapper>
         </MenuButtonContainer>
