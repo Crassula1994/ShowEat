@@ -1,12 +1,17 @@
 package com.ssafy.showeat.domain.notification.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.ssafy.showeat.domain.notification.service.NotificationService;
+import com.ssafy.showeat.domain.notification.service.SseService;
+import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.response.PageResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 
@@ -22,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class NotificationController {
 
+	private final SseService sseService;
+	private final UserService userService;
 	private final NotificationService notificationService;
 
 	@ApiOperation(value = "읽지 않은 알림 리스트 조회", notes = "유저의 읽지 않은 알림 리스트를 조회합니다.")
@@ -34,4 +41,8 @@ public class NotificationController {
 		return new PageResponseResult<>(notificationService.getNotificationListByIsChecked(userId, page));
 	}
 
+	@GetMapping(value = "/subscribe")
+	public SseEmitter subscribe(HttpServletRequest request) {
+		return sseService.connectNotification(userService.getUserFromRequest(request).getUserId());
+	}
 }
