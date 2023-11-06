@@ -1,8 +1,8 @@
 package com.ssafy.showeat.global.s3;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +30,7 @@ public class S3Service {
 
 		for (MultipartFile menuImage : menuImages) {
 			String originalName = menuImage.getOriginalFilename(); // 파일 이름
+			String uuidName = getUuidFileName(originalName); // UUID 파일이름
 			long size = menuImage.getSize(); // 파일 크기
 
 			ObjectMetadata objectMetaData = new ObjectMetadata();
@@ -38,11 +39,11 @@ public class S3Service {
 
 			// S3에 업로드
 			amazonS3Client.putObject(
-				new PutObjectRequest(bucketName+"/menu", originalName, menuImage.getInputStream(), objectMetaData)
+				new PutObjectRequest(bucketName+"/menu", uuidName, menuImage.getInputStream(), objectMetaData)
 					.withCannedAcl(CannedAccessControlList.PublicRead)
 			);
 
-			businessMenu.addBusinessMenuImage(BusinessMenuImage.builder().businessMenuImageUrl(amazonS3Client.getUrl(bucketName+"/menu", originalName).toString()).build());
+			businessMenu.addBusinessMenuImage(BusinessMenuImage.builder().businessMenuImageUrl(amazonS3Client.getUrl(bucketName+"/menu", uuidName).toString()).build());
 		}
 
 		return businessMenu;
@@ -50,6 +51,7 @@ public class S3Service {
 
 	public String uploadBusinessImageToS3(MultipartFile image) throws IOException {
 		String originalName = image.getOriginalFilename(); // 파일 이름
+		String uuidName = getUuidFileName(originalName); // UUID 파일이름
 		long size = image.getSize(); // 파일 크기
 
 		ObjectMetadata objectMetaData = new ObjectMetadata();
@@ -58,15 +60,16 @@ public class S3Service {
 
 		// S3에 업로드
 		amazonS3Client.putObject(
-				new PutObjectRequest(bucketName+"/business", originalName, image.getInputStream(), objectMetaData)
+				new PutObjectRequest(bucketName+"/business", uuidName, image.getInputStream(), objectMetaData)
 						.withCannedAcl(CannedAccessControlList.PublicRead)
 		);
 
-		return amazonS3Client.getUrl(bucketName+"/business", originalName).toString();
+		return amazonS3Client.getUrl(bucketName+"/business", uuidName).toString();
 	}
 
 	public String uploadQrImageToS3(MultipartFile image) throws IOException {
 		String originalName = image.getOriginalFilename(); // 파일 이름
+		String uuidName = getUuidFileName(originalName); // UUID 파일이름
 		long size = image.getSize(); // 파일 크기
 
 		ObjectMetadata objectMetaData = new ObjectMetadata();
@@ -75,10 +78,15 @@ public class S3Service {
 
 		// S3에 업로드
 		amazonS3Client.putObject(
-				new PutObjectRequest(bucketName+"/qr", originalName, image.getInputStream(), objectMetaData)
+				new PutObjectRequest(bucketName+"/qr", uuidName, image.getInputStream(), objectMetaData)
 						.withCannedAcl(CannedAccessControlList.PublicRead)
 		);
 
-		return amazonS3Client.getUrl(bucketName+"/qr", originalName).toString();
+		return amazonS3Client.getUrl(bucketName+"/qr", uuidName).toString();
+	}
+
+	public String getUuidFileName(String fileName) {
+		String name = fileName.substring(fileName.indexOf(".") + 1);
+		return UUID.randomUUID().toString() + "." + name;
 	}
 }

@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private static final String DEFAULT_IMAGE = "기본이미지 주소";
+    private static final String DEFAULT_IMAGE = "https://showeatbucket.s3.ap-northeast-2.amazonaws.com/user/basic-profile.png";
 
     private String bucketName = "showeatbucket";
     private final AmazonS3Client amazonS3Client;
