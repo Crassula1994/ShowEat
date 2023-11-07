@@ -10,6 +10,7 @@ interface CheckBoxProps extends InputProps {
     text: string;
     isChecked: boolean;
     onToggle: (isChecked: boolean) => void;
+    fontSize?: string;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -71,8 +72,9 @@ const StyledInputWrapper = styled("div")<Partial<CheckBoxProps>>`
     }
 `;
 
-const TextWrapper = styled("div")`
+const TextWrapper = styled("div")<{ fontSize: string }>`
     // Text Attribute
+    font-size: ${(props) => props.fontSize};
     font-weight: 700;
 `;
 
@@ -81,7 +83,16 @@ const TextWrapper = styled("div")`
 /* Check Box Component */
 function CheckBox(props: CheckBoxProps) {
     // States and Variables
-    const { width, height = "auto", id, name = id, text, isChecked, onToggle } = props;
+    const {
+        width,
+        height = "auto",
+        id,
+        name = id,
+        text,
+        isChecked,
+        onToggle,
+        fontSize = "16px",
+    } = props;
 
     // Functions
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +112,7 @@ function CheckBox(props: CheckBoxProps) {
                 <StyledInputWrapper isChecked={isChecked}>
                     <CheckMarkIcon />
                 </StyledInputWrapper>
-                <TextWrapper>{text}</TextWrapper>
+                <TextWrapper fontSize={fontSize}>{text}</TextWrapper>
             </LabelContainer>
         </InputContainer>
     );

@@ -1,11 +1,13 @@
 /* Import */
 import { useState } from "react";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { TextInput } from "../common/input";
 import { MenuButton } from "../common/button";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Type */
 // interface SearchBarProps {
 //     keyword: string;
 //     searchType: string[];
@@ -16,6 +18,8 @@ import { MenuButton } from "../common/button";
 //     minPrice?: number;
 //     sortType?: string;
 // }
+
+// ----------------------------------------------------------------------------------------------------
 
 /* Style */
 const menuCategory = [
@@ -56,10 +60,12 @@ const IconMenuContainer = styled("div")`
 
 /* Search Bar Button Component */
 function SearchBar() {
+    const router = useRouter();
     const [searchText, setSearchText] = useState<string>("");
 
     const handleSearch = () => {
         console.log(searchText);
+        router.push("/search");
     };
 
     const handleMenuButton = (menu: string) => {

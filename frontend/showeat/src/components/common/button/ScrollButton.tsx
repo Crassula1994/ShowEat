@@ -12,7 +12,7 @@ const ButtonContainer = styled("div")`
     position: fixed;
     right: 5%;
     bottom: 5%;
-    z-index: 1;
+    z-index: 1500;
 
     // Layout Attribute
     display: flex;

@@ -38,13 +38,15 @@ to {
 `;
 
 const CarouselContainer = styled("div")<Partial<CarouselProps>>`
-    width: 100vw;
+    width: 100%;
     height: ${(props) => `${props.height}px`};
 
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    box-sizing: border-box;
 `;
 
 const CarouselAdWrapper = styled("div")<Partial<CarouselProps>>`

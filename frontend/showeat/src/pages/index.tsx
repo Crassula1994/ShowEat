@@ -6,13 +6,16 @@ import {
     ReactNode,
     //  useEffect, useState
 } from "react";
-import SearchBar from "@/components/searchBar/SearchBar";
+import withAuth from "@libs/withAuth";
+import SearchBar from "@components/searchBar/SearchBar";
 import useUserState from "@hooks/useUserState";
-import { CardCarousel, AdCarousel } from "../components/carousel";
+import { CardCarousel, AdCarousel } from "@components/carousel";
+import { ScrollButton } from "@components/common/button";
 // import { getBookmarkFundings, getMyFundings, getMainPageList } from "@/apis/fundings";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Temporary Data */
 const fundingDatas = [
     {
         fundingId: 1,
@@ -232,6 +235,9 @@ const fundingDatas = [
     },
 ];
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Type */
 // interface FundingDatasType {
 //     fundingDatas: {
 //         fundingId: number;
@@ -257,6 +263,9 @@ const fundingDatas = [
 //     }[];
 // }
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const AdvertiseContainer = styled("div")`
     display: flex;
     justify-content: center;
@@ -422,6 +431,7 @@ function Home() {
                         ))}
                     </RecommendContentsContainer>
                 </MainContentsContainer>
+                <ScrollButton width="40px" />
             </main>
         </>
     );
@@ -429,12 +439,17 @@ function Home() {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Middleware */
+const SignInWithAuth = withAuth({ WrappedComponent: Home });
+
+// ----------------------------------------------------------------------------------------------------
+
 /* Layout */
-Home.getLayout = function getLayout(page: ReactNode) {
+SignInWithAuth.getLayout = function getLayout(page: ReactNode) {
     return <MainLayout>{page}</MainLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default Home;
+export default SignInWithAuth;
