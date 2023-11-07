@@ -50,7 +50,7 @@ const CouponContainer = styled("div")<{ couponStatus: string }>`
 
     width: 200px;
     height: 264px;
-
+    margin: 15px;
     cursor: pointer;
 
     -webkit-user-select: none;
