@@ -70,7 +70,7 @@ public class CreateFundingRequestDto {
 			.fundingMenu(businessMenu.getBusinessMenuName())
 			.fundingPrice(businessMenu.getBusinessMenuPrice())
 			.fundingIsActive(FundingIsActive.ACTIVE)
-			.fundingIsSuccess(FundingIsSuccess.UNDECIEDED)
+			.fundingIsSuccess(FundingIsSuccess.UNDECIDED)
 			.fundingDiscountPrice(discountPrice)
 			.fundingDiscountRate((int) Math.round(discountRate))
 			.fundingDescription(description)
