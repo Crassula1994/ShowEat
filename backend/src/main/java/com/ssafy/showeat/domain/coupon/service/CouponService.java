@@ -1,16 +1,14 @@
 package com.ssafy.showeat.domain.coupon.service;
 
-import java.util.List;
-
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponPriceRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
-import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponPageResponseDto;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 
 public interface CouponService {
-	List<CouponListResponseDto> getCouponListByUserIdAndStatus(Long userId, CouponStatus status);
+	CouponPageResponseDto getCouponListByUserIdAndStatus(Long userId, CouponStatus status, int page);
 
 	CouponDetailResponseDto getCouponDetailByCouponId(Long couponId);
 

@@ -2,16 +2,17 @@ package com.ssafy.showeat.domain.coupon.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponPriceRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
-import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponPageResponseDto;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.entity.CouponType;
@@ -20,7 +21,6 @@ import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.funding.entity.UserFunding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
-import com.ssafy.showeat.global.exception.InvalidCouponPriceException;
 import com.ssafy.showeat.global.exception.InvalidCouponTypeException;
 import com.ssafy.showeat.global.exception.NotExistCouponException;
 import com.ssafy.showeat.global.exception.NotExistUserException;
@@ -36,11 +36,11 @@ public class CouponServiceImpl implements CouponService {
 	private final UserRepository userRepository;
 
 	@Override
-	public List<CouponListResponseDto> getCouponListByUserIdAndStatus(Long userId, CouponStatus status) {
+	public CouponPageResponseDto getCouponListByUserIdAndStatus(Long userId, CouponStatus status, int page) {
 		log.info("CouponService_getCouponListByUserIdAndStatus || 유저의 상태별 쿠폰 조회");
 		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
-		List<Coupon> couponList = couponRepository.findCouponListByUserAndStatus(user, status);
-		return couponList.stream().map(Coupon::toCouponListResponseDto).collect(Collectors.toList());
+		Page<Coupon> couponList = couponRepository.findCouponListByUserAndStatus(PageRequest.of(page, 12), user, status);
+		return CouponPageResponseDto.createCouponPageResponseDto(couponList);
 	}
 
 	@Override

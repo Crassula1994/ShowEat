@@ -11,7 +11,6 @@ import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponPriceRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.service.CouponService;
-import com.ssafy.showeat.global.response.ListResponseResult;
 import com.ssafy.showeat.global.response.ResponseResult;
 import com.ssafy.showeat.global.response.SingleResponseResult;
 
@@ -34,9 +33,10 @@ public class CouponController {
 		@ApiResponse(code = 200, message = "상태별 쿠폰 리스트 조회 성공"),
 		@ApiResponse(code = 400, message = "상태별 쿠폰 리스트 조회 실패"),
 	})
-	@GetMapping("/{userId}/{status}")
-	public ResponseResult getCouponListByUserIdAndStatus(@PathVariable Long userId, @PathVariable CouponStatus status) {
-		return new ListResponseResult<>(couponService.getCouponListByUserIdAndStatus(userId, status));
+	@GetMapping("/{userId}/{status}/{page}")
+	public ResponseResult getCouponListByUserIdAndStatus(@PathVariable Long userId, @PathVariable CouponStatus status,
+		@PathVariable int page) {
+		return new SingleResponseResult<>(couponService.getCouponListByUserIdAndStatus(userId, status, page));
 	}
 
 	@ApiOperation(value = "쿠폰 상세 조회", notes = "쿠폰의 상세정보를 조회합니다.")
