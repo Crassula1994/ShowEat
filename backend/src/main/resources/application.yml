@@ -84,3 +84,9 @@ clova:
 business:
   url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey="
   secretKey: "4SlBHvxNa576fRWhPJN31xw3YYDXDhysrpBFU8sDMMgR9oZJi%2FVsGSsqvkhiJP5%2FCLueZqxvPobQMMVPQMzxIA%3D%3D"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus

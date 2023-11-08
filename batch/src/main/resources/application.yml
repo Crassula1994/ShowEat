@@ -43,3 +43,9 @@ cloud:
       auto: false
     stack:
       auto: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus

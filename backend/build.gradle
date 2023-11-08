@@ -91,6 +91,9 @@ dependencies {
     implementation group: 'com.google.zxing', name: 'core', version: '3.5.0'
     implementation 'commons-fileupload:commons-fileupload:1.4'
 
+    // Prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 // QueryDSL 빌드 옵션
