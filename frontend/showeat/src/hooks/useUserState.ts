@@ -1,7 +1,7 @@
 /* Import */
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { userState, userDefaultValue } from "@stores/users";
+import { userDefaultValue, userState } from "@stores/users";
 
 // ----------------------------------------------------------------------------------------------------
 

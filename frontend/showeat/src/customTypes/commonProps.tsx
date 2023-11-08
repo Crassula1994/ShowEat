@@ -1,5 +1,5 @@
 /* Import */
-import { Dispatch, MouseEvent, ReactNode, SetStateAction } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -10,9 +10,16 @@ export interface ButtonProps {
     onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
+export interface DropdownProps {
+    width: string;
+    height?: string;
+    itemList: string[];
+}
+
 export interface InputProps {
     width: string;
     height?: string;
+    maxHeight?: string;
     id: string;
     name?: string;
 }
@@ -32,20 +39,6 @@ export interface TextBoxProps {
     text: string;
     colorType?: "primary" | "secondary" | "gray";
     fontSize?: number;
-}
-
-export interface TextInputProps {
-    width: string;
-    id: string;
-    setTextValue: Dispatch<SetStateAction<string>>;
-    height?: string;
-    placeholder?: string;
-    defaultValue?: string;
-    labelName?: string;
-    iconUrl?: string;
-    error?: boolean;
-    labelFontSize?: string;
-    onClick?: () => void;
 }
 
 export interface RadioButtonProps {

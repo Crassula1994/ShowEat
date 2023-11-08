@@ -1,29 +1,32 @@
 /* Import */
-import { CookieValueTypes } from "cookies-next";
 import { fetchGet, fetchModify } from "@utils/api";
 import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function for Authentificaion with Kakao API */
-const getLoginWithKakao = async (code: string) => {
+/* Function for Getting User Information */
+const getUserInfo = async (userId: number) => {
     const props: FetchProps = {
-        url: "auth/login/kakao",
+        url: `users/${userId}`,
         method: "GET",
-        isAuth: false,
-        params: { code },
+        isAuth: true,
     };
     const result = await fetchGet(props);
 
     return result;
 };
 
-/* Function for Handling Logout */
-const patchLogout = async (userId: number, accessToken: CookieValueTypes) => {
+/* Function for Setting Information at First */
+const patchSettingInfo = async (
+    userId: number,
+    userNickname: string,
+    userPhone: string,
+    userAddress: string,
+) => {
     const props: FetchProps = {
-        url: "auth/logout",
+        url: "users/setting-info",
         method: "PATCH",
-        data: { userId, accessToken },
+        data: { userId, userNickname, userPhone, userAddress },
         isAuth: true,
     };
     const result = await fetchModify(props);
@@ -34,4 +37,4 @@ const patchLogout = async (userId: number, accessToken: CookieValueTypes) => {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { getLoginWithKakao, patchLogout };
+export { getUserInfo, patchSettingInfo };

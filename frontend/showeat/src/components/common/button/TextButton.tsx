@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 
 /* Type */
 interface TextButtonProps extends ButtonProps {
+    type?: "button" | "submit" | "reset";
     text: string;
     fontSize?: number;
     colorType?: "primary" | "secondary" | "gray";
@@ -19,12 +20,12 @@ interface TextButtonProps extends ButtonProps {
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const ButtonContainer = styled("div")<Partial<TextButtonProps>>`
+const ButtonContainer = styled("button")<Partial<TextButtonProps>>`
     // Layout Attribute
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 1em;
 
     // Box Model Attribute
     width: ${(props) => props.width};
@@ -110,6 +111,7 @@ function TextButton(props: TextButtonProps) {
         width,
         height = "40px",
         onClick,
+        type = "button",
         fontSize = 16,
         text,
         colorType = "primary",
@@ -123,6 +125,7 @@ function TextButton(props: TextButtonProps) {
             width={width}
             height={height}
             onClick={onClick}
+            type={type}
             colorType={colorType}
             className={fill}
             curve={curve}

@@ -6,46 +6,7 @@ function breakTextLine(text: string): string {
         .join("<br />");
 }
 
-/* Function for Changing Font Weight */
-function changeFontWeight(text: string): string {
-    const thinText = text.match(/---(.*?)---/g);
-    const boldText = text.match(/\.\.\.(.*?)\.\.\./g);
-
-    let weightedText = text;
-
-    if (thinText) {
-        thinText.forEach((phrase: string) => {
-            weightedText = weightedText.replace(
-                phrase,
-                `<span style="font-weight: 300;">${phrase.substring(3, phrase.length - 3)}</span>`,
-            );
-        });
-    }
-
-    if (boldText) {
-        boldText.forEach((phrase: string) => {
-            weightedText = weightedText.replace(
-                phrase,
-                `<span style="font-weight: 700;">${phrase.substring(3, phrase.length - 3)}</span>`,
-            );
-        });
-    }
-
-    return weightedText;
-}
-
-/* Function for Extracting and Parsing Number */
-function parseNumber(text: string): number {
-    const numStrArray = text.match(/\d+/);
-
-    if (!numStrArray || numStrArray.length === 0) {
-        return 50;
-    }
-
-    return parseInt(numStrArray[0], 10);
-}
-
-/* Function for Calculate Remaining Time */
+/* Function for Calculating Remaining Time */
 function calcRemainTime(targetDate: string) {
     const currentDate = new Date();
     const parsedTargetDate = new Date(targetDate);
@@ -74,7 +35,61 @@ function calcRemainTime(targetDate: string) {
     return `${secondsRemaining}초`;
 }
 
+/* Function for Changing Font Weight */
+function changeFontWeight(text: string): string {
+    const thinText = text.match(/---(.*?)---/g);
+    const boldText = text.match(/\.\.\.(.*?)\.\.\./g);
+
+    let weightedText = text;
+
+    if (thinText) {
+        thinText.forEach((phrase: string) => {
+            weightedText = weightedText.replace(
+                phrase,
+                `<span style="font-weight: 300;">${phrase.substring(3, phrase.length - 3)}</span>`,
+            );
+        });
+    }
+
+    if (boldText) {
+        boldText.forEach((phrase: string) => {
+            weightedText = weightedText.replace(
+                phrase,
+                `<span style="font-weight: 700;">${phrase.substring(3, phrase.length - 3)}</span>`,
+            );
+        });
+    }
+
+    return weightedText;
+}
+
+/* Function for Making Phone Number Format */
+function formatPhoneNumber(text: string): string {
+    const digits = text.replace(/\D/g, "").slice(0, 11);
+
+    if (digits.length <= 3) {
+        return digits;
+    }
+
+    if (digits.length <= 7) {
+        return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    }
+
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
+
+/* Function for Extracting and Parsing Number */
+function parseNumber(text: string): number {
+    const numStrArray = text.match(/\d+/);
+
+    if (!numStrArray || numStrArray.length === 0) {
+        return 50;
+    }
+
+    return parseInt(numStrArray[0], 10);
+}
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { breakTextLine, changeFontWeight, parseNumber, calcRemainTime };
+export { breakTextLine, calcRemainTime, changeFontWeight, formatPhoneNumber, parseNumber };

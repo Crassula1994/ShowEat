@@ -1,6 +1,7 @@
 /* Import */
 import { FetchProps, FetchOptionProps } from "@customTypes/apiProps";
 import handleFetchError from "@utils/fetchError";
+import { getCookie } from "cookies-next";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -23,13 +24,16 @@ async function fetchGet(props: FetchProps) {
     } = props;
 
     const headers: Record<string, string> = {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": `http://localhost:3000`,
+        "Access-Control-Allow-Methods": "GET",
         "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data",
     };
 
     const queryString: string = params ? `?${new URLSearchParams(params).toString()}` : "";
 
     if (isAuth) {
-        const accessToken = sessionStorage.getItem("access_token");
+        const accessToken = getCookie("access-token");
         if (accessToken) {
             headers.Authorization = accessToken;
         }
@@ -72,11 +76,14 @@ async function fetchModify(props: FetchProps) {
     } = props;
 
     const headers: Record<string, string> = {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": `http://localhost:3000`,
+        "Access-Control-Allow-Methods": "POST, OPTIONS, PUT, PATCH, DELETE",
         "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data",
     };
 
     if (isAuth) {
-        const accessToken = sessionStorage.getItem("access_token");
+        const accessToken = getCookie("access-token");
         if (accessToken) {
             headers.Authorization = accessToken;
         }

@@ -1,123 +1,137 @@
 /* Import */
-import { TextInputProps } from "@customTypes/commonProps";
+import { ChangeEvent, MouseEvent, KeyboardEvent, useRef } from "react";
+import { InputProps } from "@customTypes/commonProps";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { memo, useRef } from "react";
 
 // ----------------------------------------------------------------------------------------------------
 
-const TextInputContainer = styled("div")<{ width: string }>`
+/* Type */
+interface TextInputProps extends InputProps {
+    value: string;
+    placeholder?: string;
+    required?: boolean;
+    labelText?: string;
+    source?: string;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
+}
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
+const InputContainer = styled("div")<{ width: string; height: string }>`
+    // Box Model Attribute
     width: ${(props) => props.width};
+    height: ${(props) => props.height};
+    min-width: 150px;
 `;
 
-const TextInputWrapper = styled("input")`
+const LabelWrapper = styled("label")`
+    // Box Model Attribute
     width: 100%;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    z-index: 1000;
+
+    // Text Attribute
+    font-size: 18px;
+    font-weight: 700;
 `;
 
-const IconWrapper = styled(Image)`
-    max-width: 50px;
-    max-height: 50px;
-    cursor: pointer;
-    z-index: 100;
-
-    user-select: none;
-`;
-
-const TextIconContainer = styled("div")<{ error: boolean }>`
-    max-width: 100%;
-    box-shadow: ${(props) =>
-        props.error
-            ? `0px 0px 4px 2px ${props.theme.colors.normalRed}`
-            : `0px 0px 4px 2px ${props.theme.colors.gray5}`};
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-top: 5px;
+const InputBox = styled("div")`
+    // Layout Attribute
     display: flex;
-    gap: 10px;
-    z-index: 90;
+
+    // Box Model Attribute
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0.5em;
+    padding: 0.5em 1em;
+
+    // Style Attribute
+    border: 2px solid ${(props) => props.theme.colors.gray3};
+    border-radius: 15px;
     &:focus-within {
-        box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.primary3};
+        border-color: transparent;
+        box-shadow:
+            0 0 5px 2px ${(props) => props.theme.colors.primary2},
+            0 0 0 2px ${(props) => props.theme.colors.primary3};
     }
 `;
 
-const LabelWrapper = styled("label")<{ labelFontSize: string }>`
+const InputWrapper = styled("input")`
+    // Box Model Attribute
     width: 100%;
-    font-weight: 700;
-    font-size: ${(props) => props.labelFontSize};
 
-    margin-left: 0.5em;
+    // Style Attribute
+    border: none;
+    outline: none;
 `;
 
-function TextInput({
-    width,
-    id,
-    placeholder,
-    setTextValue,
-    defaultValue,
-    labelName,
-    iconUrl,
-    error = false,
-    labelFontSize = "20px",
-    onClick,
-}: TextInputProps) {
+const IconWrapper = styled(Image)<{ "data-clickable": boolean }>`
+    // Box Model Attribute
+    max-width: 30px;
+    max-height: 30px;
+
+    // Interaction Attribute
+    cursor: ${(props) => (props["data-clickable"] ? "pointer" : "default")};
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Text Input Component */
+function TextInput(props: TextInputProps) {
+    const {
+        width,
+        height = "auto",
+        id,
+        name = id,
+        value,
+        placeholder = "",
+        required = false,
+        labelText = "",
+        source = "",
+        onClick = () => {},
+        onChange = () => {},
+        onKeyUp = () => {},
+    } = props;
     const textInputRef = useRef<HTMLInputElement | null>(null);
 
-    const handleTextInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        setTextValue(newValue);
-    };
-
-    const handleTextIconContainer = () => {
-        if (textInputRef.current) {
-            textInputRef.current.focus();
-        }
-    };
-
-    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && onClick) {
-            onClick();
-        }
-    };
-
     return (
-        <TextInputContainer width={width}>
-            {labelName && (
-                <LabelWrapper htmlFor={id} labelFontSize={labelFontSize}>
-                    {labelName}
-                </LabelWrapper>
-            )}
+        <InputContainer width={width} height={height}>
+            {labelText && <LabelWrapper htmlFor={id}>{labelText}</LabelWrapper>}
 
-            <TextIconContainer onClick={handleTextIconContainer} error={error}>
-                <TextInputWrapper
-                    ref={textInputRef}
+            <InputBox onClick={() => textInputRef.current?.focus()}>
+                <InputWrapper
                     type="text"
+                    ref={textInputRef}
                     id={id}
-                    name={id}
+                    name={name}
+                    value={value}
                     placeholder={placeholder}
-                    defaultValue={defaultValue}
-                    onChange={(e) => handleTextInputValue(e)}
-                    onKeyUp={(e) => handleEnter(e)}
+                    required={required}
+                    onChange={onChange}
+                    onKeyUp={onKeyUp}
                 />
-                {iconUrl && (
+                {source && (
                     <IconWrapper
-                        src={iconUrl}
-                        alt="SVG Icon"
-                        width={30}
-                        height={30}
+                        src={source}
+                        width={20}
+                        height={20}
+                        alt="input-icon"
+                        data-clickable={id !== "phone"}
                         onClick={onClick}
                     />
                 )}
-            </TextIconContainer>
-        </TextInputContainer>
+            </InputBox>
+        </InputContainer>
     );
 }
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-
-export default memo(TextInput);
+export default TextInput;

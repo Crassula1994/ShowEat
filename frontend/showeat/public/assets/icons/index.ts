@@ -11,6 +11,7 @@ import LeftArrowIcon from "./left-arrow-icon.svg";
 import LinkIcon from "./link-icon.svg";
 import LogoutIcon from "./logout-icon.svg";
 import ModifyIcon from "./modify-icon.svg";
+import PhoneIcon from "./phone-icon.svg";
 import RightArrowIcon from "./right-arrow-icon.svg";
 import RoundAddIcon from "./round-add-icon.svg";
 import SearchIcon from "./search-icon.svg";
@@ -31,6 +32,7 @@ export {
     LinkIcon,
     LogoutIcon,
     ModifyIcon,
+    PhoneIcon,
     RightArrowIcon,
     RoundAddIcon,
     SearchIcon,

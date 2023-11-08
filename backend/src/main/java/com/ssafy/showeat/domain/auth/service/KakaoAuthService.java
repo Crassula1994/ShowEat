@@ -80,7 +80,7 @@ public class KakaoAuthService{
         log.info("refreshToken = {}", tokenDto.getRefreshToken());
 
         //관심 주소 초기값 설정
-        user.updateAddress("서울특별시 강남구");
+        user.updateAddress("강남구");
 
         //refreshToken을 Redis에 저장
         redisService.setValues(credential.getEmail()+"_refreshToken", tokenDto.getRefreshToken());

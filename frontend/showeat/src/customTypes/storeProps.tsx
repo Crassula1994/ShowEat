@@ -6,4 +6,6 @@ export interface UserType {
     userAddress: string;
     userBusiness: boolean;
     userMoney: number;
+    userPhone: string;
+    visited: boolean;
 }
