@@ -9,12 +9,12 @@ import {
     //  useEffect,
 } from "react";
 import withAuth from "@libs/withAuth";
-import SearchBar from "@components/searchBar/SearchBar";
+import SearchBar from "@/components/composite/searchBar/SearchBar";
 import { TextButton, ScrollButton } from "@components/common/button";
-import Card from "@components/card";
+import Card from "@/components/composite/card";
 import { useRouter } from "next/router";
 import { CheckBox } from "@components/common/input";
-import MultiSlider from "@components/multiSlider/MultiSlider";
+import MultiSlider from "@/components/composite/multiSlider/MultiSlider";
 // import useUserState from "@hooks/useUserState";
 
 // ----------------------------------------------------------------------------------------------------

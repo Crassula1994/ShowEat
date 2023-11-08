@@ -1,9 +1,9 @@
 /* Import */
-import { useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { TextInput } from "../common/input";
-import { MenuButton } from "../common/button";
+import { TextInput } from "../../common/input";
+import { MenuButton } from "../../common/button";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -63,9 +63,20 @@ function SearchBar() {
     const router = useRouter();
     const [searchText, setSearchText] = useState<string>("");
 
-    const handleSearch = () => {
+    const handleSearchTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchText(event.target.value);
         console.log(searchText);
-        router.push("/search");
+        // router.push("/search");
+    };
+
+    const handleEnterKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            router.push(`search?keyword=${encodeURIComponent(searchText)}`);
+        }
+    };
+
+    const handleSearchClick = () => {
+        router.push(`/search?keyword=${encodeURIComponent(searchText)}`);
     };
 
     const handleMenuButton = (menu: string) => {
@@ -78,10 +89,12 @@ function SearchBar() {
                 <TextInput
                     width="960px"
                     id="searchbar-input"
+                    value={searchText}
                     placeholder="새로 입점한 우리 동네의 셀러와 관심 있는 메뉴를 검색해보세요!"
-                    setTextValue={setSearchText}
-                    iconUrl="/assets/icons/search-icon.svg"
-                    onClick={handleSearch}
+                    source="/assets/icons/search-icon.svg"
+                    onChange={handleSearchTextChange}
+                    onKeyUp={handleEnterKeyUp}
+                    onClick={handleSearchClick}
                 />
             </SearchInputWrapper>
             <IconMenuContainer>

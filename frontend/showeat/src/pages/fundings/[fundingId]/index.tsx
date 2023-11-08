@@ -1,22 +1,17 @@
-/* Import */
-import FundingLayout from "@layouts/FundingLayout";
-import { ReactNode } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-// ----------------------------------------------------------------------------------------------------
-
-/* Funding Page */
 function Funding() {
-    return <div>펀딩 메인 페이지입니다.</div>;
+    const router = useRouter();
+    const { fundingId } = router.query;
+
+    useEffect(() => {
+        if (!fundingId) {
+            return;
+        }
+        router.replace(`/fundings/${fundingId}/review`);
+    }, [fundingId]);
+    return <div />;
 }
 
-// ----------------------------------------------------------------------------------------------------
-
-/* Layout */
-Funding.getLayout = function getLayout(page: ReactNode) {
-    return <FundingLayout>{page}</FundingLayout>;
-};
-
-// ----------------------------------------------------------------------------------------------------
-
-/* Export */
 export default Funding;

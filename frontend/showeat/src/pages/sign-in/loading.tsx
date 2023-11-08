@@ -1,6 +1,6 @@
 /* Import */
 import { getLoginWithKakao } from "@apis/auth";
-import LoadingSpinner from "@components/loadingSpinner";
+import LoadingSpinner from "@/components/composite/loadingSpinner";
 import { setCookie } from "cookies-next";
 import styled from "@emotion/styled";
 import { useEffect } from "react";

@@ -3,11 +3,11 @@ import withAuth from "@libs/withAuth";
 import { ReactNode, useEffect, useState } from "react";
 import BuyerLayout from "@/layouts/BuyerLayout";
 import styled from "@emotion/styled";
-import Coupon from "@components/coupon/Coupon";
+import Coupon from "@/components/composite/coupon/Coupon";
 import getCouponList from "@apis/coupons";
 import TextButton from "@components/common/button/TextButton";
 import useUserState from "@hooks/useUserState";
-import Modal from "@components/modal";
+import Modal from "@/components/composite/modal";
 
 const CouponContainer = styled("div")`
     color: #000;

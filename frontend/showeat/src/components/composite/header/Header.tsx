@@ -3,7 +3,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { IconButton, TextButton } from "@components/common/button";
 import Image from "next/image";
 import { patchLogout } from "@apis/auth";
-import ProfileBox from "@components/profileBox";
+import ProfileBox from "@/components/composite/profileBox";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { userDefaultValue } from "@stores/users";

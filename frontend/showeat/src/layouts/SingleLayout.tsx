@@ -1,5 +1,5 @@
 /* Import */
-import Header from "@components/header";
+import Header from "@/components/composite/header";
 import { LayoutProps } from "@customTypes/layoutProps";
 
 // ----------------------------------------------------------------------------------------------------

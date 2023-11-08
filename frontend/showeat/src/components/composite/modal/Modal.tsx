@@ -1,8 +1,8 @@
 /* Import */
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/css";
-import Overlay from "../common/overlay";
-import { TextButton } from "../common/button";
+import Overlay from "../../common/overlay";
+import { TextButton } from "../../common/button";
 
 // ----------------------------------------------------------------------------------------------------
 

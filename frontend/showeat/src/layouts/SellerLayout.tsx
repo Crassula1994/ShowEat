@@ -1,7 +1,7 @@
 /* Import */
-import Header from "@components/header";
+import Header from "@/components/composite/header";
 import styled from "@emotion/styled";
-import NavigationBar from "@components/navigationBar/NavigationBar";
+import NavigationBar from "@/components/composite/navigationBar/NavigationBar";
 import { LayoutProps } from "@customTypes/layoutProps";
 // import { useEffect } from "react";
 // import { useRouter } from "next/router";

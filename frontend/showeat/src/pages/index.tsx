@@ -7,9 +7,9 @@ import {
     //  useEffect, useState
 } from "react";
 import withAuth from "@libs/withAuth";
-import SearchBar from "@components/searchBar/SearchBar";
+import SearchBar from "@/components/composite/searchBar/SearchBar";
 import useUserState from "@hooks/useUserState";
-import { CardCarousel, AdCarousel } from "@components/carousel";
+import { CardCarousel, AdCarousel } from "@/components/composite/carousel";
 import { ScrollButton } from "@components/common/button";
 // import { getBookmarkFundings, getMyFundings, getMainPageList } from "@/apis/fundings";
 
