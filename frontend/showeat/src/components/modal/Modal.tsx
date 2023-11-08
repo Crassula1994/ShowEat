@@ -128,72 +128,70 @@ function Modal({
     modalTitle,
     titleSize = "24px",
 }: ModalProps) {
-    return (
-        <>
-            {isOpen && (
-                <Overlay zIndex={900}>
-                    <ModalOuterContainer width={width} height={height} isOpen={isOpen}>
-                        <ModalInnerContainer>
-                            {modalTitle && (
-                                <ModalTitleWrapper titleSize={titleSize}>
-                                    {modalTitle}
-                                </ModalTitleWrapper>
-                            )}
+    if (isOpen) {
+        return (
+            <Overlay zIndex={900}>
+                <ModalOuterContainer width={width} height={height} isOpen={isOpen}>
+                    <ModalInnerContainer>
+                        {modalTitle && (
+                            <ModalTitleWrapper titleSize={titleSize}>
+                                {modalTitle}
+                            </ModalTitleWrapper>
+                        )}
 
-                            <ModalChildWrapper>{childComponent}</ModalChildWrapper>
-                            <ButtonContainer>
-                                {buttonType === "confirm" && (
+                        <ModalChildWrapper>{childComponent}</ModalChildWrapper>
+                        <ButtonContainer>
+                            {buttonType === "confirm" && (
+                                <TextButton
+                                    text="확인"
+                                    width={buttonWidth}
+                                    height={buttonHeight}
+                                    colorType={colorType}
+                                    fill={fill}
+                                    curve={curve}
+                                    onClick={() => setIsOpen(false)}
+                                />
+                            )}
+                            {buttonType === "close" && (
+                                <TextButton
+                                    text="닫기"
+                                    width={buttonWidth}
+                                    height={buttonHeight}
+                                    colorType={colorType}
+                                    fill={fill}
+                                    curve={curve}
+                                    onClick={() => setIsOpen(false)}
+                                />
+                            )}
+                            {buttonType === "submit" && (
+                                <>
                                     <TextButton
-                                        text="확인"
+                                        text="저장"
                                         width={buttonWidth}
                                         height={buttonHeight}
                                         colorType={colorType}
-                                        fill={fill}
+                                        fill="positive"
                                         curve={curve}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={onSubmit}
                                     />
-                                )}
-                                {buttonType === "close" && (
                                     <TextButton
-                                        text="닫기"
+                                        text="취소"
                                         width={buttonWidth}
                                         height={buttonHeight}
                                         colorType={colorType}
-                                        fill={fill}
+                                        fill="negative"
                                         curve={curve}
                                         onClick={() => setIsOpen(false)}
                                     />
-                                )}
-                                {buttonType === "submit" && (
-                                    <>
-                                        <TextButton
-                                            text="저장"
-                                            width={buttonWidth}
-                                            height={buttonHeight}
-                                            colorType={colorType}
-                                            fill="positive"
-                                            curve={curve}
-                                            onClick={onSubmit}
-                                        />
-                                        <TextButton
-                                            text="취소"
-                                            width={buttonWidth}
-                                            height={buttonHeight}
-                                            colorType={colorType}
-                                            fill="negative"
-                                            curve={curve}
-                                            onClick={() => setIsOpen(false)}
-                                        />
-                                    </>
-                                )}
-                            </ButtonContainer>
-                        </ModalInnerContainer>
-                    </ModalOuterContainer>
-                </Overlay>
-            )}
-            ;
-        </>
-    );
+                                </>
+                            )}
+                        </ButtonContainer>
+                    </ModalInnerContainer>
+                </ModalOuterContainer>
+            </Overlay>
+        );
+    }
+    return null;
 }
 
 // ----------------------------------------------------------------------------------------------------

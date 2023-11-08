@@ -9,3 +9,9 @@ export interface UserType {
     userPhone: string;
     visited: boolean;
 }
+
+export interface SellerType {
+    sellerId: number;
+    sellerName: string;
+    sellerImgUrl: string;
+}

@@ -1,18 +1,43 @@
 /* Import */
 import Header from "@components/header";
+import styled from "@emotion/styled";
+import NavigationBar from "@components/navigationBar/NavigationBar";
 import { LayoutProps } from "@customTypes/layoutProps";
+// import { useEffect } from "react";
+// import { useRouter } from "next/router";
+// import useUserState from "@hooks/useUserState";
 
 // ----------------------------------------------------------------------------------------------------
+
+const BodyContainer = styled("div")`
+    display: flex;
+
+    width: 100%;
+    min-height: calc(100vh-5em);
+`;
 
 /* Seller Page Layout */
 function SellerLayout(props: LayoutProps) {
     const { children } = props;
 
+    // 셀러가 아니라면 메인으로 돌려보냄
+
+    // const router = useRouter();
+    // const [user] = useUserState();
+
+    // useEffect(() => {
+    //     if (!user.userBusiness) {
+    //         router.replace("/");
+    //     }
+    // }, []);
+
     return (
         <>
             <Header />
-            <div>여기는 셀러 페이지입니다.</div>
-            <article>{children}</article>
+            <BodyContainer>
+                <NavigationBar isBuyer={false} />
+                <article>{children}</article>
+            </BodyContainer>
         </>
     );
 }

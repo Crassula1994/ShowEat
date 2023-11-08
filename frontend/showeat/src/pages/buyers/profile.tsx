@@ -1,5 +1,6 @@
 /* Import */
 import BuyerLayout from "@layouts/BuyerLayout";
+import withAuth from "@libs/withAuth";
 import { ReactNode } from "react";
 
 // ----------------------------------------------------------------------------------------------------
@@ -11,12 +12,20 @@ function BuyerProfile() {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Middleware */
+const BuyerProfileWithAuth = withAuth({
+    WrappedComponent: BuyerProfile,
+    guardType: "USER_ONLY",
+});
+
+// ----------------------------------------------------------------------------------------------------
+
 /* Layout */
-BuyerProfile.getLayout = function getLayout(page: ReactNode) {
+BuyerProfileWithAuth.getLayout = function getLayout(page: ReactNode) {
     return <BuyerLayout>{page}</BuyerLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default BuyerProfile;
+export default BuyerProfileWithAuth;

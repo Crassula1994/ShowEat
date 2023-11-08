@@ -1,8 +1,17 @@
 /* Import */
 import Header from "@components/header";
+import styled from "@emotion/styled";
+import NavigationBar from "@components/navigationBar/NavigationBar";
 import { LayoutProps } from "@customTypes/layoutProps";
 
 // ----------------------------------------------------------------------------------------------------
+
+const BodyContainer = styled("div")`
+    display: flex;
+
+    width: 100%;
+    min-height: calc(100vh-5em);
+`;
 
 /* Buyer Page Layout */
 function BuyerLayout(props: LayoutProps) {
@@ -11,8 +20,10 @@ function BuyerLayout(props: LayoutProps) {
     return (
         <>
             <Header />
-            <div>여기는 바이어 페이지입니다.</div>
-            <article>{children}</article>
+            <BodyContainer>
+                <NavigationBar isBuyer />
+                <article>{children}</article>
+            </BodyContainer>
         </>
     );
 }

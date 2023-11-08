@@ -233,8 +233,21 @@ const SellerImageWrapper = styled(Image)`
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Function */
+function dayCheck(remainingDays: number) {
+    if (remainingDays > 0) {
+        return `D-${remainingDays}`;
+    }
+    if (remainingDays === 0) {
+        return "오늘 마감";
+    }
+    return null;
+}
+
 /* Coupon Component */
 function Coupon({ couponData, onClick }: CouponProps) {
+    const days = dayCheck(couponData.remainingDays);
+
     return (
         <CouponContainer
             onClick={() => onClick(couponData.couponId)}
@@ -248,8 +261,7 @@ function Coupon({ couponData, onClick }: CouponProps) {
                     fill
                     couponStatus={couponData.couponStatus}
                 />
-                <CouponPeriodWrapper>{`D-${couponData.remainingDays}`}</CouponPeriodWrapper>
-
+                {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
                 {couponData.couponStatus !== "ACTIVE" && (
                     <CouponCheckBorderWrapper couponStatus={couponData.couponStatus}>
                         <CouponCheckWrapper couponStatus={couponData.couponStatus}>

@@ -1,5 +1,6 @@
 /* Import */
 import SellerLayout from "@layouts/SellerLayout";
+import withAuth from "@libs/withAuth";
 import { ReactNode } from "react";
 
 // ----------------------------------------------------------------------------------------------------
@@ -11,12 +12,20 @@ function BasicInfo() {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Middleware */
+const BasicInfoWithAuth = withAuth({
+    WrappedComponent: BasicInfo,
+    guardType: "USER_ONLY",
+});
+
+// ----------------------------------------------------------------------------------------------------
+
 /* Layout */
-BasicInfo.getLayout = function getLayout(page: ReactNode) {
+BasicInfoWithAuth.getLayout = function getLayout(page: ReactNode) {
     return <SellerLayout>{page}</SellerLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default BasicInfo;
+export default BasicInfoWithAuth;
