@@ -14,9 +14,7 @@ const getCouponList = async (userId: number, status: string, page: number) => {
     };
 
     const result = await fetchGet(props);
-    const data = Array.isArray(result.data.couponListResponseDtos)
-        ? result.data.couponListResponseDtos
-        : [];
+    const data = Array.isArray(result.data.couponListResponseDtos) ? result.data : [];
     return data;
 };
 
