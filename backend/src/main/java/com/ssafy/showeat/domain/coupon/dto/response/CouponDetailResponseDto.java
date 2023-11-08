@@ -28,5 +28,6 @@ public class CouponDetailResponseDto {
 	private String fundingMenu;
 	private int fundingDiscountPrice;
 	private int fundingPrice;
+	private String couponQrCodeImgUrl;
 
 }

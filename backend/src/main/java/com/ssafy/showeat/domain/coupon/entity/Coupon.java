@@ -74,6 +74,7 @@ public class Coupon extends BaseTimeEntity {
 			.fundingMenu(funding.getFundingMenu())
 			.fundingDiscountPrice(funding.getFundingDiscountPrice())
 			.fundingPrice(funding.getFundingPrice())
+			.couponQrCodeImgUrl(couponQrCodeImgUrl)
 			.build();
 	}
 

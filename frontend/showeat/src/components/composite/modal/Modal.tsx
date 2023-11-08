@@ -55,6 +55,7 @@ const ModalOuterContainer = styled("div")<ModalOuterContainerType>`
     border-radius: 20px;
 
     padding: 2em 2em;
+    box-sizing: border-box;
 
     background-color: white;
 
@@ -74,12 +75,8 @@ const ModalInnerContainer = styled("div")`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     overflow: hidden;
     text-overflow: ellipsis;
-
-    width: 100%;
-    height: 100%;
 `;
 
 const ModalTitleWrapper = styled("div")<{ titleSize: string }>`
@@ -91,7 +88,7 @@ const ModalTitleWrapper = styled("div")<{ titleSize: string }>`
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    padding-bottom: 1em;
+    margin-bottom: 1em;
 
     font-weight: 700;
     font-size: ${(props) => props.titleSize};
@@ -106,7 +103,7 @@ const ButtonContainer = styled("div")`
     justify-content: space-evenly;
     align-items: center;
 
-    padding-top: 1em;
+    margin-top: 1em;
 `;
 
 // ----------------------------------------------------------------------------------------------------

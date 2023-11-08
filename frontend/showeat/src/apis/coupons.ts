@@ -20,5 +20,15 @@ const getCouponList = async (userId: number, status: string, page: number) => {
     return data;
 };
 
+const getCouponDetails = async (couponId: number) => {
+    const props: FetchProps = {
+        url: `coupon/${couponId}`,
+        method: "GET",
+        isAuth: true,
+    };
+    const data = await fetchGet(props);
+    return data;
+};
+
 // Export the function as the default export
-export default getCouponList;
+export { getCouponList, getCouponDetails };
