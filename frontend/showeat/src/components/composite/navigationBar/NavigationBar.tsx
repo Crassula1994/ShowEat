@@ -19,17 +19,19 @@ interface NavigationBarProps {
 
 /* Style */
 const NavigationBarContainer = styled("div")`
+    position: fixed;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 
-    width: 300px;
+    width: 250px;
     height: 100%;
 
     left: 0;
 
-    padding: 2em 0;
+    padding: 1em 0;
 
     border-right: 1px solid ${(props) => props.theme.colors.gray2};
 
@@ -43,15 +45,14 @@ const ProfileBoxContainer = styled("div")`
     align-items: center;
 
     width: 100%;
-    height: 100%;
 
     padding: 0.5em 0;
 `;
 
 const ProfileImageWrapper = styled("div")`
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
 
     border: 1px solid ${(props) => props.theme.colors.gray3};
     border-radius: 50%;
@@ -62,7 +63,7 @@ const ProfileImage = styled(Image)`
 `;
 
 const ProfileNickname = styled("span")`
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
 
     margin-top: 0.5em;
@@ -74,7 +75,7 @@ const PointContainer = styled("div")`
     justify-content: center;
     align-items: center;
 
-    padding: 1em 0;
+    padding: 0.8em 0;
 `;
 
 const PointHeader = styled("div")`
@@ -120,7 +121,7 @@ const CreateFundingButtonWrapper = styled("div")`
     justify-content: center;
     align-items: center;
 
-    padding: 1em 0;
+    padding: 1.4em 0;
 `;
 
 const MenuContainer = styled("div")`
@@ -129,7 +130,7 @@ const MenuContainer = styled("div")`
     justify-content: center;
     align-items: center;
 
-    padding: 2em 0;
+    padding: 1.4em 0;
 `;
 
 const MenuWrapper = styled("div")<{ isSelected: boolean }>`
@@ -138,11 +139,11 @@ const MenuWrapper = styled("div")<{ isSelected: boolean }>`
     align-items: center;
 
     width: 150px;
-    height: 30px;
+    height: 26px;
 
     margin: 10px 0;
 
-    font-size: ${(props) => (props.isSelected ? "22px" : "18px")};
+    font-size: ${(props) => (props.isSelected ? "20px" : "16px")};
     font-weight: ${(props) => (props.isSelected ? 700 : 500)};
 
     border-right: ${(props) => props.isSelected && `4px solid ${props.theme.colors.gray5}`};
@@ -247,7 +248,9 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                 <CreateFundingButtonWrapper>
                     <TextButton
                         text="펀딩 생성"
-                        width="200px"
+                        width="180px"
+                        height="40px"
+                        fontSize={20}
                         colorType="primary"
                         onClick={handleCreateFunding}
                     />

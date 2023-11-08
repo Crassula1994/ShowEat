@@ -16,6 +16,7 @@ import useUserState from "@hooks/useUserState";
 const HeaderContainer = styled("div")`
     // Position Attribute
     position: sticky;
+    z-index: 10;
 
     // Layout Attribute
     display: flex;
