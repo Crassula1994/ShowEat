@@ -3,12 +3,12 @@ import withAuth from "@libs/withAuth";
 import { ReactNode, useEffect, useState } from "react";
 import BuyerLayout from "@/layouts/BuyerLayout";
 import styled from "@emotion/styled";
-import Coupon from "@components/coupon/Coupon";
 import { getCouponList, getCouponDetails } from "@apis/coupons";
 import TextButton from "@components/common/button/TextButton";
 import useUserState from "@hooks/useUserState";
-import Modal from "@components/modal";
-import CouponModal from "@components/modal/buyers/coupons/couponModal";
+import CouponModal from "@components/custom/modal/BuyersCouponModal";
+import Modal from "@components/composite/modal";
+import Coupon from "@components/composite/coupon/Coupon";
 
 const CouponContainer = styled("div")`
     color: #000;
@@ -32,7 +32,7 @@ const NoCouponWrapper = styled("div")`
 const CouponList = styled("div")`
     display: flex;
     flex-wrap: wrap;
-    width: 700px;
+    width: 950px;
     align-items: center;
     margin-top: 20px;
 `;
@@ -53,8 +53,7 @@ function Coupons() {
     const [page, setPage] = useState(0);
     const [user] = useUserState();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [selectedCoupon, setSelectedCoupon] = useState([]);
-    const [selectedCoupon, setSelectedCoupon] = useState<CouponType | null>(null);
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
 
     const handleStatusChange = (newStatus: string) => {
         setStatus(newStatus);
@@ -67,6 +66,8 @@ function Coupons() {
 
     const openModal = (coupon) => {
         console.log(`지금 클릭한 couponId: ${coupon.couponId}`);
+        console.log("리스트!!!");
+        console.log(couponData);
         setSelectedCoupon(coupon);
         getCouponDetails(coupon.couponId)
             .then((couponDetailsData) => {
@@ -88,6 +89,9 @@ function Coupons() {
                 } else {
                     setCouponData([...couponData, ...data]);
                 }
+                console.log("받아온 쿠폰 데이터!!!!!!!!!!!!!!!!:", data);
+                // totalPages를 콘솔에 출력합니다.
+                console.log("totalPages:", data.totalPages);
             })
             .catch((error) => {
                 console.error("쿠폰 데이터를 가져오는 중 오류 발생:", error);
