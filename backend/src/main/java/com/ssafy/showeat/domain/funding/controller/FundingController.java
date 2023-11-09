@@ -101,14 +101,13 @@ public class FundingController {
 		@ApiResponse(code = 200, message = "펀딩 목록 조회 성공"),
 		@ApiResponse(code = 400, message = "펀딩 목록 조회 실패"),
 	})
-	@GetMapping("/business/{businessId}")
+	@GetMapping("/business")
 	public ResponseResult getFundingList(
 		HttpServletRequest request,
-		@PathVariable Long businessId,
 		FundingIsActive state,
 		@RequestParam int page
 	) {
-		return new PageResponseResult<>(fundingService.getFundingList(businessId, state, page, userService.getUserFromRequest(request)));
+		return new PageResponseResult<>(fundingService.getFundingList(state, page, userService.getUserFromRequest(request)));
 	}
 
 	@ApiOperation(value = "사용자 참여 펀딩 조회", notes = "사용자가 자신이 참여한 펀딩을 조회합니다.")

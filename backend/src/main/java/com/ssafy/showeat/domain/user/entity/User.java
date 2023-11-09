@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.notification.entity.Notification;
 import com.ssafy.showeat.domain.payment.entity.Payment;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
@@ -41,6 +42,10 @@ public class User extends BaseTimeEntity {
     private String userPhone;
 
     private boolean visited;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Business business;
 
     @OneToOne
     @JoinColumn(name = "credential_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
