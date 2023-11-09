@@ -82,14 +82,20 @@ function CouponModal(props: CouponDetailsProps) {
             fundingTitle,
             fundingMenu,
             fundingDiscountPrice,
-            fundingPrice,
+            couponPrice,
             couponQrCodeImgUrl,
+            couponType,
         },
     } = props;
 
-    const headers = ["펀딩명", "유효기간", "금액권 가격", "구입 가격"];
-    // const headers = ["펀딩명", "유효기간", "메뉴 가격", "구입 가격"];
-    const contents = [fundingTitle, expirationDate, fundingPrice, fundingDiscountPrice];
+    let headers;
+    if (couponType === "GIFTCARD") {
+        headers = ["펀딩명", "유효기간", "금액권 가격", "구입 가격"];
+    } else {
+        headers = ["펀딩명", "유효기간", "메뉴 가격", "구입 가격"];
+    }
+
+    const contents = [fundingTitle, expirationDate, couponPrice, fundingDiscountPrice];
 
     return (
         <CouponContainer>

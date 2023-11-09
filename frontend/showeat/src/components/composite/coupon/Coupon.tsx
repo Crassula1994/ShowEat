@@ -279,7 +279,7 @@ function Coupon({ couponData, onClick }: CouponProps) {
                     <MenuNameWrapper>
                         {couponData.couponType === "SINGLE"
                             ? couponData.fundingMenu
-                            : `${couponData.couponOriginalPrice}원`}
+                            : `${couponData.fundingMenu}`}
                     </MenuNameWrapper>
                 </SellerTextContainer>
                 <SellerImageWrapper
