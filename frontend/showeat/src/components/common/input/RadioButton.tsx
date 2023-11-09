@@ -48,7 +48,7 @@ const RadioButtonLabelContainer = styled("div")`
     align-items: center;
 `;
 const RadioButtonLabelWrapper = styled("label")`
-    font-size: 14px;
+    font-size: 17px;
     text-align: end;
 `;
 
@@ -59,10 +59,19 @@ const RadioButtonIconWrapper = styled(Image)`
 // ----------------------------------------------------------------------------------------------------
 
 /* Radio Button Component */
-function RadioButton({ width, height, id, name, value, radioName, iconURL }: RadioButtonProps) {
+function RadioButton({
+    width,
+    height,
+    id,
+    name,
+    value,
+    radioName,
+    iconURL,
+    onClick,
+}: RadioButtonProps) {
     return (
         <RadioButtonContainer width={width} height={height}>
-            <RadioButtonWrapper type="radio" id={id} name={name} value={value} />
+            <RadioButtonWrapper type="radio" id={id} name={name} value={value} onClick={onClick} />
             <RadioButtonLabelContainer>
                 <RadioButtonLabelWrapper htmlFor={id}>{radioName}</RadioButtonLabelWrapper>
                 {iconURL && (

@@ -15,6 +15,7 @@ import PhoneIcon from "./phone-icon.svg";
 import RightArrowIcon from "./right-arrow-icon.svg";
 import RoundAddIcon from "./round-add-icon.svg";
 import SearchIcon from "./search-icon.svg";
+import CashCowCoinIcon from "./cashcow-coin-icon.svg";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -36,4 +37,5 @@ export {
     RightArrowIcon,
     RoundAddIcon,
     SearchIcon,
+    CashCowCoinIcon,
 };
