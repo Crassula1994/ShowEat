@@ -16,18 +16,20 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponDetailResponseDto {
+public class CouponResponseDto {
 
 	private Long couponId;
 	private CouponStatus couponStatus;
 	private CouponType couponType;
 	private int couponPrice;
 	private LocalDate expirationDate;
+	private Long remainingDays;
 	private String businessName;
-	private String fundingTitle;
+	private String businessImgUrl;
 	private String fundingMenu;
-	private int fundingDiscountPrice;
 	private int fundingPrice;
+	private int fundingDiscountPrice;
+	private String fundingImgUrl;
 	private String couponQrCodeImgUrl;
 
 }

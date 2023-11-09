@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class CouponPageResponseDto {
 
 	@ApiModelProperty(value = "쿠폰 리스트")
-	private List<CouponListResponseDto> couponListResponseDtos;
+	private List<CouponResponseDto> couponResponseDtos;
 
 	@ApiModelProperty(value = "현재 페이지 번호")
 	private int pageNumber;
@@ -41,8 +41,8 @@ public class CouponPageResponseDto {
 
 	public static CouponPageResponseDto createCouponPageResponseDto(Page<Coupon> couponList) {
 		return CouponPageResponseDto.builder()
-			.couponListResponseDtos(
-				couponList.getContent().stream().map(coupon -> coupon.toCouponListResponseDto()).collect(
+			.couponResponseDtos(
+				couponList.getContent().stream().map(coupon -> coupon.toCouponResponseDto()).collect(
 					Collectors.toList()))
 			.pageNumber(couponList.getNumber())
 			.pageSize(couponList.getSize())

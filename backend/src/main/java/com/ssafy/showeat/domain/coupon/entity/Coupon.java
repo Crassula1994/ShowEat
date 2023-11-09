@@ -14,8 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
-import com.ssafy.showeat.domain.coupon.dto.response.CouponListResponseDto;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
@@ -62,36 +61,23 @@ public class Coupon extends BaseTimeEntity {
 	@JoinColumn(name = "funding_id", nullable = false)
 	private Funding funding;
 
-	public CouponDetailResponseDto toCouponDetailResponseDto() {
-		return CouponDetailResponseDto.builder()
+	public CouponResponseDto toCouponResponseDto() {
+		LocalDate currentDate = LocalDate.now();
+
+		return CouponResponseDto.builder()
 			.couponId(couponId)
 			.couponStatus(couponStatus)
 			.couponType(couponType)
 			.couponPrice(couponPrice)
 			.expirationDate(couponExpirationDate)    // TODO : 60, 90, 180일 더한 날짜 반환
-			.businessName(funding.getBusiness().getBusinessName())
-			.fundingTitle(funding.getFundingTitle())
-			.fundingMenu(funding.getFundingMenu())
-			.fundingDiscountPrice(funding.getFundingDiscountPrice())
-			.fundingPrice(funding.getFundingPrice())
-			.couponQrCodeImgUrl(couponQrCodeImgUrl)
-			.build();
-	}
-
-	public CouponListResponseDto toCouponListResponseDto() {
-		LocalDate currentDate = LocalDate.now();
-
-		return CouponListResponseDto.builder()
-			.couponId(couponId)
-			.couponStatus(couponStatus)
-			.couponType(couponType)
-			.couponOriginalPrice(funding.getFundingDiscountPrice())
-			.expirationDate(couponExpirationDate)    // TODO : 60, 90, 180일 더한 날짜 반환
+			.remainingDays(ChronoUnit.DAYS.between(currentDate, couponExpirationDate)) // TODO: 만료 날짜 - 현재 날짜 반환
 			.businessName(funding.getBusiness().getBusinessName())
 			.businessImgUrl(funding.getBusiness().getBusinessImgUrl())
 			.fundingMenu(funding.getFundingMenu())
+			.fundingPrice(funding.getFundingPrice())
+			.fundingDiscountPrice(funding.getFundingDiscountPrice())
 			.fundingImgUrl(funding.getFundingImages().get(0).getFundingImgUrl())
-			.remainingDays(ChronoUnit.DAYS.between(currentDate, couponExpirationDate)) // TODO: 만료 날짜 - 현재 날짜 반환
+			.couponQrCodeImgUrl(couponQrCodeImgUrl)
 			.build();
 	}
 
@@ -112,7 +98,7 @@ public class Coupon extends BaseTimeEntity {
 		this.couponQrCodeImgUrl = s3QrCodeImageUrl;
 	}
 
-	public static Coupon createCouponByFundingSuccess(User user , Funding funding){
+	public static Coupon createCouponByFundingSuccess(User user, Funding funding) {
 		return Coupon.builder()
 			.couponPrice(funding.getFundingDiscountPrice())
 			.couponStatus(CouponStatus.ACTIVE)

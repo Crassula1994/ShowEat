@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponPriceRequestDto;
 import com.ssafy.showeat.domain.coupon.dto.request.UpdateCouponStatusRequestDto;
-import com.ssafy.showeat.domain.coupon.dto.response.CouponDetailResponseDto;
 import com.ssafy.showeat.domain.coupon.dto.response.CouponPageResponseDto;
+import com.ssafy.showeat.domain.coupon.dto.response.CouponResponseDto;
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.entity.CouponType;
@@ -39,15 +39,16 @@ public class CouponServiceImpl implements CouponService {
 	public CouponPageResponseDto getCouponListByUserIdAndStatus(Long userId, CouponStatus status, int page) {
 		log.info("CouponService_getCouponListByUserIdAndStatus || 유저의 상태별 쿠폰 조회");
 		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
-		Page<Coupon> couponList = couponRepository.findCouponListByUserAndStatus(PageRequest.of(page, 12), user, status);
+		Page<Coupon> couponList = couponRepository.findCouponListByUserAndStatus(PageRequest.of(page, 12), user,
+			status);
 		return CouponPageResponseDto.createCouponPageResponseDto(couponList);
 	}
 
 	@Override
-	public CouponDetailResponseDto getCouponDetailByCouponId(Long couponId) {
+	public CouponResponseDto getCouponDetailByCouponId(Long couponId) {
 		log.info("CouponService_getCouponDetailByCouponId || 해당 쿠폰의 상세 정보 조회");
 		Coupon coupon = couponRepository.findById(couponId).orElseThrow(NotExistCouponException::new);
-		return coupon.toCouponDetailResponseDto();
+		return coupon.toCouponResponseDto();
 	}
 
 	@Override
