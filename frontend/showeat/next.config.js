@@ -2,7 +2,12 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        domains: ["k.kakaocdn.net", "showeatbucket.s3.ap-northeast-2.amazonaws.com", "localhost"],
+        domains: [
+            "localhost",
+            "s3.ap-northeast-2.amazonaws.com",
+            "showeatbucket.s3.ap-northeast-2.amazonaws.com",
+            "k.kakaocdn.net",
+        ],
     },
     webpack: (config) => {
         config.module.rules.push({

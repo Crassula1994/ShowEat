@@ -21,6 +21,7 @@ const FooterContainer = styled("div")<{ isPageOverflow: boolean }>`
 
     border-top: 1px solid ${(props) => props.theme.colors.gray2};
     background-color: white;
+    box-sizing: border-box;
 
     z-index: 200;
 `;
@@ -42,6 +43,7 @@ const ShowEatInfoContainer = styled("div")`
     max-width: 600px;
     height: 100%;
     padding: 0px 20px;
+    box-sizing: border-box;
 `;
 
 const ShowEatTitleContainer = styled("div")`
@@ -52,12 +54,14 @@ const ShowEatTitleContainer = styled("div")`
     width: 100%;
 
     padding-bottom: 0.5em;
+    box-sizing: border-box;
 `;
 
 const ShowEatTitleWrapper = styled("span")<{ korean?: boolean }>`
     font-size: 20px;
     font-weight: 700;
 
+    box-sizing: border-box;
     padding-right: ${(props) => (props.korean ? "20px" : "none")};
     padding-left: ${(props) => (props.korean ? "none" : "20px")};
 
@@ -81,11 +85,13 @@ const TeamInfoTextContainer = styled("div")`
     width: 100%;
 
     padding: 2px 0px;
+    box-sizing: border-box;
 `;
 
 const TeamInfoTitleWrapper = styled("span")`
     width: 30%;
     padding-right: 2em;
+    box-sizing: border-box;
 
     font-size: 14px;
     font-weight: 700;

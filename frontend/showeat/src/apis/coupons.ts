@@ -4,29 +4,31 @@ import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function for get My Coupons */
+/* Function for Getting Coupon List */
 const getCouponList = async (userId: number, status: string, page: number) => {
-    console.log(userId, " ", status);
     const props: FetchProps = {
         url: `coupon/${userId}/${status}/${page}`,
         method: "GET",
         isAuth: true,
     };
-
     const result = await fetchGet(props);
-    const data = Array.isArray(result.data.couponListResponseDtos) ? result.data : [];
-    return data;
+
+    return result;
 };
 
+/* Function for Getting Coupon Information */
 const getCouponDetails = async (couponId: number) => {
     const props: FetchProps = {
         url: `coupon/${couponId}`,
         method: "GET",
         isAuth: true,
     };
-    const data = await fetchGet(props);
-    return data;
+    const result = await fetchGet(props);
+
+    return result;
 };
 
-// Export the function as the default export
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
 export { getCouponList, getCouponDetails };

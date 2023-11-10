@@ -27,6 +27,7 @@ public class CouponResponseDto {
 	private String businessName;
 	private String businessImgUrl;
 	private String fundingMenu;
+	private String fundingTitle;
 	private int fundingPrice;
 	private int fundingDiscountPrice;
 	private String fundingImgUrl;

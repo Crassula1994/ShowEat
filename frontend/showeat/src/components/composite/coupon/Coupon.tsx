@@ -1,88 +1,61 @@
 /* Import */
+import { CouponType } from "@customTypes/apiProps";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { keyframes } from "@emotion/react";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
 interface CouponProps {
-    couponData: {
-        couponId: number;
-        couponStatus: "ACTIVE" | "USED" | "EXPIRED";
-        couponType: "SINGLE" | "GIFTCARD";
-        couponOriginalPrice: number;
-        businessName: string;
-        businessImgUrl: string;
-        fundingMenu?: string;
-        fundingImgUrl: string;
-        remainingDays: number;
-    };
+    coupon: CouponType;
     onClick: (couponId: number) => void;
 }
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const hoverAnimation = keyframes`
-from {
-  transform: scale(1)
-}
-to {
-  transform: scale(1.01)
-}
-`;
-
-const clickAnimation = keyframes`
-from {
-  transform: scale(1.01)
-}
-to {
-  transform: scale(1.02)
-}
-`;
-
 const CouponContainer = styled("div")<{ couponStatus: string }>`
-    display: inline-flex;
+    // Layout Attribute
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    // Box Model Attribute
     width: 200px;
-    height: 264px;
-    margin: 15px;
-    cursor: pointer;
+    height: 250px;
 
-    -webkit-user-select: none;
+    // Interaction Attribute
+    cursor: pointer;
+    user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
-
+    -webkit-user-select: none;
+    transition: 0.2s all ease;
     &:hover {
-        animation: ${hoverAnimation} 0.2s linear forwards;
+        transform: scale(1.02);
         & .coupon-image {
             filter: ${(props) =>
                 props.couponStatus !== "ACTIVE"
                     ? "grayscale(80%)"
                     : "brightness(0.7) saturate(1.5)"};
-            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray2};
+            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.primary1};
         }
         & .coupon-lower-container {
-            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray2};
+            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.primary1};
         }
     }
-
     &:active {
-        animation: ${clickAnimation} 0.1s linear forwards;
+        transform: scale(0.97);
         & .coupon-image {
             filter: ${(props) =>
                 props.couponStatus !== "ACTIVE"
                     ? "grayscale(80%)"
                     : "brightness(0.7) saturate(1.5)"};
-            box-shadow: 0px 0px 6px 3px ${(props) => props.theme.colors.gray2};
+            box-shadow: 0px 0px 6px 3px ${(props) => props.theme.colors.primary1};
         }
         & .coupon-lower-container {
-            box-shadow: 0px 0px 6px 3px ${(props) => props.theme.colors.gray2};
+            box-shadow: 0px 0px 6px 3px ${(props) => props.theme.colors.primary1};
         }
     }
 `;
@@ -93,12 +66,11 @@ const CouponUpperContainer = styled("div")`
 
     position: relative;
 
-    border: 1px solid ${(props) => props.theme.colors.gray4};
+    border: 3px solid ${(props) => props.theme.colors.primary3};
     border-radius: 20px;
 `;
 
 const CouponImageWrapper = styled(Image)<{ couponStatus: string }>`
-    border: 1px solid ${(props) => props.theme.colors.gray4};
     border-radius: 20px;
 
     filter: ${(props) => props.couponStatus !== "ACTIVE" && "grayscale(80%)"};
@@ -178,7 +150,7 @@ const CouponDividerWrapper = styled("div")`
     width: 85%;
     padding-bottom: 2%;
     margin-bottom: 2%;
-    border-bottom: 3px dashed ${(props) => props.theme.colors.gray5};
+    border-bottom: 3px dashed ${(props) => props.theme.colors.secondary3};
 `;
 
 const CouponLowerContainer = styled("div")`
@@ -189,7 +161,7 @@ const CouponLowerContainer = styled("div")`
     width: 100%;
     height: 21%;
 
-    border: 1px solid ${(props) => props.theme.colors.gray4};
+    border: 3px solid ${(props) => props.theme.colors.primary3};
     border-radius: 20px;
 
     background-color: white;
@@ -233,41 +205,39 @@ const SellerImageWrapper = styled(Image)`
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function */
-function dayCheck(remainingDays: number) {
-    if (remainingDays > 0) {
-        return `D-${remainingDays}`;
-    }
-    if (remainingDays === 0) {
-        return "오늘 마감";
-    }
-    return null;
-}
-
 /* Coupon Component */
-function Coupon({ couponData, onClick }: CouponProps) {
-    const days = dayCheck(couponData.remainingDays);
+function Coupon({ coupon, onClick }: CouponProps) {
+    function dayCheck(remainingDays: number) {
+        if (remainingDays > 0) {
+            return `D-${remainingDays}`;
+        }
+        if (remainingDays === 0) {
+            return "오늘 마감";
+        }
+        return null;
+    }
+    const days = dayCheck(coupon.remainingDays);
 
     return (
         <CouponContainer
-            onClick={() => onClick(couponData.couponId)}
-            couponStatus={couponData.couponStatus}
+            onClick={() => onClick(coupon.couponId)}
+            couponStatus={coupon.couponStatus}
         >
             <CouponUpperContainer>
                 <CouponImageWrapper
                     className="coupon-image"
-                    src={couponData.fundingImgUrl}
+                    src={coupon.fundingImgUrl}
                     alt="coupon-image"
                     fill
-                    couponStatus={couponData.couponStatus}
+                    couponStatus={coupon.couponStatus}
                 />
                 {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
-                {couponData.couponStatus !== "ACTIVE" && (
-                    <CouponCheckBorderWrapper couponStatus={couponData.couponStatus}>
-                        <CouponCheckWrapper couponStatus={couponData.couponStatus}>
+                {coupon.couponStatus !== "ACTIVE" && (
+                    <CouponCheckBorderWrapper couponStatus={coupon.couponStatus}>
+                        <CouponCheckWrapper couponStatus={coupon.couponStatus}>
                             사용
                             <br />
-                            {couponData.couponStatus === "USED" ? "완료" : "불가"}
+                            {coupon.couponStatus === "USED" ? "완료" : "불가"}
                         </CouponCheckWrapper>
                     </CouponCheckBorderWrapper>
                 )}
@@ -275,15 +245,15 @@ function Coupon({ couponData, onClick }: CouponProps) {
             <CouponDividerWrapper />
             <CouponLowerContainer className="coupon-lower-container">
                 <SellerTextContainer>
-                    <BusinessNameWrapper>{couponData.businessName}</BusinessNameWrapper>
+                    <BusinessNameWrapper>{coupon.businessName}</BusinessNameWrapper>
                     <MenuNameWrapper>
-                        {couponData.couponType === "SINGLE"
-                            ? couponData.fundingMenu
-                            : `${couponData.fundingMenu}`}
+                        {coupon.couponType === "SINGLE"
+                            ? coupon.fundingMenu
+                            : `${coupon.fundingMenu}`}
                     </MenuNameWrapper>
                 </SellerTextContainer>
                 <SellerImageWrapper
-                    src={couponData.businessImgUrl}
+                    src={coupon.businessImgUrl}
                     alt="seller-image"
                     width={40}
                     height={40}

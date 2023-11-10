@@ -7,6 +7,7 @@ import { userDefaultValue, userState } from "@stores/users";
 
 /* Hook for Getting and Setting User State */
 function useUserState() {
+    // States and Variables
     const [isInitial, setIsInitial] = useState<boolean>(true);
     const [value, setValue] = useRecoilState(userState);
 

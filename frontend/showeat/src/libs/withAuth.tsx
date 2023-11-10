@@ -7,9 +7,7 @@ import { useRouter } from "next/router";
 // ----------------------------------------------------------------------------------------------------
 
 /* Authentication Middleware */
-function withAuth<P extends JSX.IntrinsicAttributes>(
-    props: WithAuthProps<P>,
-): ComponentWithAuth<P> {
+function withAuth<P extends object>(props: WithAuthProps<P>): ComponentWithAuth<P> {
     /* Auth Guard Component */
     function AuthGuard(componentProps: P) {
         // States and Variables

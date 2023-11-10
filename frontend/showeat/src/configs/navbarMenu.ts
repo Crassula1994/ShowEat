@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------------------------------------
-
-/* return navbar menu list */
+/* Function for Navigation Bar Menu Information */
 function navbarMenu(isBuyer: boolean) {
     if (isBuyer) {
         return [

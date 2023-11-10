@@ -1,24 +1,20 @@
 /* Import */
-import MainLayout from "@layouts/MainLayout";
+import BuyerLayout from "@layouts/BuyerLayout";
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Funding Page */
-function Funding() {
+/* Coupons Page */
+function Coupons() {
     // States and Variables
     const router = useRouter();
-    const { fundingId } = router.query;
 
-    // Hook for Routing Funding Store Page
+    // Hook for Routing Coupons Active Page
     useEffect(() => {
-        if (!fundingId) {
-            return;
-        }
-        router.replace(`/fundings/${fundingId}/store`);
-    }, [fundingId]);
+        router.replace(`/buyers/coupons/active`);
+    }, []);
 
     return null;
 }
@@ -26,16 +22,16 @@ function Funding() {
 // ----------------------------------------------------------------------------------------------------
 
 /* Middleware */
-const FundingWithAuth = withAuth({ WrappedComponent: Funding });
+const CouponsWithAuth = withAuth({ WrappedComponent: Coupons, guardType: "USER_ONLY" });
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Layout */
-FundingWithAuth.getLayout = function getLayout(page: ReactNode) {
-    return <MainLayout>{page}</MainLayout>;
+CouponsWithAuth.getLayout = function getLayout(page: ReactNode) {
+    return <BuyerLayout>{page}</BuyerLayout>;
 };
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default FundingWithAuth;
+export default CouponsWithAuth;

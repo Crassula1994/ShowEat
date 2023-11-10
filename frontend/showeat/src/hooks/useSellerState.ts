@@ -1,12 +1,13 @@
 /* Import */
+import { sellerDefaultValue, sellerState } from "@stores/users";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { sellerDefaultValue, sellerState } from "@stores/users";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Hook for Getting and Setting User State */
+/* Hook for Getting and Setting Seller State */
 function useSellerState() {
+    // States and Variables
     const [isInitial, setIsInitial] = useState<boolean>(true);
     const [value, setValue] = useRecoilState(sellerState);
 

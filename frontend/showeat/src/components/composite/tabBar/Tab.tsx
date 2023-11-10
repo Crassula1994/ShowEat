@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 
 /* Type */
 interface TabProps {
+    width: string;
     labelText: string;
     isActive: boolean;
     onClick: () => void;
@@ -13,23 +14,41 @@ interface TabProps {
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const TabWrapper = styled("div")`
-    padding: 1em 2em;
+const TabWrapper = styled("div")<{ width: string }>`
+    // Layout Attribute
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Box Model Attribute
+    width: ${(props) => props.width};
+    min-width: 150px;
     box-sizing: border-box;
+    padding: 1em 2em;
+
+    // Style Attribute
+    border: none;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: white;
+
+    // Interaction Attribute
     cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    margin-right: 4px;
-
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    transition: all 0.1s ease;
     &:hover {
-        background-color: #e0e0e0;
+        font-weight: 700;
+        background-color: ${(props) => props.theme.colors.primary1};
+        border-bottom: 3px solid ${(props) => props.theme.colors.primary3};
     }
-
     &.active {
+        font-weight: 700;
         background-color: white;
-        border-bottom: none;
-        position: relative;
-        top: 1px;
+        background-color: ${(props) => props.theme.colors.primary1};
+        border-bottom: 3px solid ${(props) => props.theme.colors.primary3};
     }
 `;
 
@@ -37,9 +56,11 @@ const TabWrapper = styled("div")`
 
 /* Tab Component */
 function Tab(props: TabProps) {
-    const { labelText, isActive, onClick } = props;
+    // States and Variables
+    const { width, labelText, isActive, onClick } = props;
+
     return (
-        <TabWrapper className={isActive ? "active" : ""} onClick={onClick}>
+        <TabWrapper width={width} className={isActive ? "active" : ""} onClick={onClick}>
             {labelText}
         </TabWrapper>
     );

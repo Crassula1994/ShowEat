@@ -2,23 +2,18 @@
 import styled from "@emotion/styled";
 import Table from "@components/common/table";
 import Image from "next/image";
+import { CouponType } from "@customTypes/apiProps";
 
-interface CouponDetailsProps {
-    couponDetailsData: {
-        couponId: number;
-        couponStatus: "ACTIVE" | "USED" | "EXPIRED";
-        couponType: "SINGLE" | "GIFTCARD";
-        couponPrice: number;
-        expirationDate: string;
-        businessName: string;
-        fundingTitle: string;
-        fundingMenu: string;
-        fundingDiscountPrice: number;
-        fundingPrice: number;
-        couponQrCodeImgUrl: string;
-    };
+// ----------------------------------------------------------------------------------------------------
+
+/* Type */
+interface BuyersCouponsModalProps {
+    coupon: CouponType;
 }
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const CouponContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -74,19 +69,18 @@ const TableWrapper = styled("div")`
     width: 440px;
 `;
 
-function CouponModal(props: CouponDetailsProps) {
+function BuyersCouponsModal(props: BuyersCouponsModalProps) {
+    const { coupon } = props;
     const {
-        couponDetailsData: {
-            expirationDate,
-            businessName,
-            fundingTitle,
-            fundingMenu,
-            fundingDiscountPrice,
-            couponPrice,
-            couponQrCodeImgUrl,
-            couponType,
-        },
-    } = props;
+        businessName,
+        couponPrice,
+        couponQrCodeImgUrl,
+        couponType,
+        expirationDate,
+        fundingDiscountPrice,
+        fundingMenu,
+        fundingTitle,
+    } = coupon;
 
     let headers;
     if (couponType === "GIFTCARD") {
@@ -112,4 +106,7 @@ function CouponModal(props: CouponDetailsProps) {
     );
 }
 
-export default CouponModal;
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
+export default BuyersCouponsModal;

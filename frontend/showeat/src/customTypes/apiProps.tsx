@@ -1,4 +1,21 @@
 /* Export */
+export interface CouponType {
+    businessImgUrl: string;
+    businessName: string;
+    couponId: number;
+    couponPrice: number;
+    couponQrCodeImgUrl: string;
+    couponStatus: "ACTIVE" | "USED" | "EXPIRED";
+    couponType: "SINGLE" | "GIFTCARD";
+    expirationDate: string;
+    fundingDiscountPrice: number;
+    fundingImgUrl: string;
+    fundingMenu: string;
+    fundingPrice: number;
+    fundingTitle: string;
+    remainingDays: number;
+}
+
 export interface FetchProps {
     url: string;
     method: "GET" | "POST" | "PATCH" | "DELETE";
