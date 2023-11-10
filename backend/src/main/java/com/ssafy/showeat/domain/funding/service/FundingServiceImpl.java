@@ -24,6 +24,7 @@ import com.ssafy.showeat.domain.coupon.service.CouponService;
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.MenuRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
+import com.ssafy.showeat.domain.funding.dto.response.FundingIsZzimAndIsParticipate;
 import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.Funding;
@@ -120,11 +121,9 @@ public class FundingServiceImpl implements FundingService {
 		log.info("FundingServiceImpl_getFunding ||  펀딩 조회");
 
 		Funding funding = fundingRepository.findById(fundingId).orElseThrow(NotExistFundingException::new);
-
-		boolean isBookmark = loginUser == null ? false : bookmarkService.isBookmark(loginUser,funding);
 		int bookmarkCount = bookmarkService.getBookmarkCountByFundingId(fundingId);
 
-		return funding.toFundingResponseDto(bookmarkCount , isBookmark);
+		return funding.toFundingResponseDto(bookmarkCount);
 	}
 
 	private void fundingValidation(Funding funding , User loginUser){
@@ -152,7 +151,7 @@ public class FundingServiceImpl implements FundingService {
 				.stream()
 				.map(userFunding -> {
 					Funding funding = userFunding.getFunding();
-					return funding.toFundingListResponseDto(bookmarkService.isBookmark(user, funding));
+					return funding.toFundingListResponseDto();
 				}).collect(Collectors.toList());
 
 		if(userFundings.getTotalPages() <= page)
@@ -171,7 +170,7 @@ public class FundingServiceImpl implements FundingService {
 			.stream()
 			.map(bookmark -> {
 				Funding funding = bookmark.getFunding();
-				return funding.toFundingListResponseDto(true);
+				return funding.toFundingListResponseDto();
 			}).collect(Collectors.toList());
 
 		if(userBookmarkFundingList.getTotalPages() <= page)
@@ -192,7 +191,7 @@ public class FundingServiceImpl implements FundingService {
 		if(searchFundingList.getTotalPages() <= searchFundingRequestDto.getPage())
 			throw new NotExistPageFundingException();
 
-		return searchFundingList.map(funding -> funding.toFundingListResponseDto(bookmarkService.isBookmark(user,funding)));
+		return searchFundingList.map(funding -> funding.toFundingListResponseDto());
 	}
 
 	@Override
@@ -202,7 +201,7 @@ public class FundingServiceImpl implements FundingService {
 
 		return fundingRepository.findByType(type)
 				.stream()
-				.map(funding -> funding.toFundingListResponseDto(bookmarkService.isBookmark(user,funding)))
+				.map(funding -> funding.toFundingListResponseDto())
 				.collect(Collectors.toList());
 	}
 
@@ -218,16 +217,24 @@ public class FundingServiceImpl implements FundingService {
 		if(fundingList.getTotalPages() <= page)
 			throw new NotExistPageFundingException();
 
-		return fundingList.map(funding -> funding.toFundingListResponseDto(bookmarkService.isBookmark(user,funding)));
+		return fundingList.map(funding -> funding.toFundingListResponseDto());
+	}
+
+	@Override
+	public FundingIsZzimAndIsParticipate getUserFundingIsZzimAndIsParticipate(Long fundingId, Long userId) {
+		log.info("FundingServiceImpl_getUserFundingIsZzimAndIsParticipate || 유저의 펀딩 참여여부,찜 여부");
+
+		return FundingIsZzimAndIsParticipate.builder()
+			.fundingIsZzim(bookmarkService.isBookmark(userId,fundingId))
+			.fundingIsParticipate(userFundingRepository.existsByUserIdAndFundingId(userId,fundingId))
+			.build();
 	}
 
 	@Override
 	public Page<FundingListResponseDto> getFundingList(FundingIsActive state, int page, User loginUser) {
 		Business business = businessRepository.findById(loginUser.getBusiness().getBusinessId()).get();
 		return fundingRepository.findByBusinessAndFundingIsActive(business, state, PageRequest.of(page, 12))
-			.map(funding -> funding.toFundingListResponseDto(
-				bookmarkService.isBookmark(loginUser, funding)
-			));
+			.map(funding -> funding.toFundingListResponseDto());
 	}
 
 	private void validateSearch(SearchFundingRequestDto searchFundingRequestDto){

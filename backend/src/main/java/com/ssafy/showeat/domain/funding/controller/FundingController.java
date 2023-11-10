@@ -178,5 +178,15 @@ public class FundingController {
 		return new PageResponseResult<>(fundingService.getFundingByCategory(category,sortType,page,userService.getUserFromRequest(request)));
 	}
 
+	@ApiOperation(value = "유저의 펀딩 참여여부,찜 여부 조회" , notes = "유저의 펀딩 참여여부,찜 여부 조회 합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "조회 성공"),
+		@ApiResponse(code = 400, message = "조회 실패"),
+
+	})
+	@GetMapping("/{fundingId}/user/{userId}")
+	public ResponseResult getUserFundingIsZzimAndIsParticipate(@PathVariable Long fundingId, @PathVariable Long userId){
+		return new SingleResponseResult<>(fundingService.getUserFundingIsZzimAndIsParticipate(fundingId,userId));
+	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 import com.ssafy.showeat.domain.funding.dto.request.CreateFundingRequestDto;
 import com.ssafy.showeat.domain.funding.dto.request.SearchFundingRequestDto;
+import com.ssafy.showeat.domain.funding.dto.response.FundingIsZzimAndIsParticipate;
 import com.ssafy.showeat.domain.funding.dto.response.FundingListResponseDto;
 import com.ssafy.showeat.domain.funding.dto.response.FundingResponseDto;
 import com.ssafy.showeat.domain.funding.entity.FundingIsActive;
@@ -24,4 +25,5 @@ public interface FundingService {
 	Page<FundingListResponseDto> searchFunding(SearchFundingRequestDto searchFundingRequestDto,User user);
 	List<FundingListResponseDto> getFundingByType(String type,User user);
 	Page<FundingListResponseDto> getFundingByCategory(String category , String sortType , int page , User user);
+	FundingIsZzimAndIsParticipate getUserFundingIsZzimAndIsParticipate(Long fundingId,Long userId);
 }

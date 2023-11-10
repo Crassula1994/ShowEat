@@ -13,7 +13,7 @@ import com.ssafy.showeat.domain.user.entity.User;
 
 public interface BookmarkService {
 	void addBookmark(Long fundingId , User user);
-	boolean isBookmark(User user, Funding funding);
+	boolean isBookmark(Long userId, Long fundingId);
 	int getBookmarkCountByFundingId(Long fundingId);
 	Page<Bookmark> getUserBookmarkFundingList(User user,int page, Pageable pageable);
 }
