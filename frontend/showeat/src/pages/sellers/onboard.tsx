@@ -71,7 +71,7 @@ function OnBoardingFunding() {
 
     const fetchFundingData = () => {
         getActiveFunding(page, state).then((data) => {
-            if (data.data.content && data.data.content.length > 0) {
+            if (data.data && data.data.content && data.data.content.length > 0) {
                 const isLastPage: boolean = data.data.last;
                 const fundingList: FundingType[] = data.data.content || [];
                 if (page === 0) {

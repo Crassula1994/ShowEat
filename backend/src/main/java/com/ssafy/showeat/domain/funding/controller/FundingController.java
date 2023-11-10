@@ -116,8 +116,8 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "사용자 참여 펀딩 조회 실패"),
 		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
 	})
-	@GetMapping("/user")
-	public ResponseResult getUserFundings(HttpServletRequest request, @RequestParam int page) {
+	@GetMapping("/user/{page}")
+	public ResponseResult getUserFundings(HttpServletRequest request, @PathVariable int page) {
 		log.info("FundingController_getUserFundings");
 		return new PageResponseResult<>(fundingService.getUserFundingList(userService.getUserFromRequest(request),page));
 	}
@@ -128,8 +128,8 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "사용자 좋아요 펀딩 조회 실패"),
 		@ApiResponse(code = 486, message = "해당 페이지는 조회할 정보가 없음"),
 	})
-	@GetMapping("/user/bookmark")
-	public ResponseResult getUserFundingsByBookmark(HttpServletRequest request, @RequestParam int page) {
+	@GetMapping("/user/bookmark/{page}")
+	public ResponseResult getUserFundingsByBookmark(HttpServletRequest request, @PathVariable int page) {
 		log.info("FundingController_getUserFundingsByBookmark");
 		return new PageResponseResult<>(fundingService.getUserFundingListByBookmark(userService.getUserFromRequest(request),page));
 	}

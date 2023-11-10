@@ -2,304 +2,11 @@
 import BuyerLayout from "@layouts/BuyerLayout";
 import Card from "@components/composite/card";
 import withAuth from "@libs/withAuth";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { TextButton, ScrollButton } from "@components/common/button";
-
-// ----------------------------------------------------------------------------------------------------
-
-/* Temporary Data */
-const fundingDatas = [
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-];
-
+import { getFavoriteFundings, postHeart } from "@/apis/fundings";
+import { FundingType } from "@customTypes/apiProps";
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
@@ -354,37 +61,80 @@ const MoreButtonWrapper = styled("div")`
 
 /* Buyer Favorites Page */
 function Favorites() {
+    const [fundingData, setFundingData] = useState<FundingType[]>([]);
+    const [page, setPage] = useState(0);
+    const [hasMorePage, setHasMorePage] = useState<boolean>(false);
+
+    const handleLoadMore = () => {
+        setPage(page + 1); // 더보기 : 페이지 + 1
+    };
     const handleCard = () => {
         console.log("꾹");
     };
 
-    const handleBookmark = () => {
-        console.log("하트");
+    const handleBookmark = (funding: FundingType) => {
+        postHeart(funding.fundingId).then((res) => {
+            if (res.statusCode === 200) {
+                setFundingData(
+                    fundingData.map((item) =>
+                        item.fundingId === funding.fundingId
+                            ? { ...item, fundingIsBookmark: !item.fundingIsBookmark }
+                            : item,
+                    ),
+                );
+            }
+        });
     };
+    const fetchFundingData = () => {
+        getFavoriteFundings(page).then((data) => {
+            if (data.data && data.data.content && data.data.content.length > 0) {
+                const isLastPage: boolean = data.data.last;
+                const fundingList: FundingType[] = data.data.content || [];
+                if (page === 0) {
+                    setFundingData(fundingList);
+                    setHasMorePage(!isLastPage);
+                } else {
+                    setFundingData([...fundingData, ...fundingList]);
+                    setHasMorePage(!isLastPage);
+                }
+            }
+        });
+    };
+
+    useEffect(() => {
+        fetchFundingData();
+    }, [page]);
 
     return (
         <FavoritesContainer>
             <TitleWrapper>관심 펀딩 목록</TitleWrapper>
-            <CardsContainer>
-                {fundingDatas.map((data, idx) => (
-                    <Card
-                        key={`${data.title}-${idx}`}
-                        fundingData={data}
-                        onFundingClick={handleCard}
-                        onBookmark={handleBookmark}
+            {fundingData.length === 0 ? (
+                <CardsContainer>관심있는 펀딩이 없습니다.</CardsContainer>
+            ) : (
+                <CardsContainer>
+                    {fundingData.map((funding, index) => (
+                        <Card
+                            key={index}
+                            fundingData={funding}
+                            onFundingClick={handleCard}
+                            onBookmark={() => handleBookmark(funding)}
+                        />
+                    ))}
+                </CardsContainer>
+            )}
+            {hasMorePage ? (
+                <MoreButtonWrapper>
+                    <TextButton
+                        text="더 보기"
+                        width="400px"
+                        height="50px"
+                        colorType="secondary"
+                        curve="round"
+                        fontSize={20}
+                        onClick={() => handleLoadMore()}
                     />
-                ))}
-            </CardsContainer>
-            <MoreButtonWrapper>
-                <TextButton
-                    text="더 보기"
-                    width="400px"
-                    height="50px"
-                    colorType="secondary"
-                    curve="round"
-                    fontSize={20}
-                />
-            </MoreButtonWrapper>
+                </MoreButtonWrapper>
+            ) : null}
             <ScrollButton width="40px" height="40px" />
         </FavoritesContainer>
     );
