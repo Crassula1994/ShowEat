@@ -152,7 +152,7 @@ function CouponsTab(props: CouponsTabProps) {
     const [selectedCoupon, setSelectedCoupon] = useState<CouponType | null>(null);
     const [page, setPage] = useState<number>(0);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [hasMorePage, setHasMorePage] = useState<boolean>(true);
+    const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     // Function for Handling Tab Click
     const handleTabClick = (id: string, redirectUrl: string) => {

@@ -224,7 +224,7 @@ public class FundingServiceImpl implements FundingService {
 	@Override
 	public Page<FundingListResponseDto> getFundingList(FundingIsActive state, int page, User loginUser) {
 		Business business = businessRepository.findById(loginUser.getBusiness().getBusinessId()).get();
-		return fundingRepository.findByBusinessAndFundingIsActive(business, state, PageRequest.of(page, 6))
+		return fundingRepository.findByBusinessAndFundingIsActive(business, state, PageRequest.of(page, 12))
 			.map(funding -> funding.toFundingListResponseDto(
 				bookmarkService.isBookmark(loginUser, funding)
 			));

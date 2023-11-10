@@ -39,3 +39,26 @@ export interface FetchOptionProps {
         tags?: string[];
     };
 }
+
+export interface FundingType {
+    fundingId: number;
+    title: string;
+    businessName: string;
+    category: string;
+    maxLimit: number;
+    minLimit: number;
+    curCount: number;
+    menu: string;
+    price: number;
+    discountPrice: number;
+    discountRate: number;
+    startDate: string;
+    endDate: string;
+    fundingIsActive: string;
+    fundingIsSuccess: string;
+    fundingImageResponseDtos: {
+        imageId: number;
+        imageUrl: string;
+    }[];
+    fundingIsBookmark: boolean;
+}

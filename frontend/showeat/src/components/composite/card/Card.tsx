@@ -2,35 +2,15 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { calcRemainTime, changeFontWeight } from "@/utils/format";
+import { FundingType } from "@/customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
 interface CardProps {
-    fundingData: {
-        fundingId: number;
-        title: string;
-        businessName: string;
-        category: string;
-        maxLimit: number;
-        minLimit: number;
-        curCount: number;
-        menu: string;
-        price: number;
-        discountPrice: number;
-        discountRate: number;
-        startDate: string;
-        endDate: string;
-        fundingIsActive: string;
-        fundingIsSuccess: string;
-        fundingImageResponseDtos: {
-            imageId: number;
-            imageUrl: string;
-        }[];
-        fundingIsBookmark: boolean;
-    };
-    onFundingClick: (fundingId: number) => void;
-    onBookmark: (fundingId: number) => void;
+    fundingData: FundingType;
+    onFundingClick?: (fundingId: number) => void;
+    onBookmark?: (fundingId: number) => void;
 }
 
 // ----------------------------------------------------------------------------------------------------
