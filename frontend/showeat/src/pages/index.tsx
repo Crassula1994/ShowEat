@@ -406,7 +406,7 @@ function Home() {
                 <MainContentsContainer>
                     <SearchBar />
                     <RecommendContentsContainer>
-                        {user.userId &&
+                        {user.userId !== 0 &&
                             carouselLoginnedData.map((carouselData, idx) => (
                                 <CarouselWrapper key={`${carouselData.type}-${idx}`}>
                                     <CardCarousel

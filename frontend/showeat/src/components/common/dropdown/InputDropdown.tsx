@@ -64,6 +64,7 @@ const DropdownContainer = styled("div")`
 const LabelWrapper = styled("label")`
     // Box Model Attribute
     width: 100%;
+    margin-bottom: 0.5em;
 
     // Text Attribute
     font-size: 18px;
@@ -75,9 +76,6 @@ const ButtonContainer = styled("div")<Partial<IsOpenTypes>>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    // Box Model Attribute
-    margin-top: 0.5em;
 
     // Style Attribute
     border: 2px solid ${(props) => props.theme.colors.gray3};

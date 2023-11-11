@@ -22,6 +22,7 @@ interface ModalProps {
     onSubmit?: () => void;
     modalTitle?: string;
     titleSize?: string;
+    buttonFontSize?: number;
 }
 
 interface ModalOuterContainerType {
@@ -124,6 +125,7 @@ function Modal({
     onSubmit,
     modalTitle,
     titleSize = "24px",
+    buttonFontSize = 16,
 }: ModalProps) {
     if (isOpen) {
         return (
@@ -170,6 +172,7 @@ function Modal({
                                         fill="positive"
                                         curve={curve}
                                         onClick={onSubmit}
+                                        fontSize={buttonFontSize}
                                     />
                                     <TextButton
                                         text="취소"
@@ -179,6 +182,7 @@ function Modal({
                                         fill="negative"
                                         curve={curve}
                                         onClick={() => setIsOpen(false)}
+                                        fontSize={buttonFontSize}
                                     />
                                 </>
                             )}

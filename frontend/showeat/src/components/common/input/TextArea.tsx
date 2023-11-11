@@ -1,15 +1,19 @@
 /* Import */
 import styled from "@emotion/styled";
-import { TextInputProps } from "@customTypes/commonProps";
+import { InputProps } from "@customTypes/commonProps";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
-interface TextareaProps extends TextInputProps {
+interface TextareaProps extends InputProps {
     maxLength: number;
-    textareaName: string;
-    focusColor: "primary" | "secondary" | "gray";
+    value: string;
+    textareaName?: string;
+    focusColor?: "primary" | "secondary" | "gray";
     fontSize?: string;
+    labelFontSize?: string;
+    error?: boolean;
+    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 interface TextareaWrapperType {
@@ -36,34 +40,23 @@ const TextareaWrapper = styled("div")<TextareaWrapperType>`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
 
-    padding: 15px 20px;
-    margin-top: 5px;
+    padding: 0.5em 1em;
 
-    box-shadow: ${(props) =>
-        props.error
-            ? `0px 0px 4px 2px ${props.theme.colors.normalRed}`
-            : `0px 0px 4px 2px ${props.theme.colors.gray5}`};
-    border-radius: 20px;
+    box-sizing: border-box;
 
+    border: 2px solid ${(props) => props.theme.colors.gray3};
+    border-radius: 15px;
     &:focus-within {
-        box-shadow: 0px 0px 4px 2px
-            ${(props) => {
-                let focusColor;
-                if (props.focusColor === "primary") {
-                    focusColor = props.theme.colors.primary3;
-                } else if (props.focusColor === "secondary") {
-                    focusColor = props.theme.colors.secondary3;
-                } else {
-                    focusColor = props.theme.colors.gray3;
-                }
-                return focusColor;
-            }};
+        border-color: transparent;
+        box-shadow:
+            0 0 5px 2px ${(props) => props.theme.colors.primary2},
+            0 0 0 2px ${(props) => props.theme.colors.primary3};
     }
 `;
 
 const TextareaBox = styled("textarea")<TextareaBoxType>`
-    width: ${(props) => props.width};
-    height: ${(props) => props.height};
+    width: 100%;
+    height: 100%;
 
     border: none;
     background-color: transparent;
@@ -83,6 +76,7 @@ const TextareaLabelWrapper = styled("label")<{ labelFontSize?: string }>`
     font-weight: 700;
 
     margin-left: 0.5em;
+    margin-bottom: 5px;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -94,22 +88,21 @@ function Textarea({
     maxLength,
     id,
     textareaName,
-    setTextValue,
-    focusColor,
+    value,
+    onChange,
+    focusColor = "primary",
     fontSize,
-    labelFontSize,
+    labelFontSize = "20px",
     error = false,
 }: TextareaProps) {
-    const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const newValue = e.target.value;
-        setTextValue(newValue);
-    };
-
     return (
         <TextareaContainer>
-            <TextareaLabelWrapper labelFontSize={labelFontSize}>
-                {textareaName}
-            </TextareaLabelWrapper>
+            {textareaName && (
+                <TextareaLabelWrapper labelFontSize={labelFontSize}>
+                    {textareaName}
+                </TextareaLabelWrapper>
+            )}
+
             <TextareaWrapper width={width} height={height} focusColor={focusColor} error={error}>
                 <TextareaBox
                     id={id}
@@ -117,7 +110,8 @@ function Textarea({
                     width={width}
                     height={height}
                     maxLength={maxLength}
-                    onChange={(e) => handleChangeText(e)}
+                    value={value}
+                    onChange={(e) => onChange(e)}
                     fontSize={fontSize}
                 />
             </TextareaWrapper>

@@ -119,6 +119,11 @@ public class BusinessServiceImpl implements BusinessService {
 	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles , User loginUser) throws
 		IOException {
 		log.info("BusinessServiceImpl_registMenu || 업체 메뉴 등록");
+		log.info(registMenuRequestDto.getMenu());
+
+		for (MultipartFile multipartFile : registMenuRequestDto.getMultipartFiles()) {
+			log.info(multipartFile.getOriginalFilename());
+		}
 
 		Business business = businessRepository.findByUser(loginUser).get();
 		BusinessMenu businessMenu = s3Service.uploadMenuImageToS3(registMenuRequestDto.toEntity(), multipartFiles);

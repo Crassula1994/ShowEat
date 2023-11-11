@@ -1,10 +1,9 @@
 /* Import */
-import { ButtonProps } from "@customTypes/commonProps";
 import { changeFontWeight } from "@utils/format";
 import Image from "next/image";
-import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useRef, useState } from "react";
+import { SetStateAction, useRef } from "react";
+import { TextButton } from "../button";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -15,17 +14,12 @@ interface FileInputProps {
     id: string;
     buttonWidth: string;
     buttonHeight: string;
-    buttonFontSize?: string;
-    buttonFontWeight?: string;
+    buttonFontSize?: number;
     buttonDescription: string;
     listWidth?: string;
     listHeight?: string;
-}
-
-interface FileInputButtonWrapperTypes extends ButtonProps {
-    fontSize: string;
-    fontWeight: string;
-    color: "primary" | "secondary" | "gray" | "white";
+    uploadedFiles: File[];
+    setUploadedFiles: React.Dispatch<SetStateAction<File[]>>;
 }
 
 interface FilesListContainerTypes {
@@ -38,17 +32,11 @@ interface FilesListContainerTypes {
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const clickAnimation = keyframes`
-from {
-  transform: scale(1)
-}
-to {
-  transform: scale(1.04)
-}
-`;
 
 const FileInputContainer = styled("div")`
-    //
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 const FileInputButtonContainer = styled("div")`
@@ -65,100 +53,35 @@ const FileInputCountTextWrapper = styled("span")`
     font-size: 14px;
 `;
 
-const FileInputButtonWrapper = styled("button")<FileInputButtonWrapperTypes>`
-    width: ${(props) => props.width};
-    height: ${(props) => props.height};
-
-    font-size: ${(props) => props.fontSize};
-    font-weight: ${(props) => props.fontWeight};
-    color: ${(props) => {
-        if (props.color === "secondary" || props.color === "primary") {
-            return "white";
-        }
-        return "black";
-    }};
-
-    background-color: ${(props) => {
-        if (props.color !== "white") {
-            return props.theme.colors[`${props.color}3`];
-        }
-        return "white";
-    }};
-
-    border: ${(props) => (props.color === "white" ? "1px solid black" : "none")};
-    border-radius: 10px;
-    margin-right: 10px;
-
-    cursor: pointer;
-
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    &:hover {
-        background-color: ${(props) => {
-            if (props.color !== "white") {
-                return props.theme.colors[`${props.color}4`];
-            }
-            return "#d7d7d7";
-        }};
-        box-shadow: 0px 0px 5px 2px ${(props) => props.theme.colors.gray3};
-
-        color: ${(props) => {
-            if (props.color === "white") {
-                return "black";
-            }
-            return "white";
-        }};
-        cursor: pointer;
-    }
-
-    &:active {
-        background-color: ${(props) => {
-            if (props.color !== "white") {
-                return props.theme.colors[`${props.color}5`];
-            }
-
-            return "#a7a7a7";
-        }};
-        box-shadow: 0px 0px 5px 2px ${(props) => props.theme.colors.gray4};
-
-        color: ${(props) => {
-            if (props.color === "white") {
-                return "black";
-            }
-            return "white";
-        }};
-
-        cursor: pointer;
-        animation: ${clickAnimation} 0.1s linear forwards;
-    }
-`;
-
-const FilesListContainer = styled("div")<FilesListContainerTypes>`
+const FilesListContainer = styled("div")<FilesListContainerTypes & { length: number }>`
     width: ${(props) => props.listWidth};
     height: ${(props) => props.listHeight};
 
-    display: flex;
-    justify-content: ${(props) => (props.addIcon ? "center" : "space-between")};
-    align-items: center;
+    display: ${(props) => (props.length > 0 ? "grid" : "flex")};
+    grid-template-columns: ${(props) => props.length > 0 && "repeat(5, 1fr)"};
+    gap: ${(props) => props.length > 0 && "5px"};
+    justify-content: ${(props) => props.length === 0 && "center"};
+    align-items: ${(props) => props.length === 0 && "center"};
 
     margin: 10px 0px;
     padding: 10px 20px;
 
-    border: 1px solid #c7c7c7;
-    border-radius: 20px;
+    box-sizing: content-box;
 
-    box-shadow: 0px 0px 5px 1px ${(props) => props.theme.colors.gray2};
+    border: 2px solid ${(props) => props.theme.colors.gray3};
+    border-radius: 15px;
+    &:focus-within {
+        border-color: transparent;
+        box-shadow:
+            0 0 5px 2px ${(props) => props.theme.colors.primary2},
+            0 0 0 2px ${(props) => props.theme.colors.primary3};
+    }
 
     &.dragging-over {
-        box-shadow: 0px 0px 8px 2px ${(props) => props.theme.colors[`${props.color}2`]};
+        border-color: transparent;
+        box-shadow:
+            0 0 5px 2px ${(props) => props.theme.colors.primary2},
+            0 0 0 2px ${(props) => props.theme.colors.primary3};
     }
 `;
 
@@ -226,15 +149,14 @@ function FileInput({
     color = "white",
     buttonWidth,
     buttonHeight,
-    buttonFontSize = "20px",
-    buttonFontWeight = "Regular",
+    buttonFontSize = 18,
     buttonDescription,
     listWidth = `${count * 100}px`,
     listHeight = "80px",
+    uploadedFiles,
+    setUploadedFiles,
 }: FileInputProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
-
-    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
     const handleInputButton = () => {
         if (inputRef.current) {
@@ -300,16 +222,14 @@ function FileInput({
     return (
         <FileInputContainer>
             <FileInputButtonContainer>
-                <FileInputButtonWrapper
+                <TextButton
                     width={buttonWidth}
                     height={buttonHeight}
                     fontSize={buttonFontSize}
-                    fontWeight={buttonFontWeight}
                     onClick={handleInputButton}
-                    color={color}
-                >
-                    {buttonDescription}
-                </FileInputButtonWrapper>
+                    colorType="primary"
+                    text={buttonDescription}
+                />
                 {count === 1 && uploadedFiles.length === 1 && (
                     <FileImageContainer>
                         <FileImageWrapper
@@ -349,6 +269,7 @@ function FileInput({
                     onDrop={(e) => handleDrop(e)}
                     addIcon={uploadedFiles.length === 0}
                     color={color}
+                    length={uploadedFiles.length}
                 >
                     {uploadedFiles.length === 0 && (
                         <AddIconWrapper

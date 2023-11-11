@@ -15,6 +15,7 @@ const FooterContainer = styled("div")<{ isPageOverflow: boolean }>`
     align-items: center;
 
     width: 100%;
+    min-width: 800px;
     height: 150px;
 
     margin-top: 5em;

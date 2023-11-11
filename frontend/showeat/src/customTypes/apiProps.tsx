@@ -31,7 +31,7 @@ export interface FetchProps {
 export interface FetchOptionProps {
     method: "GET" | "POST" | "PATCH" | "DELETE";
     headers: Record<string, string>;
-    body?: string;
+    body?: string | FormData;
     credentials?: RequestCredentials;
     cache?: "force-cache" | "no-store";
     next?: {

@@ -79,7 +79,10 @@ async function fetchModify(props: FetchProps) {
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": `http://localhost:3000`,
         "Access-Control-Allow-Methods": "POST, OPTIONS, PUT, PATCH, DELETE",
-        "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data",
+        "Content-Type":
+            contentType === "json"
+                ? "application/json"
+                : `multipart/form-data; boundary= #$@boundary#@$`,
     };
 
     if (isAuth) {
@@ -89,10 +92,23 @@ async function fetchModify(props: FetchProps) {
         }
     }
 
+    const handleData = () => {
+        if (data) {
+            if (contentType === "json") {
+                return JSON.stringify(data);
+            }
+            if (data instanceof FormData) {
+                return data;
+            }
+            return undefined;
+        }
+        return undefined;
+    };
+
     const options: FetchOptionProps = {
         method,
         headers,
-        body: data ? JSON.stringify(data) : undefined,
+        body: handleData(),
         credentials: isAuth ? "include" : "omit",
         cache: cache ? "force-cache" : "no-store",
         next: {

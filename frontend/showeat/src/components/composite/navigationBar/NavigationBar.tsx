@@ -198,7 +198,7 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
     };
 
     const handleCreateFunding = () => {
-        router.push("/buyers/funding-form");
+        router.push("/sellers/funding-form");
     };
 
     const handleCharge = () => {

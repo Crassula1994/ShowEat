@@ -13,8 +13,10 @@ interface TextInputProps extends InputProps {
     required?: boolean;
     labelText?: string;
     source?: string;
+    readOnly?: boolean;
+    unit?: string;
     onClick?: (event: MouseEvent<HTMLElement>) => void;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
@@ -35,6 +37,8 @@ const LabelWrapper = styled("label")`
     // Text Attribute
     font-size: 18px;
     font-weight: 700;
+
+    margin-bottom: 0.5em;
 `;
 
 const InputBox = styled("div")`
@@ -44,7 +48,6 @@ const InputBox = styled("div")`
     // Box Model Attribute
     width: 100%;
     box-sizing: border-box;
-    margin-top: 0.5em;
     padding: 0.5em 1em;
 
     // Style Attribute
@@ -80,6 +83,18 @@ const IconWrapper = styled(Image)<{ "data-clickable": boolean }>`
     -webkit-user-select: none;
 `;
 
+const UnitWrapper = styled("span")`
+    // Box Model Attribute
+    max-width: 30px;
+    max-height: 30px;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Text Input Component */
@@ -94,6 +109,8 @@ function TextInput(props: TextInputProps) {
         required = false,
         labelText = "",
         source = "",
+        readOnly = false,
+        unit,
         onClick = () => {},
         onChange = () => {},
         onKeyUp = () => {},
@@ -113,6 +130,7 @@ function TextInput(props: TextInputProps) {
                     value={value}
                     placeholder={placeholder}
                     required={required}
+                    readOnly={readOnly}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
                 />
@@ -126,6 +144,7 @@ function TextInput(props: TextInputProps) {
                         onClick={onClick}
                     />
                 )}
+                {unit && <UnitWrapper>({unit})</UnitWrapper>}
             </InputBox>
         </InputContainer>
     );

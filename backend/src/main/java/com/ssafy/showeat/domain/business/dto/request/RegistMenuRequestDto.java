@@ -1,16 +1,16 @@
 package com.ssafy.showeat.domain.business.dto.request;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ssafy.showeat.domain.business.entity.BusinessMenu;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor
@@ -23,6 +23,8 @@ public class RegistMenuRequestDto {
 
 	@ApiModelProperty(value = "메뉴 원가", example = "6000")
 	private int price;
+
+	List<MultipartFile> multipartFiles;
 
 	public BusinessMenu toEntity(){
 		return BusinessMenu.builder()
