@@ -1,5 +1,5 @@
 /* Import */
-import addressConfig from "@configs/addressConfig";
+import addressList from "@configs/addressList";
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
 import { formatPhoneNumber } from "@utils/format";
 import { InputDropdown } from "@components/common/dropdown";
@@ -183,7 +183,7 @@ function SignUp() {
                     value={address}
                     required
                     labelText="관심 지역"
-                    itemList={addressConfig}
+                    itemList={addressList}
                     onChange={handleAddressChange}
                 />
             </InputContainer>

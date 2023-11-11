@@ -33,6 +33,8 @@ export interface TableProps {
     headerWidth?: string;
     headers: string[];
     contents: (string | number)[];
+    contentAlign?: "left" | "center" | "right";
+    gap?: string;
 }
 
 export interface TextBoxProps {

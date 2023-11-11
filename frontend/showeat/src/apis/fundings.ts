@@ -4,14 +4,22 @@ import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function for get Funding datas */
-interface GetMainPageListType {
-    type: string;
-}
-
-const getMainPageList = async ({ type }: GetMainPageListType) => {
+/* Function for Getting Funding Detail Data */
+const getFundingDetail = async (id: string) => {
     const props: FetchProps = {
-        url: `funding/home`,
+        url: `funding/${id}`,
+        method: "GET",
+        isAuth: false,
+    };
+    const result = await fetchGet(props);
+
+    return result;
+};
+
+/* Function for get Funding datas */
+const getMainPageList = async (type: string) => {
+    const props: FetchProps = {
+        url: "funding/home",
         method: "GET",
         isAuth: false,
         params: { type },
@@ -158,6 +166,7 @@ const getFavoriteFundings = async (page: number) => {
 
 /* Export */
 export {
+    getFundingDetail,
     getMainPageList,
     getMyFundings,
     getBookmarkFundings,

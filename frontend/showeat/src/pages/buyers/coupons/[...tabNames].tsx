@@ -1,7 +1,7 @@
 /* Import */
 import BuyerLayout from "@layouts/BuyerLayout";
 import BuyersCouponsModal from "@components/custom/modal/BuyersCouponsModal";
-import { buyersCouponsTabMenuConfig } from "@configs/tabMenuConfig";
+import { buyersCouponsTabMenu } from "@configs/tabMenu";
 import Coupon from "@components/composite/coupon";
 import { CouponType } from "@customTypes/apiProps";
 import { getCouponList } from "@apis/coupons";
@@ -121,7 +121,7 @@ const ButtonWrapper = styled("div")`
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     // States and Variables
     const { tabNames } = params as CouponsParams;
-    const allowedTabNames = buyersCouponsTabMenuConfig.map((tab) => tab.id);
+    const allowedTabNames = buyersCouponsTabMenu.map((tab) => tab.id);
 
     if (!tabNames || !allowedTabNames.includes(tabNames[0])) {
         return {
@@ -163,7 +163,7 @@ function CouponsTab(props: CouponsTabProps) {
 
     // Function for Getting Tab Label Text
     const getTabLabelText = () => {
-        return buyersCouponsTabMenuConfig.find((tab) => tab.id === activeTab)?.labelText || "";
+        return buyersCouponsTabMenu.find((tab) => tab.id === activeTab)?.labelText || "";
     };
 
     // Function for Handling Load More Coupon Button Click
@@ -200,7 +200,7 @@ function CouponsTab(props: CouponsTabProps) {
         <CouponContainer>
             <TitleWrapper>보유 쿠폰</TitleWrapper>
             <TabBar>
-                {buyersCouponsTabMenuConfig.map((tab) => (
+                {buyersCouponsTabMenu.map((tab) => (
                     <Tab
                         key={tab.id}
                         width="20%"

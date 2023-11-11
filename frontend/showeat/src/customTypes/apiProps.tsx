@@ -42,8 +42,8 @@ export interface FetchOptionProps {
 
 export interface FundingType {
     fundingId: number;
-    title: string;
     businessName: string;
+    title: string;
     category: string;
     maxLimit: number;
     minLimit: number;
@@ -56,9 +56,11 @@ export interface FundingType {
     endDate: string;
     fundingIsActive: string;
     fundingIsSuccess: string;
+    fundingTagResponseDtos: string[];
     fundingImageResponseDtos: {
         imageId: number;
         imageUrl: string;
     }[];
+    bookmarkCount: number;
     fundingIsBookmark: boolean;
 }

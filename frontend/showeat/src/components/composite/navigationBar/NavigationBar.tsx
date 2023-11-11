@@ -1,12 +1,12 @@
 /* import */
-import useUserState from "@hooks/useUserState";
-import useSellerState from "@/hooks/useSellerState";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { TextButton } from "@components/common/button";
-import navbarMenu from "@/configs/navbarMenu";
+import navbarMenu from "@configs/navbarMenu";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import useSellerState from "@hooks/useSellerState";
+import useUserState from "@hooks/useUserState";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -182,7 +182,7 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
     const formattedHoldingPoint = holdingPoint.toLocaleString();
 
     useEffect(() => {
-        const currentUrl = router.pathname;
+        const currentUrl = router.asPath;
 
         menuList.forEach((menu) => {
             if (menu.contain.includes(currentUrl)) {
@@ -226,10 +226,10 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     <PointHeader>보유한 캐시카우</PointHeader>
                     <HoldingPointContainer>
                         <CashCowIcon
-                            src="/assets/images/cash-cow-coin.png"
-                            alt="cash-cow"
-                            width={40}
-                            height={40}
+                            src="/assets/icons/cashcow-coin-icon.svg"
+                            alt="cashcow-coin"
+                            width={30}
+                            height={30}
                         />
                         <HoldingPoint fontSize={pointFontSize}>
                             {formattedHoldingPoint}

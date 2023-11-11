@@ -6,7 +6,7 @@ import withAuth from "@libs/withAuth";
 import { ChangeEvent, ReactNode, useState, SetStateAction, useEffect } from "react";
 import { InputDropdown } from "@components/common/dropdown";
 import { TagButton, TextButton } from "@components/common/button";
-import menuCategory from "@configs/menuCategory";
+import menuCategoryList from "@configs/menuCategoryList";
 import Image from "next/image";
 import { changeFontWeight } from "@utils/format";
 import Modal from "@components/composite/modal";
@@ -450,12 +450,12 @@ function FundingForm() {
     };
 
     const changeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = menuCategory.find((one) => {
-            return e.target.value === one.text;
+        const newValue = menuCategoryList.find((one) => {
+            return e.target.value === one.value;
         });
         if (newValue) {
             setCategory((prev) => {
-                return { ...prev, data: { text: newValue.text, value: newValue.value } };
+                return { ...prev, data: { text: newValue.value, value: newValue.id } };
             });
         }
     };
@@ -602,7 +602,7 @@ function FundingForm() {
                             value={category.data.text}
                             width="500px"
                             required
-                            itemList={menuCategory.map((one) => one.text)}
+                            itemList={menuCategoryList.map((one) => one.value)}
                             onChange={(e) => changeCategory(e)}
                         />
                     </CategoryDropDownWrapper>

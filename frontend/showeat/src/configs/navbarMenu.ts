@@ -3,7 +3,15 @@ function navbarMenu(isBuyer: boolean) {
     if (isBuyer) {
         return [
             { text: "나의 정보", link: "/buyers/profile", contain: ["/buyers/profile"] },
-            { text: "보유 쿠폰", link: "/buyers/coupons", contain: ["/buyers/coupons"] },
+            {
+                text: "보유 쿠폰",
+                link: "/buyers/coupons",
+                contain: [
+                    "/buyers/coupons/active",
+                    "/buyers/coupons/expired",
+                    "/buyers/coupons/used",
+                ],
+            },
             { text: "참여 펀딩", link: "/buyers/myfundings", contain: ["/buyers/myfundings"] },
             { text: "관심 펀딩", link: "/buyers/favorites", contain: ["/buyers/favorites"] },
         ];

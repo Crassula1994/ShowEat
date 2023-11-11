@@ -138,7 +138,7 @@ function Header() {
         <HeaderContainer>
             <LogoImageWrapper onClick={() => router.push("/")}>
                 <LogoImage
-                    src="/assets/images/service-logo.svg"
+                    src="/assets/images/service-logo.png"
                     width={120}
                     height={60}
                     alt="service-logo"

@@ -1,5 +1,5 @@
 /* Address Config */
-const addressConfig: string[] = [
+const addressList: string[] = [
     "강남구",
     "강동구",
     "강북구",
@@ -30,4 +30,4 @@ const addressConfig: string[] = [
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default addressConfig;
+export default addressList;

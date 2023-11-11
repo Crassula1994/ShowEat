@@ -21,38 +21,45 @@ const RowContainer = styled("div")`
     display: table-row;
 `;
 
-const HeaderWrapper = styled("div")<{ width: string }>`
+const HeaderWrapper = styled("div")<{ width: string; gap: string }>`
     // Layout Attribute
     display: table-cell;
 
     // Box Model Attribute
     width: ${(props) => props.width};
-    padding: 0.5em 1em;
+    padding: ${(props) => props.gap} 1em;
 
     // Text Attribute
     font-weight: 700;
 `;
 
-const CellWrapper = styled("div")`
+const CellWrapper = styled("div")<Partial<TableProps>>`
     // Layout Attribute
     display: table-cell;
 
     // Box Model Attribute
-    padding: 0.5em 1em;
+    padding: ${(props) => props.gap} 1em;
+
+    // Text Attribute
+    text-align: ${(props) => props.contentAlign};
 `;
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Table Component */
 function Table(props: TableProps) {
-    const { headerWidth = "20%", headers, contents } = props;
+    const { headerWidth = "20%", headers, contents, contentAlign = "left", gap = "0.5em" } = props;
 
     return (
         <TableContainer>
             {headers.map((header, index) => (
                 <RowContainer key={index}>
-                    <HeaderWrapper width={headerWidth}>{header}</HeaderWrapper>
-                    <CellWrapper>{contents[index]}</CellWrapper>
+                    <HeaderWrapper width={headerWidth} gap={gap}>
+                        {header}
+                    </HeaderWrapper>
+                    <CellWrapper contentAlign={contentAlign} gap={gap}>
+                        {contents[index]}
+                    </CellWrapper>
                 </RowContainer>
             ))}
         </TableContainer>
