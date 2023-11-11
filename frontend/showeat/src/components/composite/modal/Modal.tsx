@@ -149,6 +149,7 @@ function Modal({
                                     fill={fill}
                                     curve={curve}
                                     onClick={() => setIsOpen(false)}
+                                    fontSize={buttonFontSize}
                                 />
                             )}
                             {buttonType === "close" && (
@@ -160,6 +161,7 @@ function Modal({
                                     fill={fill}
                                     curve={curve}
                                     onClick={() => setIsOpen(false)}
+                                    fontSize={buttonFontSize}
                                 />
                             )}
                             {buttonType === "submit" && (
