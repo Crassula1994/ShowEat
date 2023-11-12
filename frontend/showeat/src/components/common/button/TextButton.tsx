@@ -25,7 +25,7 @@ const ButtonContainer = styled("button")<Partial<TextButtonProps>>`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1em;
+    gap: 0.5em;
 
     // Box Model Attribute
     width: ${(props) => props.width};

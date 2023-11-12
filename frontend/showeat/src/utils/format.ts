@@ -6,17 +6,27 @@ function breakTextLine(text: string): string {
         .join("<br />");
 }
 
+/* Function for Calculating Expiry Date */
+function calcExpiryDate(endDateStr: string) {
+    const endDate = new Date(endDateStr);
+    endDate.setDate(endDate.getDate() + 180);
+
+    const year = endDate.getFullYear();
+    const month = endDate.getMonth() + 1;
+    const day = endDate.getDate();
+
+    return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+}
+
 /* Function for Calculating Remaining Time */
-function calcRemainTime(targetDate: string) {
+function calcRemainTime(endDateStr: string) {
     const currentDate = new Date();
-    const parsedTargetDate = new Date(targetDate);
-    const timeRemaining = parsedTargetDate.getTime() - currentDate.getTime();
+    const endDate = new Date(endDateStr);
+    endDate.setHours(23, 59, 59, 999);
+    const timeRemaining = endDate.getTime() - currentDate.getTime();
 
     if (timeRemaining < 0) {
-        return "이미 마감되었습니다";
-    }
-    if (timeRemaining === 0) {
-        return "오늘이 마감!";
+        return "이미 마감되었습니다.";
     }
 
     const secondsRemaining = Math.floor(timeRemaining / 1000);
@@ -46,7 +56,7 @@ function changeFontWeight(text: string): string {
         thinText.forEach((phrase: string) => {
             weightedText = weightedText.replace(
                 phrase,
-                `<span style="font-weight: 300;">${phrase.substring(3, phrase.length - 3)}</span>`,
+                `<span style="font-weight: 200;">${phrase.substring(3, phrase.length - 3)}</span>`,
             );
         });
     }
@@ -61,6 +71,24 @@ function changeFontWeight(text: string): string {
     }
 
     return weightedText;
+}
+
+/* Function for Changing Date Format */
+function formatDate(dateStr: string): string {
+    const dateParts = dateStr.split("-");
+
+    if (dateParts.length !== 3) {
+        return dateStr;
+    }
+
+    const [year, month, day] = dateParts;
+
+    return `${year}. ${parseInt(month, 10)}. ${parseInt(day, 10)}.`;
+}
+
+/* Function for Making Money Format */
+function formatMoney(number: number): string {
+    return `￦${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 /* Function for Making Phone Number Format */
@@ -92,4 +120,13 @@ function parseNumber(text: string): number {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { breakTextLine, calcRemainTime, changeFontWeight, formatPhoneNumber, parseNumber };
+export {
+    breakTextLine,
+    calcExpiryDate,
+    calcRemainTime,
+    changeFontWeight,
+    formatDate,
+    formatMoney,
+    formatPhoneNumber,
+    parseNumber,
+};

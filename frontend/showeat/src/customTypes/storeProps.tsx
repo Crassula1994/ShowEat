@@ -5,6 +5,7 @@ export interface UserType {
     userImgUrl: string;
     userAddress: string;
     userBusiness: boolean;
+    userBusinessId: number;
     userMoney: number;
     userPhone: string;
     visited: boolean;

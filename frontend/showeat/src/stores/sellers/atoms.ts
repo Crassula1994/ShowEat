@@ -1,7 +1,7 @@
 /* Import */
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { UserType } from "@customTypes/storeProps";
+import { SellerType } from "@customTypes/storeProps";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -9,32 +9,26 @@ import { UserType } from "@customTypes/storeProps";
 const sessionStorage = typeof window !== "undefined" ? window.sessionStorage : undefined;
 
 const { persistAtom } = recoilPersist({
-    key: "userStorage",
+    key: "sellerStorage",
     storage: sessionStorage,
 });
 
 // ----------------------------------------------------------------------------------------------------
 
 /* States */
-const userDefaultValue: UserType = {
-    userId: 0,
-    userNickname: "",
-    userImgUrl: "https://showeatbucket.s3.ap-northeast-2.amazonaws.com/user/basic-profile.png",
-    userAddress: "",
-    userBusiness: false,
-    userBusinessId: 0,
-    userMoney: 0,
-    userPhone: "",
-    visited: false,
+const sellerDefaultValue: SellerType = {
+    sellerId: 0,
+    sellerName: "",
+    sellerImgUrl: "https://showeatbucket.s3.ap-northeast-2.amazonaws.com/user/basic-profile.png",
 };
 
-const userState = atom<UserType>({
-    key: "userState",
-    default: userDefaultValue,
+const sellerState = atom<SellerType>({
+    key: "sellerState",
+    default: sellerDefaultValue,
     effects_UNSTABLE: [persistAtom],
 });
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { userDefaultValue, userState };
+export { sellerDefaultValue, sellerState };

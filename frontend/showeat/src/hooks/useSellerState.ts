@@ -1,5 +1,5 @@
 /* Import */
-import { sellerDefaultValue, sellerState } from "@stores/users";
+import { sellerDefaultValue, sellerState } from "@stores/sellers";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 

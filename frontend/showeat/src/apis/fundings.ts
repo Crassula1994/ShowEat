@@ -16,6 +16,18 @@ const getFundingDetail = async (id: string) => {
     return result;
 };
 
+/* Function for Getting Funding Detail User Data */
+const getFundingUserDetail = async (userId: number, fundingId: string) => {
+    const props: FetchProps = {
+        url: `funding/${fundingId}/user/${userId}`,
+        method: "GET",
+        isAuth: true,
+    };
+    const result = await fetchGet(props);
+
+    return result;
+};
+
 /* Function for get Funding datas */
 const getMainPageList = async (type: string) => {
     const props: FetchProps = {
@@ -167,6 +179,7 @@ const getFavoriteFundings = async (page: number) => {
 /* Export */
 export {
     getFundingDetail,
+    getFundingUserDetail,
     getMainPageList,
     getMyFundings,
     getBookmarkFundings,

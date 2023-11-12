@@ -7,72 +7,79 @@ import styled from "@emotion/styled";
 
 /* Type */
 interface TagButtonProps extends ButtonProps {
-    tagDescription: string;
-    colorType?: "primary" | "secondary" | "gray";
+    text: string;
+    colorType?: "primary" | "secondary" | "green" | "red" | "gray";
     textColor?: string;
     fontSize?: string;
-    fontWeight?: number;
 }
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const TagButtonWrapper = styled("div")<ButtonProps & { colorType: string }>`
-    display: inline-block;
+const TagButtonWrapper = styled("div")<Partial<TagButtonProps>>`
+    // Layout Attribute
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    // Box Model Attribute
     width: ${(props) => props.width};
     height: ${(props) => props.height};
-
     box-sizing: border-box;
+    padding: 0.5em 1em;
 
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: ${(props) =>
-        props.colorType && props.colorType !== "white"
-            ? "none"
-            : `1px solid ${props.theme.colors.gray2}`};
-    background-color: ${(props) =>
-        props.colorType ? props.theme.colors[`${props.colorType}3`] : "none"};
+    // Style Attribute
+    border-radius: 15px;
+    background-color: ${(props) => {
+        if (props.colorType === "green") {
+            return props.theme.colors.normalGreen;
+        }
+        if (props.colorType === "red") {
+            return props.theme.colors.normalRed;
+        }
+        return props.theme.colors[`${props.colorType}3`];
+    }};
 
+    // Text Attribute
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 `;
 
-const TagText = styled("span")<Partial<TagButtonProps>>`
+const TagTextWrapper = styled("div")<Partial<TagButtonProps>>`
+    // Box Model Attribute
     max-width: 100%;
-
-    font-size: ${(props) => props.fontSize};
-    font-weight: ${(props) => props.fontWeight};
-
-    color: ${(props) => props.textColor};
     white-space: nowrap;
     overflow: hidden;
+
+    // Text Attribute
     text-overflow: ellipsis;
+    font-size: ${(props) => props.fontSize};
+    span {
+        font-size: ${(props) => props.fontSize};
+    }
+    color: ${(props) => props.textColor};
 `;
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Tag Button Component */
-function TagButton({
-    width,
-    height,
-    tagDescription,
-    colorType = "primary",
-    textColor = "black",
-    fontSize = "14px",
-    fontWeight = 700,
-}: TagButtonProps) {
-    const fixedDescription = `#${changeFontWeight(tagDescription)}`;
+function TagButton(props: TagButtonProps) {
+    // States and Variables
+    const {
+        width,
+        height = "auto",
+        text,
+        colorType = "primary",
+        textColor = "black",
+        fontSize = "16px",
+    } = props;
+    const formattedText = changeFontWeight(text);
 
     return (
         <TagButtonWrapper width={width} height={height} colorType={colorType}>
-            <TagText
-                dangerouslySetInnerHTML={{ __html: fixedDescription }}
+            <TagTextWrapper
+                dangerouslySetInnerHTML={{ __html: formattedText }}
                 textColor={textColor}
                 fontSize={fontSize}
-                fontWeight={fontWeight}
             />
         </TagButtonWrapper>
     );
