@@ -10,6 +10,16 @@ import "slick-carousel/slick/slick-theme.css";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Type */
+declare global {
+    interface Window {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Kakao: any;
+    }
+}
+
+// ----------------------------------------------------------------------------------------------------
+
 /* App Component */
 function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page);

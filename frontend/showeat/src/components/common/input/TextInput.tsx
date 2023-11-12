@@ -33,12 +33,11 @@ const InputContainer = styled("div")<{ width: string; height: string }>`
 const LabelWrapper = styled("label")`
     // Box Model Attribute
     width: 100%;
+    margin-bottom: 0.5em;
 
     // Text Attribute
     font-size: 18px;
     font-weight: 700;
-
-    margin-bottom: 0.5em;
 `;
 
 const InputBox = styled("div")`
@@ -110,7 +109,7 @@ function TextInput(props: TextInputProps) {
         labelText = "",
         source = "",
         readOnly = false,
-        unit,
+        unit = "",
         onClick = () => {},
         onChange = () => {},
         onKeyUp = () => {},

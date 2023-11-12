@@ -4,6 +4,18 @@ import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Function for Canceling Funding Join */
+const deleteFundingJoin = async (fundingId: string) => {
+    const props: FetchProps = {
+        url: `funding/user/${fundingId}`,
+        method: "DELETE",
+        isAuth: true,
+    };
+    const result = await fetchModify(props);
+
+    return result;
+};
+
 /* Function for Getting Funding Detail Data */
 const getFundingDetail = async (id: string) => {
     const props: FetchProps = {
@@ -68,15 +80,13 @@ const getBookmarkFundings = async (page: number) => {
     return result;
 };
 
-/* Function for Bookmark Funding */
-const postBookmark = async (fundingId: number) => {
+/* Function for Applying Funding Join */
+const postFundingJoin = async (fundingId: string) => {
     const props: FetchProps = {
-        url: `bookmark/${fundingId}`,
+        url: `funding/user/${fundingId}`,
         method: "POST",
-        data: {},
         isAuth: true,
     };
-
     const result = await fetchModify(props);
 
     return result;
@@ -152,18 +162,6 @@ const getUserFundings = async (page: number) => {
     return result;
 };
 
-/* Function for heart */
-const postHeart = async (fundingId: number) => {
-    const props: FetchProps = {
-        url: `bookmark/${fundingId}`,
-        method: "POST",
-        data: {},
-        isAuth: true,
-    };
-    const result = await fetchModify(props);
-    return result;
-};
-
 /* Function for user favorite Fundings */
 const getFavoriteFundings = async (page: number) => {
     const props: FetchProps = {
@@ -174,20 +172,21 @@ const getFavoriteFundings = async (page: number) => {
     const result = await fetchGet(props);
     return result;
 };
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
 export {
+    deleteFundingJoin,
     getFundingDetail,
     getFundingUserDetail,
     getMainPageList,
     getMyFundings,
     getBookmarkFundings,
-    postBookmark,
+    postFundingJoin,
     getActiveFunding,
     getInActiveFunding,
     getUserFundings,
-    postHeart,
     getFavoriteFundings,
     createFunding,
 };

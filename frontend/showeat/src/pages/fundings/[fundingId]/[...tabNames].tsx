@@ -1,13 +1,26 @@
 /* Import */
 import { calcExpiryDate, calcRemainTime, formatDate, formatMoney } from "@utils/format";
+import {
+    FundingCancelErrorModal,
+    FundingCancelModal,
+    FundingShareModal,
+} from "@components/custom/modal";
 import { fundingTabMenu } from "@configs/tabMenu";
 import { FundingType } from "@customTypes/apiProps";
-import { getFundingDetail, getFundingUserDetail } from "@apis/fundings";
+import {
+    deleteFundingJoin,
+    getFundingDetail,
+    getFundingUserDetail,
+    postFundingJoin,
+} from "@apis/fundings";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { HeartBlankIcon, HeartFullIcon, ShareIcon } from "public/assets/icons";
 import ImageGallery from "@components/composite/imageGallery";
 import MainLayout from "@layouts/MainLayout";
+import Modal from "@components/composite/modal";
 import menuCategoryList from "@configs/menuCategoryList";
+import postBookmark from "@apis/bookmark";
 import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Tab, TabBar } from "@components/composite/tabBar";
@@ -170,6 +183,12 @@ const ButtonContainer = styled("div")`
     width: 100%;
 `;
 
+const ModalContainer = styled("div")`
+    // Box Model Attribute
+    width: 0;
+    height: 0;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Server Side Rendering */
@@ -204,9 +223,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 /* Funding Tab Page */
 function FundingTab(props: FundingTabProps) {
     // States and Variables
+    const { fundingId, fundingData, tabName } = props;
     const router = useRouter();
     const [user] = useUserState();
-    const { fundingId, fundingData, tabName } = props;
     const {
         title,
         category,
@@ -227,14 +246,50 @@ function FundingTab(props: FundingTabProps) {
         bookmarkCount,
     } = fundingData;
     const [activeTab, setActiveTab] = useState<string>(tabName || "store");
+    const [errorCode, setErrorCode] = useState<number>(0);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [isJoined, setIsJoined] = useState<boolean>(false);
+    const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
+    const [isCancelErrorModalOpen, setIsCancelErrorModalOpen] = useState<boolean>(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
     // Function for Getting Menu Category Text
     const getCategoryValue = (categoryId: string) => {
         const targetCategory = menuCategoryList.find((item) => item.id === categoryId);
 
         return targetCategory ? targetCategory.value : "";
+    };
+
+    // Function for Opening Cancel Confirm Modal
+    const openFundingCancelModal = () => {
+        setIsCancelModalOpen(true);
+    };
+
+    // Function for Canceling Funding
+    const cancelFunding = () => {
+        deleteFundingJoin(fundingId).then((result) => {
+            if (typeof result === "number") {
+                setErrorCode(result);
+                setIsCancelModalOpen(false);
+                setIsCancelErrorModalOpen(true);
+                return;
+            }
+            router.reload();
+        });
+    };
+
+    // Function for Applying Funding
+    const applyFunding = () => {
+        postFundingJoin(fundingId).then(() => {
+            router.reload();
+        });
+    };
+
+    // Function for Removing Favorite Funding
+    const handleFavorite = () => {
+        postBookmark(fundingId).then(() => {
+            router.reload();
+        });
     };
 
     // Function for Handling Tab Click
@@ -246,6 +301,7 @@ function FundingTab(props: FundingTabProps) {
 
     useEffect(() => {
         const { userId } = user;
+
         if (userId !== 0) {
             getFundingUserDetail(userId, fundingId).then((result) => {
                 const { fundingIsZzim, fundingIsParticipate } = result.data;
@@ -257,6 +313,10 @@ function FundingTab(props: FundingTabProps) {
 
     return (
         <FundingContainer>
+            <Head>
+                <title>{title}</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
             <DetailContainer>
                 <ImageContainer>
                     <ImageGallery images={fundingImageResponseDtos.map((item) => item.imageUrl)} />
@@ -289,7 +349,7 @@ function FundingTab(props: FundingTabProps) {
                                 text={
                                     fundingIsActive === "ACTIVE"
                                         ? `마감까지 ...${calcRemainTime(endDate)}...`
-                                        : `...${calcRemainTime(endDate)}...`
+                                        : `...펀딩 마감...`
                                 }
                                 colorType="secondary"
                                 textColor="white"
@@ -364,27 +424,40 @@ function FundingTab(props: FundingTabProps) {
                         {isJoined ? (
                             <TextButton
                                 width="45%"
-                                text="펀딩 취소"
+                                onClick={openFundingCancelModal}
+                                text="펀딩 참여 취소"
                                 colorType="secondary"
-                                onClick={() => {}}
                             />
                         ) : (
                             <TextButton
                                 width="45%"
+                                onClick={applyFunding}
                                 text="펀딩 참여"
                                 colorType="secondary"
-                                onClick={() => {}}
+                            />
+                        )}
+                        {isFavorite ? (
+                            <TextButton
+                                width="25%"
+                                onClick={handleFavorite}
+                                text={bookmarkCount.toString()}
+                                colorType="secondary"
+                                fill="negative"
+                                icon={<HeartFullIcon />}
+                            />
+                        ) : (
+                            <TextButton
+                                width="25%"
+                                onClick={handleFavorite}
+                                text={bookmarkCount.toString()}
+                                colorType="secondary"
+                                fill="negative"
+                                icon={<HeartBlankIcon />}
                             />
                         )}
                         <TextButton
                             width="25%"
-                            text={bookmarkCount.toString()}
-                            colorType="secondary"
-                            fill="negative"
-                            icon={isFavorite ? <HeartFullIcon /> : <HeartBlankIcon />}
-                        />
-                        <TextButton
-                            width="25%"
+                            onClick={() => setIsShareModalOpen(true)}
                             text="공유"
                             colorType="secondary"
                             fill="negative"
@@ -405,6 +478,47 @@ function FundingTab(props: FundingTabProps) {
                 ))}
             </TabBar>
             <div>{activeTab === "store" ? <div>상점</div> : <div>리뷰</div>}</div>
+            <ModalContainer>
+                <Modal
+                    width="400px"
+                    height="auto"
+                    isOpen={isCancelModalOpen}
+                    setIsOpen={setIsCancelModalOpen}
+                    modalTitle="펀딩 참여 취소하기"
+                    childComponent={<FundingCancelModal />}
+                    buttonType="submit"
+                    buttonWidth="40%"
+                    onSubmit={cancelFunding}
+                    submitButtonText="확인"
+                />
+                <Modal
+                    width="400px"
+                    height="auto"
+                    isOpen={isCancelErrorModalOpen}
+                    setIsOpen={setIsCancelErrorModalOpen}
+                    modalTitle="펀딩 참여 취소 실패"
+                    childComponent={<FundingCancelErrorModal errorCode={errorCode} />}
+                    buttonType="confirm"
+                    buttonWidth="40%"
+                />
+                <Modal
+                    width="500px"
+                    height="auto"
+                    isOpen={isShareModalOpen}
+                    setIsOpen={setIsShareModalOpen}
+                    modalTitle="펀딩 공유하기"
+                    childComponent={
+                        <FundingShareModal
+                            fundingId={fundingId}
+                            title={title}
+                            menu={menu}
+                            imageUrl={fundingImageResponseDtos[0].imageUrl}
+                        />
+                    }
+                    buttonType="confirm"
+                    buttonWidth="40%"
+                />
+            </ModalContainer>
         </FundingContainer>
     );
 }

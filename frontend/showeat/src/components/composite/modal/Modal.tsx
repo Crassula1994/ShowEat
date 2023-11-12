@@ -1,28 +1,30 @@
 /* Import */
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/css";
-import Overlay from "../../common/overlay";
-import { TextButton } from "../../common/button";
+import Overlay from "@components/common/overlay";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import { TextButton } from "@components/common/button";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
 interface ModalProps {
-    childComponent: React.ReactNode;
     width: string;
     height: string;
     isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    modalTitle?: string;
+    titleFontSize?: number;
+    childComponent: ReactNode;
     buttonType: "confirm" | "close" | "submit";
     buttonWidth: string;
     buttonHeight?: string;
-    colorType?: "primary" | "secondary" | "gray";
-    fill?: "positive" | "negative";
-    curve?: "curved" | "round";
-    onSubmit?: () => void;
-    modalTitle?: string;
-    titleSize?: string;
     buttonFontSize?: number;
+    buttonColorType?: "primary" | "secondary" | "gray";
+    buttonFill?: "positive" | "negative";
+    buttonCurve?: "curved" | "round";
+    onSubmit?: () => void;
+    submitButtonText?: string;
 }
 
 interface ModalOuterContainerType {
@@ -73,14 +75,20 @@ const ModalOuterContainer = styled("div")<ModalOuterContainerType>`
 `;
 
 const ModalInnerContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    // Box Model Attribute
+    width: 100%;
     overflow: hidden;
+
+    // Text Attribute
     text-overflow: ellipsis;
 `;
 
-const ModalTitleWrapper = styled("div")<{ titleSize: string }>`
+const ModalTitleWrapper = styled("div")<{ titleFontSize: number }>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,7 +100,7 @@ const ModalTitleWrapper = styled("div")<{ titleSize: string }>`
     margin-bottom: 1em;
 
     font-weight: 700;
-    font-size: ${(props) => props.titleSize};
+    font-size: ${(props) => props.titleFontSize}px;
 `;
 
 const ModalChildWrapper = styled("div")`
@@ -100,40 +108,46 @@ const ModalChildWrapper = styled("div")`
 `;
 
 const ButtonContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 
-    margin-top: 1em;
+    // Box Model Attribute
+    width: 100%;
+    margin-top: 2em;
 `;
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Modal Component */
-function Modal({
-    childComponent,
-    width,
-    height,
-    isOpen,
-    setIsOpen,
-    buttonType,
-    buttonWidth,
-    buttonHeight,
-    colorType = "primary",
-    fill = "positive",
-    curve = "curved",
-    onSubmit,
-    modalTitle,
-    titleSize = "24px",
-    buttonFontSize = 16,
-}: ModalProps) {
+function Modal(props: ModalProps) {
+    const {
+        width,
+        height,
+        isOpen,
+        setIsOpen,
+        modalTitle = "",
+        titleFontSize = 24,
+        childComponent,
+        buttonType,
+        buttonWidth,
+        buttonHeight = "40px",
+        buttonFontSize = 16,
+        buttonColorType = "primary",
+        buttonFill = "positive",
+        buttonCurve = "curved",
+        onSubmit,
+        submitButtonText = "저장",
+    } = props;
+
     if (isOpen) {
         return (
             <Overlay zIndex={900}>
                 <ModalOuterContainer width={width} height={height} isOpen={isOpen}>
                     <ModalInnerContainer>
                         {modalTitle && (
-                            <ModalTitleWrapper titleSize={titleSize}>
+                            <ModalTitleWrapper titleFontSize={titleFontSize}>
                                 {modalTitle}
                             </ModalTitleWrapper>
                         )}
@@ -145,9 +159,9 @@ function Modal({
                                     text="확인"
                                     width={buttonWidth}
                                     height={buttonHeight}
-                                    colorType={colorType}
-                                    fill={fill}
-                                    curve={curve}
+                                    colorType={buttonColorType}
+                                    fill={buttonFill}
+                                    curve={buttonCurve}
                                     onClick={() => setIsOpen(false)}
                                     fontSize={buttonFontSize}
                                 />
@@ -157,9 +171,9 @@ function Modal({
                                     text="닫기"
                                     width={buttonWidth}
                                     height={buttonHeight}
-                                    colorType={colorType}
-                                    fill={fill}
-                                    curve={curve}
+                                    colorType={buttonColorType}
+                                    fill={buttonFill}
+                                    curve={buttonCurve}
                                     onClick={() => setIsOpen(false)}
                                     fontSize={buttonFontSize}
                                 />
@@ -167,24 +181,24 @@ function Modal({
                             {buttonType === "submit" && (
                                 <>
                                     <TextButton
-                                        text="저장"
                                         width={buttonWidth}
                                         height={buttonHeight}
-                                        colorType={colorType}
-                                        fill="positive"
-                                        curve={curve}
                                         onClick={onSubmit}
                                         fontSize={buttonFontSize}
+                                        text={submitButtonText}
+                                        colorType={buttonColorType}
+                                        fill="positive"
+                                        curve={buttonCurve}
                                     />
                                     <TextButton
-                                        text="취소"
                                         width={buttonWidth}
                                         height={buttonHeight}
-                                        colorType={colorType}
-                                        fill="negative"
-                                        curve={curve}
                                         onClick={() => setIsOpen(false)}
                                         fontSize={buttonFontSize}
+                                        text="취소"
+                                        colorType={buttonColorType}
+                                        fill="negative"
+                                        curve={buttonCurve}
                                     />
                                 </>
                             )}

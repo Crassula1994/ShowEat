@@ -2,6 +2,7 @@
 import AlarmReadIcon from "./alarm-read-icon.svg";
 import CashCowCoinIcon from "./cashcow-coin-icon.svg";
 import CheckMarkIcon from "./check-mark-icon.svg";
+import CopyIcon from "./copy-icon.svg";
 import DeleteIcon from "./delete-icon.svg";
 import DownArrowIcon from "./down-arrow-icon.svg";
 import GoogleIcon from "./google-icon.svg";
@@ -25,6 +26,7 @@ export {
     AlarmReadIcon,
     CashCowCoinIcon,
     CheckMarkIcon,
+    CopyIcon,
     DeleteIcon,
     DownArrowIcon,
     GoogleIcon,

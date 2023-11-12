@@ -24,6 +24,7 @@ function Document() {
                     type="text/css"
                     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                 />
+                <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js" />
             </Head>
             <body>
                 <Main />
