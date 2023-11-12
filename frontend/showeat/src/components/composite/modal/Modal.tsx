@@ -16,7 +16,7 @@ interface ModalProps {
     modalTitle?: string;
     titleFontSize?: number;
     childComponent: ReactNode;
-    buttonType: "confirm" | "close" | "submit";
+    buttonType: "confirm" | "close" | "submit" | "none";
     buttonWidth: string;
     buttonHeight?: string;
     buttonFontSize?: number;

@@ -68,6 +68,7 @@ async function fetchModify(props: FetchProps) {
         url,
         method,
         data,
+        params = {},
         isAuth,
         contentType = "json",
         cache = true,
@@ -79,10 +80,9 @@ async function fetchModify(props: FetchProps) {
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": `http://localhost:3000`,
         "Access-Control-Allow-Methods": "POST, OPTIONS, PUT, PATCH, DELETE",
-        "Content-Type":
-            contentType === "json"
-                ? "application/json"
-                : `multipart/form-data; boundary= #$@boundary#@$`,
+        ...(contentType === "json" && { "Content-Type": "application/json" }),
+        // 이거 주석처리로 하니까 잘 보내짐. - 시균's solution
+        //         : `multipart/form-data; boundary= #$@boundary#@$`,
     };
 
     if (isAuth) {
@@ -92,12 +92,15 @@ async function fetchModify(props: FetchProps) {
         }
     }
 
+    const queryString: string = params ? `?${new URLSearchParams(params).toString()}` : "";
+
     const handleData = () => {
         if (data) {
             if (contentType === "json") {
                 return JSON.stringify(data);
             }
             if (data instanceof FormData) {
+                // if (contentType === "file") {
                 return data;
             }
             return undefined;
@@ -118,7 +121,7 @@ async function fetchModify(props: FetchProps) {
     };
 
     try {
-        const response = await fetch(`${ENDPOINT}${url}`, options);
+        const response = await fetch(`${ENDPOINT}${url}${queryString}`, options);
         const fetchResult = await response.json();
         if (fetchResult && fetchResult.statusCode === 200) {
             return fetchResult;

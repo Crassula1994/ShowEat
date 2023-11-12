@@ -101,10 +101,8 @@ interface CreateFundingProps {
     minLimit: number;
     tags: string[];
     title: string;
-    menuRequestDtos: {
-        discountPrice: number;
-        menuId: number;
-    };
+    discountPrice: number;
+    menuId: number;
 }
 
 const createFunding = async ({
@@ -115,12 +113,23 @@ const createFunding = async ({
     minLimit,
     tags,
     title,
-    menuRequestDtos,
+    menuId,
+    discountPrice,
 }: CreateFundingProps) => {
     const props: FetchProps = {
         url: `funding`,
         method: "POST",
-        data: { category, description, endDate, tags, title, menuRequestDtos, maxLimit, minLimit },
+        data: {
+            category,
+            description,
+            endDate,
+            tags,
+            title,
+            menuId,
+            discountPrice,
+            maxLimit,
+            minLimit,
+        },
         isAuth: true,
     };
 

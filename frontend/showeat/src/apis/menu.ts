@@ -34,15 +34,6 @@ const addNewMenu = async ({ menu, price, multipartFiles }: AddNewMenuType) => {
     // }
     // logFormData(formData);
 
-    // Append JSON data as a string
-    formData.append(
-        "registMenuRequestDto",
-        JSON.stringify({
-            menu,
-            price,
-        }),
-    );
-
     // Append each file
     multipartFiles.forEach((file) => {
         formData.append(`multipartFiles`, file);
@@ -56,10 +47,13 @@ const addNewMenu = async ({ menu, price, multipartFiles }: AddNewMenuType) => {
         method: "POST",
         isAuth: true,
         contentType: "file", // or "multipart/form-data"
+        params: { menu, price },
         data: formData,
+        // data: multipartFiles
+        // data: { multipartFiles: multipartFiles[0] },
     };
 
-    console.log(menu, price, multipartFiles);
+    console.log(menu, price, multipartFiles, formData);
 
     const result = await fetchModify(props);
 

@@ -4,14 +4,15 @@ import { ReactNode, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import jsQR from "jsqr";
 import styled from "@emotion/styled";
-import SingleLayout from "@/layouts/SingleLayout";
-import { TextButton } from "@/components/common/button";
+import SingleLayout from "@layouts/SingleLayout";
+import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
-import getQRCode from "@/apis/qr";
-import Modal from "@/components/composite/modal";
+import getQRCode from "@apis/qr";
+import Modal from "@components/composite/modal";
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Style */
 const RedeemContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -83,9 +84,12 @@ const ModalTitleWrapper = styled("span")`
 const ModalDescriptionWrapper = styled("span")`
     font-size: 18px;
 
-    padding: 3em;
+    padding: 2em;
 `;
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Failed Modal Component */
 function FailedModal() {
     return (
         <FailedModalContainer>

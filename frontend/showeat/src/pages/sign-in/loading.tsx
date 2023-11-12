@@ -66,19 +66,23 @@ function SignInLoading() {
                     userPhone,
                     visited,
                 });
-
                 if (userBusiness) {
-                    getBusinessInfo(userBusiness).then((sellerResult) => {
+                    getBusinessInfo(businessId).then((sellerResult) => {
                         const { businessName, businessImgUrl } = sellerResult.data;
-                        setSeller({
-                            sellerId: businessId,
-                            sellerName: businessName,
-                            sellerImgUrl: businessImgUrl,
+                        setSeller((prev) => {
+                            return {
+                                ...prev,
+                                sellerId: businessId,
+                                sellerName: businessName,
+                                sellerImgUrl: businessImgUrl,
+                            };
                         });
                     });
                 }
-
-                if (visited) {
+                const returnUrl = params.get("state");
+                if (returnUrl) {
+                    router.replace(returnUrl);
+                } else if (visited) {
                     router.replace("/");
                 } else {
                     router.replace("/sign-up");

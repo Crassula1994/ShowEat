@@ -13,6 +13,7 @@ import Modal from "@components/composite/modal";
 import FileInput from "@components/common/input/FileInput";
 import { addNewMenu, getMenuList } from "@apis/menu";
 import { createFunding } from "@/apis/fundings";
+import { useRouter } from "next/router";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -311,6 +312,7 @@ function AddMenu({
 
 /* Seller Funding Form Page */
 function FundingForm() {
+    const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [textFormData, setTextFormData] = useState([
         {
@@ -390,7 +392,6 @@ function FundingForm() {
     useEffect(() => {
         getMenuList().then((res) => {
             setMenuList(res.data);
-            console.log(res);
         });
     }, []);
 
@@ -431,14 +432,12 @@ function FundingForm() {
 
     const changeDiscountPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
-        if (
-            /^\d+$/.test(newValue) ||
-            newValue === ""
-            // && newValue < originPrice
-        ) {
-            setMenuData((prev) => {
-                return { ...prev, data: { ...prev.data, discountPrice: newValue } };
-            });
+        if (/^\d+$/.test(newValue) || newValue === "") {
+            if (parseFloat(newValue) <= parseFloat(menuData.data.originPrice) || newValue === "") {
+                setMenuData((prev) => {
+                    return { ...prev, data: { ...prev.data, discountPrice: newValue } };
+                });
+            }
         }
     };
 
@@ -510,8 +509,8 @@ function FundingForm() {
             price: originPrice,
             multipartFiles: uploadedFiles,
         }).then((res) => {
-            // 메뉴 추가 임시 로그
-            console.log(res);
+            setMenuList(res.data);
+            setIsModalOpen(false);
         });
     };
 
@@ -524,15 +523,10 @@ function FundingForm() {
             minLimit: parseFloat(textFormData[2].data),
             tags: tags.data,
             title: textFormData[0].data,
-            menuRequestDtos: {
-                // 임시로 1
-                menuId: 1,
-                // menuId: menuData.data.menuId,
-                discountPrice: parseFloat(menuData.data.discountPrice),
-            },
-        }).then((res) => {
-            // 펀딩 생성 임시 로그
-            console.log(res);
+            menuId: menuData.data.menuId,
+            discountPrice: parseFloat(menuData.data.discountPrice),
+        }).then(() => {
+            router.push("/sellers/profile/seller-info");
         });
     };
 
@@ -650,11 +644,7 @@ function FundingForm() {
                         <TagsContainer>
                             {tags.data.map((one, idx) => (
                                 <TagContainer key={`${one}-${idx}`}>
-                                    <TagButton
-                                        tagDescription={one}
-                                        colorType="primary"
-                                        width="80px"
-                                    />
+                                    <TagButton text={one} colorType="primary" width="80px" />
                                     <DeleteIconWrapper
                                         src="/assets/icons/delete-icon.svg"
                                         alt="delete-tag"
