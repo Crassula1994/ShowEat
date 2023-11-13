@@ -34,7 +34,49 @@ const patchSettingInfo = async (
     return result;
 };
 
+const DeleteImgUrl = async (userId: number) => {
+    const props: FetchProps = {
+        url: `/users/delete-profile-image/${userId}`,
+        method: "DELETE",
+        isAuth: true,
+    };
+    const result = await fetchModify(props);
+    return result;
+};
+
+const patchNickname = async (userId: number, userNickname: string) => {
+    const props: FetchProps = {
+        url: "users/nickname",
+        method: "PATCH",
+        data: { userId, userNickname },
+        isAuth: true,
+    };
+    const result = await fetchModify(props);
+    return result;
+};
+
+const patchPhone = async (userId: number, userPhone: string) => {
+    const props: FetchProps = {
+        url: "users/phone",
+        method: "PATCH",
+        data: { userId, userPhone },
+        isAuth: true,
+    };
+    const result = await fetchModify(props);
+    return result;
+};
+
+const patchAddress = async (userId: number, userAddress: string) => {
+    const props: FetchProps = {
+        url: "users/address",
+        method: "PATCH",
+        data: { userId, userAddress },
+        isAuth: true,
+    };
+    const result = await fetchModify(props);
+    return result;
+};
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { getUserInfo, patchSettingInfo };
+export { getUserInfo, patchSettingInfo, patchNickname, patchPhone, patchAddress, DeleteImgUrl };

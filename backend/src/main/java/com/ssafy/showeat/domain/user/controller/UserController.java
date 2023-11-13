@@ -3,6 +3,7 @@ package com.ssafy.showeat.domain.user.controller;
 import com.ssafy.showeat.domain.user.dto.request.UpdateAddressRequestDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateInfoRequestDto;
 import com.ssafy.showeat.domain.user.dto.request.UpdateNicknameRequestDto;
+import com.ssafy.showeat.domain.user.dto.request.UpdatePhoneRequestDto;
 import com.ssafy.showeat.domain.user.dto.response.UserResponseDto;
 import com.ssafy.showeat.domain.user.service.UserService;
 import com.ssafy.showeat.global.response.ResponseResult;
@@ -100,4 +101,16 @@ public class UserController {
         return ResponseResult.successResponse;
     }
 
+    @ApiOperation(value = "전화번호 수정", notes = "사용자가 전화번호를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "사용자 전화번호 수정 성공"),
+            @ApiResponse(code = 400, message = "사용자 전화번호 수정 실패"),
+    })
+
+    @PatchMapping("/phone")
+    public ResponseResult updatePhone(@Valid @RequestBody UpdatePhoneRequestDto updatePhoneRequestDto) {
+        log.info("UserController_updatePhone -> 사용자 전화번호 수정");
+        userService.updatePhone(updatePhoneRequestDto);
+        return ResponseResult.successResponse;
+    }
 }
