@@ -225,22 +225,17 @@ function CardCarousel({
     const handleBookmark = (fundingId: number) => {
         postBookmark(fundingId.toString()).then((res) => {
             if (res.statusCode === 200) {
-                // 여기서 수정
                 const updatedCardDatas = cardDatas.map((cardData) => {
                     if (cardData.fundingId === fundingId) {
-                        // 현재 처리 중인 펀딩의 isBookmark 상태를 반전시킵니다.
                         return { ...cardData, fundingIsBookmark: !cardData.fundingIsBookmark };
                     }
                     return cardData;
                 });
-                // 수정된 카드 데이터를 반영합니다.
                 setCardDatas(updatedCardDatas);
-
-                console.log(res);
-                console.log(fundingId);
             }
         });
     };
+
     return (
         <CarouselContainer width={width} height={height}>
             <CarouselHeaderContainer>
@@ -271,6 +266,7 @@ function CardCarousel({
                                     onBookmark={() => {
                                         handleBookmark(cardData.fundingId);
                                     }}
+                                    inCarousel
                                 />
                             </CarouselCardWrapper>
                         ))

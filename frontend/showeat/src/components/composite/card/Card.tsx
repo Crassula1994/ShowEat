@@ -11,6 +11,7 @@ interface CardProps {
     fundingData: FundingType;
     onFundingClick?: (fundingId: number) => void;
     onBookmark?: (fundingId: number) => void;
+    inCarousel?: boolean;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -281,7 +282,7 @@ const RemainingTimeWrapper = styled("span")`
 // ----------------------------------------------------------------------------------------------------
 
 /* Card Component */
-function Card({ fundingData, onFundingClick, onBookmark }: CardProps) {
+function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: CardProps) {
     const maxPeopleText = changeFontWeight(
         `최대 참여 인원까지 ...${fundingData.maxLimit - fundingData.curCount}명... 남았습니다!`,
     );
@@ -329,23 +330,24 @@ function Card({ fundingData, onFundingClick, onBookmark }: CardProps) {
                 />
                 <CardUpperContentContainer>
                     <HeartContainer>
-                        {fundingData.fundingIsBookmark ? (
-                            <FullHeartWrapper
-                                src="/assets/icons/heart-full-icon.svg"
-                                alt="heart-full-icon"
-                                width={30}
-                                height={30}
-                                onClick={(e) => handleBookmark(e)}
-                            />
-                        ) : (
-                            <BlankHeartWrapper
-                                src="/assets/icons/heart-blank-icon.svg"
-                                alt="heart-blank-icon"
-                                width={30}
-                                height={30}
-                                onClick={(e) => handleBookmark(e)}
-                            />
-                        )}
+                        {!inCarousel &&
+                            (fundingData.fundingIsBookmark ? (
+                                <FullHeartWrapper
+                                    src="/assets/icons/heart-full-icon.svg"
+                                    alt="heart-full-icon"
+                                    width={30}
+                                    height={30}
+                                    onClick={(e) => handleBookmark(e)}
+                                />
+                            ) : (
+                                <BlankHeartWrapper
+                                    src="/assets/icons/heart-blank-icon.svg"
+                                    alt="heart-blank-icon"
+                                    width={30}
+                                    height={30}
+                                    onClick={(e) => handleBookmark(e)}
+                                />
+                            ))}
                     </HeartContainer>
                     <DiscountContainer>
                         <DiscountPercentageWrapper>{`${fundingData.discountRate}%`}</DiscountPercentageWrapper>

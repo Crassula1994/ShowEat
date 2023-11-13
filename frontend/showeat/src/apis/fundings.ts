@@ -53,33 +53,6 @@ const getMainPageList = async (type: string) => {
     return result;
 };
 
-/* Function for get My Fundings */
-const getMyFundings = async (page: number) => {
-    const props: FetchProps = {
-        url: `funding/user`,
-        method: "GET",
-        isAuth: true,
-
-        params: { page: page.toString() },
-    };
-    const result = await fetchGet(props);
-
-    return result;
-};
-
-/* Function for get My Bookmark Fundings */
-const getBookmarkFundings = async (page: number) => {
-    const props: FetchProps = {
-        url: `funding/user/bookmark`,
-        method: "GET",
-        isAuth: true,
-        params: { page: page.toString() },
-    };
-    const result = await fetchGet(props);
-
-    return result;
-};
-
 /* Function for Applying Funding Join */
 const postFundingJoin = async (fundingId: string) => {
     const props: FetchProps = {
@@ -190,8 +163,6 @@ export {
     getFundingDetail,
     getFundingUserDetail,
     getMainPageList,
-    getMyFundings,
-    getBookmarkFundings,
     postFundingJoin,
     getActiveFunding,
     getInActiveFunding,
