@@ -59,7 +59,23 @@ const patchUseGiftcard = async ({ couponId, couponAmount }: PatchUseGiftcardProp
     return result;
 };
 
+const postReview = async (couponId: number, message: string) => {
+    const reviewData = {
+        couponId,
+        message,
+    };
+
+    const props: FetchProps = {
+        url: "review",
+        method: "POST",
+        data: reviewData,
+        isAuth: true,
+    };
+
+    const result = await fetchModify(props);
+    return result;
+};
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { getCouponList, getCouponDetails, patchUseCoupon, patchUseGiftcard };
+export { getCouponList, getCouponDetails, patchUseCoupon, patchUseGiftcard, postReview };
