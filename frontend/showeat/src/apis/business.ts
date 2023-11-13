@@ -1,8 +1,40 @@
 /* Import */
-import { fetchGet } from "@utils/api";
+import { fetchGet, fetchModify } from "@utils/api";
 import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
+
+/* Function for Verify Business */
+const postBusinessInfo = async (
+    ceo: string,
+    email: string,
+    businessName: string,
+    startDate: string,
+    businessNumber: string,
+    newBusinessAddress: string,
+    businessPhone: string,
+    formData: FormData,
+) => {
+    const props: FetchProps = {
+        url: `business/registration`,
+        method: "POST",
+        isAuth: true,
+        contentType: "file", // or "multipart/form-data"
+        params: {
+            ceo,
+            email,
+            businessName,
+            startDate,
+            businessNumber,
+            newBusinessAddress,
+            businessPhone,
+        },
+        data: formData,
+    };
+
+    const result = await fetchModify(props);
+    return result;
+};
 
 /* Function for Getting Business Information */
 const getBusinessInfo = async (businessId: number) => {
@@ -12,13 +44,10 @@ const getBusinessInfo = async (businessId: number) => {
         isAuth: true,
     };
     const result = await fetchGet(props);
-
     return result;
 };
-
-/* Function for Modify Business Information */
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { getBusinessInfo };
+export { getBusinessInfo, postBusinessInfo };

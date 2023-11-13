@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ssafy.showeat.global.exception.NotExistUserException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.showeat.domain.business.dto.request.BusinessInfoRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.response.BusinessMenuResponseDto;
 import com.ssafy.showeat.domain.business.dto.response.BusinessMonthlyStatResponseDto;
 import com.ssafy.showeat.domain.business.dto.response.BusinessTotalStatResponseDto;
@@ -26,6 +25,7 @@ import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.global.exception.ImpossibleDeleteMenuException;
 import com.ssafy.showeat.global.exception.InvalidRegistrationException;
+import com.ssafy.showeat.global.exception.NotExistUserException;
 import com.ssafy.showeat.global.response.ocr.ClovaOcrResponseDto;
 import com.ssafy.showeat.global.response.ocr.FieldInfo;
 import com.ssafy.showeat.global.response.ocr.ImageInfo;
@@ -76,7 +76,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public String updateBusinessImg(MultipartFile businessImg , User loginUser) throws IOException {
+	public String updateBusinessImg(MultipartFile businessImg, User loginUser) throws IOException {
 		log.info("BusinessServiceImpl_updateBusinessImg || 셀러 프로필 변경");
 		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		String businessImgUrl = s3Service.uploadBusinessImageToS3(businessImg);
@@ -86,7 +86,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void updateBusinessBio(String businessBio , User loginUser) {
+	public void updateBusinessBio(String businessBio, User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessBio || 셀러 소개 변경");
 		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateBio(businessBio);
@@ -94,7 +94,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void updateBusinessOperatingTime(String operatingTime , User loginUser) {
+	public void updateBusinessOperatingTime(String operatingTime, User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessOperatingTime || 셀러 운영시간 변경");
 		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateOperatingTime(operatingTime);
@@ -102,7 +102,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void updateBusinessClosedDays(String businessClosedDays , User loginUser) {
+	public void updateBusinessClosedDays(String businessClosedDays, User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessClosedDays || 셀러 휴무일 변경");
 		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateClosedDays(businessClosedDays);
@@ -110,7 +110,8 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles , User loginUser) throws
+	public void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles,
+		User loginUser) throws
 		IOException {
 		log.info("BusinessServiceImpl_registMenu || 업체 메뉴 등록");
 		log.info(registMenuRequestDto.getMenu());
@@ -143,7 +144,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void deleteMenu(Long menuId , User loginUser) {
+	public void deleteMenu(Long menuId, User loginUser) {
 		log.info("BusinessServiceImpl_deleteMenu || 업체 메뉴 삭제");
 
 		Business business = businessRepository.findByUser(loginUser).get();
@@ -171,19 +172,34 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public boolean verifyBusiness(BusinessInfoRequestDto businessInfoRequestDto, MultipartFile businessRegistration) {
+	public boolean verifyBusiness(
+		RegistrationRequestDto registrationRequestDto,
+		MultipartFile businessRegistration,
+		User loginUser
+	) throws IOException {
 		//사업자 등록증 ocr
 		ClovaOcrResponseDto clovaOcrResponseDto = clovaOcrService.readOcr(businessRegistration);
 
 		//업체 입력 정보와 ocr 일치 확인
-		checkOcrAndBusinessInfo(clovaOcrResponseDto, businessInfoRequestDto);
+		checkOcrAndBusinessInfo(clovaOcrResponseDto, registrationRequestDto);
 
 		//국세청 사업자등록정보 진위확인
-		return businessRegistrationService.verifyBusinessRegistration(businessInfoRequestDto);
+		if (!businessRegistrationService.verifyBusinessRegistration(registrationRequestDto)) {
+			return false;
+		}
+
+		//사업자 등록
+		String businessRegistrationUrl = s3Service.uploadBusinessImageToS3(businessRegistration);
+		if (loginUser.getBusiness() == null) {
+			businessRepository.save(registrationRequestDto.toEntity(businessRegistrationUrl, loginUser));
+		} else {
+			loginUser.getBusiness().updateBusiness(registrationRequestDto, businessRegistrationUrl);
+		}
+		return true;
 	}
 
 	private void checkOcrAndBusinessInfo(ClovaOcrResponseDto clovaOcrResponseDto,
-		BusinessInfoRequestDto businessInfoRequestDto) {
+		RegistrationRequestDto registrationRequestDto) {
 		List<ImageInfo> images = clovaOcrResponseDto.getImages();
 		for (ImageInfo imageInfo : images) {
 			List<FieldInfo> fields = imageInfo.getFields();
@@ -192,18 +208,18 @@ public class BusinessServiceImpl implements BusinessService {
 			FieldInfo businessCeo = fields.get(2);
 			FieldInfo startDate = fields.get(3);
 
-			if(!businessNumber.getInferText().replaceAll("[^\\d]", "")
-				.equals(businessInfoRequestDto.getBusinessNumber())){
+			if (!businessNumber.getInferText().replaceAll("[^\\d]", "")
+				.equals(registrationRequestDto.getBusinessNumber())) {
 				throw new InvalidRegistrationException("사업자등록번호가 일치하지 않습니다.");
 			}
-			if(!businessName.getInferText().equals(businessInfoRequestDto.getBusinessName())){
+			if (!businessName.getInferText().equals(registrationRequestDto.getBusinessName())) {
 				throw new InvalidRegistrationException("상호명이 일치하지 않습니다.");
 			}
-			if(!businessCeo.getInferText().equals(businessInfoRequestDto.getBusinessCeo())){
+			if (!businessCeo.getInferText().equals(registrationRequestDto.getCeo())) {
 				throw new InvalidRegistrationException("대표자명이 일치하지 않습니다.");
 			}
-			if(!startDate.getInferText().replaceAll("[^\\d]", "")
-				.equals(businessInfoRequestDto.getStartDate())){
+			if (!startDate.getInferText().replaceAll("[^\\d]", "")
+				.equals(registrationRequestDto.getStartDate())) {
 				throw new InvalidRegistrationException("사업 시작일이 일치하지 않습니다.");
 			}
 		}

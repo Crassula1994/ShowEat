@@ -110,6 +110,7 @@ function AccountInfo() {
     const [accountBank, setAccountBank] = useState<string>("");
     const [accountNumber, setAccountNumber] = useState<string>("");
     const [fileName, setFileName] = useState<string>("");
+    const [formData, setFormData] = useState<FormData>(new FormData());
 
     const handleAccountHolderChange = (event: ChangeEvent<HTMLInputElement>) => {
         setAccountHolder(event.target.value.trim());
@@ -136,6 +137,10 @@ function AccountInfo() {
         if (files && files.length > 0) {
             const selectedFile = files[0];
             setFileName(selectedFile.name);
+            const newFormData = new FormData();
+            newFormData.append("files", selectedFile);
+            setFormData(newFormData);
+            console.log(formData);
         }
     };
 

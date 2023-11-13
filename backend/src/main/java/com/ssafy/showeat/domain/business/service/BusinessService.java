@@ -3,12 +3,11 @@ package com.ssafy.showeat.domain.business.service;
 import java.io.IOException;
 import java.util.List;
 
-import com.ssafy.showeat.domain.business.dto.request.BusinessInfoRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
 
 import com.ssafy.showeat.domain.business.dto.response.*;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
@@ -43,5 +42,6 @@ public interface BusinessService {
 
 	void updateBusinessClosedDays(String closedDays , User user);
 
-	boolean verifyBusiness(BusinessInfoRequestDto businessInfoRequestDto, MultipartFile businessRegistration);
+	boolean verifyBusiness(RegistrationRequestDto registrationRequestDto, MultipartFile businessRegistration,
+		User userFromRequest) throws IOException;
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.response.RegistrationResponseDto;
 import com.ssafy.showeat.domain.business.dto.response.SellerResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
@@ -62,19 +63,19 @@ public class Business extends BaseDateEntity {
 	@Column(nullable = false, length = 100)
 	private String businessAddress;
 
-	@Column(nullable = false, length = 10)
+	@Column
 	private String businessAccountHolder;
 
-	@Column(nullable = false, length = 100)
+	@Column
 	private String businessAccount;
 
 	@Column(nullable = false)
-	private int businessNumber;
+	private String businessNumber;
 
 	@Column(nullable = false, length = 1000)
 	private String businessRegistrationUrl;
 
-	@Column(nullable = false, length = 1000)
+	@Column
 	private String bankBookUrl;
 
 	@Column
@@ -110,7 +111,7 @@ public class Business extends BaseDateEntity {
 			.businessOperatingTime(businessOperatingTime)
 			.businessClosedDays(businessClosedDays)
 			.businessPhone(businessPhone)
-			.businessNumber(businessNumber)
+			.businessNumber(Integer.parseInt(businessNumber))
 			.businessCeo(businessCeo)
 			.businessAddress(businessAddress)
 			.businessEmail(businessEmail)
@@ -126,7 +127,7 @@ public class Business extends BaseDateEntity {
 		return RegistrationResponseDto.builder()
 			.businessId(businessId)
 			.businessName(businessName)
-			.businessNumber(businessNumber)
+			.businessNumber(Integer.parseInt(businessNumber))
 			.businessAddress(businessAddress)
 			.businessPhone(businessPhone)
 			.businessCeo(businessCeo)
@@ -150,5 +151,15 @@ public class Business extends BaseDateEntity {
 
 	public void updateClosedDays(String businessClosedDays) {
 		this.businessClosedDays = businessClosedDays;
+	}
+
+	public void updateBusiness(RegistrationRequestDto registrationRequestDto, String businessRegistrationUrl) {
+		this.businessName = registrationRequestDto.getBusinessName();
+		this.businessNumber = registrationRequestDto.getBusinessNumber();
+		this.businessAddress = registrationRequestDto.getNewBusinessAddress();
+		this.businessPhone = registrationRequestDto.getBusinessPhone();
+		this.businessCeo = registrationRequestDto.getCeo();
+		this.businessEmail = registrationRequestDto.getEmail();
+		this.businessRegistrationUrl = businessRegistrationUrl;
 	}
 }

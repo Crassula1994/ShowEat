@@ -51,7 +51,7 @@ public class BusinessUserRequestDto {
                 .businessEmail(businessEmail)
                 .businessImgUrl(DEFAULT_BUSINESS_IMG_URL)
                 .businessName(businessName)
-                .businessNumber(businessNumber)
+                .businessNumber(String.valueOf(businessNumber))
                 .businessPhone(businessPhone)
                 .businessAddress(businessAddress)
                 .businessRegistrationUrl(businessRegistrationUrl)

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.showeat.domain.business.dto.request.BusinessInfoRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.global.exception.BusinessRegistrationException;
 
 @Service
@@ -25,7 +25,7 @@ public class BusinessRegistrationService {
 	@Value("${business.secretKey}")
 	private String secretKey;
 
-	public boolean verifyBusinessRegistration(BusinessInfoRequestDto businessRegistration) {
+	public boolean verifyBusinessRegistration(RegistrationRequestDto businessRegistration) {
 		String validValue = "02";
 		try {
 			URL apiUrl = new URL(apiURL + secretKey);
@@ -38,7 +38,7 @@ public class BusinessRegistrationService {
 			Map<String, String> business = new HashMap<>();
 			business.put("b_no", businessRegistration.getBusinessNumber());
 			business.put("start_dt", businessRegistration.getStartDate());
-			business.put("p_nm", businessRegistration.getBusinessCeo());
+			business.put("p_nm", businessRegistration.getCeo());
 			business.put("p_nm2", "");
 			business.put("b_nm", businessRegistration.getBusinessName());
 			business.put("corp_no", "");
