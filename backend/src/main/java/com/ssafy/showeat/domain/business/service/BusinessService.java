@@ -16,7 +16,7 @@ import com.ssafy.showeat.domain.user.entity.User;
 
 public interface BusinessService {
 
-	void updateBusinessImg(MultipartFile businessImg) throws IOException;
+	void updateBusinessImg(MultipartFile businessImg , User user) throws IOException;
 
 	void registMenu(RegistMenuRequestDto registMenuRequestDto, List<MultipartFile> multipartFiles , User user) throws IOException;
 
@@ -37,11 +37,11 @@ public interface BusinessService {
 
 	RegistrationResponseDto getRegistrationInfo(Long businessId);
 
-	void updateBusinessBio(String businessBio);
+	void updateBusinessBio(String businessBio , User user);
 
-	void updateBusinessOperatingTime(String operatingTime);
+	void updateBusinessOperatingTime(String operatingTime , User user);
 
-	void updateBusinessClosedDays(String businessClosedDays);
+	void updateBusinessClosedDays(String closedDays , User user);
 
 	boolean verifyBusiness(BusinessInfoRequestDto businessInfoRequestDto, MultipartFile businessRegistration);
 }

@@ -1,5 +1,6 @@
 /* Import */
 import Header from "@/components/composite/header";
+import Footer from "@/components/composite/footer";
 import styled from "@emotion/styled";
 import NavigationBar from "@/components/composite/navigationBar/NavigationBar";
 import { LayoutProps } from "@customTypes/layoutProps";
@@ -71,6 +72,7 @@ function SellerLayout(props: LayoutProps) {
                 </NavBarWrapper>
                 <FlexArticle>{children}</FlexArticle>
             </BodyContainer>
+            <Footer />
         </>
     );
 }

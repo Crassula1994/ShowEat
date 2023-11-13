@@ -1,5 +1,6 @@
 package com.ssafy.showeat.domain.funding.repository;
 
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.LockModeType;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,5 @@ public interface FundingRepository extends JpaRepository<Funding,Long>, FundingC
 	Optional<Funding> findByIdWithOptimisticLock(@Param("fundingId") Long fundingId);
 
 	Page<Funding> findByBusinessAndFundingIsActive(Business business, FundingIsActive state,Pageable pageable);
+	List<Funding> findByBusiness_BusinessIdAndFundingIsActive(Long businessId,FundingIsActive fundingIsActive);
 }

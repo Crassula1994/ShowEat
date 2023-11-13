@@ -225,6 +225,16 @@ public class FundingServiceImpl implements FundingService {
 	}
 
 	@Override
+	public List<FundingListResponseDto> getBusinessFundingList(Long businessId) {
+		log.info("FundingServiceImpl_getBusinessFundingList || 업체의 펀딩 목록 조회");
+
+		return fundingRepository.findByBusiness_BusinessIdAndFundingIsActive(businessId,FundingIsActive.ACTIVE)
+			.stream()
+			.map(funding -> funding.toFundingListResponseDto(false))
+			.collect(Collectors.toList());
+	}
+
+	@Override
 	public FundingIsZzimAndIsParticipate getUserFundingIsZzimAndIsParticipate(Long fundingId, Long userId) {
 		log.info("FundingServiceImpl_getUserFundingIsZzimAndIsParticipate || 유저의 펀딩 참여여부,찜 여부");
 

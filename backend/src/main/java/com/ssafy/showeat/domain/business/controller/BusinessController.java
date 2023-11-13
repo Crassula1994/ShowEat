@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ssafy.showeat.domain.business.dto.request.UpdateSellerInfoRequestDto;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -85,8 +86,8 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "셀러 프로필 수정 실패"),
 	})
 	@PatchMapping("/seller/profile")
-	public ResponseResult updateBusinessImg(@RequestPart MultipartFile businessImg) throws IOException {
-		businessService.updateBusinessImg(businessImg);
+	public ResponseResult updateBusinessImg(@RequestPart MultipartFile businessImg , HttpServletRequest request) throws IOException {
+		businessService.updateBusinessImg(businessImg , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
@@ -96,8 +97,8 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "셀러 소개 수정 실패"),
 	})
 	@PatchMapping("/seller/bio")
-	public ResponseResult updateBusinessBio(@RequestBody String businessBio) {
-		businessService.updateBusinessBio(businessBio);
+	public ResponseResult updateBusinessBio(@RequestBody UpdateSellerInfoRequestDto updateSellerInfoRequestDto , HttpServletRequest request) {
+		businessService.updateBusinessBio(updateSellerInfoRequestDto.getBusinessBio() , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
@@ -107,8 +108,8 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "셀러 운영시간 수정 실패"),
 	})
 	@PatchMapping("/seller/operating-time")
-	public ResponseResult updateBusinessOperatingTime(@RequestBody String operatingTime) {
-		businessService.updateBusinessOperatingTime(operatingTime);
+	public ResponseResult updateBusinessOperatingTime(@RequestBody UpdateSellerInfoRequestDto updateSellerInfoRequestDto , HttpServletRequest request) {
+		businessService.updateBusinessOperatingTime(updateSellerInfoRequestDto.getOperatingTime() , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
@@ -118,8 +119,8 @@ public class BusinessController {
 		@ApiResponse(code = 400, message = "셀러 휴무일 수정 실패"),
 	})
 	@PatchMapping("/seller/closed-days")
-	public ResponseResult updateBusinessClosedDays(@RequestBody String businessClosedDays) {
-		businessService.updateBusinessClosedDays(businessClosedDays);
+	public ResponseResult updateBusinessClosedDays(@RequestBody UpdateSellerInfoRequestDto updateSellerInfoRequestDto , HttpServletRequest request) {
+		businessService.updateBusinessClosedDays(updateSellerInfoRequestDto.getBusinessClosedDays() , userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 

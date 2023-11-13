@@ -31,6 +31,9 @@ public class CreateFundingRequestDto {
 	@ApiModelProperty(value = "펀딩 제목", example = "마시따")
 	private String title;
 
+	@ApiModelProperty(value = "펀딩 타입",example = "GIFT_CARD")
+	private String fundingType;
+
 	@ApiModelProperty(value = "펀딩 분류")
 	private String category;
 

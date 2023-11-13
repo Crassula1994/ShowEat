@@ -22,6 +22,7 @@ public interface FundingService {
 	Page<FundingListResponseDto> getFundingList(FundingIsActive state, int pageable , User user);
 	Page<FundingListResponseDto> getUserFundingList(User user,int page);
 	Page<FundingListResponseDto> getUserFundingListByBookmark(User user,int page);
+	List<FundingListResponseDto> getBusinessFundingList(Long businessId);
 	Page<FundingListResponseDto> searchFunding(SearchFundingRequestDto searchFundingRequestDto);
 	List<FundingListResponseDto> getFundingByType(String type);
 	Page<FundingListResponseDto> getFundingByCategory(String category , String sortType , int page);

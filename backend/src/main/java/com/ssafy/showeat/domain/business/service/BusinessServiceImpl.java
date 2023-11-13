@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ssafy.showeat.global.exception.NotExistUserException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,42 +76,34 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void updateBusinessImg(MultipartFile businessImg) throws IOException {
+	public void updateBusinessImg(MultipartFile businessImg , User loginUser) throws IOException {
 		log.info("BusinessServiceImpl_updateBusinessImg || 셀러 프로필 변경");
-		//todo 회원 Id 가져오기
-		User loginUser = userRepository.findById(1L).get();
-		Business business = businessRepository.findByUser(loginUser).get();
+		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		String businessImgUrl = s3Service.uploadBusinessImageToS3(businessImg);
 		business.updateImgUrl(businessImgUrl);
 	}
 
 	@Override
 	@Transactional
-	public void updateBusinessBio(String businessBio) {
+	public void updateBusinessBio(String businessBio , User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessBio || 셀러 소개 변경");
-		//todo 회원 Id 가져오기
-		User loginUser = userRepository.findById(1L).get();
-		Business business = businessRepository.findByUser(loginUser).get();
+		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateBio(businessBio);
 	}
 
 	@Override
 	@Transactional
-	public void updateBusinessOperatingTime(String operatingTime) {
+	public void updateBusinessOperatingTime(String operatingTime , User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessOperatingTime || 셀러 운영시간 변경");
-		//todo 회원 Id 가져오기
-		User loginUser = userRepository.findById(1L).get();
-		Business business = businessRepository.findByUser(loginUser).get();
+		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateOperatingTime(operatingTime);
 	}
 
 	@Override
 	@Transactional
-	public void updateBusinessClosedDays(String businessClosedDays) {
+	public void updateBusinessClosedDays(String businessClosedDays , User loginUser) {
 		log.info("BusinessServiceImpl_updateBusinessClosedDays || 셀러 휴무일 변경");
-		//todo 회원 Id 가져오기
-		User loginUser = userRepository.findById(1L).get();
-		Business business = businessRepository.findByUser(loginUser).get();
+		Business business = businessRepository.findByUser(loginUser).orElseThrow(NotExistUserException::new);
 		business.updateClosedDays(businessClosedDays);
 	}
 
