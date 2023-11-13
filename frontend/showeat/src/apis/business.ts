@@ -16,7 +16,21 @@ const getBusinessInfo = async (businessId: number) => {
     return result;
 };
 
+/* Function for Modify Business Information */
+const modifyBusinessInfo = async (file: File[]) => {
+    const props: FetchProps = {
+        url: `business/seller/profile`,
+        method: "PATCH",
+        isAuth: true,
+        data: { businessImg: file[0] },
+    };
+
+    const result = await fetchGet(props);
+
+    return result;
+};
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default getBusinessInfo;
+export { getBusinessInfo, modifyBusinessInfo };

@@ -3,9 +3,10 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Slider from "react-slick";
 import { keyframes } from "@emotion/react";
-import { useRef } from "react";
+import { useRef, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
-import { postBookmark } from "@/apis/fundings";
+import postBookmark from "@apis/bookmark";
+import { FundingType } from "@customTypes/apiProps";
 import Card from "../card";
 
 // ----------------------------------------------------------------------------------------------------
@@ -16,28 +17,8 @@ interface CarouselProps {
     height: number;
     title: string;
     description: string;
-    cardDatas: {
-        fundingId: number;
-        title: string;
-        businessName: string;
-        category: string;
-        maxLimit: number;
-        minLimit: number;
-        curCount: number;
-        menu: string;
-        price: number;
-        discountPrice: number;
-        discountRate: number;
-        startDate: string;
-        endDate: string;
-        fundingIsActive: string;
-        fundingIsSuccess: string;
-        fundingImageResponseDtos: {
-            imageId: number;
-            imageUrl: string;
-        }[];
-        fundingIsBookmark: boolean;
-    }[];
+    cardDatas: FundingType[];
+    setCardDatas: Dispatch<SetStateAction<FundingType[]>>;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -146,7 +127,7 @@ const LeftArrowWrapper = styled("div")<{ height: number }>`
     }
 `;
 
-const RightArrowWrapper = styled("div")<{ height: number }>`
+const RightArrowWrapper = styled("div")<Partial<CarouselProps>>`
     width: 50px;
     height: ${(props) => `${props.height}px`};
 
@@ -187,15 +168,35 @@ const ArrowImageWrapper = styled(Image)`
     //
 `;
 
+const NoDataWrapper = styled("div")<Partial<CarouselProps>>`
+    width: ${(props) => `${props.width}px`};
+    height: ${(props) => `${props.height}px`};
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+
+    font-size: 26px;
+    font-weight: 700;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Card Carousel Component */
-function CardCarousel({ width, height, title, description, cardDatas }: CarouselProps) {
+function CardCarousel({
+    width,
+    height,
+    title,
+    description,
+    cardDatas,
+    setCardDatas,
+}: CarouselProps) {
     const settings = {
         infinite: true,
         speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: cardDatas && cardDatas.length >= 3 ? 3 : 1,
+        slidesToScroll: cardDatas && cardDatas.length >= 3 ? 3 : 1,
         autoplay: true,
         autoplaySpeed: 5000,
         arrows: false,
@@ -222,7 +223,23 @@ function CardCarousel({ width, height, title, description, cardDatas }: Carousel
     };
 
     const handleBookmark = (fundingId: number) => {
-        postBookmark(fundingId);
+        postBookmark(fundingId.toString()).then((res) => {
+            if (res.statusCode === 200) {
+                // 여기서 수정
+                const updatedCardDatas = cardDatas.map((cardData) => {
+                    if (cardData.fundingId === fundingId) {
+                        // 현재 처리 중인 펀딩의 isBookmark 상태를 반전시킵니다.
+                        return { ...cardData, fundingIsBookmark: !cardData.fundingIsBookmark };
+                    }
+                    return cardData;
+                });
+                // 수정된 카드 데이터를 반영합니다.
+                setCardDatas(updatedCardDatas);
+
+                console.log(res);
+                console.log(fundingId);
+            }
+        });
     };
     return (
         <CarouselContainer width={width} height={height}>
@@ -241,23 +258,29 @@ function CardCarousel({ width, height, title, description, cardDatas }: Carousel
                     />
                 </LeftArrowWrapper>
                 <Slider {...settings} ref={sliderRef}>
-                    {cardDatas.map((cardData, idx) => (
-                        <CarouselCardWrapper
-                            key={`${cardData}-${idx}`}
-                            width={width}
-                            height={height}
-                        >
-                            <Card
-                                fundingData={cardData}
-                                onFundingClick={() => handleCard(cardData.fundingId)}
-                                onBookmark={() => {
-                                    handleBookmark(cardData.fundingId);
-                                }}
-                            />
-                        </CarouselCardWrapper>
-                    ))}
+                    {cardDatas && cardDatas.length > 0 ? (
+                        cardDatas.map((cardData, idx) => (
+                            <CarouselCardWrapper
+                                key={`${cardData}-${idx}`}
+                                width={width}
+                                height={height}
+                            >
+                                <Card
+                                    fundingData={cardData}
+                                    onFundingClick={() => handleCard(cardData.fundingId)}
+                                    onBookmark={() => {
+                                        handleBookmark(cardData.fundingId);
+                                    }}
+                                />
+                            </CarouselCardWrapper>
+                        ))
+                    ) : (
+                        <NoDataWrapper width={width} height={height}>
+                            데이터가 없습니다.
+                        </NoDataWrapper>
+                    )}
                 </Slider>
-                <RightArrowWrapper height={height} onClick={goToNext}>
+                <RightArrowWrapper height={height} onClick={goToNext} cardDatas={cardDatas}>
                     <ArrowImageWrapper
                         src="/assets/icons/right-arrow-icon.svg"
                         alt="carousel-right-arrow"

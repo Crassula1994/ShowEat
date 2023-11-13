@@ -304,11 +304,19 @@ function Card({ fundingData, onFundingClick, onBookmark }: CardProps) {
 
     const handleBookmark = (e: React.MouseEvent) => {
         e.stopPropagation();
-        onBookmark(fundingData.fundingId);
+        if (onBookmark) {
+            onBookmark(fundingData.fundingId);
+        }
     };
 
     return (
-        <CardContainer onClick={() => onFundingClick(fundingData.fundingId)}>
+        <CardContainer
+            onClick={() => {
+                if (onFundingClick) {
+                    onFundingClick(fundingData.fundingId);
+                }
+            }}
+        >
             <CardUpperContainer>
                 <CardImageWrapper
                     className="card-image"
