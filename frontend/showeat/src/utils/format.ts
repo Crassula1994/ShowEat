@@ -73,6 +73,15 @@ function changeFontWeight(text: string): string {
     return weightedText;
 }
 
+/* Function for Making Business ID Number */
+function formatBusinessNumber(numStr: string): string {
+    if (numStr.length !== 10) {
+        return numStr;
+    }
+
+    return `${numStr.substring(0, 3)}-${numStr.substring(3, 5)}-${numStr.substring(5, 10)}`;
+}
+
 /* Function for Changing Date Format */
 function formatDate(dateStr: string): string {
     const dateParts = dateStr.split("-");
@@ -125,6 +134,7 @@ export {
     calcExpiryDate,
     calcRemainTime,
     changeFontWeight,
+    formatBusinessNumber,
     formatDate,
     formatMoney,
     formatPhoneNumber,

@@ -5,7 +5,8 @@ import withAuth from "@libs/withAuth";
 import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { TextButton, ScrollButton } from "@components/common/button";
-import { getUserFundings, postHeart } from "@/apis/fundings";
+import { getUserFundings } from "@apis/fundings";
+import postBookmark from "@apis/bookmark";
 import { FundingType } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
@@ -74,7 +75,7 @@ function MyFundings() {
     };
 
     const handleBookmark = (funding: FundingType) => {
-        postHeart(funding.fundingId).then((res) => {
+        postBookmark(funding.fundingId.toString()).then((res) => {
             if (res.statusCode === 200) {
                 setFundingData(
                     fundingData.map((item) =>

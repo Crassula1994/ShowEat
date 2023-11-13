@@ -5,7 +5,7 @@ import SellerLayout from "@layouts/SellerLayout";
 import withAuth from "@libs/withAuth";
 import styled from "@emotion/styled";
 import Card from "@components/composite/card";
-import { getInActiveFunding } from "@/apis/fundings";
+import { getSellerInactiveFunding } from "@apis/fundings";
 import { FundingType } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
@@ -62,7 +62,6 @@ const MoreButtonWrapper = styled("div")`
 function ClosedFunding() {
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
     const [page, setPage] = useState(0);
-    const state = "INACTIVE";
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     const handleLoadMore = () => {
@@ -70,7 +69,7 @@ function ClosedFunding() {
     };
 
     const fetchFundingData = () => {
-        getInActiveFunding(page, state).then((data) => {
+        getSellerInactiveFunding(page).then((data) => {
             if (data.data.content && data.data.content.length > 0) {
                 const isLastPage: boolean = data.data.last;
                 const fundingList: FundingType[] = data.data.content || [];

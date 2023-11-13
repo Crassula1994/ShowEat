@@ -1,4 +1,22 @@
 /* Export */
+export interface BusinessType {
+    businessId: number;
+    businessImgUrl: string;
+    businessAddress: string;
+    businessBio: string;
+    businessCeo: string;
+    businessClosedDays: string;
+    businessEmail: string;
+    businessName: string;
+    businessNumber: string;
+    businessOperatingTime: string;
+    businessPhone: string;
+    sellerMenuResponseDtos: {
+        menuId: number;
+        menu: string;
+    };
+}
+
 export interface CouponType {
     businessImgUrl: string;
     businessName: string;
@@ -14,23 +32,6 @@ export interface CouponType {
     fundingPrice: number;
     fundingTitle: string;
     remainingDays: number;
-}
-
-export interface TotalStatisticsType {
-    businessName: string;
-    totalFailFundingCnt: number;
-    totalFundingParticipantsCnt: number;
-    totalRevenue: number;
-    totalSuccessFundingCnt: number;
-}
-
-export interface MonthlyStatisticsType {
-    year: number;
-    month: number;
-    revenue: number;
-    successFundingCnt: number;
-    fundingParticipantsCnt: number;
-    failFundingCnt: number;
 }
 
 export interface FetchProps {
@@ -59,6 +60,7 @@ export interface FetchOptionProps {
 
 export interface FundingType {
     fundingId: number;
+    businessId: number;
     businessName: string;
     title: string;
     category: string;
@@ -84,4 +86,21 @@ export interface FundingType {
     }[];
     bookmarkCount: number;
     fundingIsBookmark: boolean;
+}
+
+export interface MonthlyStatisticsType {
+    year: number;
+    month: number;
+    revenue: number;
+    successFundingCnt: number;
+    fundingParticipantsCnt: number;
+    failFundingCnt: number;
+}
+
+export interface TotalStatisticsType {
+    businessName: string;
+    totalFailFundingCnt: number;
+    totalFundingParticipantsCnt: number;
+    totalRevenue: number;
+    totalSuccessFundingCnt: number;
 }

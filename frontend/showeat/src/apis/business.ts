@@ -41,7 +41,7 @@ const getBusinessInfo = async (businessId: number) => {
     const props: FetchProps = {
         url: `business/seller/${businessId}`,
         method: "GET",
-        isAuth: true,
+        isAuth: false,
     };
     const result = await fetchGet(props);
     return result;

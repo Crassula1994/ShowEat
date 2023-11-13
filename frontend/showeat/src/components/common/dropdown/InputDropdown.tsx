@@ -64,7 +64,6 @@ const DropdownContainer = styled("div")`
 const LabelWrapper = styled("label")`
     // Box Model Attribute
     width: 100%;
-    margin-bottom: 0.5em;
 
     // Text Attribute
     font-size: 18px;
@@ -76,6 +75,9 @@ const ButtonContainer = styled("div")<Partial<IsOpenTypes>>`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    // Box Model Attribute
+    margin-top: ${(props) => (props.labelText ? "0.5em" : "0")};
 
     // Style Attribute
     border: 2px solid ${(props) => props.theme.colors.gray3};
@@ -230,7 +232,11 @@ function InputDropdown(props: InputDropdownProps) {
     return (
         <DropdownContainer>
             {labelText && <LabelWrapper htmlFor={id}>{labelText}</LabelWrapper>}
-            <ButtonContainer isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+            <ButtonContainer
+                isOpen={isOpen}
+                labelText={labelText}
+                onClick={() => setIsOpen(!isOpen)}
+            >
                 <InputWrapper
                     id={id}
                     name={name}

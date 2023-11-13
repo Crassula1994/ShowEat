@@ -111,7 +111,7 @@ public class Business extends BaseDateEntity {
 			.businessOperatingTime(businessOperatingTime)
 			.businessClosedDays(businessClosedDays)
 			.businessPhone(businessPhone)
-			.businessNumber(Integer.parseInt(businessNumber))
+			.businessNumber(businessNumber)
 			.businessCeo(businessCeo)
 			.businessAddress(businessAddress)
 			.businessEmail(businessEmail)

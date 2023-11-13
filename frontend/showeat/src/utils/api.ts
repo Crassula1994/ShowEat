@@ -27,7 +27,7 @@ async function fetchGet(props: FetchProps) {
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": `http://localhost:3000`,
         "Access-Control-Allow-Methods": "GET",
-        "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data",
+        ...(contentType === "json" && { "Content-Type": "application/json" }),
     };
 
     const queryString: string = params ? `?${new URLSearchParams(params).toString()}` : "";
@@ -81,8 +81,6 @@ async function fetchModify(props: FetchProps) {
         "Access-Control-Allow-Origin": `http://localhost:3000`,
         "Access-Control-Allow-Methods": "POST, OPTIONS, PUT, PATCH, DELETE",
         ...(contentType === "json" && { "Content-Type": "application/json" }),
-        // 이거 주석처리로 하니까 잘 보내짐. - 시균's solution
-        //         : `multipart/form-data; boundary= #$@boundary#@$`,
     };
 
     if (isAuth) {
@@ -99,12 +97,14 @@ async function fetchModify(props: FetchProps) {
             if (contentType === "json") {
                 return JSON.stringify(data);
             }
+
             if (data instanceof FormData) {
-                // if (contentType === "file") {
                 return data;
             }
+
             return undefined;
         }
+
         return undefined;
     };
 

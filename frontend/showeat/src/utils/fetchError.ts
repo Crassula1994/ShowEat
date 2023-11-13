@@ -24,11 +24,11 @@ function handleFetchError(statusCode: number) {
         case 481:
             return 481;
         case 482:
-            return "펀딩 참여 가능한 자리가 없습니다.";
+            return 482;
         case 483:
-            return "펀딩 중복 참여는 불가능합니다.";
+            return 483;
         case 484:
-            return "펀딩에 참여할 유저의 포인트가 부족합니다.";
+            return 484;
         case 485:
             return 485;
         case 500:

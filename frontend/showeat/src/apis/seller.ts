@@ -26,7 +26,7 @@ const getBusinessRegiInfo = async (sellerId: number) => {
 };
 
 /* Function for Setting Information at First */
-const pathSellerImg = async (file: File[]) => {
+const patchSellerImg = async (file: File[]) => {
     const formData = new FormData();
 
     formData.append(`businessImg`, file[0]);
@@ -45,7 +45,7 @@ const pathSellerImg = async (file: File[]) => {
     return result;
 };
 
-const pathSellerBio = async (businessBio: string) => {
+const patchSellerBio = async (businessBio: string) => {
     const props: FetchProps = {
         url: "business/seller/bio",
         method: "PATCH",
@@ -57,7 +57,7 @@ const pathSellerBio = async (businessBio: string) => {
     return result;
 };
 
-const pathSellerOperatingTime = async (operatingTime: string) => {
+const patchSellerOperatingTime = async (operatingTime: string) => {
     const props: FetchProps = {
         url: "business/seller/operating-time",
         method: "PATCH",
@@ -69,7 +69,7 @@ const pathSellerOperatingTime = async (operatingTime: string) => {
     return result;
 };
 
-const pathSellerClosedDays = async (businessClosedDays: string) => {
+const patchSellerClosedDays = async (businessClosedDays: string) => {
     const props: FetchProps = {
         url: "business/seller/closed-days",
         method: "PATCH",
@@ -102,9 +102,9 @@ const patchSettingInfo = async (
 export {
     getSellerInfo,
     getBusinessRegiInfo,
-    pathSellerImg,
-    pathSellerBio,
-    pathSellerOperatingTime,
-    pathSellerClosedDays,
+    patchSellerImg,
+    patchSellerBio,
+    patchSellerOperatingTime,
+    patchSellerClosedDays,
     patchSettingInfo,
 };

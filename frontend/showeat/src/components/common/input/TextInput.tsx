@@ -33,14 +33,13 @@ const InputContainer = styled("div")<{ width: string; height: string }>`
 const LabelWrapper = styled("label")`
     // Box Model Attribute
     width: 100%;
-    margin-bottom: 0.5em;
 
     // Text Attribute
     font-size: 18px;
     font-weight: 700;
 `;
 
-const InputBox = styled("div")`
+const InputBox = styled("div")<{ labelText: string }>`
     // Layout Attribute
     display: flex;
 
@@ -48,6 +47,7 @@ const InputBox = styled("div")`
     width: 100%;
     box-sizing: border-box;
     padding: 0.5em 1em;
+    margin-top: ${(props) => (props.labelText ? "0.5em" : "0")};
 
     // Style Attribute
     border: 2px solid ${(props) => props.theme.colors.gray3};
@@ -120,7 +120,7 @@ function TextInput(props: TextInputProps) {
         <InputContainer width={width} height={height}>
             {labelText && <LabelWrapper htmlFor={id}>{labelText}</LabelWrapper>}
 
-            <InputBox onClick={() => textInputRef.current?.focus()}>
+            <InputBox labelText={labelText} onClick={() => textInputRef.current?.focus()}>
                 <InputWrapper
                     type="text"
                     ref={textInputRef}

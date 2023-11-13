@@ -1,9 +1,10 @@
 /* Import */
 import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { MenuButton } from "@components/common/button";
+import menuCategoryList from "@configs/menuCategoryList";
 import styled from "@emotion/styled";
+import { TextInput } from "@components/common/input";
 import { useRouter } from "next/router";
-import { TextInput } from "../../common/input";
-import { MenuButton } from "../../common/button";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -22,17 +23,6 @@ import { MenuButton } from "../../common/button";
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const menuCategory = [
-    { eng: "KOREAN", kr: "한식", imageUrl: "/assets/images/cook-cow.png" },
-    { eng: "CHINESE", kr: "중식", imageUrl: "/assets/images/customer-cow.png" },
-    { eng: "JAPANESE_SUSHI", kr: "일식/회", imageUrl: "/assets/images/cook-cow.png" },
-    { eng: "WESTERN", kr: "양식", imageUrl: "/assets/images/customer-cow.png" },
-    { eng: "CHICKEN_BURGER", kr: "치킨/버거", imageUrl: "/assets/images/cook-cow.png" },
-    { eng: "ASIAN", kr: "아시안", imageUrl: "/assets/images/customer-cow.png" },
-    { eng: "SNACKS_LATE_NIGHT", kr: "분식/야식", imageUrl: "/assets/images/cook-cow.png" },
-    { eng: "CAFE_DESSERT", kr: "카페/디저트", imageUrl: "/assets/images/customer-cow.png" },
-];
-
 const SearchBarContainer = styled("div")`
     display: inline-flex;
     flex-direction: column;
@@ -98,13 +88,13 @@ function SearchBar() {
                 />
             </SearchInputWrapper>
             <IconMenuContainer>
-                {menuCategory.map((menu) => (
+                {menuCategoryList.map((menu) => (
                     <MenuButton
-                        key={menu.eng}
+                        key={menu.id}
                         width="40px"
                         imageUrl={menu.imageUrl}
-                        menuName={menu.kr}
-                        onClick={() => handleMenuButton(menu.eng)}
+                        menuName={menu.value}
+                        onClick={() => handleMenuButton(menu.id)}
                     />
                 ))}
             </IconMenuContainer>

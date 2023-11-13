@@ -11,7 +11,19 @@ const fundingTabMenu = [
     { id: "review", labelText: "리뷰", redirectUrl: "/fundings/[fundingId]/review" },
 ];
 
+/* Seller Profile Tab Menu Config */
+const sellersProfileTabMenu = [
+    { id: "seller-info", labelText: "셀러 정보", redirectUrl: "/sellers/profile/seller-info" },
+    { id: "basic-info", labelText: "사업자 등록 정보", redirectUrl: "/sellers/profile/basic-info" },
+];
+
+/* Statistics Tab Menu Config */
+const statisticsTabMenu = [
+    { id: "monthly", labelText: "월별 매출", redirectUrl: "/sellers/statistics/monthly" },
+    { id: "total", labelText: "누적 매출", redirectUrl: "/sellers/statistics/total" },
+];
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { buyersCouponsTabMenu, fundingTabMenu };
+export { buyersCouponsTabMenu, fundingTabMenu, sellersProfileTabMenu, statisticsTabMenu };

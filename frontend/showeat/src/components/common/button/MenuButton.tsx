@@ -1,98 +1,92 @@
 /* Import */
+import { ButtonProps } from "@customTypes/commonProps";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { ButtonProps } from "@customTypes/commonProps";
-import { keyframes } from "@emotion/react";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
 interface MenuButtonProps extends ButtonProps {
-    imageUrl: string;
     menuName: string;
+    imageUrl: string;
 }
 
+// ----------------------------------------------------------------------------------------------------
+
 /* Style */
-const clickAnimation = keyframes`
-from {
-  transform: scale(1)
-}
-to {
-  transform: scale(1.04)
-}
+const ButtonContainer = styled("div")<ButtonProps>`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    // Box Model Attribute
+    width: ${(props) => props.width};
+
+    // Interaction Attribute
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    transition: 0.2s all ease-in-out;
+    &:hover {
+        transform: scale(1.2);
+        img {
+            /* filter: brightness(0.8) saturate(1.2); */
+            filter: drop-shadow(1px 1px 5px ${(props) => props.theme.colors.primary3});
+        }
+        div {
+            font-weight: 900;
+            color: ${(props) => props.theme.colors.primary3};
+        }
+    }
+    &:active {
+        transform: scale(0.95);
+    }
 `;
 
 const ImageWrapper = styled("div")<ButtonProps>`
+    // Position Attribute
+    position: relative;
+
+    // Box Model Attribute
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     min-width: 70px;
     min-height: 70px;
-
-    position: relative;
-
-    img {
-        border-radius: 20px;
-    }
+    overflow: hidden;
 `;
 
-const TextWrapper = styled("span")`
-    padding-top: 10px;
-
-    font-size: 16px;
-    font-weight: 500;
-    text-overflow: ellipsis;
+const TextWrapper = styled("div")`
+    // Box Model Attribute
+    margin-top: 0.5em;
     overflow: hidden;
     white-space: nowrap;
 
-    cursor: pointer;
-`;
-
-const MenuButtonContainer = styled("div")<ButtonProps>`
-    width: ${(props) => props.width};
-
-    display: flex;
-    flex-direction: column;
-    justify-content: "center";
-    align-items: center;
-
-    text-align: center;
-
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    &:hover {
-        > div > img {
-            filter: brightness(0.8) saturate(1.2);
-            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray4};
-            cursor: pointer;
-        }
-        > span {
-            font-weight: 700;
-        }
-    }
-    &:active {
-        > div > img {
-            filter: brightness(0.6) saturate(1.5);
-            box-shadow: 0px 0px 4px 2px ${(props) => props.theme.colors.gray5};
-            cursor: pointer;
-            animation: ${clickAnimation} 0.1s linear forwards;
-        }
-    }
+    // Text Attribute
+    font-weight: 700;
+    text-overflow: ellipsis;
 `;
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Menu Button Component */
-function MenuButton({ width, onClick, imageUrl, menuName }: MenuButtonProps) {
+function MenuButton(props: MenuButtonProps) {
+    const { width, height = width, onClick, imageUrl, menuName } = props;
     return (
-        <MenuButtonContainer width={width} onClick={onClick}>
-            <ImageWrapper width={width} height={width} draggable="false">
-                <Image src={imageUrl} alt="Menu Button Image" fill draggable="false" />
+        <ButtonContainer width={width} onClick={onClick}>
+            <ImageWrapper width={width} height={height}>
+                <Image
+                    src={imageUrl}
+                    alt="menu-button-image"
+                    fill
+                    sizes="(min-width: 50em) 5vw, (min-width: 20em) 10vw, 20vw"
+                />
             </ImageWrapper>
             <TextWrapper>{menuName}</TextWrapper>
-        </MenuButtonContainer>
+        </ButtonContainer>
     );
 }
 

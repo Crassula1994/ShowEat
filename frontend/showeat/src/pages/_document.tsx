@@ -1,10 +1,12 @@
 /* Import */
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Document Component */
 function Document() {
+    const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
     return (
         <Html lang="ko">
             <Head>
@@ -24,7 +26,16 @@ function Document() {
                     type="text/css"
                     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                 />
-                <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js" />
+                <Script
+                    type="text/javascript"
+                    strategy="beforeInteractive"
+                    src="https://developers.kakao.com/sdk/js/kakao.min.js"
+                />
+                <Script
+                    type="text/javascript"
+                    strategy="beforeInteractive"
+                    src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_API_KEY}&libraries=services&autoload=false`}
+                />
             </Head>
             <body>
                 <Main />

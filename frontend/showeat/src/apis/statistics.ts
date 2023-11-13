@@ -15,6 +15,7 @@ const getMonthlyStatistic = async (businessId: number) => {
 
     return result;
 };
+
 /* Functions for get Total Statistics */
 const getTotalStatistic = async (businessId: number) => {
     const props: FetchProps = {

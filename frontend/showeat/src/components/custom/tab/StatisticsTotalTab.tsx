@@ -1,15 +1,16 @@
 /* Import */
-import SellerLayout from "@layouts/SellerLayout";
-import withAuth from "@libs/withAuth";
-import { ReactNode, useEffect, useState } from "react";
-import Table from "@/components/common/table";
-import styled from "@emotion/styled";
-import useUserState from "@hooks/useUserState";
-import useSellerState from "@hooks/useSellerState";
 import { getTotalStatistic } from "@apis/statistics";
-import { TotalStatisticsType } from "@customTypes/apiProps";
 import Image from "next/image";
+import styled from "@emotion/styled";
+import Table from "@components/common/table";
+import { TotalStatisticsType } from "@customTypes/apiProps";
+import { useEffect, useState } from "react";
+import useSellerState from "@hooks/useSellerState";
+import useUserState from "@hooks/useUserState";
+
 // ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const TotalContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -44,6 +45,7 @@ const BlankList = styled("div")`
     align-items: center;
     gap: 1em;
 `;
+
 const TextWrapper = styled("div")`
     // Text Attribute
     font-weight: 700;
@@ -56,13 +58,13 @@ const TextWrapper = styled("div")`
     }
 `;
 
-/* Total Statistics Page */
-function TotalStats() {
+// ----------------------------------------------------------------------------------------------------
+
+/* Statistics Total Tab Component */
+function StatisticsTotalTab() {
     const [statistics, setStatistics] = useState<TotalStatisticsType | null>(null);
     const [seller] = useSellerState();
     const [user] = useUserState();
-    console.log(user);
-    console.log(seller);
 
     useEffect(() => {
         const fetchStatistics = async () => {
@@ -71,7 +73,6 @@ function TotalStats() {
             if (userId !== 0 || sellerId !== 0) {
                 const result = await getTotalStatistic(sellerId);
                 setStatistics(result.data);
-                console.log(result.data);
             }
         };
 
@@ -118,20 +119,5 @@ function TotalStats() {
 }
 // ----------------------------------------------------------------------------------------------------
 
-/* Middleware */
-const TotalStatsWithAuth = withAuth({
-    WrappedComponent: TotalStats,
-    guardType: "USER_ONLY",
-});
-
-// ----------------------------------------------------------------------------------------------------
-
-/* Layout */
-TotalStatsWithAuth.getLayout = function getLayout(page: ReactNode) {
-    return <SellerLayout>{page}</SellerLayout>;
-};
-
-// ----------------------------------------------------------------------------------------------------
-
 /* Export */
-export default TotalStatsWithAuth;
+export default StatisticsTotalTab;

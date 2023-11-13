@@ -47,7 +47,7 @@ public class SellerResponseDto {
 	private String businessEmail;
 
 	@ApiModelProperty(value = "사업자등록번호", example = "12341211234")
-	private int businessNumber;
+	private String businessNumber;
 
 	@ApiModelProperty(value = "메뉴 DTO")
 	private List<SellerMenuResponseDto> sellerMenuResponseDtos;

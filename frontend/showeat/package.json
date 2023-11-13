@@ -48,6 +48,7 @@
         "eslint-plugin-prettier": "^5.0.1",
         "eslint-plugin-react": "^7.28.0",
         "eslint-plugin-react-hooks": "^4.3.0",
+        "kakao.maps.d.ts": "^0.1.39",
         "prettier": "^3.0.3",
         "typescript": "^5"
     }

@@ -76,14 +76,14 @@ function NotFound() {
     return (
         <ErrorContainer>
             <ErrorBox>
-                <HeaderWrapper>404</HeaderWrapper>
                 <Image
-                    src="/assets/images/crying-cook-cow.png"
+                    src="/assets/images/angry-cook-cow.png"
                     width={200}
                     height={200}
-                    alt="crying-cook-cow"
+                    alt="angry-cook-cow"
                     priority
                 />
+                <HeaderWrapper>404</HeaderWrapper>
             </ErrorBox>
             <DescriptionWrapper>페이지가 없소!</DescriptionWrapper>
             <ButtonWrapper>

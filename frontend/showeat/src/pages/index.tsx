@@ -134,8 +134,8 @@ function Home(props: HomeProps) {
                                         height={400}
                                         title={myFundingData.title}
                                         description={myFundingData.description}
-                                        cardDatas={myFundings}
-                                        setCardDatas={setMyFundings}
+                                        cardList={myFundings}
+                                        setCardList={setMyFundings}
                                     />
                                 </CarouselWrapper>
                                 <CarouselWrapper>
@@ -144,8 +144,8 @@ function Home(props: HomeProps) {
                                         height={400}
                                         title={bookmarkFundingData.title}
                                         description={bookmarkFundingData.description}
-                                        cardDatas={bookmarkFundings}
-                                        setCardDatas={setBookmarkFundings}
+                                        cardList={bookmarkFundings}
+                                        setCardList={setBookmarkFundings}
                                     />
                                 </CarouselWrapper>
                             </>
@@ -157,8 +157,8 @@ function Home(props: HomeProps) {
                                 height={400}
                                 title={carouselAlwaysData[0].title}
                                 description={carouselAlwaysData[0].description}
-                                cardDatas={hotFundings}
-                                setCardDatas={setHotFundings}
+                                cardList={hotFundings}
+                                setCardList={setHotFundings}
                             />
                         </CarouselWrapper>
                         <CarouselWrapper>
@@ -167,8 +167,8 @@ function Home(props: HomeProps) {
                                 height={400}
                                 title={carouselAlwaysData[1].title}
                                 description={carouselAlwaysData[1].description}
-                                cardDatas={soonFundings}
-                                setCardDatas={setSoonFundings}
+                                cardList={soonFundings}
+                                setCardList={setSoonFundings}
                             />
                         </CarouselWrapper>
                         <CarouselWrapper>
@@ -177,8 +177,8 @@ function Home(props: HomeProps) {
                                 height={400}
                                 title={carouselAlwaysData[2].title}
                                 description={carouselAlwaysData[2].description}
-                                cardDatas={cheapFundings}
-                                setCardDatas={setCheapFundings}
+                                cardList={cheapFundings}
+                                setCardList={setCheapFundings}
                             />
                         </CarouselWrapper>
                         <CarouselWrapper>
@@ -187,8 +187,8 @@ function Home(props: HomeProps) {
                                 height={400}
                                 title={carouselAlwaysData[3].title}
                                 description={carouselAlwaysData[3].description}
-                                cardDatas={discountFundings}
-                                setCardDatas={setDiscountFundings}
+                                cardList={discountFundings}
+                                setCardList={setDiscountFundings}
                             />
                         </CarouselWrapper>
                     </RecommendContentsContainer>

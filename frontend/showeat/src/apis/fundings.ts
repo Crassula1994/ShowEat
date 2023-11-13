@@ -111,25 +111,39 @@ const createFunding = async ({
     return result;
 };
 
-/* Function for active Funding */
-const getActiveFunding = async (page: number, state: string) => {
+/* Function for Getting Active Funding of Seller */
+const getSellerActiveFunding = async (page: number) => {
     const props: FetchProps = {
-        url: `funding/business/${page}/${state}`,
+        url: `funding/business/${page}/ACTIVE`,
         method: "GET",
         isAuth: true,
     };
     const result = await fetchGet(props);
+
     return result;
 };
 
-/* Function for Inactive Funding */
-const getInActiveFunding = async (page: number, state: string) => {
+/* Function for Getting Active Funding List of Seller */
+const getSellerFundingList = async (businessId: number) => {
     const props: FetchProps = {
-        url: `funding/business/${page}/${state}`,
+        url: `funding/business/active/${businessId}`,
         method: "GET",
         isAuth: true,
     };
     const result = await fetchGet(props);
+
+    return result;
+};
+
+/* Function for Getting Inactive Funding of Seller */
+const getSellerInactiveFunding = async (page: number) => {
+    const props: FetchProps = {
+        url: `funding/business/${page}/INACTIVE`,
+        method: "GET",
+        isAuth: true,
+    };
+    const result = await fetchGet(props);
+
     return result;
 };
 
@@ -175,8 +189,9 @@ export {
     getFundingUserDetail,
     getMainPageList,
     postFundingJoin,
-    getActiveFunding,
-    getInActiveFunding,
+    getSellerActiveFunding,
+    getSellerFundingList,
+    getSellerInactiveFunding,
     getUserFundings,
     getFavoriteFundings,
     createFunding,
