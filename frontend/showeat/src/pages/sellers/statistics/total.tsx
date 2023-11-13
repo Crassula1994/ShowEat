@@ -8,7 +8,7 @@ import useUserState from "@hooks/useUserState";
 import useSellerState from "@hooks/useSellerState";
 import { getTotalStatistic } from "@apis/statistics";
 import { TotalStatisticsType } from "@customTypes/apiProps";
-
+import Image from "next/image";
 // ----------------------------------------------------------------------------------------------------
 const TotalContainer = styled("div")`
     display: flex;
@@ -36,6 +36,26 @@ const TableWrapper = styled("div")`
     padding-bottom: 20px;
 `;
 
+const BlankList = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+`;
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
+    span {
+        font-size: 30px;
+        font-weight: 900;
+        color: ${(props) => props.theme.colors.secondary3};
+    }
+`;
+
 /* Total Statistics Page */
 function TotalStats() {
     const [statistics, setStatistics] = useState<TotalStatisticsType | null>(null);
@@ -49,7 +69,7 @@ function TotalStats() {
             const { userId } = user;
             const { sellerId } = seller;
             if (userId !== 0 || sellerId !== 0) {
-                const result = await getTotalStatistic(1); // TODO: 1 -> sellerId 로 변경
+                const result = await getTotalStatistic(sellerId);
                 setStatistics(result.data);
                 console.log(result.data);
             }
@@ -77,9 +97,22 @@ function TotalStats() {
     return (
         <TotalContainer>
             <BusinessName>{statistics?.businessName}</BusinessName>
-            <TableWrapper>
-                <Table headerWidth="50%" gap="1.5em" headers={headers} contents={contents} />
-            </TableWrapper>
+            {statistics?.totalRevenue === 0 ? (
+                <BlankList>
+                    <Image
+                        src="/assets/images/crying-cook-cow.png"
+                        width={150}
+                        height={150}
+                        alt="crying-cook-cow"
+                        priority
+                    />
+                    <TextWrapper>매출 정보가 없소!</TextWrapper>
+                </BlankList>
+            ) : (
+                <TableWrapper>
+                    <Table headerWidth="50%" gap="1.5em" headers={headers} contents={contents} />
+                </TableWrapper>
+            )}
         </TotalContainer>
     );
 }

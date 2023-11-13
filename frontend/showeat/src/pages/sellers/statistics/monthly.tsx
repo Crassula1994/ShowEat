@@ -7,7 +7,7 @@ import useUserState from "@hooks/useUserState";
 import useSellerState from "@hooks/useSellerState";
 import { getMonthlyStatistic } from "@apis/statistics";
 import { MonthlyStatisticsType } from "@customTypes/apiProps";
-
+import Image from "next/image";
 // ----------------------------------------------------------------------------------------------------
 const TotalContainer = styled("div")`
     display: flex;
@@ -52,6 +52,26 @@ const DateLabel = styled("div")`
     margin: 0 10px;
 `;
 
+const BlankList = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+`;
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
+    span {
+        font-size: 30px;
+        font-weight: 900;
+        color: ${(props) => props.theme.colors.secondary3};
+    }
+`;
+
 /* Monthly Statistics Page */
 function MonthlyStats() {
     const [statistics, setStatistics] = useState<MonthlyStatisticsType[]>([]);
@@ -68,7 +88,7 @@ function MonthlyStats() {
             const { userId } = user;
             const { sellerId } = seller;
             if (userId !== 0 || sellerId !== 0) {
-                const result = await getMonthlyStatistic(1); // TODO: 1 -> sellerId 로 변경
+                const result = await getMonthlyStatistic(sellerId);
                 setStatistics(result.data);
                 console.log("정보", result.data);
             }
@@ -79,7 +99,6 @@ function MonthlyStats() {
 
     const headers: string[] = ["매출액", "성공 펀딩수", "성공 펀딩 참여자수", "실패 펀딩수"];
 
-    // TODO : 달력이랑 비교해서 가져와 지는지 확인하기
     const filteredStatistics = statistics?.filter((item) => {
         return item.year === currentYear && item.month === currentMonth;
     });
@@ -92,7 +111,7 @@ function MonthlyStats() {
                   `${filteredStatistics[0].fundingParticipantsCnt.toLocaleString()} 명`,
                   `${filteredStatistics[0].failFundingCnt.toLocaleString()} 회`,
               ]
-            : ["매출이 없습니다."]; // TODO: 매출이 없는 경우 테이블 없애기
+            : [];
     const decreaseMonth = () => {
         setCurrentMonth((prevMonth) => {
             if (prevMonth === 1) {
@@ -121,9 +140,22 @@ function MonthlyStats() {
                 </DateLabel>
                 <DateButton onClick={increaseMonth}>{">"}</DateButton>
             </DateContainer>
-            <TableWrapper>
-                <Table headerWidth="50%" gap="1.5em" headers={headers} contents={contents} />
-            </TableWrapper>
+            {filteredStatistics.length === 0 ? (
+                <BlankList>
+                    <Image
+                        src="/assets/images/crying-cook-cow.png"
+                        width={150}
+                        height={150}
+                        alt="crying-cook-cow"
+                        priority
+                    />
+                    <TextWrapper>{currentMonth}월 매출 정보가 없소!</TextWrapper>
+                </BlankList>
+            ) : (
+                <TableWrapper>
+                    <Table headerWidth="50%" gap="1.5em" headers={headers} contents={contents} />
+                </TableWrapper>
+            )}
         </TotalContainer>
     );
 }
