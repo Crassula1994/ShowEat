@@ -9,9 +9,9 @@ import { useState, useEffect } from "react";
 /* Type */
 interface PaginationBarProps {
     pageCount: number;
-    colorType: "primary" | "secondary" | "gray";
-    isSelected: number;
-    setIsSelected: React.Dispatch<React.SetStateAction<number>>;
+    colorType?: "primary" | "secondary" | "gray";
+    selectedPage: number;
+    setSelectedPage: React.Dispatch<React.SetStateAction<number>>;
     onClick: (num: number) => void;
     width?: number;
     height?: number;
@@ -153,9 +153,9 @@ const createPageNumbers = (isSelected: number, pageCount: number) => {
 /* Pagination Bar Component */
 function PaginationBar({
     pageCount,
-    colorType,
-    isSelected,
-    setIsSelected,
+    colorType = "primary",
+    selectedPage,
+    setSelectedPage,
     onClick,
     width = 30,
     height = 30,
@@ -164,17 +164,17 @@ function PaginationBar({
     const [pageNumbers, setPageNumbers] = useState<(number | string)[]>([]);
 
     useEffect(() => {
-        const newPageNumbers = createPageNumbers(isSelected, pageCount);
+        const newPageNumbers = createPageNumbers(selectedPage, pageCount);
         setPageNumbers(newPageNumbers);
-    }, [isSelected, pageCount]);
+    }, [selectedPage, pageCount]);
 
     const handleLeftArrow = () => {
-        const newValue = isSelected - 1;
-        setIsSelected(newValue);
+        const newValue = selectedPage - 1;
+        setSelectedPage(newValue);
     };
     const handleRightArrow = () => {
-        const newValue = isSelected + 1;
-        setIsSelected(newValue);
+        const newValue = selectedPage + 1;
+        setSelectedPage(newValue);
     };
 
     if (pageCount > 1) {
@@ -186,7 +186,7 @@ function PaginationBar({
                     width={width}
                     height={height}
                     onClick={() => {
-                        if (isSelected > 1) {
+                        if (selectedPage > 1) {
                             handleLeftArrow();
                         }
                     }}
@@ -198,11 +198,11 @@ function PaginationBar({
                         height={height}
                         fontSize={fontSize}
                         colorType={colorType}
-                        selectedNum={num === isSelected}
+                        selectedNum={num === selectedPage}
                         isDot={num === "..."}
                         onClick={() => {
                             if (typeof num === "number") {
-                                setIsSelected(num);
+                                setSelectedPage(num);
                                 onClick(num);
                             }
                         }}
@@ -216,7 +216,7 @@ function PaginationBar({
                     width={width}
                     height={height}
                     onClick={() => {
-                        if (isSelected < pageCount) {
+                        if (selectedPage < pageCount) {
                             handleRightArrow();
                         }
                     }}

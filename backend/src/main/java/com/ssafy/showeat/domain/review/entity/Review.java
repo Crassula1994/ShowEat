@@ -49,6 +49,7 @@ public class Review extends BaseTimeEntity {
 			.userId(user.getUserId())
 			.userImgUrl(user.getUserImgUrl())
 			.userNickname(user.getUserNickname())
+			.message(this.reviewMessage)
 			.fundingId(funding.getFundingId())
 			.fundingTitle(funding.getFundingTitle())
 			.fundingCategory(funding.getFundingCategory().name())

@@ -1,5 +1,11 @@
 /* Import */
-import { calcExpiryDate, calcRemainTime, formatDate, formatMoney } from "@utils/format";
+import {
+    calcExpiryDate,
+    calcRemainTime,
+    formatDate,
+    formatMoney,
+    getCategoryValue,
+} from "@utils/format";
 import {
     FundingApplyErrorModal,
     FundingCancelErrorModal,
@@ -7,8 +13,8 @@ import {
     FundingShareModal,
 } from "@components/custom/modal";
 import { fundingTabMenu } from "@configs/tabMenu";
-import { FundingStoreTab } from "@components/custom/tab";
-import { BusinessType, FundingType } from "@customTypes/apiProps";
+import { FundingReviewTab, FundingStoreTab } from "@components/custom/tab";
+import { BusinessType, FundingType, ReviewType } from "@customTypes/apiProps";
 import {
     deleteFundingJoin,
     getFundingDetail,
@@ -17,13 +23,13 @@ import {
     postFundingJoin,
 } from "@apis/fundings";
 import { getBusinessInfo } from "@apis/business";
+import getReviewList from "@apis/review";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { HeartBlankIcon, HeartFullIcon, ShareIcon } from "public/assets/icons";
 import ImageGallery from "@components/composite/imageGallery";
 import MainLayout from "@layouts/MainLayout";
 import Modal from "@components/composite/modal";
-import menuCategoryList from "@configs/menuCategoryList";
 import postBookmark from "@apis/bookmark";
 import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
@@ -47,6 +53,8 @@ interface FundingTabProps {
     businessFundingData: FundingType[];
     fundingId: string;
     fundingData: FundingType;
+    reviewData: ReviewType[];
+    reviewPage: number;
     tabName: string;
 }
 
@@ -227,12 +235,18 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const businessFundingResult = await getSellerFundingList(fundingData.businessId);
     const businessFundingData: FundingType[] = businessFundingResult.data;
 
+    const reviewResult = await getReviewList(businessData.businessId, 0);
+    const reviewPage: number = reviewResult.data.totalPages;
+    const reviewData: ReviewType[] = reviewResult.data.reviewResponseDtos;
+
     return {
         props: {
             businessData,
             businessFundingData,
             fundingId,
             fundingData,
+            reviewData,
+            reviewPage,
             tabName: tabNames?.[0],
         },
     };
@@ -243,7 +257,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 /* Funding Tab Page */
 function FundingTab(props: FundingTabProps) {
     // States and Variables
-    const { businessData, businessFundingData, fundingId, fundingData, tabName } = props;
+    const {
+        businessData,
+        businessFundingData,
+        fundingId,
+        fundingData,
+        reviewData,
+        reviewPage,
+        tabName,
+    } = props;
     const router = useRouter();
     const [user] = useUserState();
     const {
@@ -266,6 +288,7 @@ function FundingTab(props: FundingTabProps) {
         bookmarkCount,
     } = fundingData;
     const [activeTab, setActiveTab] = useState<string>(tabName || "store");
+    const [joinCount, setJoinCount] = useState<number>(curCount);
     const [favoriteCount, setFavoriteCount] = useState<number>(bookmarkCount);
     const [errorCode, setErrorCode] = useState<number>(0);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -274,13 +297,6 @@ function FundingTab(props: FundingTabProps) {
     const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
     const [isCancelErrorModalOpen, setIsCancelErrorModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
-
-    // Function for Getting Menu Category Text
-    const getCategoryValue = (categoryId: string) => {
-        const targetCategory = menuCategoryList.find((item) => item.id === categoryId);
-
-        return targetCategory ? targetCategory.value : "";
-    };
 
     // Function for Opening Cancel Confirm Modal
     const openFundingCancelModal = () => {
@@ -298,6 +314,7 @@ function FundingTab(props: FundingTabProps) {
             }
             setIsCancelModalOpen(false);
             setIsJoined(false);
+            setJoinCount((prev) => prev - 1);
         });
     };
 
@@ -310,6 +327,7 @@ function FundingTab(props: FundingTabProps) {
                 return;
             }
             setIsJoined(true);
+            setJoinCount((prev) => prev + 1);
         });
     };
 
@@ -410,7 +428,7 @@ function FundingTab(props: FundingTabProps) {
                             <InfoContentBox>
                                 <div>
                                     <b>최소 참여 인원</b>&nbsp;&nbsp; | &nbsp;&nbsp;
-                                    <b>{curCount}명</b> / {minLimit}명
+                                    <b>{joinCount}명</b> / {minLimit}명
                                 </div>
                                 {fundingIsActive === "ACTIVE" ? (
                                     <TagButton
@@ -432,15 +450,15 @@ function FundingTab(props: FundingTabProps) {
                                     />
                                 )}
                             </InfoContentBox>
-                            {maxLimit !== 0 && (
+                            {maxLimit !== 50000000 && (
                                 <InfoContentBox>
                                     <div>
                                         <b>최대 참여 인원</b>&nbsp;&nbsp; | &nbsp;&nbsp;
-                                        <b>{curCount}명</b> / {maxLimit}명
+                                        <b>{joinCount}명</b> / {maxLimit}명
                                     </div>
                                     <TagButton
                                         width="auto"
-                                        text={`...${maxLimit - curCount}명... 남음`}
+                                        text={`...${maxLimit - joinCount}명... 남음`}
                                         colorType="secondary"
                                         textColor="white"
                                     />
@@ -523,7 +541,11 @@ function FundingTab(props: FundingTabProps) {
                             fundingData={businessFundingData}
                         />
                     ) : (
-                        <div>리뷰</div>
+                        <FundingReviewTab
+                            businessId={businessData.businessId}
+                            reviewList={reviewData}
+                            reviewPage={reviewPage}
+                        />
                     )}
                 </TabContainer>
                 <ModalContainer>

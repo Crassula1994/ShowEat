@@ -1,3 +1,8 @@
+/* Import */
+import menuCategoryList from "@configs/menuCategoryList";
+
+// ----------------------------------------------------------------------------------------------------
+
 /* Function for Line Breaking Text by '\n' */
 function breakTextLine(text: string): string {
     return text
@@ -115,6 +120,38 @@ function formatPhoneNumber(text: string): string {
     return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
 }
 
+/* Function for Getting Menu Category Text */
+function getCategoryValue(categoryId: string): string {
+    const targetCategory = menuCategoryList.find((item) => item.id === categoryId);
+
+    return targetCategory ? targetCategory.value : "";
+}
+
+/* Function for Getting Time Ago */
+function getTimeAgo(timestamp: string): string {
+    const curTime = new Date();
+    const prevTime = new Date(timestamp);
+    const difference = curTime.getTime() - prevTime.getTime();
+    const seconds = Math.floor(difference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days >= 7) {
+        return `${prevTime.getFullYear()}.${prevTime.getMonth() + 1}.${prevTime.getDate()}`;
+    }
+    if (days > 0) {
+        return `${days}일 전`;
+    }
+    if (hours > 0) {
+        return `${hours}시간 전`;
+    }
+    if (minutes > 0) {
+        return `${minutes}분 전`;
+    }
+    return `${seconds}초 전`;
+}
+
 /* Function for Extracting and Parsing Number */
 function parseNumber(text: string): number {
     const numStrArray = text.match(/\d+/);
@@ -138,5 +175,7 @@ export {
     formatDate,
     formatMoney,
     formatPhoneNumber,
+    getCategoryValue,
+    getTimeAgo,
     parseNumber,
 };

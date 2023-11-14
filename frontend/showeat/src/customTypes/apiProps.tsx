@@ -97,6 +97,19 @@ export interface MonthlyStatisticsType {
     failFundingCnt: number;
 }
 
+export interface ReviewType {
+    reviewId: number;
+    message: string;
+    modifiedDate: string;
+    userId: number;
+    userNickname: string;
+    userImgUrl: string;
+    fundingId: number;
+    fundingTitle: string;
+    fundingCategory: string;
+    fundingMenu: string;
+}
+
 export interface TotalStatisticsType {
     businessName: string;
     totalFailFundingCnt: number;
