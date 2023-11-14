@@ -3,13 +3,13 @@ import SingleLayout from "@layouts/SingleLayout";
 import withAuth from "@libs/withAuth";
 import { ReactNode, useEffect } from "react";
 import { getRequestPaymentApproval } from "@apis/payments";
-import { useRouter } from "next/router"; // Import the useRouter hook
+import { useRouter } from "next/router";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Buyer Pay Result Page */
 function PayLoading() {
-    const router = useRouter(); // Initialize the useRouter hook
+    const router = useRouter();
 
     useEffect(() => {
         // 성공 처리: 결제 승인 API를 호출하세요

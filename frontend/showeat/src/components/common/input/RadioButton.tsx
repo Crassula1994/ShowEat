@@ -68,10 +68,18 @@ function RadioButton({
     radioName,
     iconURL,
     onClick,
+    defaultCheck = false,
 }: RadioButtonProps) {
     return (
         <RadioButtonContainer width={width} height={height}>
-            <RadioButtonWrapper type="radio" id={id} name={name} value={value} onClick={onClick} />
+            <RadioButtonWrapper
+                type="radio"
+                id={id}
+                name={name}
+                value={value}
+                onClick={onClick}
+                defaultChecked={defaultCheck}
+            />
             <RadioButtonLabelContainer>
                 <RadioButtonLabelWrapper htmlFor={id}>{radioName}</RadioButtonLabelWrapper>
                 {iconURL && (

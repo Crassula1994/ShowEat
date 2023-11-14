@@ -52,4 +52,5 @@ export interface RadioButtonProps {
     height?: string;
     iconURL?: string;
     onClick?: (event: MouseEvent<HTMLElement>) => void;
+    defaultCheck?: boolean;
 }
