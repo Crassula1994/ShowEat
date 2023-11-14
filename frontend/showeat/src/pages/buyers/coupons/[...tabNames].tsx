@@ -175,7 +175,6 @@ function CouponsTab(props: CouponsTabProps) {
 
     // Function for Opening Modal
     const openModal = (coupon: CouponType) => {
-        console.log("Selected Coupon:", coupon);
         setSelectedCoupon(coupon);
         setIsModalOpen(true);
     };
@@ -193,11 +192,9 @@ function CouponsTab(props: CouponsTabProps) {
         const status: string = activeTab.toUpperCase();
         if (userId !== 0) {
             getCouponList(userId, status, page).then((result) => {
-                console.log("result", result);
                 if (result.statusCode === 200) {
                     const isLastPage: boolean = result.data.last;
                     const couponList: CouponType[] = result.data.couponResponseDtos || [];
-                    console.log(couponList);
                     if (page === 0) {
                         setCouponData(couponList);
                         setHasMorePage(!isLastPage);
@@ -265,7 +262,11 @@ function CouponsTab(props: CouponsTabProps) {
                     setIsOpen={setIsModalOpen}
                     childComponent={<BuyersCouponsModal coupon={selectedCoupon} />}
                     onSubmit={() => openReviewModal()}
-                    buttonType="review"
+                    buttonType={
+                        selectedCoupon.couponStatus === "USED" && !selectedCoupon.writeCouponReview
+                            ? "review"
+                            : "close"
+                    }
                     buttonWidth="150px"
                 />
             )}
@@ -279,6 +280,8 @@ function CouponsTab(props: CouponsTabProps) {
                         <CouponReviewModal
                             closeReviewModal={closeReviewModal}
                             couponId={selectedCoupon.couponId}
+                            setCouponData={setCouponData}
+                            setSelectedCoupon={setSelectedCoupon}
                         />
                     }
                     buttonType="none"

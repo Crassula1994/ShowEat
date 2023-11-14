@@ -32,6 +32,7 @@ export interface CouponType {
     fundingPrice: number;
     fundingTitle: string;
     remainingDays: number;
+    writeCouponReview: boolean;
 }
 
 export interface FetchProps {
