@@ -1,35 +1,43 @@
-// /* Import */
-// import { fetchModify } from "@utils/api";
-// import { FetchProps } from "@customTypes/apiProps";
+import { FetchProps } from "@customTypes/apiProps";
+import { fetchModify, fetchGet } from "@utils/api";
 
-// // ----------------------------------------------------------------------------------------------------
+const postRequestPayments = async (
+    userId: number,
+    payType: string,
+    amount: number,
+    orderName: string,
+    credentialId: string,
+    userEmail: string,
+    userNickname: string,
+) => {
+    const props: FetchProps = {
+        url: `payments/request/${userId}`,
+        method: "POST",
+        data: { payType, amount, orderName, credentialId, userEmail, userNickname },
+        isAuth: true,
+    };
 
-// /* Function for get Funding datas */
-// // interface GetPaymentPageType {
-// //     type: string;
-// // }
+    const result = await fetchModify(props);
 
-// /* Function for Bookmark Funding */
-// const postBookmark = async (
-//     payType: string,
-//     amount: number,
-//     orderName: string,
-//     credentialId: string,
-//     userEmail: string,
-// ) => {
-//     const props: FetchProps = {
-//         url: `payments/request`,
-//         method: "POST",
-//         data: { payType, amount, orderName, credentialId, userEmail, userNickname },
-//         isAuth: true,
-//     };
+    return result;
+};
 
-//     const result = await fetchModify(props);
+const getRequestPaymentApproval = async (
+    paymentType: string,
+    orderId: string,
+    paymentKey: string,
+    amount: number,
+) => {
+    const props: FetchProps = {
+        url: `payments/request/success`,
+        method: "GET",
+        isAuth: true,
+        params: { paymentType, orderId, paymentKey, amount: amount.toString() },
+    };
 
-//     return result;
-// };
+    const result = await fetchGet(props);
 
-// // ----------------------------------------------------------------------------------------------------
+    return result;
+};
 
-// /* Export */
-// export { getMainPageList, getMyFundings, getBookmarkFundings, postBookmark };
+export { postRequestPayments, getRequestPaymentApproval };

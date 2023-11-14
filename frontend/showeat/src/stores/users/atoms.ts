@@ -26,6 +26,8 @@ const userDefaultValue: UserType = {
     userMoney: 0,
     userPhone: "",
     visited: false,
+    credentialId: "",
+    userEmail: "",
 };
 
 const userState = atom<UserType>({

@@ -3,6 +3,7 @@ package com.ssafy.showeat.domain.payment.controller;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +38,11 @@ public class PaymentController {
 		@ApiResponse(code = 200, message = "결제 요청 정보 DB 저장 성공"),
 		@ApiResponse(code = 400, message = "결제 요청 정보 DB 저장 실패"),
 	})
-	@PostMapping("/request")
+	@PostMapping("/request/{userId}")
 	public ResponseResult requestPayment(
-		@ApiParam(value = "요청 객체", required = true) @Valid @RequestBody PaymentRequestDto paymentRequestDto) {
-		PaymentResponseDto paymentResponseDto = paymentService.requestPayment(paymentRequestDto);
+		@ApiParam(value = "요청 객체", required = true) @Valid @RequestBody PaymentRequestDto paymentRequestDto,
+		@PathVariable Long userId) {
+		PaymentResponseDto paymentResponseDto = paymentService.requestPayment(paymentRequestDto, userId);
 		return new SingleResponseResult<>(paymentResponseDto);
 	}
 
@@ -51,8 +53,9 @@ public class PaymentController {
 	})
 	@GetMapping("/request/success")
 	public ResponseResult requestPaymentApproval(
-		@ApiParam(value = "토스 측 결제 고유 번호", required = true) @RequestParam String paymentKey,
+		@ApiParam(value = "결제 타입", required = true) @RequestParam String paymentType,
 		@ApiParam(value = "우리 측 주문 고유 번호", required = true) @RequestParam String orderId,
+		@ApiParam(value = "토스 측 결제 고유 번호", required = true) @RequestParam String paymentKey,
 		@ApiParam(value = "실제 결제 금액", required = true) @RequestParam Long amount) {
 		paymentService.verifyPayment(paymentKey, orderId, amount);
 		PaymentSuccessResponseDto paymentApprovalResponseDto = paymentService.requestPaymentApproval(paymentKey,

@@ -6,7 +6,7 @@ import com.ssafy.showeat.domain.payment.dto.response.PaymentSuccessResponseDto;
 import com.ssafy.showeat.domain.payment.dto.response.PaymentResponseDto;
 
 public interface PaymentService {
-	PaymentResponseDto requestPayment(PaymentRequestDto requestPaymentDto);
+	PaymentResponseDto requestPayment(PaymentRequestDto requestPaymentDto, Long userId);
 
 	void verifyPayment(String paymentKey, String orderId, Long amount);
 

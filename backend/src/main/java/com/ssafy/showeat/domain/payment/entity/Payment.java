@@ -74,6 +74,7 @@ public class Payment extends BaseTimeEntity {
 			.credentialId(credentialId)
 			.userEmail(user.getCredential().getEmail())
 			.userNickname(user.getUserNickname())
+			.userPhone(user.getUserPhone())
 			.createdAt(this.getCreatedDate().toString())
 			.build();
 	}

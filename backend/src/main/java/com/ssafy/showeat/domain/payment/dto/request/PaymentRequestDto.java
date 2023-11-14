@@ -3,6 +3,7 @@ package com.ssafy.showeat.domain.payment.dto.request;
 import java.util.UUID;
 
 import com.ssafy.showeat.domain.payment.entity.Payment;
+import com.ssafy.showeat.domain.user.entity.User;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class PaymentRequestDto {
 	@ApiModelProperty(value = "구매자 닉네임", example = "쇼쇼")
 	private String userNickname;
 
-	public Payment toEntity() {
+	public Payment toEntity(User user) {
 		return Payment.builder()
 			.payType(payType)
 			.amount(amount)
@@ -43,6 +44,7 @@ public class PaymentRequestDto {
 			.credentialId(credentialId)
 			.userEmail(userEmail)
 			.userNickname(userNickname)
+			.user(user)
 			.build();
 	}
 

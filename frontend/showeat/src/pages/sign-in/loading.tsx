@@ -65,6 +65,8 @@ function SignInLoading() {
                     userMoney,
                     userPhone,
                     visited,
+                    credentialId,
+                    userEmail,
                 });
                 if (userBusiness) {
                     getBusinessInfo(businessId).then((sellerResult) => {

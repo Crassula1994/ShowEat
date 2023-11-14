@@ -23,6 +23,7 @@ import com.ssafy.showeat.domain.payment.dto.response.PaymentResponseDto;
 import com.ssafy.showeat.domain.payment.entity.Payment;
 import com.ssafy.showeat.domain.payment.repository.PaymentRepository;
 import com.ssafy.showeat.domain.user.entity.Credential;
+import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.CredentialRepository;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
 import com.ssafy.showeat.global.exception.NotExistPaymentException;
@@ -57,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	@Transactional
-	public PaymentResponseDto requestPayment(PaymentRequestDto paymentRequestDto) {
+	public PaymentResponseDto requestPayment(PaymentRequestDto paymentRequestDto, Long userId) {
 		log.info("PaymentServiceImpl_requestPayment || 결제 요청 정보를 DB에 저장, 필요 정보 반환");
 		Long amount = paymentRequestDto.getAmount();
 		String payType = paymentRequestDto.getPayType();
@@ -71,7 +72,8 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new PaymentInvalidPayTypeException();
 		}
 
-		Payment payment = paymentRequestDto.toEntity();
+		User user = userRepository.findByUserId(userId).orElseThrow(NotExistUserException::new);
+		Payment payment = paymentRequestDto.toEntity(user);
 		paymentRepository.save(payment);
 		Credential credential = credentialRepository.findByCredentialId(credentialId).orElseThrow(NotExistUserException::new);
 		userRepository.findByCredential(credential)
@@ -90,6 +92,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	@Transactional
 	public void verifyPayment(String paymentKey, String orderId, Long amount) {
+		log.info("PaymentServiceImpl_verifyPayment || 결제 승인 전 결제 정보 검증");
 		paymentRepository.findByOrderId(orderId)
 			.ifPresentOrElse(
 				P -> {
@@ -108,6 +111,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	@Transactional
 	public PaymentSuccessResponseDto requestPaymentApproval(String paymentKey, String orderId, Long amount) {
+		log.info("PaymentServiceImpl_requestPaymentApproval || 결제 승인 요청");
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -134,6 +138,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	@Transactional
 	public PaymentFailResponseDto requestPaymentFail(String errorCode, String errorMsg, String orderId) {
+		log.info("PaymentServiceImpl_requestPaymentFail || 결제 실패 시");
 		return PaymentFailResponseDto
 			.builder()
 			.orderId(orderId)
@@ -144,6 +149,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public PaymentSuccessResponseDto requestPaymentCancel(String paymentKey, String cancelReason) {
+		log.info("PaymentServiceImpl_requestPaymentFail || 결제 취소");
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -164,6 +170,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void updateUserMoney(String orderId, Long amount) {
+		log.info("PaymentServiceImpl_requestPaymentFail || 유저 포인트 업데이트");
 		paymentRepository.findByOrderId(orderId)
 			.ifPresentOrElse(
 				P -> {

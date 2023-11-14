@@ -33,6 +33,9 @@ public class PaymentResponseDto {
 	@ApiModelProperty(value = "구매자 닉네임", example = "쇼쇼")
 	private String userNickname;
 
+	@ApiModelProperty(value = "구매자 전화번호", example = "쇼쇼")
+	private String userPhone;
+
 	@ApiModelProperty(value = "결제 요청 성공 시 리다이렉트 될 URL")
 	private String successUrl;
 

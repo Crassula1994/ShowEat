@@ -6,7 +6,9 @@ import javax.persistence.*;
 
 import com.ssafy.showeat.domain.business.entity.Business;
 import com.ssafy.showeat.domain.notification.entity.Notification;
+import com.ssafy.showeat.domain.payment.dto.response.PaymentResponseDto;
 import com.ssafy.showeat.domain.payment.entity.Payment;
+import com.ssafy.showeat.domain.user.dto.response.UserResponseDto;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -57,6 +59,20 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Payment> payments;
 
+    public UserResponseDto toUserResponseDto() {
+        return UserResponseDto.builder()
+            .userId(userId)
+            .userNickname(userNickname)
+            .userImgUrl(userImgUrl)
+            .userAddress(userAddress)
+            .userBusiness(userBusiness)
+            .userMoney(userMoney)
+            .userPhone(userPhone)
+            .visited(visited)
+            .credentialId(credential.getCredentialId())
+            .userEmail(credential.getEmail())
+            .build();
+    }
     //닉네임 수정
     public void updateuserNickname(String userNickname) {
         this.userNickname = userNickname;
