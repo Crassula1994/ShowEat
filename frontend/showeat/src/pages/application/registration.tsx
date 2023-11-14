@@ -3,6 +3,8 @@ import withAuth from "@libs/withAuth";
 import SingleLayout from "@layouts/SingleLayout";
 import { ReactNode, ChangeEvent, useState } from "react";
 import TextButton from "@components/common/button/TextButton";
+import SellerRegisterFailModal from "@/components/custom/modal/SellerRegisterFailModal";
+import Modal from "@components/composite/modal";
 import { useRouter } from "next/router";
 import { postBusinessInfo } from "@apis/business";
 import SellerInfo from "./seller-info";
@@ -78,6 +80,8 @@ function Registration() {
     const [businessPhone, setBusinessPhone] = useState<string>("");
     const [fileName, setFileName] = useState<string>("");
     const [formData, setFormData] = useState<FormData>(new FormData());
+    const [, setIsModalOpen] = useState<boolean>(false);
+    const [reviewModalOpen, setReviewModalOpen] = useState<boolean>(false);
 
     const handleCeoChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCeo(event.target.value.trim());
@@ -123,9 +127,12 @@ function Registration() {
         setFormData(value);
     };
 
+    const openModal = () => {
+        setReviewModalOpen(true);
+    };
+
     const handleButtonClick = () => {
         console.log(fileName);
-
         const newBusinessAddress = `${zonecode} ${businessAddress} ${businessAddressDetail}`;
         postBusinessInfo(
             ceo,
@@ -138,17 +145,26 @@ function Registration() {
             formData,
         ).then((res) => {
             if (res.data) {
-                alert("사업자 인증 성공");
                 router.replace("/application/account-info");
             }
             if (res === 520) {
-                alert("사업자 인증 실패");
+                setIsModalOpen(true);
+                openModal();
             }
         });
     };
 
     return (
         <>
+            <Modal
+                width="auto"
+                height="auto"
+                isOpen={reviewModalOpen}
+                setIsOpen={setReviewModalOpen}
+                childComponent={<SellerRegisterFailModal />}
+                buttonType="close"
+                buttonWidth="150px"
+            />
             <HeaderContainer>
                 <HeaderWrapper>셀러 계정 신청</HeaderWrapper>
                 <ProgressBox>
