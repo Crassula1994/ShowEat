@@ -1,6 +1,16 @@
 /* Function for Handling Error */
 function handleFetchError(statusCode: number) {
     switch (statusCode) {
+        case 400:
+            return "요청이 실패했습니다.";
+        case 410:
+            return "유효하지 않은 조건입니다.";
+        case 411:
+            return "유효하지 않은 조건입니다.";
+        case 412:
+            return "유효하지 않은 조건입니다.";
+        case 413:
+            return "유효하지 않은 조건입니다.";
         case 430:
             return "유효하지 않은 토큰입니다.";
         case 431:
@@ -31,6 +41,8 @@ function handleFetchError(statusCode: number) {
             return 484;
         case 485:
             return 485;
+        case 486:
+            return "해당 페이지는 데이터가 없기에 조회할 수 없습니다.";
         case 500:
             return "서버에서 예측하지 못한 에러가 발생했습니다.";
         default:

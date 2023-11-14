@@ -25,6 +25,12 @@ const RedeemResultContainer = styled("div")`
     width: 100%;
     min-width: 800px;
     height: 100%;
+
+    @media (max-width: 767px) {
+        width: 100%;
+        min-width: auto;
+        height: 100%;
+    }
 `;
 
 const TitleContainer = styled("div")`
@@ -41,6 +47,10 @@ const TitleWrapper = styled("span")`
     font-weight: 700;
 
     padding: 0.2em;
+
+    @media (max-width: 767px) {
+        font-size: 26px;
+    }
 `;
 
 const DescriptionWrapper = styled("span")`
@@ -59,6 +69,15 @@ const ContentContainer = styled("div")`
 
     border: 1px solid ${(props) => props.theme.colors.gray3};
     border-radius: 20px;
+
+    box-sizing: border-box;
+
+    @media (max-width: 767px) {
+        width: 90%;
+        min-width: auto;
+        height: 100%;
+        min-height: 300px;
+    }
 `;
 
 const SellerInfoContainer = styled("div")`
@@ -88,6 +107,10 @@ const TableContainer = styled("div")`
 
     width: 80%;
     /* height: 300px; */
+
+    @media (max-width: 767px) {
+        width: 90%;
+    }
 `;
 
 const MoneyInputContainer = styled("div")`
@@ -109,6 +132,10 @@ const InputLabelWrapper = styled("label")`
 
     padding: 1em;
     box-sizing: border-box;
+
+    @media (max-width: 767px) {
+        font-size: 12px;
+    }
 `;
 
 const InputWrapper = styled("div")`
@@ -129,6 +156,17 @@ const ButtonContainer = styled("div")`
     width: 500px;
 
     padding: 2em;
+
+    @media (max-width: 767px) {
+        flex-direction: column;
+
+        width: 100%;
+        min-width: auto;
+        height: 100%;
+
+        padding: 3em 0;
+        gap: 3em;
+    }
 `;
 
 const MultiModalContainer = styled("div")`
@@ -152,6 +190,10 @@ const MultiModalDescriptionWrapper = styled("span")`
     font-size: 18px;
 
     padding: 2em;
+
+    @media (max-width: 767px) {
+        font-size: 14px;
+    }
 `;
 
 const LoginModalContainer = styled("div")`
@@ -178,6 +220,8 @@ const LoginButtonContainer = styled("div")`
     gap: 1em;
 
     width: 100%;
+
+    padding-bottom: 2em;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -290,7 +334,7 @@ function RedeemResult() {
     const tableHeaders: string[] = [
         "펀딩명",
         "유효 기간",
-        isSingleCoupon ? "메뉴 가격" : "금액권 잔액",
+        isSingleCoupon ? "메뉴 가격" : "쿠폰 잔액",
         isSingleCoupon && "구입 가격",
     ]
         .filter(Boolean)

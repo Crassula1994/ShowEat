@@ -1,315 +1,56 @@
 /* Import */
-// import Head from "next/head";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/css";
 import MainLayout from "@layouts/MainLayout";
-import {
-    ReactNode,
-    useState,
-    //  useEffect,
-} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import withAuth from "@libs/withAuth";
-import SearchBar from "@/components/composite/searchBar/SearchBar";
+import SearchBar from "@components/composite/searchBar";
 import { TextButton, ScrollButton } from "@components/common/button";
-import Card from "@/components/composite/card";
+import Card from "@components/composite/card";
 import { useRouter } from "next/router";
-import { CheckBox } from "@components/common/input";
-import MultiSlider from "@/components/composite/multiSlider/MultiSlider";
-// import useUserState from "@hooks/useUserState";
+import { CheckBox, TextInput } from "@components/common/input";
+import { GetServerSideProps } from "next";
+import addressList from "@configs/addressList";
+import menuCategoryList from "@configs/menuCategoryList";
+import { getCategoryFundings, searchFundings } from "@apis/fundings";
+import { FundingType } from "@customTypes/apiProps";
+import postBookmark from "@/apis/bookmark";
+import Modal from "@components/composite/modal";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Temporary Data */
-const fundingDatas = [
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 1,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1324,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-    {
-        fundingId: 2,
-        title: "Latte is horse",
-        businessName: "야미화니커피",
-        category: "카페",
-        maxLimit: 20,
-        minLimit: 10,
-        curCount: 12,
-        menu: "카페라떼",
-        price: 2500,
-        discountPrice: 2000,
-        discountRate: 20,
-        startDate: "2023-10-20",
-        endDate: "2023-11-30",
-        fundingIsActive: "ACTIVE",
-        fundingIsSuccess: "SUCCESS",
-        fundingImageResponseDtos: [
-            {
-                imageId: 1325,
-                imageUrl: "/assets/images/ad/dog.jpeg",
-            },
-        ],
-        fundingIsBookmark: true,
-    },
-];
+/* Type */
+interface SearchParams {
+    keyword?: string;
+    category?: string[] | string | undefined;
+    address?: string[] | undefined;
+    searchType?: string[] | undefined;
+    sortType?: string | undefined;
+    min?: number | undefined;
+    max?: number | undefined;
+}
+
+interface SearchParams {
+    newKeyword?: string | undefined;
+    newCategory?: string[] | undefined;
+    newAddress?: string[] | undefined;
+    newSearchType?: string[] | undefined;
+    newSortType?: string | undefined;
+    newMin?: number | undefined;
+    newMax?: number | undefined;
+}
+
+interface SearchResultDataProps {
+    searchResultData: FundingType[];
+    keyword?: string;
+    category?: string[] | undefined;
+    address?: string[] | undefined;
+    min?: number | undefined;
+    max?: number | undefined;
+    searchType?: string[] | undefined;
+    sortType?: string | undefined;
+    isLast: boolean;
+}
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -443,6 +184,13 @@ const FilterTitleWrapper = styled("span")`
     font-weight: 700;
 `;
 
+const FilterHelpWrapper = styled("span")`
+    padding-left: 1em;
+
+    font-size: 14px;
+    font-weight: 500;
+`;
+
 const PriceRangeContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -458,7 +206,7 @@ const PriceRangeContainer = styled("div")`
     border-radius: 10px;
 `;
 
-const PriceRangeInputContainer = styled("div")`
+const PriceRangeInputWrapper = styled("div")`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -471,7 +219,7 @@ const PriceInputContainer = styled("div")`
     align-items: center;
 `;
 
-const PriceLabeltWrapper = styled("span")`
+const PriceLabeltWrapper = styled("label")`
     font-weight: 700;
 `;
 
@@ -553,6 +301,19 @@ const SearchCardWrapper = styled("div")`
     align-items: center;
 `;
 
+const NoSearchResultWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    width: 100%;
+    min-height: 300px;
+
+    font-size: 30px;
+    font-weight: 700;
+`;
+
 const MoreButtonWrapper = styled("div")`
     display: flex;
     justify-content: center;
@@ -563,76 +324,223 @@ const MoreButtonWrapper = styled("div")`
     padding-top: 2em;
 `;
 
+const MultiModalContainer = styled("div")`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+`;
+
+const MultiModalDescriptionWrapper = styled("span")`
+    font-size: 18px;
+    font-weight: 700;
+
+    padding: 2em 0;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
-/* Search Component */
-function Search() {
-    const [filterCondition, setFilterCondition] = useState([
-        { value: "BUSINESS_NAME", text: "상호명", isChecked: false },
-        { value: "FUNDING_MENU", text: "펀딩 메뉴", isChecked: false },
-        { value: "FUNDING_TAG", text: "검색용 태그", isChecked: false },
-    ]);
-    const [filterCategory, setFilterCategory] = useState([
-        { value: "KOREAN", text: "한식", isChecked: false },
-        { value: "CHINESE", text: "중식", isChecked: false },
-        { value: "JAPANESE_SUSHI", text: "일식/회", isChecked: false },
-        { value: "WESTERN", text: "양식", isChecked: false },
-        { value: "CHICKEN_BURGER", text: "치킨/버거", isChecked: false },
-        { value: "ASIAN", text: "아시안", isChecked: false },
-        { value: "SNACKS_LATE_NIGHT", text: "분식/야식", isChecked: false },
-        {
-            value: "CAFE_DESSERT",
-            text: "카페/디저트",
-            isChecked: false,
-        },
-    ]);
-    const [filterAddress, setFilterAddress] = useState([
-        {
-            value: "서울특별시 강남구",
-            text: "강남구",
-            isChecked: false,
-        },
-        { value: "서울특별시 강동구", text: "강동구", isChecked: false },
-        { value: "서울특별시 강북구", text: "강북구", isChecked: false },
-        { value: "서울특별시 강서구", text: "강서구", isChecked: false },
-        { value: "서울특별시 관악구", text: "관악구", isChecked: false },
-        { value: "서울특별시 광진구", text: "광진구", isChecked: false },
-        { value: "서울특별시 구로구", text: "구로구", isChecked: false },
-        { value: "서울특별시 금천구", text: "금천구", isChecked: false },
-        { value: "서울특별시 노원구", text: "노원구", isChecked: false },
-        { value: "서울특별시 도봉구", text: "도봉구", isChecked: false },
-        { value: "서울특별시 동대문구", text: "동대문구", isChecked: false },
-        { value: "서울특별시 동작구", text: "동작구", isChecked: false },
-        { value: "서울특별시 마포구", text: "마포구", isChecked: false },
-        { value: "서울특별시 서대문구", text: "서대문구", isChecked: false },
-        { value: "서울특별시 서초구", text: "서초구", isChecked: false },
-        { value: "서울특별시 성동구", text: "성동구", isChecked: false },
-        { value: "서울특별시 성북구", text: "성북구", isChecked: false },
-        { value: "서울특별시 송파구", text: "송파구", isChecked: false },
-        { value: "서울특별시 양천구", text: "양천구", isChecked: false },
-        { value: "서울특별시 영등포구", text: "영등포구", isChecked: false },
-        { value: "서울특별시 용산구", text: "용산구", isChecked: false },
-        { value: "서울특별시 은평구", text: "은평구", isChecked: false },
-        { value: "서울특별시 종로구", text: "종로구", isChecked: false },
-        { value: "서울특별시 중구", text: "중구", isChecked: false },
-        { value: "서울특별시 중랑구", text: "중랑구", isChecked: false },
-    ]);
+/* Server Side Rendering */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const {
+        keyword = "",
+        category = [
+            "KOREAN",
+            "CHINESE",
+            "JAPANESE_SUSHI",
+            "WESTERN",
+            "CHICKEN_BURGER",
+            "ASIAN",
+            "SNACKS_LATE_NIGHT",
+            "CAFE_DESSERT",
+        ],
+        address = addressList,
+        min = 0,
+        max = 100000000,
+        searchType = ["BUSINESS_NAME", "FUNDING_MENU", "FUNDING_TAG"],
+        sortType = "POPULARITY",
+    } = context.query as SearchParams;
 
+    const result =
+        keyword && keyword !== ""
+            ? await searchFundings({
+                  keyword,
+                  category,
+                  address,
+                  min,
+                  max,
+                  searchType,
+                  sortType,
+                  page: 0,
+              })
+            : await getCategoryFundings({
+                  category: typeof category === "string" ? category : category[0],
+                  sortType,
+                  page: 0,
+              });
+
+    const searchResultData = (result.data && result.data.content) || [];
+    const isLast = result.data && result.data.last !== false;
+
+    return {
+        props: {
+            searchResultData,
+            keyword,
+            category,
+            address,
+            min,
+            max,
+            searchType,
+            sortType,
+            isLast,
+        },
+    };
+};
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Multi Modal Component */
+function MultiModal(errorMessage: string) {
+    return (
+        <MultiModalContainer>
+            <MultiModalDescriptionWrapper>{errorMessage}</MultiModalDescriptionWrapper>
+        </MultiModalContainer>
+    );
+}
+
+/* Search Page */
+function Search({
+    searchResultData,
+    keyword,
+    category,
+    address,
+    min,
+    max,
+    searchType,
+    sortType,
+    isLast,
+}: SearchResultDataProps) {
+    const router = useRouter();
     const sortList = [
         { type: "POPULARITY", text: "👍 인기 대박" },
         { type: "CLOSING_SOON", text: "⏰ 마감 임박" },
         { type: "LOW_PRICE", text: "💸 저렴한 가격" },
         { type: "HIGH_DISCOUNT_RATE", text: "📈 높은 할인율" },
-        // { text: "😍 높은 재방문율" },
     ];
-
-    const router = useRouter();
-
+    const [filterTypes, setFilterTypes] = useState(
+        [
+            { value: "BUSINESS_NAME", text: "상호명", isChecked: false },
+            { value: "FUNDING_MENU", text: "펀딩 메뉴", isChecked: false },
+            { value: "FUNDING_TAG", text: "검색용 태그", isChecked: false },
+        ].map((one) => ({
+            ...one,
+            isChecked: (searchType && searchType.includes(one.value)) || false,
+        })),
+    );
+    const [filterCategory, setFilterCategory] = useState(
+        menuCategoryList.map((one) => ({
+            ...one,
+            isChecked: (category && category.includes(one.id)) || false,
+        })),
+    );
+    const [filterAddress, setFilterAddress] = useState(
+        addressList.map((one) => ({
+            address: one,
+            isChecked: (address && address.includes(one)) || false,
+        })),
+    );
+    const [fundingDatas, setFundingDatas] = useState<FundingType[]>(searchResultData);
     const [isFilterd, setIsFiltered] = useState<boolean>(false);
-    const [isSelectedSort, setIsSelectedSort] = useState<string>("POPULARITY");
+    const [isSelectedSort, setIsSelectedSort] = useState<string>(sortType || "POPULARITY");
+    const [pageNum, setPageNum] = useState(1);
+    const [isLastPage, setIsLastPage] = useState(isLast);
+    const [isChange, setIsChange] = useState(false);
+    const [minMoney, setMinMoney] = useState(min);
+    const [maxMoney, setMaxMoney] = useState(max);
+    const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        setFundingDatas(searchResultData);
+        setFilterTypes(
+            [
+                { value: "BUSINESS_NAME", text: "상호명", isChecked: false },
+                { value: "FUNDING_MENU", text: "펀딩 메뉴", isChecked: false },
+                { value: "FUNDING_TAG", text: "검색용 태그", isChecked: false },
+            ].map((one) => ({
+                ...one,
+                isChecked: (searchType && searchType.includes(one.value)) || false,
+            })),
+        );
+        setFilterCategory(
+            menuCategoryList.map((one) => ({
+                ...one,
+                isChecked: (category && category.includes(one.id)) || false,
+            })),
+        );
+        setFilterAddress(
+            addressList.map((one) => ({
+                address: one,
+                isChecked: (address && address.includes(one)) || false,
+            })),
+        );
+        setIsSelectedSort(sortType || "POPULARITY");
+        setMinMoney(min);
+        setMaxMoney(max);
+        setPageNum(0);
+    }, [searchResultData, keyword, category, address, min, max, searchType, sortType]);
 
     const handleSort = (type: string) => {
-        setIsSelectedSort(type);
+        if (keyword && keyword !== "") {
+            searchFundings({
+                keyword,
+                category,
+                address,
+                min,
+                max,
+                searchType,
+                sortType: type,
+                page: 0,
+            }).then((res) => {
+                if (res.statusCode === 200) {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    setFundingDatas(res.data.content);
+                    setIsSelectedSort(type);
+                    setPageNum(1);
+                } else if (res === 520) {
+                    setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                } else {
+                    setErrorMessage(res);
+                    setIsMultiModalOpen(true);
+                }
+            });
+        } else if (category) {
+            getCategoryFundings({
+                category: typeof category === "string" ? category : category[0],
+                sortType: type,
+                page: 0,
+            }).then((res) => {
+                if (res.statusCode === 200) {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    setFundingDatas(res.data.content);
+                    setIsSelectedSort(type);
+                    setPageNum(1);
+                } else if (res === 520) {
+                    setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                } else {
+                    setErrorMessage(res);
+                    setIsMultiModalOpen(true);
+                }
+            });
+        }
+        setIsChange(true);
     };
 
     const handleCard = (fundingId: number) => {
@@ -640,28 +548,147 @@ function Search() {
     };
 
     const handleBookmark = (fundingId: number) => {
-        // postBookmark(fundingId);
-        console.log(fundingId);
+        postBookmark(fundingId.toString()).then((res) => {
+            if (res.statusCode === 200) {
+                const updatedFundingDatas = fundingDatas.map((data) => {
+                    if (data.fundingId === fundingId) {
+                        return { ...data, fundingIsBookmark: !data.fundingIsBookmark };
+                    }
+                    return data;
+                });
+                setFundingDatas(updatedFundingDatas);
+            } else if (res === 520) {
+                setErrorMessage("알 수 없는 오류가 발생했습니다.");
+            } else {
+                setErrorMessage(res);
+                setIsMultiModalOpen(true);
+            }
+        });
+        setIsChange(true);
+    };
+
+    const handleMoreButton = () => {
+        if (!isLastPage) {
+            if (keyword && keyword !== "") {
+                searchFundings({
+                    keyword,
+                    category,
+                    address,
+                    min,
+                    max,
+                    searchType,
+                    sortType,
+                    page: pageNum,
+                }).then((res) => {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    setFundingDatas((prev) => {
+                        return [...prev, ...res.data.content];
+                    });
+                    setPageNum((prev) => prev + 1);
+                });
+            } else if (category) {
+                getCategoryFundings({
+                    category: typeof category === "string" ? category : category[0],
+                    sortType,
+                    page: 0,
+                }).then((res) => {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    if (res.statusCode === 200) {
+                        setFundingDatas((prev) => {
+                            return [...prev, ...res.data.content];
+                        });
+                        setPageNum((prev) => prev + 1);
+                    } else if (res === 520) {
+                        setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                    } else {
+                        setErrorMessage(res);
+                        setIsMultiModalOpen(true);
+                    }
+                });
+            }
+        }
+        setIsChange(true);
+    };
+
+    const changeMinMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        if (/^\d+$/.test(newValue) || newValue === "") {
+            setMinMoney(parseFloat(newValue));
+        }
+    };
+
+    const changeMaxMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        if (/^\d+$/.test(newValue) || newValue === "") {
+            setMaxMoney(parseFloat(newValue));
+        }
+    };
+
+    const handleFilteredSearch = () => {
+        if (keyword && keyword !== "") {
+            searchFundings({
+                keyword,
+                category: filterCategory.filter((one) => one.isChecked).map((one) => one.id),
+                address: filterAddress.filter((one) => one.isChecked).map((one) => one.address),
+                min: minMoney,
+                max: maxMoney,
+                searchType: filterTypes.filter((one) => one.isChecked).map((one) => one.value),
+                sortType: isSelectedSort,
+                page: 0,
+            }).then((res) => {
+                if (res.statusCode === 200) {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    setFundingDatas(res.data.content);
+                    setPageNum(1);
+                } else if (res === 520) {
+                    setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                } else {
+                    setErrorMessage(res);
+                    setIsMultiModalOpen(true);
+                }
+            });
+        }
+        setIsChange(true);
     };
 
     return (
         <SearchPageWrapper>
             <MainContentsContainer>
-                <SearchBar />
+                <SearchBar isChange={isChange} setIsChange={setIsChange} />
                 <SearchResultContainer>
                     <SearchHeaderContainer>
                         <SearchResultHeaderContainer>
                             <ResultTitleContainer>
-                                <ResultKeywordWrapper>커피</ResultKeywordWrapper>
+                                <ResultKeywordWrapper>
+                                    {keyword !== ""
+                                        ? keyword
+                                        : menuCategoryList.map((one) => {
+                                              if (typeof category === "string") {
+                                                  if (one.id === category) {
+                                                      return one.value;
+                                                  }
+                                              }
+                                              return null;
+                                          })}
+                                </ResultKeywordWrapper>
                                 <SearchResultWrapper>&nbsp; 검색 결과</SearchResultWrapper>
                             </ResultTitleContainer>
                             <ResultDescriptionWrapper>
-                                총 <ResultCountWrapper>125건</ResultCountWrapper>의 결과가
-                                검색되었어요!
+                                총{" "}
+                                <ResultCountWrapper>
+                                    {fundingDatas && fundingDatas.length}건
+                                </ResultCountWrapper>
+                                의 결과가 검색되었어요!
                             </ResultDescriptionWrapper>
                         </SearchResultHeaderContainer>
                         <FilterButtonContainer>
-                            {!isFilterd ? (
+                            {!isFilterd && keyword && keyword !== "" ? (
                                 <TextButton
                                     text="필터링"
                                     width="150px"
@@ -671,9 +698,9 @@ function Search() {
                                 />
                             ) : (
                                 <TextButton
-                                    text="필터링"
+                                    text={keyword && keyword !== "" ? "필터링" : "검색어 필요"}
                                     width="150px"
-                                    fill="positive"
+                                    fill={keyword && keyword !== "" ? "positive" : "negative"}
                                     colorType="secondary"
                                     onClick={() => setIsFiltered(false)}
                                 />
@@ -684,9 +711,12 @@ function Search() {
                         <FilterContainer>
                             <FilterSlideInContainer isFilterd={isFilterd}>
                                 <FilterOneContainer>
-                                    <FilterTitleWrapper>검색 조건</FilterTitleWrapper>
+                                    <FilterTitleWrapper>
+                                        검색 조건
+                                        <FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                    </FilterTitleWrapper>
                                     <FilterBodyContainer>
-                                        {filterCondition.map((filter) => (
+                                        {filterTypes.map((filter) => (
                                             <CheckBox
                                                 key={`${filter.text}`}
                                                 text={filter.text}
@@ -695,28 +725,30 @@ function Search() {
                                                 id={`${filter.text}`}
                                                 isChecked={filter.isChecked}
                                                 onToggle={() => {
-                                                    const filterIdx = filterCondition.findIndex(
+                                                    const filterIdx = filterTypes.findIndex(
                                                         (item) => item.value === filter.value,
                                                     );
-                                                    const updatedConditions = [...filterCondition];
-                                                    updatedConditions[filterIdx].isChecked =
-                                                        !filterCondition[filterIdx].isChecked;
-                                                    setFilterCondition(updatedConditions);
+                                                    const updatedTypess = [...filterTypes];
+                                                    updatedTypess[filterIdx].isChecked =
+                                                        !filterTypes[filterIdx].isChecked;
+                                                    setFilterTypes(updatedTypess);
                                                 }}
                                             />
                                         ))}
                                     </FilterBodyContainer>
                                 </FilterOneContainer>
                                 <FilterOneContainer>
-                                    <FilterTitleWrapper>메뉴 카테고리</FilterTitleWrapper>
+                                    <FilterTitleWrapper>
+                                        메뉴 카테고리<FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                    </FilterTitleWrapper>
                                     <FilterBodyContainer>
                                         {filterCategory.map((filter) => (
                                             <CheckBox
-                                                key={`${filter.text}`}
-                                                text={filter.text}
+                                                key={`${filter.value}`}
+                                                text={filter.value}
                                                 width="100%"
                                                 fontSize="14px"
-                                                id={`${filter.text}`}
+                                                id={`${filter.value}`}
                                                 isChecked={filter.isChecked}
                                                 onToggle={() => {
                                                     const filterIdx = filterCategory.findIndex(
@@ -732,19 +764,21 @@ function Search() {
                                     </FilterBodyContainer>
                                 </FilterOneContainer>
                                 <FilterOneContainer>
-                                    <FilterTitleWrapper>펀딩 지역</FilterTitleWrapper>
+                                    <FilterTitleWrapper>
+                                        펀딩 지역<FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                    </FilterTitleWrapper>
                                     <FilterBodyContainer>
                                         {filterAddress.map((filter) => (
                                             <CheckBox
-                                                key={`${filter.text}`}
-                                                text={filter.text}
+                                                key={`${filter.address}`}
+                                                text={filter.address}
                                                 width="100%"
                                                 fontSize="14px"
-                                                id={`${filter.text}`}
+                                                id={`${filter.address}`}
                                                 isChecked={filter.isChecked}
                                                 onToggle={() => {
                                                     const filterIdx = filterAddress.findIndex(
-                                                        (item) => item.value === filter.value,
+                                                        (item) => item.address === filter.address,
                                                     );
                                                     const updatedAddresss = [...filterAddress];
                                                     updatedAddresss[filterIdx].isChecked =
@@ -759,21 +793,45 @@ function Search() {
                                     <FilterTitleWrapper>펀딩 가격</FilterTitleWrapper>
 
                                     <PriceRangeContainer>
-                                        <PriceRangeInputContainer>
+                                        <PriceRangeInputWrapper>
                                             <PriceInputContainer>
-                                                <PriceLabeltWrapper>최저가</PriceLabeltWrapper>
-                                                <PriceInputWrapper>여기는</PriceInputWrapper>
+                                                <PriceLabeltWrapper htmlFor="min-money">
+                                                    최저가
+                                                </PriceLabeltWrapper>
+                                                <PriceInputWrapper>
+                                                    <TextInput
+                                                        value={minMoney?.toString() || ""}
+                                                        width="150px"
+                                                        height="40px"
+                                                        id="min-money"
+                                                        onChange={(e) => changeMinMoney(e)}
+                                                    />
+                                                </PriceInputWrapper>
                                             </PriceInputContainer>
                                             <PriceSpaceWrapper>∼</PriceSpaceWrapper>
                                             <PriceInputContainer>
-                                                <PriceLabeltWrapper>최고가</PriceLabeltWrapper>
-                                                <PriceInputWrapper>일단 포기</PriceInputWrapper>
+                                                <PriceLabeltWrapper htmlFor="max-money">
+                                                    최고가
+                                                </PriceLabeltWrapper>
+                                                <PriceInputWrapper>
+                                                    <TextInput
+                                                        value={maxMoney?.toString() || ""}
+                                                        width="150px"
+                                                        height="40px"
+                                                        id="max-money"
+                                                        onChange={(e) => changeMaxMoney(e)}
+                                                    />
+                                                </PriceInputWrapper>
                                             </PriceInputContainer>
-                                        </PriceRangeInputContainer>
-                                        <MultiSlider />
+                                        </PriceRangeInputWrapper>
                                     </PriceRangeContainer>
                                 </FilterOneContainer>
-                                <TextButton colorType="secondary" text="상세 검색" width="300px" />
+                                <TextButton
+                                    colorType="secondary"
+                                    text="상세 검색"
+                                    width="300px"
+                                    onClick={handleFilteredSearch}
+                                />
                             </FilterSlideInContainer>
                         </FilterContainer>
                     )}
@@ -788,30 +846,50 @@ function Search() {
                             </SortButtonWrapper>
                         ))}
                     </SortContainer>
-                    <SearchBodyContainer>
-                        {fundingDatas.map((data, idx) => (
-                            <SearchCardWrapper key={`${data.title}-${idx}`}>
-                                <Card
-                                    fundingData={data}
-                                    onFundingClick={() => handleCard(data.fundingId)}
-                                    onBookmark={() => handleBookmark(data.fundingId)}
-                                />
-                            </SearchCardWrapper>
-                        ))}
-                    </SearchBodyContainer>
-                    <MoreButtonWrapper>
-                        <TextButton
-                            text="더 보기"
-                            width="400px"
-                            height="50px"
-                            colorType="secondary"
-                            curve="round"
-                            fontSize={20}
-                        />
-                    </MoreButtonWrapper>
+                    {fundingDatas && fundingDatas.length > 0 ? (
+                        <>
+                            <SearchBodyContainer>
+                                {fundingDatas.map((data, idx) => (
+                                    <SearchCardWrapper key={`${data.title}-${idx}`}>
+                                        <Card
+                                            fundingData={data}
+                                            onFundingClick={() => handleCard(data.fundingId)}
+                                            onBookmark={() => handleBookmark(data.fundingId)}
+                                        />
+                                    </SearchCardWrapper>
+                                ))}
+                            </SearchBodyContainer>
+                            {!isLastPage && (
+                                <MoreButtonWrapper>
+                                    <TextButton
+                                        text="더 보기"
+                                        width="400px"
+                                        height="50px"
+                                        colorType="secondary"
+                                        curve="round"
+                                        fontSize={20}
+                                        onClick={handleMoreButton}
+                                    />
+                                </MoreButtonWrapper>
+                            )}
+                        </>
+                    ) : (
+                        <NoSearchResultWrapper>검색 결과가 없습니다.</NoSearchResultWrapper>
+                    )}
                 </SearchResultContainer>
             </MainContentsContainer>
             <ScrollButton width="40px" />
+            <Modal
+                childComponent={MultiModal(errorMessage)}
+                width="500px"
+                height="300px"
+                isOpen={isMultiModalOpen}
+                setIsOpen={setIsMultiModalOpen}
+                buttonType="close"
+                buttonWidth="200px"
+                buttonHeight="50px"
+                buttonFontSize={20}
+            />
         </SearchPageWrapper>
     );
 }

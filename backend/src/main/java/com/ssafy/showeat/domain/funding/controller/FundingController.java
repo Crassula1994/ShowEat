@@ -63,7 +63,7 @@ public class FundingController {
 		@ApiResponse(code = 400, message = "금액권 펀딩에 이미지 추가 실패"),
 		@ApiResponse(code = 451, message = "업주가 아닌 사람은 펀딩에 이미지 추가할 수 없음")
 	})
-	@PostMapping("/image")
+	@PostMapping("/image/{fundingId}")
 	public ResponseResult addImageToFunding(@PathVariable Long fundingId ,
 		@RequestPart(value = "multipartFile" , required = false) MultipartFile multipartFile,
 		HttpServletRequest request

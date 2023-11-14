@@ -30,7 +30,8 @@ async function fetchGet(props: FetchProps) {
         ...(contentType === "json" && { "Content-Type": "application/json" }),
     };
 
-    const queryString: string = params ? `?${new URLSearchParams(params).toString()}` : "";
+    const queryString: string =
+        Object.keys(params).length > 0 ? `?${new URLSearchParams(params).toString()}` : "";
 
     if (isAuth) {
         const accessToken = getCookie("access-token");
@@ -53,6 +54,7 @@ async function fetchGet(props: FetchProps) {
     try {
         const response = await fetch(`${ENDPOINT}${url}${queryString}`, options);
         const fetchResult = await response.json();
+
         if (fetchResult && fetchResult.statusCode === 200) {
             return fetchResult;
         }
@@ -90,7 +92,8 @@ async function fetchModify(props: FetchProps) {
         }
     }
 
-    const queryString: string = params ? `?${new URLSearchParams(params).toString()}` : "";
+    const queryString: string =
+        Object.keys(params).length > 0 ? `?${new URLSearchParams(params).toString()}` : "";
 
     const handleData = () => {
         if (data) {
@@ -123,6 +126,7 @@ async function fetchModify(props: FetchProps) {
     try {
         const response = await fetch(`${ENDPOINT}${url}${queryString}`, options);
         const fetchResult = await response.json();
+
         if (fetchResult && fetchResult.statusCode === 200) {
             return fetchResult;
         }

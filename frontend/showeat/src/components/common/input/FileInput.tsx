@@ -22,6 +22,7 @@ interface FileInputProps {
     uploadedFiles: File[];
     setUploadedFiles: React.Dispatch<SetStateAction<File[]>>;
     modifyProfile?: boolean;
+    fundingForm?: boolean;
 }
 
 interface FilesListContainerTypes {
@@ -93,6 +94,14 @@ const FileImageContainer = styled("div")`
     align-items: center;
 `;
 
+const ONEFileImageContainer = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 1em;
+`;
+
 const FileImageWrapper = styled(Image)`
     border: 1px solid #c7c7c7;
     border-radius: 10px;
@@ -158,6 +167,7 @@ function FileInput({
     uploadedFiles,
     setUploadedFiles,
     modifyProfile = false,
+    fundingForm = false,
 }: FileInputProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -172,6 +182,7 @@ function FileInput({
         console.log("handleUploadFiles");
         if (files) {
             const fileList = Array.from(files);
+
             if (fileList.length + uploadedFiles.length <= count) {
                 setUploadedFiles([...uploadedFiles, ...fileList]);
                 if (modifyProfile) {
@@ -180,6 +191,7 @@ function FileInput({
                         setUploadedFiles([]);
                     });
                 }
+                setUploadedFiles([...uploadedFiles, ...Array.from(fileList)]);
             } else {
                 // 다른거로 표시해줘야 할 듯
                 console.log(`이미지는 ${count}개까지만 올릴 수 있습니다.`);
@@ -238,8 +250,8 @@ function FileInput({
                     colorType="primary"
                     text={buttonDescription}
                 />
-                {/* {count === 1 && uploadedFiles.length === 1 && (
-                    <FileImageContainer>
+                {count === 1 && uploadedFiles.length === 1 && fundingForm && (
+                    <ONEFileImageContainer>
                         <FileImageWrapper
                             src={URL.createObjectURL(uploadedFiles[0])}
                             alt="uploaded-image"
@@ -254,8 +266,8 @@ function FileInput({
                             height={20}
                             onClick={() => handleDeleteIcon(0)}
                         />
-                    </FileImageContainer>
-                )} */}
+                    </ONEFileImageContainer>
+                )}
                 <FileInputCountTextWrapper dangerouslySetInnerHTML={{ __html: countText }} />
                 <FileInputWrapper
                     ref={inputRef}

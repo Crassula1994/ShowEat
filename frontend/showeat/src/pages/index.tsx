@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import MainLayout from "@layouts/MainLayout";
 import { ReactNode, useEffect, useState } from "react";
 import withAuth from "@libs/withAuth";
-import SearchBar from "@components/composite/searchBar/SearchBar";
+import SearchBar from "@components/composite/searchBar";
 import useUserState from "@hooks/useUserState";
 import { CardCarousel, AdCarousel } from "@components/composite/carousel";
 import { ScrollButton } from "@components/common/button";
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const promises = typesList.map((type) => getMainPageList(type));
 
     const results = await Promise.all(promises);
-    const fundingListData: FundingType[][] = results.map((result) => result.data);
+    const fundingListData: FundingType[][] = results.map((result) => result.data) || [[]];
 
     return {
         props: {
@@ -89,7 +89,7 @@ function Home(props: HomeProps) {
     const [discountFundings, setDiscountFundings] = useState<FundingType[]>(fundingListData[3]);
 
     useEffect(() => {
-        if (user.userId) {
+        if (user && user.userId !== 0) {
             const promises = [getUserFundings(0), getFavoriteFundings(0)];
             Promise.all(promises).then((results) => {
                 if (results[0].data) {

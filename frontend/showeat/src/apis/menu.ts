@@ -23,37 +23,20 @@ interface AddNewMenuType {
 }
 
 const addNewMenu = async ({ menu, price, multipartFiles }: AddNewMenuType) => {
-    // Create a new FormData instance
     const formData = new FormData();
 
-    // // addNewMenu 함수 내에서 formData를 만들기 전에 로그로 확인
-    // function logFormData(formData) {
-    //     formData.forEach((value, key) => {
-    //         console.log(`${key}, ${value}`);
-    //     });
-    // }
-    // logFormData(formData);
-
-    // Append each file
     multipartFiles.forEach((file) => {
         formData.append(`multipartFiles`, file);
     });
-
-    // addNewMenu 함수 내에서 formData를 만든 후에 로그로 확인
-    // logFormData(formData);
 
     const props: FetchProps = {
         url: "business/menu",
         method: "POST",
         isAuth: true,
-        contentType: "file", // or "multipart/form-data"
+        contentType: "file",
         params: { menu, price },
         data: formData,
-        // data: multipartFiles
-        // data: { multipartFiles: multipartFiles[0] },
     };
-
-    console.log(menu, price, multipartFiles, formData);
 
     const result = await fetchModify(props);
 

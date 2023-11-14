@@ -1,5 +1,5 @@
 /* Import */
-import { TextArea, TextInput } from "@components/common/input";
+import { RadioButton, TextArea, TextInput } from "@components/common/input";
 import MainLayout from "@layouts/MainLayout";
 import styled from "@emotion/styled";
 import withAuth from "@libs/withAuth";
@@ -12,7 +12,7 @@ import { changeFontWeight } from "@utils/format";
 import Modal from "@components/composite/modal";
 import FileInput from "@components/common/input/FileInput";
 import { addNewMenu, getMenuList } from "@apis/menu";
-import { createFunding } from "@/apis/fundings";
+import { createFunding, postGiftcardImage } from "@/apis/fundings";
 import { useRouter } from "next/router";
 
 // ----------------------------------------------------------------------------------------------------
@@ -164,9 +164,9 @@ const DeleteIconWrapper = styled(Image)`
     cursor: pointer;
 `;
 
-const ButtonContainer = styled("div")`
+const ButtonContainer = styled("div")<{ isFundingType: string | null }>`
     display: flex;
-    justify-content: space-between;
+    justify-content: ${(props) => (props.isFundingType ? "space-between" : "center")};
     align-items: center;
 
     width: 550px;
@@ -238,6 +238,33 @@ const InputWrapper = styled("div")`
 
 const FileInputWrapper = styled("div")`
     width: 550px;
+`;
+
+const RadioButtonContainer = styled("div")`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 500px;
+    gap: 2em;
+`;
+
+const GiftcardImageInputContainer = styled("div")`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    height: 70px;
+`;
+
+const GiftcardImageInputWrapper = styled("div")`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 500px;
+    height: 70px;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -313,6 +340,7 @@ function AddMenu({
 /* Seller Funding Form Page */
 function FundingForm() {
     const router = useRouter();
+    const [isFundingType, setIsFundingType] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [textFormData, setTextFormData] = useState([
         {
@@ -350,6 +378,10 @@ function FundingForm() {
         data: { menuId: 0, discountPrice: "", originPrice: "" },
         menu: "",
     });
+    const [giftcardData, setGiftCardData] = useState({
+        originPrice: "",
+        discountPrice: "",
+    });
     const [tags, setTags] = useState<{ type: string; text: string; data: string[] }>({
         type: "tags",
         text: "검색용 태그",
@@ -366,6 +398,7 @@ function FundingForm() {
     const [menuName, setMenuName] = useState("");
     const [originPrice, setOriginPrice] = useState("");
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+    const [giftcardImage, setGiftcardImage] = useState<File[]>([]);
 
     function getToday() {
         const todayDate = new Date();
@@ -503,6 +536,26 @@ function FundingForm() {
         });
     };
 
+    const changeGiftcardOPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        if (/^\d+$/.test(newValue) || newValue === "") {
+            setGiftCardData((prev) => {
+                return { ...prev, originPrice: newValue };
+            });
+        }
+    };
+
+    const changeGiftcardDPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        if (/^\d+$/.test(newValue) || newValue === "") {
+            if (parseFloat(newValue) <= parseFloat(giftcardData.originPrice) || newValue === "") {
+                setGiftCardData((prev) => {
+                    return { ...prev, discountPrice: newValue };
+                });
+            }
+        }
+    };
+
     const submitModalData = () => {
         addNewMenu({
             menu: menuName,
@@ -515,25 +568,69 @@ function FundingForm() {
     };
 
     const submitFunding = () => {
-        createFunding({
-            category: category.data.value,
-            description: description.data,
-            endDate: endDate.data,
-            maxLimit: parseFloat(textFormData[1].data),
-            minLimit: parseFloat(textFormData[2].data),
-            tags: tags.data,
-            title: textFormData[0].data,
-            menuId: menuData.data.menuId,
-            discountPrice: parseFloat(menuData.data.discountPrice),
-        }).then(() => {
-            router.push("/sellers/profile/seller-info");
-        });
+        if (isFundingType === "MENU") {
+            createFunding({
+                fundingType: isFundingType,
+                category: category.data.value,
+                description: description.data,
+                endDate: endDate.data,
+                maxLimit: parseFloat(textFormData[1].data),
+                minLimit: parseFloat(textFormData[2].data),
+                tags: tags.data,
+                title: textFormData[0].data,
+                menuId: menuData.data.menuId,
+                discountPrice: parseFloat(menuData.data.discountPrice),
+            }).then(() => {
+                router.push("/sellers/profile/seller-info");
+            });
+        } else if (isFundingType === "GIFT_CARD") {
+            createFunding({
+                fundingType: isFundingType,
+                category: category.data.value,
+                description: description.data,
+                endDate: endDate.data,
+                maxLimit: parseFloat(textFormData[1].data),
+                minLimit: parseFloat(textFormData[2].data),
+                tags: tags.data,
+                title: textFormData[0].data,
+                discountPrice: parseFloat(giftcardData.discountPrice),
+                price: parseFloat(giftcardData.originPrice),
+            }).then((res) => {
+                if (res.statusCode === 200) {
+                    postGiftcardImage(giftcardImage[0], res.data).then(() => {
+                        router.push("/sellers/profile/seller-info");
+                    });
+                }
+            });
+        }
     };
 
     return (
         <FundingFormContainer>
             <TitleWrapper>펀딩 생성</TitleWrapper>
             <FormContainer>
+                <InputContainer>
+                    <InputLabel>펀딩 분류</InputLabel>
+                    <RadioButtonContainer>
+                        <RadioButton
+                            id="funding-menu"
+                            name="funding"
+                            width="100px"
+                            value="MENU"
+                            radioName="단일 메뉴"
+                            onClick={() => setIsFundingType("MENU")}
+                        />
+                        <RadioButton
+                            id="funding-giftcard"
+                            name="funding"
+                            width="80px"
+                            value="GIFT_CARD"
+                            radioName="금액권"
+                            onClick={() => setIsFundingType("GIFT_CARD")}
+                        />
+                    </RadioButtonContainer>
+                </InputContainer>
+
                 {textFormData.map((form, idx) => (
                     <InputContainer key={`${form.type}-${idx}`}>
                         <InputLabel htmlFor={form.type}>{form.text}</InputLabel>
@@ -565,31 +662,7 @@ function FundingForm() {
                     </MultiInputContainer>
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel htmlFor="menu">펀딩 메뉴</InputLabel>
-                    <MultiInputContainer>
-                        <DropDownWrapper>
-                            <InputDropdown
-                                id="menu"
-                                value={menuData.menu}
-                                width="370px"
-                                required
-                                itemList={
-                                    menuList && menuList.length > 0
-                                        ? menuList.map((one) => one.menu)
-                                        : ["데이터가 없습니다."]
-                                }
-                                onChange={(e) => changeMenuData(e)}
-                            />
-                        </DropDownWrapper>
-                        <TextButton
-                            text="새 메뉴"
-                            width="120px"
-                            onClick={() => setIsModalOpen(true)}
-                        />
-                    </MultiInputContainer>
-                </InputContainer>
-                <InputContainer>
-                    <InputLabel htmlFor="category">펀딩 분류</InputLabel>
+                    <InputLabel htmlFor="category">메뉴 분류</InputLabel>
                     <CategoryDropDownWrapper>
                         <InputDropdown
                             id="category"
@@ -601,26 +674,95 @@ function FundingForm() {
                         />
                     </CategoryDropDownWrapper>
                 </InputContainer>
-                <InputContainer>
-                    <InputLabel htmlFor="originalPrice">메뉴 원가</InputLabel>
-                    <TextInput
-                        id="originalPrice"
-                        value={menuData.data.originPrice}
-                        unit="원"
-                        readOnly
-                        width="500px"
-                    />
-                </InputContainer>
-                <InputContainer>
-                    <InputLabel htmlFor="discountPrice">메뉴 할인가</InputLabel>
-                    <TextInput
-                        id="discountPrice"
-                        value={menuData.data.discountPrice.toString()}
-                        onChange={(e) => changeDiscountPrice(e)}
-                        width="500px"
-                        unit="원"
-                    />
-                </InputContainer>
+                {isFundingType === "MENU" && (
+                    <>
+                        <InputContainer>
+                            <InputLabel htmlFor="menu">펀딩 메뉴</InputLabel>
+                            <MultiInputContainer>
+                                <DropDownWrapper>
+                                    <InputDropdown
+                                        id="menu"
+                                        value={menuData.menu}
+                                        width="370px"
+                                        required
+                                        itemList={
+                                            menuList && menuList.length > 0
+                                                ? menuList.map((one) => one.menu)
+                                                : ["데이터가 없습니다."]
+                                        }
+                                        onChange={(e) => changeMenuData(e)}
+                                    />
+                                </DropDownWrapper>
+                                <TextButton
+                                    text="새 메뉴"
+                                    width="120px"
+                                    onClick={() => setIsModalOpen(true)}
+                                />
+                            </MultiInputContainer>
+                        </InputContainer>
+
+                        <InputContainer>
+                            <InputLabel htmlFor="original-price">메뉴 원가</InputLabel>
+                            <TextInput
+                                id="original-price"
+                                value={menuData.data.originPrice}
+                                unit="원"
+                                readOnly
+                                width="500px"
+                            />
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor="discount-price">메뉴 할인가</InputLabel>
+                            <TextInput
+                                id="discount-price"
+                                value={menuData.data.discountPrice.toString()}
+                                onChange={(e) => changeDiscountPrice(e)}
+                                width="500px"
+                                unit="원"
+                            />
+                        </InputContainer>
+                    </>
+                )}
+                {isFundingType === "GIFT_CARD" && (
+                    <>
+                        <InputContainer>
+                            <InputLabel htmlFor="giftcard-price">금액권 원가</InputLabel>
+                            <TextInput
+                                id="giftcard-price"
+                                value={giftcardData.originPrice}
+                                unit="원"
+                                width="500px"
+                                onChange={(e) => changeGiftcardOPrice(e)}
+                            />
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor="discount-price">금액권 할인가</InputLabel>
+                            <TextInput
+                                id="discount-price"
+                                value={giftcardData.discountPrice}
+                                onChange={(e) => changeGiftcardDPrice(e)}
+                                width="500px"
+                                unit="원"
+                            />
+                        </InputContainer>
+                        <GiftcardImageInputContainer>
+                            <InputLabel htmlFor="giftcard-image">대표 사진</InputLabel>
+                            <GiftcardImageInputWrapper>
+                                <FileInput
+                                    count={1}
+                                    color="primary"
+                                    id="giftcard-image"
+                                    buttonWidth="150px"
+                                    buttonHeight="40px"
+                                    buttonDescription="추가"
+                                    uploadedFiles={giftcardImage}
+                                    setUploadedFiles={setGiftcardImage}
+                                    fundingForm
+                                />
+                            </GiftcardImageInputWrapper>
+                        </GiftcardImageInputContainer>
+                    </>
+                )}
                 <InputContainer>
                     <InputLabel htmlFor="tags">검색용 태그</InputLabel>
                     <MultiInputContainer>
@@ -672,14 +814,16 @@ function FundingForm() {
                     />
                 </TextAreaContainer>
             </FormContainer>
-            <ButtonContainer>
-                <TextButton
-                    text="펀딩 생성"
-                    width="250px"
-                    height="50px"
-                    fontSize={24}
-                    onClick={submitFunding}
-                />
+            <ButtonContainer isFundingType={isFundingType}>
+                {isFundingType && (
+                    <TextButton
+                        text="펀딩 생성"
+                        width="250px"
+                        height="50px"
+                        fontSize={24}
+                        onClick={submitFunding}
+                    />
+                )}
                 <TextButton text="취소" fill="negative" width="250px" height="50px" fontSize={24} />
             </ButtonContainer>
             <Modal

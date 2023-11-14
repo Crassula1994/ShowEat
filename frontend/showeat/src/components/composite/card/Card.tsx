@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { calcRemainTime, changeFontWeight } from "@/utils/format";
 import { FundingType } from "@/customTypes/apiProps";
+import useUserState from "@/hooks/useUserState";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -283,9 +284,16 @@ const RemainingTimeWrapper = styled("span")`
 
 /* Card Component */
 function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: CardProps) {
-    const maxPeopleText = changeFontWeight(
-        `최대 참여 인원까지 ...${fundingData.maxLimit - fundingData.curCount}명... 남았습니다!`,
-    );
+    const [user] = useUserState();
+
+    const maxPeopleText =
+        fundingData.maxLimit !== 50000000
+            ? changeFontWeight(
+                  `최대 참여 인원까지 ...${
+                      fundingData.maxLimit - fundingData.curCount
+                  }명... 남았습니다!`,
+              )
+            : "최대 제한 인원이 없어요!";
 
     function numberWithCommas(x: number) {
         if (x !== undefined && x !== null) {
@@ -322,8 +330,10 @@ function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: C
                 <CardImageWrapper
                     className="card-image"
                     src={
-                        fundingData.fundingImageResponseDtos[0].imageUrl ||
-                        "/assets/images/service-logo.png"
+                        fundingData.fundingImageResponseDtos &&
+                        fundingData.fundingImageResponseDtos.length > 0
+                            ? fundingData.fundingImageResponseDtos[0].imageUrl
+                            : "/assets/images/service-logo.png"
                     }
                     alt="card-img"
                     fill
@@ -331,6 +341,8 @@ function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: C
                 <CardUpperContentContainer>
                     <HeartContainer>
                         {!inCarousel &&
+                            user &&
+                            user.userId !== 0 &&
                             (fundingData.fundingIsBookmark ? (
                                 <FullHeartWrapper
                                     src="/assets/icons/heart-full-icon.svg"

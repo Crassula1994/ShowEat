@@ -163,6 +163,7 @@ public class Funding extends BaseTimeEntity {
 	public void addFundingImage(String imageUrl){
 		this.getFundingImages().add(
 			FundingImage.builder()
+				.funding(this)
 				.fundingImgUrl(imageUrl)
 				.build()
 		);
