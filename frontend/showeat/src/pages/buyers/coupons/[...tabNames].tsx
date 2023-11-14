@@ -15,6 +15,7 @@ import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
 import useUserState from "@hooks/useUserState";
 import withAuth from "@libs/withAuth";
+import CouponReviewModal from "@/components/custom/modal/CouponReviewModal";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -153,6 +154,7 @@ function CouponsTab(props: CouponsTabProps) {
     const [page, setPage] = useState<number>(0);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
+    const [reviewModalOpen, setReviewModalOpen] = useState<boolean>(false);
 
     // Function for Handling Tab Click
     const handleTabClick = (id: string, redirectUrl: string) => {
@@ -173,8 +175,17 @@ function CouponsTab(props: CouponsTabProps) {
 
     // Function for Opening Modal
     const openModal = (coupon: CouponType) => {
+        console.log("Selected Coupon:", coupon);
         setSelectedCoupon(coupon);
         setIsModalOpen(true);
+    };
+
+    const openReviewModal = () => {
+        setReviewModalOpen(true);
+    };
+
+    const closeReviewModal = () => {
+        setReviewModalOpen(false);
     };
 
     useEffect(() => {
@@ -182,10 +193,11 @@ function CouponsTab(props: CouponsTabProps) {
         const status: string = activeTab.toUpperCase();
         if (userId !== 0) {
             getCouponList(userId, status, page).then((result) => {
-                if (result.length > 0) {
+                console.log("result", result);
+                if (result.statusCode === 200) {
                     const isLastPage: boolean = result.data.last;
                     const couponList: CouponType[] = result.data.couponResponseDtos || [];
-
+                    console.log(couponList);
                     if (page === 0) {
                         setCouponData(couponList);
                         setHasMorePage(!isLastPage);
@@ -252,7 +264,24 @@ function CouponsTab(props: CouponsTabProps) {
                     isOpen={isModalOpen}
                     setIsOpen={setIsModalOpen}
                     childComponent={<BuyersCouponsModal coupon={selectedCoupon} />}
-                    buttonType="close"
+                    onSubmit={() => openReviewModal()}
+                    buttonType="review"
+                    buttonWidth="150px"
+                />
+            )}
+            {selectedCoupon && (
+                <Modal
+                    width="auto"
+                    height="auto"
+                    isOpen={reviewModalOpen}
+                    setIsOpen={setReviewModalOpen}
+                    childComponent={
+                        <CouponReviewModal
+                            closeReviewModal={closeReviewModal}
+                            couponId={selectedCoupon.couponId}
+                        />
+                    }
+                    buttonType="none"
                     buttonWidth="150px"
                 />
             )}

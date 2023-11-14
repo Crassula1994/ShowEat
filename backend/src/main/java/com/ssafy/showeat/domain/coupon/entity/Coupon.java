@@ -53,6 +53,9 @@ public class Coupon extends BaseTimeEntity {
     @Column
     private String couponQrCodeImgUrl;
 
+    @Column
+    private boolean writeCouponReview;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -79,7 +82,12 @@ public class Coupon extends BaseTimeEntity {
                 .fundingDiscountPrice(funding.getFundingDiscountPrice())
                 .fundingImgUrl(funding.getFundingImages().get(0).getFundingImgUrl())
                 .couponQrCodeImgUrl(couponQrCodeImgUrl)
+                .writeCouponReview(writeCouponReview)
                 .build();
+    }
+
+    public void updateWriteCouponReview(){
+        this.writeCouponReview = true;
     }
 
     public void updateStatus(CouponStatus couponStatus) {

@@ -50,6 +50,8 @@ public class ReviewServiceImpl implements ReviewService{
 		if(!CouponStatus.USED.equals(coupon.getCouponStatus()))
 			throw new ImpossibleReviewException();
 
+		coupon.updateWriteCouponReview();
+
 		reviewRepository.save(reviewRequestDto.toEntity(loginUser,coupon.getFunding()));
 	}
 

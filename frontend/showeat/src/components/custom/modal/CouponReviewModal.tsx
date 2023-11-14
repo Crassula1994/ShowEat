@@ -8,46 +8,54 @@ import { postReview } from "@apis/coupons";
 const ReviewWrapper = styled("div")`
     display: flex;
     flex-direction: column;
+    font-family: Pretendard;
+    font-size: 20px;
     align-items: center;
     background: #fff;
-    padding: 40px;
+    gap: 25px;
 `;
 
 const ReviewContainer = styled("div")`
     color: #000;
     text-align: center;
     font-family: Pretendard;
-    font-size: 40px;
+    font-size: 30px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 900;
     line-height: normal;
     margin-bottom: 20px;
 `;
 
 const TextAreaContainer = styled("div")`
     width: 100%;
-    margin-bottom: 20px;
 `;
 
 const TextButtonContainer = styled("div")`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
 `;
 
-function CouponReviewModal() {
-    const [message, setReview] = useState("");
-    const handleChangeText = (e) => {
-        const newValue = e.target.value;
-        setReview(newValue);
+function CouponReviewModal({
+    couponId,
+    closeReviewModal,
+}: {
+    couponId: number;
+    closeReviewModal: () => void;
+}) {
+    const [message, setMessage] = useState("");
+    const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newValue = event.target.value;
+        setMessage(newValue);
     };
 
     const handleReviewSubmit = () => {
-        const couponId = 1;
-
         postReview(couponId, message).then((res) => {
             if (res.statusCode === 200) {
                 console.log(res);
+                closeReviewModal();
             }
         });
     };
@@ -56,13 +64,18 @@ function CouponReviewModal() {
             <ReviewContainer>리뷰 작성</ReviewContainer>
             <TextAreaContainer>
                 <TextArea
-                    maxLength={200}
-                    setTextValue={setReview}
-                    height="150px"
+                    id="message"
+                    width="550px"
+                    maxLength={400}
+                    value={message}
+                    textareaName=""
+                    height="180px"
                     fontSize="16px"
                     labelFontSize="14px"
                     error={false}
-                    onChange={handleChangeText}
+                    onChange={(e) => {
+                        handleChangeText(e);
+                    }}
                 />
             </TextAreaContainer>
             <TextButtonContainer>

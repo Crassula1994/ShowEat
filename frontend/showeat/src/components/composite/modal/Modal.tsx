@@ -16,7 +16,7 @@ interface ModalProps {
     modalTitle?: string;
     titleFontSize?: number;
     childComponent: ReactNode;
-    buttonType: "confirm" | "close" | "submit" | "none";
+    buttonType: "confirm" | "close" | "submit" | "none" | "review";
     buttonWidth: string;
     buttonHeight?: string;
     buttonFontSize?: number;
@@ -153,56 +153,82 @@ function Modal(props: ModalProps) {
                         )}
 
                         <ModalChildWrapper>{childComponent}</ModalChildWrapper>
-                        <ButtonContainer>
-                            {buttonType === "confirm" && (
-                                <TextButton
-                                    text="확인"
-                                    width={buttonWidth}
-                                    height={buttonHeight}
-                                    colorType={buttonColorType}
-                                    fill={buttonFill}
-                                    curve={buttonCurve}
-                                    onClick={() => setIsOpen(false)}
-                                    fontSize={buttonFontSize}
-                                />
-                            )}
-                            {buttonType === "close" && (
-                                <TextButton
-                                    text="닫기"
-                                    width={buttonWidth}
-                                    height={buttonHeight}
-                                    colorType={buttonColorType}
-                                    fill={buttonFill}
-                                    curve={buttonCurve}
-                                    onClick={() => setIsOpen(false)}
-                                    fontSize={buttonFontSize}
-                                />
-                            )}
-                            {buttonType === "submit" && (
-                                <>
+                        {buttonType !== "none" && (
+                            <ButtonContainer>
+                                {buttonType === "confirm" && (
                                     <TextButton
+                                        text="확인"
                                         width={buttonWidth}
                                         height={buttonHeight}
-                                        onClick={onSubmit}
-                                        fontSize={buttonFontSize}
-                                        text={submitButtonText}
                                         colorType={buttonColorType}
-                                        fill="positive"
+                                        fill={buttonFill}
                                         curve={buttonCurve}
-                                    />
-                                    <TextButton
-                                        width={buttonWidth}
-                                        height={buttonHeight}
                                         onClick={() => setIsOpen(false)}
                                         fontSize={buttonFontSize}
-                                        text="취소"
-                                        colorType={buttonColorType}
-                                        fill="negative"
-                                        curve={buttonCurve}
                                     />
-                                </>
-                            )}
-                        </ButtonContainer>
+                                )}
+                                {buttonType === "close" && (
+                                    <TextButton
+                                        text="닫기"
+                                        width={buttonWidth}
+                                        height={buttonHeight}
+                                        colorType={buttonColorType}
+                                        fill={buttonFill}
+                                        curve={buttonCurve}
+                                        onClick={() => setIsOpen(false)}
+                                        fontSize={buttonFontSize}
+                                    />
+                                )}
+                                {buttonType === "submit" && (
+                                    <>
+                                        <TextButton
+                                            width={buttonWidth}
+                                            height={buttonHeight}
+                                            onClick={onSubmit}
+                                            fontSize={buttonFontSize}
+                                            text={submitButtonText}
+                                            colorType={buttonColorType}
+                                            fill="positive"
+                                            curve={buttonCurve}
+                                        />
+                                        <TextButton
+                                            width={buttonWidth}
+                                            height={buttonHeight}
+                                            onClick={() => setIsOpen(false)}
+                                            fontSize={buttonFontSize}
+                                            text="취소"
+                                            colorType={buttonColorType}
+                                            fill="negative"
+                                            curve={buttonCurve}
+                                        />
+                                    </>
+                                )}
+                                {buttonType === "review" && (
+                                    <>
+                                        <TextButton
+                                            width={buttonWidth}
+                                            height={buttonHeight}
+                                            onClick={onSubmit}
+                                            fontSize={buttonFontSize}
+                                            text="리뷰 작성"
+                                            colorType={buttonColorType}
+                                            fill="positive"
+                                            curve={buttonCurve}
+                                        />
+                                        <TextButton
+                                            width={buttonWidth}
+                                            height={buttonHeight}
+                                            onClick={() => setIsOpen(false)}
+                                            fontSize={buttonFontSize}
+                                            text="닫기"
+                                            colorType={buttonColorType}
+                                            fill="negative"
+                                            curve={buttonCurve}
+                                        />
+                                    </>
+                                )}
+                            </ButtonContainer>
+                        )}
                     </ModalInnerContainer>
                 </ModalOuterContainer>
             </Overlay>

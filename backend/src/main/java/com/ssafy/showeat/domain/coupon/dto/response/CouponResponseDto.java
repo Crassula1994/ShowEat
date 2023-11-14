@@ -32,5 +32,5 @@ public class CouponResponseDto {
 	private int fundingDiscountPrice;
 	private String fundingImgUrl;
 	private String couponQrCodeImgUrl;
-
+	private boolean writeCouponReview;
 }
