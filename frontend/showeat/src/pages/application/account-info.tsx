@@ -3,8 +3,14 @@ import withAuth from "@libs/withAuth";
 import styled from "@emotion/styled";
 import SingleLayout from "@layouts/SingleLayout";
 import { ReactNode, ChangeEvent, useState, useRef } from "react";
+import { useRouter } from "next/router";
+import { postAccountInfo } from "@apis/business";
 import { TextInput } from "@components/common/input";
 import TextButton from "@components/common/button/TextButton";
+
+interface StepBoxProps {
+    backgroundColor: string;
+}
 
 const AccountInfoContainer = styled("div")`
     display: flex;
@@ -36,7 +42,7 @@ const ProgressBox = styled("div")`
     align-items: center;
 `;
 
-const StepBox = styled("div")`
+const StepBox = styled("div")<StepBoxProps>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,6 +112,7 @@ const ButtonWrapper = styled("div")`
 
 function AccountInfo() {
     // States and Variables
+    const router = useRouter();
     const [accountHolder, setAccountHolder] = useState<string>("");
     const [accountBank, setAccountBank] = useState<string>("");
     const [accountNumber, setAccountNumber] = useState<string>("");
@@ -138,10 +145,21 @@ function AccountInfo() {
             const selectedFile = files[0];
             setFileName(selectedFile.name);
             const newFormData = new FormData();
-            newFormData.append("files", selectedFile);
+            newFormData.append("bankBook", selectedFile);
             setFormData(newFormData);
             console.log(formData);
         }
+    };
+
+    const handleSubmit = () => {
+        postAccountInfo(accountHolder, accountBank, accountNumber, formData).then((res) => {
+            if (res === 520) {
+                alert("등록 실패");
+                return;
+            }
+
+            router.replace("/application/result");
+        });
     };
 
     return (
@@ -208,7 +226,7 @@ function AccountInfo() {
                 </InputContainer>
 
                 <ButtonWrapper>
-                    <TextButton type="submit" width="200px" text="다음" />
+                    <TextButton type="submit" width="200px" text="다음" onClick={handleSubmit} />
                 </ButtonWrapper>
             </AccountInfoContainer>
         </>

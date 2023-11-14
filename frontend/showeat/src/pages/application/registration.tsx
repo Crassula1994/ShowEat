@@ -12,17 +12,6 @@ interface StepBoxProps {
     backgroundColor: string;
 }
 
-interface RegistrationRequestDto {
-    ceo: string;
-    email: string;
-    businessName: string;
-    startDate: string;
-    businessNumber: string;
-    newBusinessAddress: string;
-    businessPhone: string;
-    formData: FormData;
-}
-
 const HeaderContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -150,7 +139,7 @@ function Registration() {
         ).then((res) => {
             if (res.data) {
                 alert("사업자 인증 성공");
-                router.replace("/sellers/profile/seller-info");
+                router.replace("/application/account-info");
             }
             if (res === 520) {
                 alert("사업자 인증 실패");

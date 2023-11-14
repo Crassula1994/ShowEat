@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.AccountInfoRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.response.BusinessMenuResponseDto;
@@ -51,15 +51,13 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public void registerBusinessUser(BusinessUserRequestDto businessUserRequestDto,
-		MultipartFile businessRegistration,
-		MultipartFile bankBook) throws IOException {
-		log.info("BusinessServiceImpl_registerBusinessUser || 업체 등록");
-		//todo 회원 Id 가져오기
-		User loginUser = userRepository.findById(1L).get();
-		String businessRegistrationUrl = s3Service.uploadBusinessImageToS3(businessRegistration);
+	public void registerAccount(
+		AccountInfoRequestDto accountInfoRequestDto,
+		MultipartFile bankBook,
+		User user
+	) throws IOException {
 		String bankBookUrl = s3Service.uploadBusinessImageToS3(bankBook);
-		businessRepository.save(businessUserRequestDto.toEntity(businessRegistrationUrl, bankBookUrl, loginUser));
+		user.getBusiness().updateAccountInfo(bankBookUrl,accountInfoRequestDto, user);
 	}
 
 	@Override
@@ -172,6 +170,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	@Transactional
 	public boolean verifyBusiness(
 		RegistrationRequestDto registrationRequestDto,
 		MultipartFile businessRegistration,

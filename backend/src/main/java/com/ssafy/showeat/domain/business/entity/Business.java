@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.ssafy.showeat.domain.business.dto.request.AccountInfoRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.response.RegistrationResponseDto;
 import com.ssafy.showeat.domain.business.dto.response.SellerResponseDto;
@@ -161,5 +162,12 @@ public class Business extends BaseDateEntity {
 		this.businessCeo = registrationRequestDto.getCeo();
 		this.businessEmail = registrationRequestDto.getEmail();
 		this.businessRegistrationUrl = businessRegistrationUrl;
+	}
+
+	public void updateAccountInfo(String bankBookUrl, AccountInfoRequestDto accountInfoRequestDto, User user) {
+		this.bankBookUrl = bankBookUrl;
+		this.businessAccount =accountInfoRequestDto.getAccountBank()+ " "+ accountInfoRequestDto.getAccountNumber();
+		this.businessAccountHolder =accountInfoRequestDto.getAccountHolder();
+		user.updateBusiness();
 	}
 }

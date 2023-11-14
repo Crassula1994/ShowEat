@@ -36,6 +36,30 @@ const postBusinessInfo = async (
     return result;
 };
 
+/* Function for Business Account */
+const postAccountInfo = async (
+    accountHolder: string,
+    accountBank: string,
+    accountNumber: string,
+    formData: FormData,
+) => {
+    const props: FetchProps = {
+        url: `business/account`,
+        method: "POST",
+        isAuth: true,
+        contentType: "file", // or "multipart/form-data"
+        params: {
+            accountHolder,
+            accountBank,
+            accountNumber,
+        },
+        data: formData,
+    };
+
+    const result = await fetchModify(props);
+    return result;
+};
+
 /* Function for Getting Business Information */
 const getBusinessInfo = async (businessId: number) => {
     const props: FetchProps = {
@@ -50,4 +74,4 @@ const getBusinessInfo = async (businessId: number) => {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export { getBusinessInfo, postBusinessInfo };
+export { getBusinessInfo, postBusinessInfo, postAccountInfo };

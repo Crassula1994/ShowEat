@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
-import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.AccountInfoRequestDto;
 
 import com.ssafy.showeat.domain.business.dto.response.*;
 
@@ -31,9 +31,6 @@ public interface BusinessService {
 
 	BusinessTotalStatResponseDto getTotalStatistic(Long businessId);
 
-	void registerBusinessUser(BusinessUserRequestDto businessUserRequestDto, MultipartFile businessRegistration,
-		MultipartFile bankBook) throws IOException;
-
 	RegistrationResponseDto getRegistrationInfo(Long businessId);
 
 	void updateBusinessBio(String businessBio , User user);
@@ -44,4 +41,7 @@ public interface BusinessService {
 
 	boolean verifyBusiness(RegistrationRequestDto registrationRequestDto, MultipartFile businessRegistration,
 		User userFromRequest) throws IOException;
+
+	void registerAccount(AccountInfoRequestDto accountInfoRequestDto, MultipartFile bankBook, User user) throws
+		IOException;
 }

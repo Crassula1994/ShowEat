@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.showeat.domain.business.dto.request.BusinessUserRequestDto;
+import com.ssafy.showeat.domain.business.dto.request.AccountInfoRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistMenuRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.RegistrationRequestDto;
 import com.ssafy.showeat.domain.business.dto.request.UpdateSellerInfoRequestDto;
@@ -74,18 +74,27 @@ public class BusinessController {
 			businessRegistration, userService.getUserFromRequest(request)));
 	}
 
-	@ApiOperation(value = "업체 등록", notes = "업체를 등록합니다.")
+	@ApiOperation(value = "정산 정보 등록", notes = "정산 정보를 등록합니다.")
 	@ApiResponses(value = {
-		@ApiResponse(code = 200, message = "업체 등록 성공"),
-		@ApiResponse(code = 400, message = "업체 등록 실패"),
+		@ApiResponse(code = 200, message = "정산 정보 등록 성공"),
+		@ApiResponse(code = 400, message = "정산 정보 등록 실패"),
 	})
-	@PostMapping
-	public ResponseResult registerBusinessUser(
-		@RequestPart BusinessUserRequestDto businessUserRequestDto,
-		@RequestPart MultipartFile businessRegistration,
-		@RequestPart MultipartFile bankBook
+	@PostMapping(value = "/account")
+	public ResponseResult registerAccount(
+		@RequestParam("accountHolder") String accountHolder,
+		@RequestParam("accountBank") String accountBank,
+		@RequestParam("accountNumber") String accountNumber,
+		@RequestPart("bankBook") MultipartFile bankBook,
+		HttpServletRequest request
 	) throws IOException {
-		businessService.registerBusinessUser(businessUserRequestDto, businessRegistration, bankBook);
+		businessService.registerAccount(
+			AccountInfoRequestDto.builder()
+				.accountHolder(accountHolder)
+				.accountBank(accountBank)
+				.accountNumber(accountNumber)
+				.build(),
+			bankBook,
+			userService.getUserFromRequest(request));
 		return ResponseResult.successResponse;
 	}
 
