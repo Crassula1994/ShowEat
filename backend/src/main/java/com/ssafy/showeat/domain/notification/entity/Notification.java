@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 
 import com.ssafy.showeat.domain.coupon.entity.Coupon;
 import com.ssafy.showeat.domain.funding.entity.Funding;
-import com.ssafy.showeat.domain.notification.dto.response.NotificationListResponseDto;
+import com.ssafy.showeat.domain.notification.dto.response.NotificationResponseDto;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.global.entity.BaseTimeEntity;
 
@@ -58,8 +58,8 @@ public class Notification extends BaseTimeEntity {
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
 
-	public NotificationListResponseDto toNotificationListResponseDto() {
-		return NotificationListResponseDto.builder()
+	public NotificationResponseDto toNotificationListResponseDto() {
+		return NotificationResponseDto.builder()
 			.notificationId(notificationId)
 			.fundingId(funding.getFundingId())
 			.notificationMessage(funding.getFundingTitle() + notificationType.getSubject()) //웹 알림용 메시지

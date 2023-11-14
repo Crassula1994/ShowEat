@@ -1,15 +1,17 @@
 package com.ssafy.showeat.domain.notification.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.showeat.domain.notification.dto.response.NotificationListResponseDto;
+import com.ssafy.showeat.domain.notification.dto.response.NotificationResponseDto;
+import com.ssafy.showeat.domain.notification.entity.Notification;
+import com.ssafy.showeat.domain.notification.entity.NotificationType;
 import com.ssafy.showeat.domain.notification.repository.NotificationRepository;
 import com.ssafy.showeat.domain.user.entity.User;
-import com.ssafy.showeat.domain.user.repository.UserRepository;
-import com.ssafy.showeat.global.exception.NotExistUserException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +22,36 @@ import lombok.extern.slf4j.Slf4j;
 public class NotificationServiceImpl implements NotificationService {
 
 	private final NotificationRepository notificationRepository;
-	private final UserRepository userRepository;
 
+	@Override
 	@Transactional
-	public Page<NotificationListResponseDto> getNotificationListByIsChecked(Long userId, int page) {
+	public NotificationListResponseDto getNotificationListByIsChecked(User user) {
 		log.info("NotificationService_getNotificationListByIsChecked || 유저가 읽지 않은 알림 조회");
-		User user = userRepository.findById(userId).orElseThrow(NotExistUserException::new);
+		List<NotificationResponseDto> participatingFunding = new ArrayList<>();
+		List<NotificationResponseDto> bookmarkFunding = new ArrayList<>();
 
 		// 읽지 않은 알람 조회
-		Page<NotificationListResponseDto> notificationListResponseDtos = notificationRepository
-			.findNotificationWithFundingByUserAndNotificationIsChecked(user, false, PageRequest.of(page, 6))
-			.map(notification -> notification.toNotificationListResponseDto());
+		for (Notification notification : notificationRepository
+			.findNotificationWithFundingByUserAndNotificationIsChecked(user, false)) {
+			if (notification.getNotificationType() == NotificationType.FUNDING_DEADLINE) {
+				bookmarkFunding.add(notification.toNotificationListResponseDto());
+			} else {
+				participatingFunding.add(notification.toNotificationListResponseDto());
+			}
+		}
 
 		// 읽지 않은 알람 읽음 처리
 		notificationRepository.updateCheckedState(user);
+		return NotificationListResponseDto.builder()
+			.bookmarkFunding(bookmarkFunding)
+			.participatingFunding(participatingFunding)
+			.build();
 
-		return notificationListResponseDtos;
+	}
+
+	@Override
+	public boolean getNotificationExist(User user) {
+		return notificationRepository.existsByUserAndNotificationIsChecked(user, false);
 	}
 
 }

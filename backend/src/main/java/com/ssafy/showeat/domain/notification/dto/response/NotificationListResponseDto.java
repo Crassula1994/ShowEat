@@ -1,6 +1,6 @@
 package com.ssafy.showeat.domain.notification.dto.response;
 
-import com.ssafy.showeat.domain.notification.entity.NotificationType;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Builder
 @NoArgsConstructor
@@ -16,16 +18,9 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "알림 목록 조회 DTO", description = "알림 목록 조회시 필요한 정보들")
 public class NotificationListResponseDto {
 
-	@ApiModelProperty(value = "알림 아이디")
-	private Long notificationId;
+	@ApiModelProperty(value = "참여한 펀딩")
+	private List<NotificationResponseDto> participatingFunding;
 
-	@ApiModelProperty(value = "펀딩 아이디")
-	private Long fundingId;
-
-	@ApiModelProperty(value = "알림 제목")
-	private String notificationMessage;
-
-	@ApiModelProperty(value = "알림 분류")
-	private NotificationType notificationType;
-
+	@ApiModelProperty(value = "좋아요한 펀딩")
+	private List<NotificationResponseDto> bookmarkFunding;
 }
