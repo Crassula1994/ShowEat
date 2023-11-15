@@ -1,7 +1,7 @@
 /* Import */
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -98,6 +98,11 @@ function ImageGallery(props: ImageGalleryProps) {
             setSelectedImage(image);
         }
     };
+
+    // Hooks for Loading Base Image
+    useEffect(() => {
+        setSelectedImage(images[0]);
+    }, [props]);
 
     return (
         <GalleryContainer>

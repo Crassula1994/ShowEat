@@ -116,12 +116,18 @@ const HoldingPoint = styled("span")<{ fontSize: string }>`
     text-overflow: ellipsis;
 `;
 
-const CreateFundingButtonWrapper = styled("div")`
+const ButtonContainer = styled("div")`
+    // Layout Attribute
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 0.5em;
 
-    padding: 1.4em 0;
+    // Box Model Attribute
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 1em;
 `;
 
 const MenuContainer = styled("div")`
@@ -149,12 +155,6 @@ const MenuWrapper = styled("div")<{ isSelected: boolean }>`
     border-right: ${(props) => props.isSelected && `4px solid ${props.theme.colors.gray5}`};
 
     cursor: pointer;
-`;
-
-const QRButtonWrapper = styled("div")`
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -255,16 +255,22 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     />
                 </PointContainer>
             ) : (
-                <CreateFundingButtonWrapper>
+                <ButtonContainer>
                     <TextButton
-                        text="펀딩 생성"
-                        width="180px"
-                        height="40px"
-                        fontSize={20}
-                        colorType="primary"
+                        text="펀딩 생성하기"
+                        width="60%"
+                        fontSize={18}
+                        colorType="secondary"
                         onClick={handleCreateFunding}
                     />
-                </CreateFundingButtonWrapper>
+                    <TextButton
+                        text="QR 인식하기"
+                        width="60%"
+                        fontSize={18}
+                        colorType="secondary"
+                        onClick={handleQR}
+                    />
+                </ButtonContainer>
             )}
 
             <MenuContainer>
@@ -278,18 +284,6 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     </MenuWrapper>
                 ))}
             </MenuContainer>
-            {!isBuyer && (
-                <QRButtonWrapper>
-                    <TextButton
-                        text="QR 인식"
-                        width="180px"
-                        height="40px"
-                        fontSize={20}
-                        colorType="primary"
-                        onClick={() => handleQR}
-                    />
-                </QRButtonWrapper>
-            )}
         </NavigationBarContainer>
     );
 }

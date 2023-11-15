@@ -78,6 +78,13 @@ function changeFontWeight(text: string): string {
     return weightedText;
 }
 
+/* Function for Deleting Post Number in Address */
+function formatAddress(address: string): string {
+    const newAddress = address.replace(/\(\d+\)\s*/, "");
+
+    return newAddress;
+}
+
 /* Function for Making Business ID Number */
 function formatBusinessNumber(numStr: string): string {
     if (numStr.length !== 10) {
@@ -171,6 +178,7 @@ export {
     calcExpiryDate,
     calcRemainTime,
     changeFontWeight,
+    formatAddress,
     formatBusinessNumber,
     formatDate,
     formatMoney,

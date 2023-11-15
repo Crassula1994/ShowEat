@@ -1,7 +1,7 @@
 /* Import */
 import { CardCarousel } from "@components/composite/carousel";
 import { BusinessType, FundingType } from "@customTypes/apiProps";
-import { formatBusinessNumber, formatPhoneNumber } from "@utils/format";
+import { formatAddress, formatBusinessNumber, formatPhoneNumber } from "@utils/format";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import Table from "@components/common/table";
@@ -139,7 +139,7 @@ function FundingStoreTab(props: FundingStoreTabProps) {
         businessOperatingTime,
         businessClosedDays,
         formatPhoneNumber(businessPhone),
-        businessAddress,
+        formatAddress(businessAddress),
         businessCeo,
         businessEmail,
         formatBusinessNumber(businessNumber),
@@ -155,7 +155,7 @@ function FundingStoreTab(props: FundingStoreTabProps) {
             };
             const sellerMap = new kakao.maps.Map(mapContainer as HTMLElement, options);
 
-            geocoder.addressSearch(businessAddress, (result, status) => {
+            geocoder.addressSearch(formatAddress(businessAddress), (result, status) => {
                 if (status === kakao.maps.services.Status.OK) {
                     const newLocation = new kakao.maps.LatLng(+result[0].y, +result[0].x);
                     const marker = new kakao.maps.Marker({
@@ -171,6 +171,10 @@ function FundingStoreTab(props: FundingStoreTabProps) {
             });
         });
     }, []);
+
+    useEffect(() => {
+        setFundingList(filteredFundingList);
+    }, [props]);
 
     return (
         <StoreContainer>
