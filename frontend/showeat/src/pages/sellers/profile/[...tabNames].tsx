@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import { Tab, TabBar } from "@components/composite/tabBar";
 import { useRouter } from "next/router";
 import withAuth from "@libs/withAuth";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -86,22 +87,33 @@ function SellerProfileTab(props: SellerProfileTabProps) {
     };
 
     return (
-        <ProfileContainer>
-            <TabBar>
-                {sellersProfileTabMenu.map((tab) => (
-                    <Tab
-                        key={tab.id}
-                        width="30%"
-                        labelText={tab.labelText}
-                        isActive={activeTab === tab.id}
-                        onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
-                    />
-                ))}
-            </TabBar>
-            <TabContainer>
-                {activeTab === "seller-info" ? <ProfileSellerInfoTab /> : <ProfileBasicInfoTab />}
-            </TabContainer>
-        </ProfileContainer>
+        <>
+            <Head>
+                <title>셀러 정보</title>
+                <meta name="description" content="셀러님의 정보 페이지입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <ProfileContainer>
+                <TabBar>
+                    {sellersProfileTabMenu.map((tab) => (
+                        <Tab
+                            key={tab.id}
+                            width="30%"
+                            labelText={tab.labelText}
+                            isActive={activeTab === tab.id}
+                            onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
+                        />
+                    ))}
+                </TabBar>
+                <TabContainer>
+                    {activeTab === "seller-info" ? (
+                        <ProfileSellerInfoTab />
+                    ) : (
+                        <ProfileBasicInfoTab />
+                    )}
+                </TabContainer>
+            </ProfileContainer>
+        </>
     );
 }
 

@@ -5,8 +5,11 @@ import withAuth from "@libs/withAuth";
 import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { TextButton, ScrollButton } from "@components/common/button";
-import { getFavoriteFundings, postHeart } from "@/apis/fundings";
+import { getFavoriteFundings } from "@apis/fundings";
+import postBookmark from "@apis/bookmark";
 import { FundingType } from "@customTypes/apiProps";
+import { useRouter } from "next/router";
+import Head from "next/head";
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
@@ -29,6 +32,12 @@ const TitleWrapper = styled("span")`
     font-weight: 700;
 
     padding: 1em;
+`;
+
+const NoDataWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const CardsContainer = styled("div")`
@@ -61,6 +70,7 @@ const MoreButtonWrapper = styled("div")`
 
 /* Buyer Favorites Page */
 function Favorites() {
+    const router = useRouter();
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
     const [page, setPage] = useState(0);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
@@ -68,12 +78,12 @@ function Favorites() {
     const handleLoadMore = () => {
         setPage(page + 1); // 더보기 : 페이지 + 1
     };
-    const handleCard = () => {
-        console.log("꾹");
+    const handleCard = (fundingId: number) => {
+        router.push(`/fundings/${fundingId}/store`);
     };
 
     const handleBookmark = (funding: FundingType) => {
-        postHeart(funding.fundingId).then((res) => {
+        postBookmark(funding.fundingId.toString()).then((res) => {
             if (res.statusCode === 200) {
                 setFundingData(
                     fundingData.map((item) =>
@@ -94,10 +104,10 @@ function Favorites() {
                     if (page === 0) {
                         setFundingData(fundingList);
                         setHasMorePage(!isLastPage);
+                    } else {
+                        setFundingData([...fundingData, ...fundingList]);
+                        setHasMorePage(!isLastPage);
                     }
-                } else {
-                    setFundingData([...fundingData, ...fundingList]);
-                    setHasMorePage(!isLastPage);
                 }
             } else {
                 setFundingData([]);
@@ -111,37 +121,44 @@ function Favorites() {
     }, [page]);
 
     return (
-        <FavoritesContainer>
-            <TitleWrapper>관심 펀딩 목록</TitleWrapper>
-            {fundingData.length === 0 ? (
-                <CardsContainer>관심있는 펀딩이 없습니다.</CardsContainer>
-            ) : (
-                <CardsContainer>
-                    {fundingData.map((funding, index) => (
-                        <Card
-                            key={index}
-                            fundingData={funding}
-                            onFundingClick={handleCard}
-                            onBookmark={() => handleBookmark(funding)}
+        <>
+            <Head>
+                <title>내가 좋아요한 펀딩</title>
+                <meta name="description" content="바이어님께서 좋아요하신 펀딩 목록입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <FavoritesContainer>
+                <TitleWrapper>관심 펀딩 목록</TitleWrapper>
+                {fundingData.length === 0 ? (
+                    <NoDataWrapper>관심있는 펀딩이 없습니다.</NoDataWrapper>
+                ) : (
+                    <CardsContainer>
+                        {fundingData.map((funding, index) => (
+                            <Card
+                                key={index}
+                                fundingData={funding}
+                                onFundingClick={() => handleCard(funding.fundingId)}
+                                onBookmark={() => handleBookmark(funding)}
+                            />
+                        ))}
+                    </CardsContainer>
+                )}
+                {hasMorePage ? (
+                    <MoreButtonWrapper>
+                        <TextButton
+                            text="더 보기"
+                            width="400px"
+                            height="50px"
+                            colorType="secondary"
+                            curve="round"
+                            fontSize={20}
+                            onClick={() => handleLoadMore()}
                         />
-                    ))}
-                </CardsContainer>
-            )}
-            {hasMorePage ? (
-                <MoreButtonWrapper>
-                    <TextButton
-                        text="더 보기"
-                        width="400px"
-                        height="50px"
-                        colorType="secondary"
-                        curve="round"
-                        fontSize={20}
-                        onClick={() => handleLoadMore()}
-                    />
-                </MoreButtonWrapper>
-            ) : null}
-            <ScrollButton width="40px" height="40px" />
-        </FavoritesContainer>
+                    </MoreButtonWrapper>
+                ) : null}
+                <ScrollButton width="40px" height="40px" />
+            </FavoritesContainer>
+        </>
     );
 }
 

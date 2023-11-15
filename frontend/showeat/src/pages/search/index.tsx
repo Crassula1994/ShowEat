@@ -16,6 +16,7 @@ import { getCategoryFundings, searchFundings } from "@apis/fundings";
 import { FundingType } from "@customTypes/apiProps";
 import postBookmark from "@/apis/bookmark";
 import Modal from "@components/composite/modal";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -383,7 +384,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
               });
 
     const searchResultData = (result.data && result.data.content) || [];
-    const isLast = result.data && result.data.last !== false;
+
+    let isLast = false;
+    if (result && result.data) {
+        if (result.data.last !== undefined && result.data.last === false) {
+            isLast = false;
+        } else {
+            isLast = true;
+        }
+    } else {
+        isLast = false;
+    }
 
     return {
         props: {
@@ -429,6 +440,17 @@ function Search({
         { type: "CLOSING_SOON", text: "⏰ 마감 임박" },
         { type: "LOW_PRICE", text: "💸 저렴한 가격" },
         { type: "HIGH_DISCOUNT_RATE", text: "📈 높은 할인율" },
+    ];
+    const errorMessages = [
+        { status: "요청이 실패했습니다.", message: "검색 요청이 실패했습니다." },
+        { status: 410, message: "검색 조건 설정을 다시 해주세요." },
+        { status: 411, message: "정렬 설정을 다시 해주세요." },
+        { status: 412, message: "카테고리 설정을 다시 해주세요." },
+        { status: 413, message: "검색어가 필요합니다." },
+        {
+            status: "해당 페이지는 데이터가 없기에 조회할 수 없습니다.",
+            message: "검색 결과가 없습니다.",
+        },
     ];
     const [filterTypes, setFilterTypes] = useState(
         [
@@ -491,7 +513,8 @@ function Search({
         setMinMoney(min);
         setMaxMoney(max);
         setPageNum(0);
-    }, [searchResultData, keyword, category, address, min, max, searchType, sortType]);
+        setIsLastPage(isLast);
+    }, [searchResultData, keyword, category, address, min, max, searchType, sortType, isLast]);
 
     const handleSort = (type: string) => {
         if (keyword && keyword !== "") {
@@ -514,8 +537,12 @@ function Search({
                     setPageNum(1);
                 } else if (res === 520) {
                     setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                    setIsMultiModalOpen(true);
                 } else {
-                    setErrorMessage(res);
+                    setErrorMessage(
+                        errorMessages.find((e) => e.status === res)?.message ||
+                            "알 수 없는 오류가 발생했습니다.",
+                    );
                     setIsMultiModalOpen(true);
                 }
             });
@@ -534,8 +561,12 @@ function Search({
                     setPageNum(1);
                 } else if (res === 520) {
                     setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                    setIsMultiModalOpen(true);
                 } else {
-                    setErrorMessage(res);
+                    setErrorMessage(
+                        errorMessages.find((e) => e.status === res)?.message ||
+                            "알 수 없는 오류가 발생했습니다.",
+                    );
                     setIsMultiModalOpen(true);
                 }
             });
@@ -544,7 +575,7 @@ function Search({
     };
 
     const handleCard = (fundingId: number) => {
-        router.push(`/fundings/${fundingId}`);
+        router.push(`/fundings/${fundingId}/store`);
     };
 
     const handleBookmark = (fundingId: number) => {
@@ -559,8 +590,9 @@ function Search({
                 setFundingDatas(updatedFundingDatas);
             } else if (res === 520) {
                 setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                setIsMultiModalOpen(true);
             } else {
-                setErrorMessage(res);
+                setErrorMessage("요청이 실패했습니다.");
                 setIsMultiModalOpen(true);
             }
         });
@@ -577,7 +609,7 @@ function Search({
                     min,
                     max,
                     searchType,
-                    sortType,
+                    sortType: isSelectedSort,
                     page: pageNum,
                 }).then((res) => {
                     if (res.data.last) {
@@ -591,8 +623,8 @@ function Search({
             } else if (category) {
                 getCategoryFundings({
                     category: typeof category === "string" ? category : category[0],
-                    sortType,
-                    page: 0,
+                    sortType: isSelectedSort,
+                    page: pageNum,
                 }).then((res) => {
                     if (res.data.last) {
                         setIsLastPage(true);
@@ -604,8 +636,12 @@ function Search({
                         setPageNum((prev) => prev + 1);
                     } else if (res === 520) {
                         setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                        setIsMultiModalOpen(true);
                     } else {
-                        setErrorMessage(res);
+                        setErrorMessage(
+                            errorMessages.find((e) => e.status === res)?.message ||
+                                "알 수 없는 오류가 발생했습니다.",
+                        );
                         setIsMultiModalOpen(true);
                     }
                 });
@@ -648,8 +684,12 @@ function Search({
                     setPageNum(1);
                 } else if (res === 520) {
                     setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                    setIsMultiModalOpen(true);
                 } else {
-                    setErrorMessage(res);
+                    setErrorMessage(
+                        errorMessages.find((e) => e.status === res)?.message ||
+                            "알 수 없는 오류가 발생했습니다.",
+                    );
                     setIsMultiModalOpen(true);
                 }
             });
@@ -658,239 +698,269 @@ function Search({
     };
 
     return (
-        <SearchPageWrapper>
-            <MainContentsContainer>
-                <SearchBar isChange={isChange} setIsChange={setIsChange} />
-                <SearchResultContainer>
-                    <SearchHeaderContainer>
-                        <SearchResultHeaderContainer>
-                            <ResultTitleContainer>
-                                <ResultKeywordWrapper>
-                                    {keyword !== ""
-                                        ? keyword
-                                        : menuCategoryList.map((one) => {
-                                              if (typeof category === "string") {
-                                                  if (one.id === category) {
-                                                      return one.value;
+        <>
+            <Head>
+                <title>
+                    검색 결과 :&nbsp;
+                    {keyword !== ""
+                        ? keyword
+                        : menuCategoryList.map((one) => {
+                              if (typeof category === "string") {
+                                  if (one.id === category) {
+                                      return one.value;
+                                  }
+                              }
+                              return null;
+                          })}
+                </title>
+                <meta
+                    name="description"
+                    content="찾으시는 조건에 따른 펀딩 검색 결과 페이지입니다."
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <SearchPageWrapper>
+                <MainContentsContainer>
+                    <SearchBar isChange={isChange} setIsChange={setIsChange} />
+                    <SearchResultContainer>
+                        <SearchHeaderContainer>
+                            <SearchResultHeaderContainer>
+                                <ResultTitleContainer>
+                                    <ResultKeywordWrapper>
+                                        {keyword !== ""
+                                            ? keyword
+                                            : menuCategoryList.map((one) => {
+                                                  if (typeof category === "string") {
+                                                      if (one.id === category) {
+                                                          return one.value;
+                                                      }
                                                   }
-                                              }
-                                              return null;
-                                          })}
-                                </ResultKeywordWrapper>
-                                <SearchResultWrapper>&nbsp; 검색 결과</SearchResultWrapper>
-                            </ResultTitleContainer>
-                            <ResultDescriptionWrapper>
-                                총{" "}
-                                <ResultCountWrapper>
-                                    {fundingDatas && fundingDatas.length}건
-                                </ResultCountWrapper>
-                                의 결과가 검색되었어요!
-                            </ResultDescriptionWrapper>
-                        </SearchResultHeaderContainer>
-                        <FilterButtonContainer>
-                            {!isFilterd && keyword && keyword !== "" ? (
-                                <TextButton
-                                    text="필터링"
-                                    width="150px"
-                                    fill="negative"
-                                    colorType="secondary"
-                                    onClick={() => setIsFiltered(true)}
-                                />
-                            ) : (
-                                <TextButton
-                                    text={keyword && keyword !== "" ? "필터링" : "검색어 필요"}
-                                    width="150px"
-                                    fill={keyword && keyword !== "" ? "positive" : "negative"}
-                                    colorType="secondary"
-                                    onClick={() => setIsFiltered(false)}
-                                />
-                            )}
-                        </FilterButtonContainer>
-                    </SearchHeaderContainer>
-                    {isFilterd && (
-                        <FilterContainer>
-                            <FilterSlideInContainer isFilterd={isFilterd}>
-                                <FilterOneContainer>
-                                    <FilterTitleWrapper>
-                                        검색 조건
-                                        <FilterHelpWrapper>최소 1개</FilterHelpWrapper>
-                                    </FilterTitleWrapper>
-                                    <FilterBodyContainer>
-                                        {filterTypes.map((filter) => (
-                                            <CheckBox
-                                                key={`${filter.text}`}
-                                                text={filter.text}
-                                                width="100%"
-                                                fontSize="14px"
-                                                id={`${filter.text}`}
-                                                isChecked={filter.isChecked}
-                                                onToggle={() => {
-                                                    const filterIdx = filterTypes.findIndex(
-                                                        (item) => item.value === filter.value,
-                                                    );
-                                                    const updatedTypess = [...filterTypes];
-                                                    updatedTypess[filterIdx].isChecked =
-                                                        !filterTypes[filterIdx].isChecked;
-                                                    setFilterTypes(updatedTypess);
-                                                }}
-                                            />
-                                        ))}
-                                    </FilterBodyContainer>
-                                </FilterOneContainer>
-                                <FilterOneContainer>
-                                    <FilterTitleWrapper>
-                                        메뉴 카테고리<FilterHelpWrapper>최소 1개</FilterHelpWrapper>
-                                    </FilterTitleWrapper>
-                                    <FilterBodyContainer>
-                                        {filterCategory.map((filter) => (
-                                            <CheckBox
-                                                key={`${filter.value}`}
-                                                text={filter.value}
-                                                width="100%"
-                                                fontSize="14px"
-                                                id={`${filter.value}`}
-                                                isChecked={filter.isChecked}
-                                                onToggle={() => {
-                                                    const filterIdx = filterCategory.findIndex(
-                                                        (item) => item.value === filter.value,
-                                                    );
-                                                    const updatedCategorys = [...filterCategory];
-                                                    updatedCategorys[filterIdx].isChecked =
-                                                        !filterCategory[filterIdx].isChecked;
-                                                    setFilterCategory(updatedCategorys);
-                                                }}
-                                            />
-                                        ))}
-                                    </FilterBodyContainer>
-                                </FilterOneContainer>
-                                <FilterOneContainer>
-                                    <FilterTitleWrapper>
-                                        펀딩 지역<FilterHelpWrapper>최소 1개</FilterHelpWrapper>
-                                    </FilterTitleWrapper>
-                                    <FilterBodyContainer>
-                                        {filterAddress.map((filter) => (
-                                            <CheckBox
-                                                key={`${filter.address}`}
-                                                text={filter.address}
-                                                width="100%"
-                                                fontSize="14px"
-                                                id={`${filter.address}`}
-                                                isChecked={filter.isChecked}
-                                                onToggle={() => {
-                                                    const filterIdx = filterAddress.findIndex(
-                                                        (item) => item.address === filter.address,
-                                                    );
-                                                    const updatedAddresss = [...filterAddress];
-                                                    updatedAddresss[filterIdx].isChecked =
-                                                        !filterAddress[filterIdx].isChecked;
-                                                    setFilterAddress(updatedAddresss);
-                                                }}
-                                            />
-                                        ))}
-                                    </FilterBodyContainer>
-                                </FilterOneContainer>
-                                <FilterOneContainer>
-                                    <FilterTitleWrapper>펀딩 가격</FilterTitleWrapper>
-
-                                    <PriceRangeContainer>
-                                        <PriceRangeInputWrapper>
-                                            <PriceInputContainer>
-                                                <PriceLabeltWrapper htmlFor="min-money">
-                                                    최저가
-                                                </PriceLabeltWrapper>
-                                                <PriceInputWrapper>
-                                                    <TextInput
-                                                        value={minMoney?.toString() || ""}
-                                                        width="150px"
-                                                        height="40px"
-                                                        id="min-money"
-                                                        onChange={(e) => changeMinMoney(e)}
-                                                    />
-                                                </PriceInputWrapper>
-                                            </PriceInputContainer>
-                                            <PriceSpaceWrapper>∼</PriceSpaceWrapper>
-                                            <PriceInputContainer>
-                                                <PriceLabeltWrapper htmlFor="max-money">
-                                                    최고가
-                                                </PriceLabeltWrapper>
-                                                <PriceInputWrapper>
-                                                    <TextInput
-                                                        value={maxMoney?.toString() || ""}
-                                                        width="150px"
-                                                        height="40px"
-                                                        id="max-money"
-                                                        onChange={(e) => changeMaxMoney(e)}
-                                                    />
-                                                </PriceInputWrapper>
-                                            </PriceInputContainer>
-                                        </PriceRangeInputWrapper>
-                                    </PriceRangeContainer>
-                                </FilterOneContainer>
-                                <TextButton
-                                    colorType="secondary"
-                                    text="상세 검색"
-                                    width="300px"
-                                    onClick={handleFilteredSearch}
-                                />
-                            </FilterSlideInContainer>
-                        </FilterContainer>
-                    )}
-                    <SortContainer>
-                        {sortList.map((sort) => (
-                            <SortButtonWrapper
-                                key={`sort-${sort.type}`}
-                                isSelected={isSelectedSort === sort.type}
-                                onClick={() => handleSort(sort.type)}
-                            >
-                                {sort.text}
-                            </SortButtonWrapper>
-                        ))}
-                    </SortContainer>
-                    {fundingDatas && fundingDatas.length > 0 ? (
-                        <>
-                            <SearchBodyContainer>
-                                {fundingDatas.map((data, idx) => (
-                                    <SearchCardWrapper key={`${data.title}-${idx}`}>
-                                        <Card
-                                            fundingData={data}
-                                            onFundingClick={() => handleCard(data.fundingId)}
-                                            onBookmark={() => handleBookmark(data.fundingId)}
-                                        />
-                                    </SearchCardWrapper>
-                                ))}
-                            </SearchBodyContainer>
-                            {!isLastPage && (
-                                <MoreButtonWrapper>
+                                                  return null;
+                                              })}
+                                    </ResultKeywordWrapper>
+                                    <SearchResultWrapper>&nbsp; 검색 결과</SearchResultWrapper>
+                                </ResultTitleContainer>
+                                <ResultDescriptionWrapper>
+                                    총{" "}
+                                    <ResultCountWrapper>
+                                        {fundingDatas && fundingDatas.length}건
+                                    </ResultCountWrapper>
+                                    의 결과가 검색되었어요!
+                                </ResultDescriptionWrapper>
+                            </SearchResultHeaderContainer>
+                            <FilterButtonContainer>
+                                {!isFilterd && keyword && keyword !== "" ? (
                                     <TextButton
-                                        text="더 보기"
-                                        width="400px"
-                                        height="50px"
+                                        text="필터링"
+                                        width="150px"
+                                        fill="negative"
                                         colorType="secondary"
-                                        curve="round"
-                                        fontSize={20}
-                                        onClick={handleMoreButton}
+                                        onClick={() => setIsFiltered(true)}
                                     />
-                                </MoreButtonWrapper>
-                            )}
-                        </>
-                    ) : (
-                        <NoSearchResultWrapper>검색 결과가 없습니다.</NoSearchResultWrapper>
-                    )}
-                </SearchResultContainer>
-            </MainContentsContainer>
-            <ScrollButton width="40px" />
-            <Modal
-                childComponent={MultiModal(errorMessage)}
-                width="500px"
-                height="300px"
-                isOpen={isMultiModalOpen}
-                setIsOpen={setIsMultiModalOpen}
-                buttonType="close"
-                buttonWidth="200px"
-                buttonHeight="50px"
-                buttonFontSize={20}
-            />
-        </SearchPageWrapper>
+                                ) : (
+                                    <TextButton
+                                        text={
+                                            keyword && keyword !== ""
+                                                ? "필터링 해제"
+                                                : "검색어 필요"
+                                        }
+                                        width="150px"
+                                        fill={keyword && keyword !== "" ? "positive" : "negative"}
+                                        colorType="secondary"
+                                        onClick={() => setIsFiltered(false)}
+                                    />
+                                )}
+                            </FilterButtonContainer>
+                        </SearchHeaderContainer>
+                        {isFilterd && (
+                            <FilterContainer>
+                                <FilterSlideInContainer isFilterd={isFilterd}>
+                                    <FilterOneContainer>
+                                        <FilterTitleWrapper>
+                                            검색 조건
+                                            <FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                        </FilterTitleWrapper>
+                                        <FilterBodyContainer>
+                                            {filterTypes.map((filter) => (
+                                                <CheckBox
+                                                    key={`${filter.text}`}
+                                                    text={filter.text}
+                                                    width="100%"
+                                                    fontSize="14px"
+                                                    id={`${filter.text}`}
+                                                    isChecked={filter.isChecked}
+                                                    onToggle={() => {
+                                                        const filterIdx = filterTypes.findIndex(
+                                                            (item) => item.value === filter.value,
+                                                        );
+                                                        const updatedTypess = [...filterTypes];
+                                                        updatedTypess[filterIdx].isChecked =
+                                                            !filterTypes[filterIdx].isChecked;
+                                                        setFilterTypes(updatedTypess);
+                                                    }}
+                                                />
+                                            ))}
+                                        </FilterBodyContainer>
+                                    </FilterOneContainer>
+                                    <FilterOneContainer>
+                                        <FilterTitleWrapper>
+                                            메뉴 카테고리
+                                            <FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                        </FilterTitleWrapper>
+                                        <FilterBodyContainer>
+                                            {filterCategory.map((filter) => (
+                                                <CheckBox
+                                                    key={`${filter.value}`}
+                                                    text={filter.value}
+                                                    width="100%"
+                                                    fontSize="14px"
+                                                    id={`${filter.value}`}
+                                                    isChecked={filter.isChecked}
+                                                    onToggle={() => {
+                                                        const filterIdx = filterCategory.findIndex(
+                                                            (item) => item.value === filter.value,
+                                                        );
+                                                        const updatedCategorys = [
+                                                            ...filterCategory,
+                                                        ];
+                                                        updatedCategorys[filterIdx].isChecked =
+                                                            !filterCategory[filterIdx].isChecked;
+                                                        setFilterCategory(updatedCategorys);
+                                                    }}
+                                                />
+                                            ))}
+                                        </FilterBodyContainer>
+                                    </FilterOneContainer>
+                                    <FilterOneContainer>
+                                        <FilterTitleWrapper>
+                                            펀딩 지역<FilterHelpWrapper>최소 1개</FilterHelpWrapper>
+                                        </FilterTitleWrapper>
+                                        <FilterBodyContainer>
+                                            {filterAddress.map((filter) => (
+                                                <CheckBox
+                                                    key={`${filter.address}`}
+                                                    text={filter.address}
+                                                    width="100%"
+                                                    fontSize="14px"
+                                                    id={`${filter.address}`}
+                                                    isChecked={filter.isChecked}
+                                                    onToggle={() => {
+                                                        const filterIdx = filterAddress.findIndex(
+                                                            (item) =>
+                                                                item.address === filter.address,
+                                                        );
+                                                        const updatedAddresss = [...filterAddress];
+                                                        updatedAddresss[filterIdx].isChecked =
+                                                            !filterAddress[filterIdx].isChecked;
+                                                        setFilterAddress(updatedAddresss);
+                                                    }}
+                                                />
+                                            ))}
+                                        </FilterBodyContainer>
+                                    </FilterOneContainer>
+                                    <FilterOneContainer>
+                                        <FilterTitleWrapper>펀딩 가격</FilterTitleWrapper>
+
+                                        <PriceRangeContainer>
+                                            <PriceRangeInputWrapper>
+                                                <PriceInputContainer>
+                                                    <PriceLabeltWrapper htmlFor="min-money">
+                                                        최저가
+                                                    </PriceLabeltWrapper>
+                                                    <PriceInputWrapper>
+                                                        <TextInput
+                                                            value={minMoney?.toString() || ""}
+                                                            width="150px"
+                                                            height="40px"
+                                                            id="min-money"
+                                                            onChange={(e) => changeMinMoney(e)}
+                                                        />
+                                                    </PriceInputWrapper>
+                                                </PriceInputContainer>
+                                                <PriceSpaceWrapper>∼</PriceSpaceWrapper>
+                                                <PriceInputContainer>
+                                                    <PriceLabeltWrapper htmlFor="max-money">
+                                                        최고가
+                                                    </PriceLabeltWrapper>
+                                                    <PriceInputWrapper>
+                                                        <TextInput
+                                                            value={maxMoney?.toString() || ""}
+                                                            width="150px"
+                                                            height="40px"
+                                                            id="max-money"
+                                                            onChange={(e) => changeMaxMoney(e)}
+                                                        />
+                                                    </PriceInputWrapper>
+                                                </PriceInputContainer>
+                                            </PriceRangeInputWrapper>
+                                        </PriceRangeContainer>
+                                    </FilterOneContainer>
+                                    <TextButton
+                                        colorType="secondary"
+                                        text="상세 검색"
+                                        width="300px"
+                                        onClick={handleFilteredSearch}
+                                    />
+                                </FilterSlideInContainer>
+                            </FilterContainer>
+                        )}
+                        <SortContainer>
+                            {sortList.map((sort) => (
+                                <SortButtonWrapper
+                                    key={`sort-${sort.type}`}
+                                    isSelected={isSelectedSort === sort.type}
+                                    onClick={() => handleSort(sort.type)}
+                                >
+                                    {sort.text}
+                                </SortButtonWrapper>
+                            ))}
+                        </SortContainer>
+                        {fundingDatas && fundingDatas.length > 0 ? (
+                            <>
+                                <SearchBodyContainer>
+                                    {fundingDatas.map((data, idx) => (
+                                        <SearchCardWrapper key={`${data.title}-${idx}`}>
+                                            <Card
+                                                fundingData={data}
+                                                onFundingClick={() => handleCard(data.fundingId)}
+                                                onBookmark={() => handleBookmark(data.fundingId)}
+                                            />
+                                        </SearchCardWrapper>
+                                    ))}
+                                </SearchBodyContainer>
+                                {!isLastPage && (
+                                    <MoreButtonWrapper>
+                                        <TextButton
+                                            text="더 보기"
+                                            width="400px"
+                                            height="50px"
+                                            colorType="secondary"
+                                            curve="round"
+                                            fontSize={20}
+                                            onClick={handleMoreButton}
+                                        />
+                                    </MoreButtonWrapper>
+                                )}
+                            </>
+                        ) : (
+                            <NoSearchResultWrapper>검색 결과가 없습니다.</NoSearchResultWrapper>
+                        )}
+                    </SearchResultContainer>
+                </MainContentsContainer>
+                <ScrollButton width="40px" />
+                <Modal
+                    childComponent={MultiModal(errorMessage)}
+                    width="500px"
+                    height="300px"
+                    isOpen={isMultiModalOpen}
+                    setIsOpen={setIsMultiModalOpen}
+                    buttonType="close"
+                    buttonWidth="200px"
+                    buttonHeight="50px"
+                    buttonFontSize={20}
+                />
+            </SearchPageWrapper>
+        </>
     );
 }
 

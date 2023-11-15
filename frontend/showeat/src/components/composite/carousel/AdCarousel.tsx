@@ -47,6 +47,7 @@ const CarouselContainer = styled("div")<Partial<CarouselProps>>`
     user-select: none;
 
     box-sizing: border-box;
+    outline: none;
 `;
 
 const CarouselAdWrapper = styled("div")<Partial<CarouselProps>>`
@@ -58,10 +59,13 @@ const CarouselAdWrapper = styled("div")<Partial<CarouselProps>>`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    outline: none;
 `;
 
 const CarouselAdBox = styled(Image)`
     object-fit: contain;
+    outline: none;
 `;
 
 const LeftArrowWrapper = styled("div")<{ height: number }>`
@@ -79,6 +83,7 @@ const LeftArrowWrapper = styled("div")<{ height: number }>`
 
     cursor: pointer;
 
+    outline: none;
     opacity: 0.2;
     z-index: 100;
 
@@ -116,6 +121,7 @@ const RightArrowWrapper = styled("div")<{ height: number }>`
 
     cursor: pointer;
 
+    outline: none;
     transform: translateY(-100%);
     opacity: 0.2;
     z-index: 100;
@@ -137,10 +143,6 @@ const RightArrowWrapper = styled("div")<{ height: number }>`
             animation: ${clickAnimation} 0.1s linear forwards;
         }
     }
-`;
-
-const ArrowImageWrapper = styled(Image)`
-    //
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -174,7 +176,7 @@ function AdCarousel({ height, adData }: CarouselProps) {
     return (
         <CarouselContainer height={height}>
             <LeftArrowWrapper height={height} onClick={goToPrev}>
-                <ArrowImageWrapper
+                <Image
                     src="/assets/icons/left-arrow-icon.svg"
                     alt="carousel-left-arrow"
                     width={40}
@@ -189,7 +191,7 @@ function AdCarousel({ height, adData }: CarouselProps) {
                 ))}
             </Slider>
             <RightArrowWrapper height={height} onClick={goToNext}>
-                <ArrowImageWrapper
+                <Image
                     src="/assets/icons/right-arrow-icon.svg"
                     alt="carousel-right-arrow"
                     width={40}

@@ -8,6 +8,8 @@ import { TextButton, ScrollButton } from "@components/common/button";
 import { getUserFundings } from "@apis/fundings";
 import postBookmark from "@apis/bookmark";
 import { FundingType } from "@customTypes/apiProps";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -31,6 +33,12 @@ const TitleWrapper = styled("span")`
     font-weight: 700;
 
     padding: 1em;
+`;
+
+const NoDataWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const CardsContainer = styled("div")`
@@ -63,6 +71,7 @@ const MoreButtonWrapper = styled("div")`
 
 /* Buyer Participating Fundings Page */
 function MyFundings() {
+    const router = useRouter();
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
     const [page, setPage] = useState(0);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
@@ -70,10 +79,9 @@ function MyFundings() {
     const handleLoadMore = () => {
         setPage(page + 1); // 더보기 : 페이지 + 1
     };
-    const handleCard = () => {
-        console.log("꾹");
+    const handleCard = (fundingId: number) => {
+        router.push(`/fundings/${fundingId}/store`);
     };
-
     const handleBookmark = (funding: FundingType) => {
         postBookmark(funding.fundingId.toString()).then((res) => {
             if (res.statusCode === 200) {
@@ -116,37 +124,44 @@ function MyFundings() {
     }, [page]);
 
     return (
-        <MyFundingsContainer>
-            <TitleWrapper>참여 펀딩 목록</TitleWrapper>
-            {fundingData.length === 0 ? (
-                <CardsContainer>진행중인 펀딩이 없습니다.</CardsContainer>
-            ) : (
-                <CardsContainer>
-                    {fundingData.map((funding, index) => (
-                        <Card
-                            key={index}
-                            fundingData={funding}
-                            onFundingClick={handleCard}
-                            onBookmark={() => handleBookmark(funding)}
+        <>
+            <Head>
+                <title>내가 참여한 펀딩</title>
+                <meta name="description" content="바이어님께서 참가하신 펀딩 목록입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <MyFundingsContainer>
+                <TitleWrapper>참여 펀딩 목록</TitleWrapper>
+                {fundingData.length === 0 ? (
+                    <NoDataWrapper>진행중인 펀딩이 없습니다.</NoDataWrapper>
+                ) : (
+                    <CardsContainer>
+                        {fundingData.map((funding, index) => (
+                            <Card
+                                key={index}
+                                fundingData={funding}
+                                onFundingClick={() => handleCard(funding.fundingId)}
+                                onBookmark={() => handleBookmark(funding)}
+                            />
+                        ))}
+                    </CardsContainer>
+                )}
+                {hasMorePage ? (
+                    <MoreButtonWrapper>
+                        <TextButton
+                            text="더 보기"
+                            width="400px"
+                            height="50px"
+                            colorType="secondary"
+                            curve="round"
+                            fontSize={20}
+                            onClick={() => handleLoadMore()}
                         />
-                    ))}
-                </CardsContainer>
-            )}
-            {hasMorePage ? (
-                <MoreButtonWrapper>
-                    <TextButton
-                        text="더 보기"
-                        width="400px"
-                        height="50px"
-                        colorType="secondary"
-                        curve="round"
-                        fontSize={20}
-                        onClick={() => handleLoadMore()}
-                    />
-                </MoreButtonWrapper>
-            ) : null}
-            <ScrollButton width="40px" height="40px" />
-        </MyFundingsContainer>
+                    </MoreButtonWrapper>
+                ) : null}
+                <ScrollButton width="40px" height="40px" />
+            </MyFundingsContainer>
+        </>
     );
 }
 

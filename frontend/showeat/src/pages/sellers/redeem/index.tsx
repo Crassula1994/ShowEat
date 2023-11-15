@@ -9,6 +9,7 @@ import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
 import getQRCode from "@apis/qr";
 import Modal from "@components/composite/modal";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -155,51 +156,58 @@ function Redeem() {
     };
 
     return (
-        <RedeemContainer>
-            <TitleContainer>
-                <TitleWrapper>발급한 쿠폰으로 결제하기</TitleWrapper>
-                <DescriptionWrapper>
-                    발급한 쿠폰 결제를 위해 웹캠에 QR 코드가 선명하게 나오도록 해주세요.
-                </DescriptionWrapper>
-            </TitleContainer>
-            <WebcamWrapper>
-                <Webcam
-                    style={{ borderRadius: "20px", maxHeight: "360px" }}
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={videoConstraints}
+        <>
+            <Head>
+                <title>QR 코드 읽기</title>
+                <meta name="description" content="쿠폰 처리를 위한 QR 코드 인식 페이지입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <RedeemContainer>
+                <TitleContainer>
+                    <TitleWrapper>발급한 쿠폰으로 결제하기</TitleWrapper>
+                    <DescriptionWrapper>
+                        발급한 쿠폰 결제를 위해 웹캠에 QR 코드가 선명하게 나오도록 해주세요.
+                    </DescriptionWrapper>
+                </TitleContainer>
+                <WebcamWrapper>
+                    <Webcam
+                        style={{ borderRadius: "20px", maxHeight: "360px" }}
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        videoConstraints={videoConstraints}
+                    />
+                </WebcamWrapper>
+                <ButtonContainer>
+                    <TextButton
+                        text="QR 코드 인식"
+                        width="200px"
+                        height="50px"
+                        fontSize={20}
+                        onClick={capture}
+                    />
+                    <TextButton
+                        text="취소"
+                        width="200px"
+                        height="50px"
+                        fill="negative"
+                        fontSize={20}
+                        onClick={() => router.back()}
+                    />
+                </ButtonContainer>
+                <Modal
+                    childComponent={FailedModal()}
+                    width="500px"
+                    height="300px"
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    buttonType="close"
+                    buttonWidth="200px"
+                    buttonHeight="50px"
+                    buttonFontSize={20}
                 />
-            </WebcamWrapper>
-            <ButtonContainer>
-                <TextButton
-                    text="QR 코드 인식"
-                    width="200px"
-                    height="50px"
-                    fontSize={20}
-                    onClick={capture}
-                />
-                <TextButton
-                    text="취소"
-                    width="200px"
-                    height="50px"
-                    fill="negative"
-                    fontSize={20}
-                    onClick={() => router.back()}
-                />
-            </ButtonContainer>
-            <Modal
-                childComponent={FailedModal()}
-                width="500px"
-                height="300px"
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                buttonType="close"
-                buttonWidth="200px"
-                buttonHeight="50px"
-                buttonFontSize={20}
-            />
-        </RedeemContainer>
+            </RedeemContainer>
+        </>
     );
 }
 

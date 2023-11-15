@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import useUserState from "@hooks/useUserState";
 import withAuth from "@libs/withAuth";
 import CouponReviewModal from "@/components/custom/modal/CouponReviewModal";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -211,84 +212,92 @@ function CouponsTab(props: CouponsTabProps) {
     }, [activeTab, page, user]);
 
     return (
-        <CouponContainer>
-            <TitleWrapper>보유 쿠폰</TitleWrapper>
-            <TabBar>
-                {buyersCouponsTabMenu.map((tab) => (
-                    <Tab
-                        key={tab.id}
-                        width="20%"
-                        labelText={tab.labelText}
-                        isActive={activeTab === tab.id}
-                        onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
-                    />
-                ))}
-            </TabBar>
-            {couponData.length === 0 ? (
-                <BlankList>
-                    <Image
-                        src="/assets/images/crying-cook-cow.png"
-                        width={150}
-                        height={150}
-                        alt="crying-cook-cow"
-                        priority
-                    />
-                    <TextWrapper>
-                        보유 중인 <span>{getTabLabelText()}</span> 쿠폰이 없소!
-                    </TextWrapper>
-                </BlankList>
-            ) : (
-                <CouponList>
-                    {couponData.map((coupon, index) => (
-                        <Coupon key={index} coupon={coupon} onClick={() => openModal(coupon)} />
-                    ))}
-                </CouponList>
-            )}
-            {hasMorePage && (
-                <ButtonWrapper>
-                    <TextButton
-                        width="200px"
-                        onClick={handleLoadCoupon}
-                        text="쿠폰 더 보기"
-                        curve="round"
-                    />
-                </ButtonWrapper>
-            )}
-            {selectedCoupon && (
-                <Modal
-                    width="auto"
-                    height="auto"
-                    isOpen={isModalOpen}
-                    setIsOpen={setIsModalOpen}
-                    childComponent={<BuyersCouponsModal coupon={selectedCoupon} />}
-                    onSubmit={() => openReviewModal()}
-                    buttonType={
-                        selectedCoupon.couponStatus === "USED" && !selectedCoupon.writeCouponReview
-                            ? "review"
-                            : "close"
-                    }
-                    buttonWidth="150px"
-                />
-            )}
-            {selectedCoupon && (
-                <Modal
-                    width="auto"
-                    height="auto"
-                    isOpen={reviewModalOpen}
-                    setIsOpen={setReviewModalOpen}
-                    childComponent={
-                        <CouponReviewModal
-                            closeReviewModal={closeReviewModal}
-                            couponId={selectedCoupon.couponId}
-                            setCouponData={setCouponData}
-                            setSelectedCoupon={setSelectedCoupon}
+        <>
+            <Head>
+                <title>내 {tabName} 쿠폰</title>
+                <meta name="description" content="바이어님께서 보유하신 쿠폰 목록입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <CouponContainer>
+                <TitleWrapper>보유 쿠폰</TitleWrapper>
+                <TabBar>
+                    {buyersCouponsTabMenu.map((tab) => (
+                        <Tab
+                            key={tab.id}
+                            width="20%"
+                            labelText={tab.labelText}
+                            isActive={activeTab === tab.id}
+                            onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
                         />
-                    }
-                    buttonType="none"
-                    buttonWidth="150px"
-                />
-            )}
-        </CouponContainer>
+                    ))}
+                </TabBar>
+                {couponData.length === 0 ? (
+                    <BlankList>
+                        <Image
+                            src="/assets/images/crying-cook-cow.png"
+                            width={150}
+                            height={150}
+                            alt="crying-cook-cow"
+                            priority
+                        />
+                        <TextWrapper>
+                            보유 중인 <span>{getTabLabelText()}</span> 쿠폰이 없소!
+                        </TextWrapper>
+                    </BlankList>
+                ) : (
+                    <CouponList>
+                        {couponData.map((coupon, index) => (
+                            <Coupon key={index} coupon={coupon} onClick={() => openModal(coupon)} />
+                        ))}
+                    </CouponList>
+                )}
+                {hasMorePage && (
+                    <ButtonWrapper>
+                        <TextButton
+                            width="200px"
+                            onClick={handleLoadCoupon}
+                            text="쿠폰 더 보기"
+                            curve="round"
+                        />
+                    </ButtonWrapper>
+                )}
+                {selectedCoupon && (
+                    <Modal
+                        width="auto"
+                        height="auto"
+                        isOpen={isModalOpen}
+                        setIsOpen={setIsModalOpen}
+                        childComponent={<BuyersCouponsModal coupon={selectedCoupon} />}
+                        onSubmit={() => openReviewModal()}
+                        buttonType={
+                            selectedCoupon.couponStatus === "USED" &&
+                            !selectedCoupon.writeCouponReview
+                                ? "review"
+                                : "close"
+                        }
+                        buttonWidth="150px"
+                    />
+                )}
+                {selectedCoupon && (
+                    <Modal
+                        width="auto"
+                        height="auto"
+                        isOpen={reviewModalOpen}
+                        setIsOpen={setReviewModalOpen}
+                        childComponent={
+                            <CouponReviewModal
+                                closeReviewModal={closeReviewModal}
+                                couponId={selectedCoupon.couponId}
+                                setCouponData={setCouponData}
+                                setSelectedCoupon={setSelectedCoupon}
+                            />
+                        }
+                        buttonType="none"
+                        buttonWidth="150px"
+                    />
+                )}
+            </CouponContainer>
+        </>
     );
 }
 

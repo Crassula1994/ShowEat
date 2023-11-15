@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import useUserState from "@hooks/useUserState";
 import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -130,49 +131,58 @@ function PayResult() {
     };
 
     return (
-        <Container>
-            <BuyerInfoContainer>
-                <BuyerInfoTitleWrapper>결제가 완료되었습니다.</BuyerInfoTitleWrapper>
-                <BuyerInfoTextBox>
-                    <BuyerInfoTextWrapper>
-                        <BuyerInfoTextLeft>주문 완료 시각</BuyerInfoTextLeft>
-                        <BuyerInfoTextRight>{formattedApprovedAt}</BuyerInfoTextRight>
-                    </BuyerInfoTextWrapper>
-                    <BuyerInfoTextWrapper>
-                        <BuyerInfoTextLeft>결제 금액</BuyerInfoTextLeft>
-                        <BuyerInfoTextRight>
-                            {balanceAmount !== null ? formatPointString(balanceAmount) : "N/A"}원
-                        </BuyerInfoTextRight>
-                    </BuyerInfoTextWrapper>
-                    <BuyerInfoTextWrapper>
-                        <BuyerInfoTextLeft>결제 수단</BuyerInfoTextLeft>
-                        <BuyerInfoTextRight>{method}</BuyerInfoTextRight>
-                    </BuyerInfoTextWrapper>
-                    <BuyerInfoTextWrapper>
-                        <BuyerInfoTextLeft>주문 번호</BuyerInfoTextLeft>
-                        <BuyerInfoTextRight>{orderId}</BuyerInfoTextRight>
-                    </BuyerInfoTextWrapper>
-                    <BuyerInfoTextWrapper>
-                        <BuyerInfoTextLeft>결제 후 포인트</BuyerInfoTextLeft>
-                        <BuyerInfoTextRight>
-                            {formatPoint(
-                                user.userMoney + (balanceAmount ? parseInt(balanceAmount, 10) : 0),
-                            )}{" "}
-                            P
-                        </BuyerInfoTextRight>
-                    </BuyerInfoTextWrapper>
-                </BuyerInfoTextBox>
-                <ReturnButtonWrapper>
-                    <TextButton
-                        text="돌아가기"
-                        width="100px"
-                        height="40px"
-                        fontSize={20}
-                        onClick={() => router.replace("/buyers/profile")}
-                    />
-                </ReturnButtonWrapper>
-            </BuyerInfoContainer>
-        </Container>
+        <>
+            <Head>
+                <title>충전 완료</title>
+                <meta name="description" content="요청하신 캐시카우를 충전 완료되었습니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <Container>
+                <BuyerInfoContainer>
+                    <BuyerInfoTitleWrapper>결제가 완료되었습니다.</BuyerInfoTitleWrapper>
+                    <BuyerInfoTextBox>
+                        <BuyerInfoTextWrapper>
+                            <BuyerInfoTextLeft>주문 완료 시각</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>{formattedApprovedAt}</BuyerInfoTextRight>
+                        </BuyerInfoTextWrapper>
+                        <BuyerInfoTextWrapper>
+                            <BuyerInfoTextLeft>결제 금액</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>
+                                {balanceAmount !== null ? formatPointString(balanceAmount) : "N/A"}
+                                원
+                            </BuyerInfoTextRight>
+                        </BuyerInfoTextWrapper>
+                        <BuyerInfoTextWrapper>
+                            <BuyerInfoTextLeft>결제 수단</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>{method}</BuyerInfoTextRight>
+                        </BuyerInfoTextWrapper>
+                        <BuyerInfoTextWrapper>
+                            <BuyerInfoTextLeft>주문 번호</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>{orderId}</BuyerInfoTextRight>
+                        </BuyerInfoTextWrapper>
+                        <BuyerInfoTextWrapper>
+                            <BuyerInfoTextLeft>결제 후 포인트</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>
+                                {formatPoint(
+                                    user.userMoney +
+                                        (balanceAmount ? parseInt(balanceAmount, 10) : 0),
+                                )}{" "}
+                                P
+                            </BuyerInfoTextRight>
+                        </BuyerInfoTextWrapper>
+                    </BuyerInfoTextBox>
+                    <ReturnButtonWrapper>
+                        <TextButton
+                            text="돌아가기"
+                            width="100px"
+                            height="40px"
+                            fontSize={20}
+                            onClick={() => router.replace("/buyers/profile")}
+                        />
+                    </ReturnButtonWrapper>
+                </BuyerInfoContainer>
+            </Container>
+        </>
     );
 }
 

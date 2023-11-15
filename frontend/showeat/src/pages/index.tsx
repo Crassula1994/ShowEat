@@ -117,6 +117,10 @@ function Home(props: HomeProps) {
         <>
             <Head>
                 <title>쑈잇: ShowEat</title>
+                <meta
+                    name="description"
+                    content="'소비자와 소상공인을 잇다.' 소상공인 펀딩 플랫폼 쑈잇입니다."
+                />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <main>

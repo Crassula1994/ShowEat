@@ -48,6 +48,8 @@ const CarouselContainer = styled("div")<Partial<CardCarouselProps>>`
 
     padding: ${(props) => (props.title ? "1em 0" : "0")};
     margin: ${(props) => (props.title ? "4em 0" : "0")};
+
+    outline: none;
 `;
 
 const HeaderContainer = styled("div")`
@@ -74,6 +76,7 @@ const CardContainer = styled("div")<Partial<CardCarouselProps>>`
     height: ${(props) => `${props.height}px`};
 
     position: relative;
+    outline: none;
 
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -88,6 +91,8 @@ const CardWrapper = styled("div")<Partial<CardCarouselProps>>`
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+
+    outline: none;
 `;
 
 const LeftArrowWrapper = styled("div")<{ height: number }>`
@@ -104,6 +109,7 @@ const LeftArrowWrapper = styled("div")<{ height: number }>`
 
     cursor: pointer;
 
+    outline: none;
     transform: translateX(-100%);
     opacity: 0.5;
     z-index: 100;
@@ -141,6 +147,7 @@ const RightArrowWrapper = styled("div")<Partial<CardCarouselProps>>`
 
     cursor: pointer;
 
+    outline: none;
     transform: translateX(1920%) translateY(-100%);
     opacity: 0.5;
     z-index: 100;
@@ -207,7 +214,7 @@ function CardCarousel(props: CardCarouselProps) {
     };
 
     const handleCard = (fundingId: number) => {
-        router.push(`/fundings/${fundingId}`);
+        router.push(`/fundings/${fundingId}/store`);
     };
 
     const handleBookmark = (fundingId: number) => {

@@ -7,6 +7,8 @@ import styled from "@emotion/styled";
 import Card from "@components/composite/card";
 import { getSellerActiveFunding } from "@apis/fundings";
 import { FundingType } from "@customTypes/apiProps";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -30,6 +32,12 @@ const TitleWrapper = styled("span")`
     font-weight: 700;
 
     padding: 1em;
+`;
+
+const NoDataWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const CardsContainer = styled("div")`
@@ -60,12 +68,17 @@ const MoreButtonWrapper = styled("div")`
 
 /* Seller On Boarding Fundings Page */
 function OnBoardingFunding() {
+    const router = useRouter();
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
     const [page, setPage] = useState(0);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     const handleLoadMore = () => {
-        setPage(page + 1); // 더보기 : 페이지 + 1
+        setPage(page + 1);
+    };
+
+    const handleCard = (fundingId: number) => {
+        router.push(`/fundings/${fundingId}/store`);
     };
 
     const fetchFundingData = () => {
@@ -89,32 +102,43 @@ function OnBoardingFunding() {
     }, [page]);
 
     return (
-        <FavoritesContainer>
-            <TitleWrapper>진행중인 목록</TitleWrapper>
-            {fundingData.length === 0 ? (
-                <CardsContainer>진행중인 펀딩이 없습니다.</CardsContainer>
-            ) : (
-                <CardsContainer>
-                    {fundingData.map((funding, index) => (
-                        <Card key={index} fundingData={funding} />
-                    ))}
-                </CardsContainer>
-            )}
-            {hasMorePage ? (
-                <MoreButtonWrapper>
-                    <TextButton
-                        text="더 보기"
-                        width="400px"
-                        height="50px"
-                        colorType="secondary"
-                        curve="round"
-                        fontSize={20}
-                        onClick={() => handleLoadMore()}
-                    />
-                </MoreButtonWrapper>
-            ) : null}
-            <ScrollButton width="40px" height="40px" />
-        </FavoritesContainer>
+        <>
+            <Head>
+                <title>진행중인 펀딩</title>
+                <meta name="description" content="셀러님께서 진행중이신 펀딩 목록입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <FavoritesContainer>
+                <TitleWrapper>진행중인 목록</TitleWrapper>
+                {fundingData.length === 0 ? (
+                    <NoDataWrapper>진행중인 펀딩이 없습니다.</NoDataWrapper>
+                ) : (
+                    <CardsContainer>
+                        {fundingData.map((funding, index) => (
+                            <Card
+                                key={index}
+                                fundingData={funding}
+                                onFundingClick={() => handleCard(funding.fundingId)}
+                            />
+                        ))}
+                    </CardsContainer>
+                )}
+                {hasMorePage ? (
+                    <MoreButtonWrapper>
+                        <TextButton
+                            text="더 보기"
+                            width="400px"
+                            height="50px"
+                            colorType="secondary"
+                            curve="round"
+                            fontSize={20}
+                            onClick={() => handleLoadMore()}
+                        />
+                    </MoreButtonWrapper>
+                ) : null}
+                <ScrollButton width="40px" height="40px" />
+            </FavoritesContainer>
+        </>
     );
 }
 

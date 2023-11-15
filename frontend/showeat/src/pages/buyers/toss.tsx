@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PaymentWidgetInstance, loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { useAsync } from "react-use";
+import Head from "next/head";
 
 const clientKey = "test_ck_QbgMGZzorzyKv2BGY6djVl5E1em4";
 const customerKey = "SPYU-mhof_OOUB6cQZ_tT";
@@ -54,54 +55,62 @@ export default function Home() {
     }, [price]);
 
     return (
-        <main
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-        >
-            <h1>주문서</h1>
-            <span>{`${price.toLocaleString()}원`}</span>
-            <div>
-                <label>
-                    <input
-                        type="checkbox"
-                        onChange={(event) => {
-                            setPrice(event.target.checked ? price - 5000 : price + 5000);
-                        }}
-                    />
-                    5,000원 할인 쿠폰 적용
-                </label>
-            </div>
-            <div id="payment-widget" style={{ width: "100%" }} />
-            <div id="agreement" style={{ width: "100%" }} />
-            <button
-                type="button"
-                onClick={async () => {
-                    const paymentWidget = paymentWidgetRef.current;
-
-                    try {
-                        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-                        // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
-                        // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-                        await paymentWidget?.requestPayment({
-                            orderId: "SPYU-mhof_OOUB6cQZ_tT",
-                            orderName: "토스 티셔츠 외 2건",
-                            customerName: "김토스",
-                            customerEmail: "customer123@gmail.com",
-                            customerMobilePhone: "01012341234",
-                            successUrl: "http://localhost:8081/api/payments/request/success",
-                            failUrl: "http://localhost:8081/api/payments/request/fail",
-                        });
-                    } catch (error) {
-                        // 에러 처리하기
-                        console.error(error);
-                    }
+        <>
+            <Head>
+                <title>토스 결제</title>
+                <meta name="description" content="토스로 결제하실 수 있는 페이지입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <main
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                 }}
             >
-                결제하기
-            </button>
-        </main>
+                <h1>주문서</h1>
+                <span>{`${price.toLocaleString()}원`}</span>
+                <div>
+                    <label htmlFor="discount-coupon">
+                        <input
+                            id="discount-coupon"
+                            type="checkbox"
+                            onChange={(event) => {
+                                setPrice(event.target.checked ? price - 5000 : price + 5000);
+                            }}
+                        />
+                        5,000원 할인 쿠폰 적용
+                    </label>
+                </div>
+                <div id="payment-widget" style={{ width: "100%" }} />
+                <div id="agreement" style={{ width: "100%" }} />
+                <button
+                    type="button"
+                    onClick={async () => {
+                        const paymentWidget = paymentWidgetRef.current;
+
+                        try {
+                            // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+                            // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
+                            // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+                            await paymentWidget?.requestPayment({
+                                orderId: "SPYU-mhof_OOUB6cQZ_tT",
+                                orderName: "토스 티셔츠 외 2건",
+                                customerName: "김토스",
+                                customerEmail: "customer123@gmail.com",
+                                customerMobilePhone: "01012341234",
+                                successUrl: "http://localhost:8081/api/payments/request/success",
+                                failUrl: "http://localhost:8081/api/payments/request/fail",
+                            });
+                        } catch (error) {
+                            // 에러 처리하기
+                            console.error(error);
+                        }
+                    }}
+                >
+                    결제하기
+                </button>
+            </main>
+        </>
     );
 }

@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
 import withAuth from "@libs/withAuth";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -74,22 +75,29 @@ function NotFound() {
     const router = useRouter();
 
     return (
-        <ErrorContainer>
-            <ErrorBox>
-                <Image
-                    src="/assets/images/angry-cook-cow.png"
-                    width={200}
-                    height={200}
-                    alt="angry-cook-cow"
-                    priority
-                />
-                <HeaderWrapper>404</HeaderWrapper>
-            </ErrorBox>
-            <DescriptionWrapper>페이지가 없소!</DescriptionWrapper>
-            <ButtonWrapper>
-                <TextButton width="15%" onClick={router.back} text="이전으로 돌아가기" />
-            </ButtonWrapper>
-        </ErrorContainer>
+        <>
+            <Head>
+                <title>404: 페이지가 없소</title>
+                <meta name="description" content="찾으시는 페이지가 없습니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <ErrorContainer>
+                <ErrorBox>
+                    <Image
+                        src="/assets/images/angry-cook-cow.png"
+                        width={200}
+                        height={200}
+                        alt="angry-cook-cow"
+                        priority
+                    />
+                    <HeaderWrapper>404</HeaderWrapper>
+                </ErrorBox>
+                <DescriptionWrapper>페이지가 없소!</DescriptionWrapper>
+                <ButtonWrapper>
+                    <TextButton width="15%" onClick={router.back} text="이전으로 돌아가기" />
+                </ButtonWrapper>
+            </ErrorContainer>
+        </>
     );
 }
 

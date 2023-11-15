@@ -177,7 +177,7 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
 
     const menuList = navbarMenu(isBuyer);
 
-    const holdingPoint = 200000000;
+    const holdingPoint = user && user.userMoney ? user.userMoney : 0;
     const pointFontSize = calculateFontSize(holdingPoint);
     const formattedHoldingPoint = holdingPoint.toLocaleString();
 

@@ -30,7 +30,8 @@ const TextWrapper = styled("div")<Partial<TextBoxProps>>`
 function TextBox(props: TextBoxProps) {
     // States and Variables
     const { text, colorType = "primary", fontSize = 16 } = props;
-    const styledText = breakTextLine(changeFontWeight(text));
+
+    const styledText = text ? breakTextLine(changeFontWeight(text)) : "";
 
     return (
         <TextWrapper
