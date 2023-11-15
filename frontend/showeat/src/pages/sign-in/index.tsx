@@ -81,6 +81,10 @@ function SignIn() {
         <>
             <Head>
                 <title>쑈잇 시작하기</title>
+                <meta
+                    name="description"
+                    content="서비스 시작을 위해 로그인 또는 회원가입해 보세요."
+                />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <SignInContainer>

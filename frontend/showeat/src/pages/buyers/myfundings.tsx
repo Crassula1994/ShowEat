@@ -1,44 +1,60 @@
 /* Import */
 import BuyerLayout from "@layouts/BuyerLayout";
 import Card from "@components/composite/card";
-import withAuth from "@libs/withAuth";
+import { FundingType } from "@customTypes/apiProps";
+import { getUserFundings } from "@apis/fundings";
+import Head from "next/head";
+import Image from "next/image";
+import postBookmark from "@apis/bookmark";
 import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { TextButton, ScrollButton } from "@components/common/button";
-import { getUserFundings } from "@apis/fundings";
-import postBookmark from "@apis/bookmark";
-import { FundingType } from "@customTypes/apiProps";
+import { ScrollButton, TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
 const MyFundingsContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    gap: 5em;
 
+    // Box Model Attribute
     width: 100%;
     min-width: 478px;
-    height: 100%;
-
-    padding-bottom: 2em;
-    margin: 0;
+    box-sizing: border-box;
+    padding: 5em 10em;
 `;
 
 const TitleWrapper = styled("span")`
-    font-size: 40px;
-    font-weight: 700;
-
-    padding: 1em;
+    // Text Attribute
+    font-size: 30px;
+    font-weight: 900;
 `;
 
-const NoDataWrapper = styled("div")`
+const BlankWrapper = styled("div")`
+    // Layout Attribute
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 2em;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
 `;
 
 const CardsContainer = styled("div")`
@@ -127,13 +143,22 @@ function MyFundings() {
         <>
             <Head>
                 <title>내가 참여한 펀딩</title>
-                <meta name="description" content="바이어님께서 참가하신 펀딩 목록입니다." />
+                <meta name="description" content="바이어 님께서 참여하신 펀딩 목록입니다." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <MyFundingsContainer>
                 <TitleWrapper>참여 펀딩 목록</TitleWrapper>
                 {fundingData.length === 0 ? (
-                    <NoDataWrapper>진행중인 펀딩이 없습니다.</NoDataWrapper>
+                    <BlankWrapper>
+                        <Image
+                            src="/assets/images/crying-cook-cow.png"
+                            width={150}
+                            height={150}
+                            alt="crying-cook-cow"
+                            priority
+                        />
+                        <TextWrapper>참여한 펀딩이 존재하지 않소!</TextWrapper>
+                    </BlankWrapper>
                 ) : (
                     <CardsContainer>
                         {fundingData.map((funding, index) => (

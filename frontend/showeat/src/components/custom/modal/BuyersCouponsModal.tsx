@@ -1,4 +1,5 @@
 /* Import */
+import { formatMoney } from "@utils/format";
 import styled from "@emotion/styled";
 import Table from "@components/common/table";
 import Image from "next/image";
@@ -73,10 +74,10 @@ function BuyersCouponsModal(props: BuyersCouponsModalProps) {
     const { coupon } = props;
     const {
         businessName,
-        couponPrice,
         couponQrCodeImgUrl,
         couponType,
         expirationDate,
+        fundingPrice,
         fundingDiscountPrice,
         fundingMenu,
         fundingTitle,
@@ -89,7 +90,12 @@ function BuyersCouponsModal(props: BuyersCouponsModalProps) {
         headers = ["펀딩명", "유효기간", "메뉴 가격", "구입 가격"];
     }
 
-    const contents = [fundingTitle, expirationDate, couponPrice, fundingDiscountPrice];
+    const contents = [
+        fundingTitle,
+        expirationDate,
+        formatMoney(fundingPrice),
+        formatMoney(fundingDiscountPrice),
+    ];
 
     return (
         <CouponContainer>

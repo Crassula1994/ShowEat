@@ -22,12 +22,8 @@ const TotalContainer = styled("div")`
 `;
 
 const BusinessName = styled("div")`
-    color: #000;
-    font-family: Pretendard;
     font-size: 40px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
     padding-bottom: 100px;
 `;
 

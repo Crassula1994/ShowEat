@@ -2,10 +2,11 @@
 import addressList from "@configs/addressList";
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
 import { formatPhoneNumber } from "@utils/format";
-import { InputDropdown } from "@components/common/dropdown";
 import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import { getUserInfo, patchSettingInfo } from "@apis/users";
+import Head from "next/head";
+import { InputDropdown } from "@components/common/dropdown";
 import SingleLayout from "@layouts/SingleLayout";
 import styled from "@emotion/styled";
 import { TextButton } from "@components/common/button";
@@ -154,43 +155,53 @@ function SignUp() {
     }, [user]);
 
     return (
-        <SignUpContainer onSubmit={handleSubmit}>
-            <HeaderWrapper>개인정보 입력</HeaderWrapper>
-            <DescriptionWrapper>
-                서비스 이용을 위해 필요한 <span>필수 개인정보</span>를 입력해 주세요.
-            </DescriptionWrapper>
-            <InputContainer>
-                <TextInput
-                    width="100%"
-                    id="nickname"
-                    value={nickname}
-                    labelText="닉네임"
-                    onChange={handleNicknameChange}
+        <>
+            <Head>
+                <title>개인정보 입력</title>
+                <meta
+                    name="description"
+                    content="서비스 이용을 위해 입력해야 하는 개인정보입니다."
                 />
-                <TextInput
-                    width="100%"
-                    id="phone"
-                    value={phone}
-                    placeholder="010-1234-5678"
-                    labelText="전화번호"
-                    source="/assets/icons/phone-icon.svg"
-                    onChange={handlePhoneChange}
-                />
-                <InputDropdown
-                    width="25%"
-                    height="6em"
-                    id="address"
-                    value={address}
-                    required
-                    labelText="관심 지역"
-                    itemList={addressList}
-                    onChange={handleAddressChange}
-                />
-            </InputContainer>
-            <ButtonWrapper>
-                <TextButton type="submit" width="200px" text="개인정보 저장" />
-            </ButtonWrapper>
-        </SignUpContainer>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <SignUpContainer onSubmit={handleSubmit}>
+                <HeaderWrapper>개인정보 입력</HeaderWrapper>
+                <DescriptionWrapper>
+                    서비스 이용을 위해 필요한 <span>필수 개인정보</span>를 입력해 주세요.
+                </DescriptionWrapper>
+                <InputContainer>
+                    <TextInput
+                        width="100%"
+                        id="nickname"
+                        value={nickname}
+                        labelText="닉네임"
+                        onChange={handleNicknameChange}
+                    />
+                    <TextInput
+                        width="100%"
+                        id="phone"
+                        value={phone}
+                        placeholder="010-1234-5678"
+                        labelText="전화번호"
+                        source="/assets/icons/phone-icon.svg"
+                        onChange={handlePhoneChange}
+                    />
+                    <InputDropdown
+                        width="25%"
+                        height="6em"
+                        id="address"
+                        value={address}
+                        required
+                        labelText="관심 지역"
+                        itemList={addressList}
+                        onChange={handleAddressChange}
+                    />
+                </InputContainer>
+                <ButtonWrapper>
+                    <TextButton type="submit" width="200px" text="개인정보 저장" />
+                </ButtonWrapper>
+            </SignUpContainer>
+        </>
     );
 }
 

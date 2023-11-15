@@ -78,7 +78,7 @@ function NotFound() {
         <>
             <Head>
                 <title>404: 페이지가 없소</title>
-                <meta name="description" content="찾으시는 페이지가 없습니다." />
+                <meta name="description" content="찾으시는 페이지가 존재하지 않습니다." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <ErrorContainer>

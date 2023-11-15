@@ -373,6 +373,12 @@ function FundingTab(props: FundingTabProps) {
         <>
             <Head>
                 <title>{title}</title>
+                <meta
+                    name="description"
+                    content={`${getCategoryValue(category)} - ${menu} - ${discountRate}% 할인 - ${
+                        businessData.businessName
+                    } - ${formatMoney(discountPrice)}`}
+                />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <FundingContainer>

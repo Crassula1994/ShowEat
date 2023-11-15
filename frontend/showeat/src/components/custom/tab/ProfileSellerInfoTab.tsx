@@ -12,6 +12,7 @@ import {
     patchSellerClosedDays,
 } from "@apis/seller";
 import styled from "@emotion/styled";
+import TextBox from "@components/common/textBox";
 import { TextButton } from "@components/common/button";
 import useSellerState from "@hooks/useSellerState";
 import { useState, useEffect } from "react";
@@ -23,10 +24,11 @@ const SellerInfoContainer = styled("div")`
     // Layout Attribute
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
 
     // Box Model Attribute
-    margin-top: 5em;
+    margin-top: 3em;
 `;
 
 const SubTitleWrapper = styled("div")`
@@ -41,62 +43,52 @@ const SubTitleWrapper = styled("div")`
     color: ${(props) => props.theme.colors.secondary3};
 `;
 
+const ProfileContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    // Box Model Attribute
+    width: 100%;
+    gap: 1em;
+`;
+
 const Line = styled("div")`
     // Box Model Attribute
     width: 100%;
     height: 1px;
-    margin: 5em 0;
+    margin: 3em 0;
 
     // Style Attribute
     border: none;
     background-color: ${(props) => props.theme.colors.gray2};
 `;
 
-const SellerInfoContentContainer = styled("div")`
+const InfoContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin-left: 6%;
-    margin-top: 3%;
-    gap: 100px;
-`;
-
-const SellerDetailInfoContainer = styled("div")`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 25px;
-`;
-
-const SellerProfileImageChangeContainer = styled("div")`
-    display: flex;
-    width: 300px;
-    align-items: flex-end;
-    gap: 28px;
-`;
-
-const ChangeSellerProfileImageWrapper = styled("div")`
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
+    // Box Model Attribute
+    width: 70%;
+    gap: 1em;
+`;
+
+const ButtonContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    align-items: center;
+    gap: 1em;
 `;
 
 const ProfileImage = styled(Image)`
     // Style Attribute
     border-radius: 50%;
     border: 3px solid ${(props) => props.theme.colors.secondary3};
-`;
-
-const SellerInfoTitleContainer = styled("div")`
-    display: flex;
-    align-items: center;
-    gap: 25px;
-`;
-
-const ChangeSellerInfoWrapper = styled("div")`
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 const SellerInfoMenuContentContainer = styled("div")`
@@ -255,102 +247,74 @@ function ProfileSellerInfoTab() {
 
     return (
         <SellerInfoContainer>
-            <SubTitleWrapper>셀러 프로필 이미지</SubTitleWrapper>
-            <SellerProfileImageChangeContainer>
+            <SubTitleWrapper>프로필 이미지</SubTitleWrapper>
+            <ProfileContainer>
                 <ProfileImage
                     src={sellerState.businessImgUrl as string}
                     width={200}
                     height={200}
                     alt="seller-profile"
+                    priority
                 />
-                <ChangeSellerProfileImageWrapper>
-                    <FileInput
-                        count={1}
-                        color="primary"
-                        id="menuImage"
-                        buttonWidth="140px"
-                        buttonHeight="40px"
-                        buttonDescription="수정"
-                        uploadedFiles={uploadedProfileFiles}
-                        setUploadedFiles={setUploadedProfileFiles}
-                        modifyProfile
-                        profileType="SELLER"
-                    />
-                </ChangeSellerProfileImageWrapper>
-            </SellerProfileImageChangeContainer>
+                <FileInput
+                    count={1}
+                    color="primary"
+                    id="menuImage"
+                    buttonWidth="140px"
+                    buttonHeight="40px"
+                    buttonDescription="수정"
+                    uploadedFiles={uploadedProfileFiles}
+                    setUploadedFiles={setUploadedProfileFiles}
+                    modifyProfile
+                    profileType="SELLER"
+                />
+            </ProfileContainer>
             <Line />
-            <SubTitleWrapper>셀러 운영 정보</SubTitleWrapper>
-            <SellerDetailInfoContainer>
-                <SellerInfoTitleContainer>
-                    <ChangeSellerInfoWrapper>
-                        {isBioEditing ? (
-                            <TextButton
-                                text="저장"
-                                width="140px"
-                                height="40px"
-                                fontSize={20}
-                                colorType="primary"
-                                onClick={handleBusinessBioSave}
-                            />
-                        ) : (
-                            <TextButton
-                                text="수정"
-                                width="140px"
-                                height="40px"
-                                fontSize={20}
-                                colorType="primary"
-                                onClick={handleBusinessBioEdit}
-                            />
-                        )}
-                    </ChangeSellerInfoWrapper>
-                </SellerInfoTitleContainer>
-
+            <SubTitleWrapper>소개말</SubTitleWrapper>
+            <InfoContainer>
                 {isBioEditing ? (
-                    <TextArea
-                        width="100%"
-                        maxLength={200}
-                        id="business-bio"
-                        value={sellerState.businessBio as string}
-                        onChange={(event) =>
-                            setSellerState((prev) => ({
-                                ...prev,
-                                businessBio: event.target.value,
-                            }))
-                        }
-                        fontSize="16px"
-                    />
+                    <>
+                        <TextArea
+                            width="100%"
+                            maxLength={200}
+                            id="business-bio"
+                            value={sellerState.businessBio as string}
+                            onChange={(event) =>
+                                setSellerState((prev) => ({
+                                    ...prev,
+                                    businessBio: event.target.value,
+                                }))
+                            }
+                            fontSize="16px"
+                        />
+                        <TextButton
+                            text="저장"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessBioSave}
+                        />
+                    </>
                 ) : (
-                    <SellerInfoContentWrapper>{sellerState.businessBio}</SellerInfoContentWrapper>
+                    <>
+                        <TextBox text={sellerState.businessBio as string} />
+                        <TextButton
+                            text="수정"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessBioEdit}
+                        />
+                    </>
                 )}
-            </SellerDetailInfoContainer>
+            </InfoContainer>
             <Line />
-            <SellerInfoContentContainer>
-                <SellerDetailInfoContainer>
-                    <SellerInfoTitleContainer>
-                        <SubTitleWrapper>셀러 운영 시간</SubTitleWrapper>
-                        <ChangeSellerInfoWrapper>
-                            {isOperatingTimeEditing ? (
-                                <TextButton
-                                    text="저장"
-                                    width="140px"
-                                    height="40px"
-                                    fontSize={20}
-                                    colorType="primary"
-                                    onClick={handleBusinessOperatingTimeSave}
-                                />
-                            ) : (
-                                <TextButton
-                                    text="수정"
-                                    width="140px"
-                                    height="40px"
-                                    fontSize={20}
-                                    colorType="primary"
-                                    onClick={handleBusinessOperatingTimeEdit}
-                                />
-                            )}
-                        </ChangeSellerInfoWrapper>
-                    </SellerInfoTitleContainer>
-                    {isOperatingTimeEditing ? (
+            <SubTitleWrapper>운영 시간</SubTitleWrapper>
+            <InfoContainer>
+                {isOperatingTimeEditing ? (
+                    <>
                         <TextArea
                             width="100%"
                             maxLength={200}
@@ -364,39 +328,34 @@ function ProfileSellerInfoTab() {
                             }
                             fontSize="16px"
                         />
-                    ) : (
-                        <SellerInfoContentWrapper>
-                            {sellerState.businessOperatingTime}
-                        </SellerInfoContentWrapper>
-                    )}
-                </SellerDetailInfoContainer>
-                <Line />
-                <SellerDetailInfoContainer>
-                    <SellerInfoTitleContainer>
-                        <SubTitleWrapper>셀러 휴무일 정보</SubTitleWrapper>
-                        <ChangeSellerInfoWrapper>
-                            {isClosedDaysEditing ? (
-                                <TextButton
-                                    text="저장"
-                                    width="140px"
-                                    height="40px"
-                                    fontSize={20}
-                                    colorType="primary"
-                                    onClick={handleBusinessClosedDaysSave}
-                                />
-                            ) : (
-                                <TextButton
-                                    text="수정"
-                                    width="140px"
-                                    height="40px"
-                                    fontSize={20}
-                                    colorType="primary"
-                                    onClick={handleBusinessClosedDaysEdit}
-                                />
-                            )}
-                        </ChangeSellerInfoWrapper>
-                    </SellerInfoTitleContainer>
-                    {isClosedDaysEditing ? (
+                        <TextButton
+                            text="저장"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessOperatingTimeSave}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <TextBox text={sellerState.businessOperatingTime as string} />
+                        <TextButton
+                            text="수정"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessOperatingTimeEdit}
+                        />
+                    </>
+                )}
+            </InfoContainer>
+            <Line />
+            <SubTitleWrapper>휴무일</SubTitleWrapper>
+            <InfoContainer>
+                {isClosedDaysEditing ? (
+                    <>
                         <TextArea
                             width="100%"
                             maxLength={200}
@@ -410,75 +369,86 @@ function ProfileSellerInfoTab() {
                             }
                             fontSize="16px"
                         />
-                    ) : (
-                        <SellerInfoContentWrapper>
-                            {sellerState.businessClosedDays}
-                        </SellerInfoContentWrapper>
-                    )}
-                </SellerDetailInfoContainer>
-                <Line />
-                <SellerDetailInfoContainer>
-                    <SellerInfoTitleContainer>
-                        <SubTitleWrapper>셀러 메뉴 정보</SubTitleWrapper>
-                        <ChangeSellerInfoWrapper>
-                            {isMenuEditing ? (
-                                <>
-                                    <TextButton
-                                        text="추가"
-                                        width="140px"
-                                        height="40px"
-                                        fontSize={20}
-                                        colorType="primary"
-                                        onClick={() => setIsModalOpen(true)}
-                                    />
-                                    <span style={{ display: "inline-block", width: "10px" }} />
-                                    <TextButton
-                                        text="저장"
-                                        width="140px"
-                                        height="40px"
-                                        fontSize={20}
-                                        colorType="primary"
-                                        onClick={handleMenuSave}
-                                    />
-                                </>
-                            ) : (
-                                <TextButton
-                                    text="수정"
-                                    width="140px"
-                                    height="40px"
-                                    fontSize={20}
-                                    colorType="primary"
-                                    onClick={handleMenuEdit}
+                        <TextButton
+                            text="저장"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessClosedDaysSave}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <TextBox text={sellerState.businessClosedDays as string} />
+                        <TextButton
+                            text="수정"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleBusinessClosedDaysEdit}
+                        />
+                    </>
+                )}
+            </InfoContainer>
+            <Line />
+            <SubTitleWrapper>등록된 메뉴 목록</SubTitleWrapper>
+            <InfoContainer>
+                {isMenuEditing && sellerState.sellerMenuResponseDtos ? (
+                    <>
+                        {sellerState.sellerMenuResponseDtos.map((menu, index) => (
+                            <SellerInfoMenuContentContainer key={`${menu}-${index}`}>
+                                <SellerInfoContentWrapper key={index}>
+                                    {menu.menu}
+                                </SellerInfoContentWrapper>
+                                <DeleteIconWrapper
+                                    src="/assets/icons/delete-icon.svg"
+                                    alt="delete-tag"
+                                    width={15}
+                                    height={15}
+                                    onClick={() => deleteMenuMethod(menu)}
                                 />
-                            )}
-                        </ChangeSellerInfoWrapper>
-                    </SellerInfoTitleContainer>
-                    {isMenuEditing && sellerState.sellerMenuResponseDtos ? (
-                        <>
-                            {sellerState.sellerMenuResponseDtos.map((menu, index) => (
-                                <SellerInfoMenuContentContainer key={`${menu}-${index}`}>
-                                    <SellerInfoContentWrapper key={index}>
-                                        {menu.menu}
-                                    </SellerInfoContentWrapper>
-                                    <DeleteIconWrapper
-                                        src="/assets/icons/delete-icon.svg"
-                                        alt="delete-tag"
-                                        width={15}
-                                        height={15}
-                                        onClick={() => deleteMenuMethod(menu)}
-                                    />
-                                </SellerInfoMenuContentContainer>
-                            ))}
-                        </>
-                    ) : (
-                        sellerState.sellerMenuResponseDtos?.map((menu, index) => (
-                            <SellerInfoContentWrapper key={index}>
-                                {menu.menu}{" "}
-                            </SellerInfoContentWrapper>
-                        ))
-                    )}
-                </SellerDetailInfoContainer>
-            </SellerInfoContentContainer>
+                            </SellerInfoMenuContentContainer>
+                        ))}
+                    </>
+                ) : (
+                    sellerState.sellerMenuResponseDtos?.map((menu, index) => (
+                        <SellerInfoContentWrapper key={index}>
+                            {menu.menu}{" "}
+                        </SellerInfoContentWrapper>
+                    ))
+                )}
+                {isMenuEditing ? (
+                    <ButtonContainer>
+                        <TextButton
+                            text="추가"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={() => setIsModalOpen(true)}
+                        />
+                        <TextButton
+                            text="저장"
+                            width="140px"
+                            height="40px"
+                            fontSize={20}
+                            colorType="primary"
+                            onClick={handleMenuSave}
+                        />
+                    </ButtonContainer>
+                ) : (
+                    <TextButton
+                        text="수정"
+                        width="140px"
+                        height="40px"
+                        fontSize={20}
+                        colorType="primary"
+                        onClick={handleMenuEdit}
+                    />
+                )}
+            </InfoContainer>
             <Modal
                 isOpen={isModalOpen}
                 setIsOpen={setIsModalOpen}

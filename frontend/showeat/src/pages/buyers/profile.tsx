@@ -17,13 +17,16 @@ import Head from "next/head";
 
 /* Style */
 const UserInfoContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
-    font-size: 100px;
-    margin-top: 70px;
-    margin-left: 100px;
-    gap: 40px;
-    margin-bottom: 150px;
+    justify-content: flex-start;
+    gap: 5em;
+
+    // Box Model Attribute
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5em 10em;
 `;
 
 const MyInfoContainer = styled("div")`
@@ -37,41 +40,59 @@ const MyImageContainer = styled("div")`
 `;
 
 const ImageContainer = styled("div")`
-    align-items: center;
     display: flex;
     flex-direction: column;
 `;
+
 const ButtonContainer = styled("div")`
     display: flex;
     gap: 10px;
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 2em;
 `;
+
 const ProfileImage = styled(Image)`
     border-radius: 50%;
 `;
-const NickNameContainer = styled("div")`
-    color: #000;
-`;
 
-const AddressContainer = styled("div")`
-    color: #000;
+const NickNameContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    align-items: flex-end;
+    gap: 1em;
+
+    // Box Model Attribute
+    width: 50%;
 `;
 
 const PhoneContainer = styled("div")`
-    color: #000;
+    // Layout Attribute
+    display: flex;
+    align-items: flex-end;
+    gap: 1em;
+
+    // Box Model Attribute
+    width: 50%;
+`;
+
+const AddressContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    align-items: flex-end;
+    gap: 1em;
+
+    // Box Model Attribute
+    width: 50%;
+`;
+
+const DropdownWrapper = styled("div")`
+    width: 70%;
 `;
 
 const MenuContainer = styled("div")`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     padding-bottom: 20px;
     text-align: left;
-`;
-
-const MenuWrapper = styled("div")`
-    display: flex;
-    gap: 10px;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -150,7 +171,7 @@ function BuyerProfile() {
         <>
             <Head>
                 <title>내 정보</title>
-                <meta name="description" content="바이어님의 정보 페이지입니다." />
+                <meta name="description" content="바이어 님의 정보 페이지입니다." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <UserInfoContainer>
@@ -166,19 +187,6 @@ function BuyerProfile() {
                             priority
                         />
                         <ButtonContainer>
-                            <FileInput
-                                count={1}
-                                color="primary"
-                                id="menuImage"
-                                buttonWidth="140px"
-                                buttonHeight="40px"
-                                buttonDescription="수정"
-                                uploadedFiles={uploadedProfileFiles}
-                                setUploadedFiles={setUploadedProfileFiles}
-                                modifyProfile
-                                profileType="BUYER"
-                                userId={user.userId}
-                            />
                             <TextButton
                                 text="삭제"
                                 width="100px"
@@ -187,70 +195,78 @@ function BuyerProfile() {
                                 colorType="primary"
                                 onClick={handleDeleteProfile}
                             />
+                            <FileInput
+                                count={1}
+                                color="primary"
+                                id="menuImage"
+                                buttonWidth="100px"
+                                buttonHeight="40px"
+                                buttonDescription="수정"
+                                uploadedFiles={uploadedProfileFiles}
+                                setUploadedFiles={setUploadedProfileFiles}
+                                modifyProfile
+                                profileType="BUYER"
+                                userId={user.userId}
+                            />
                         </ButtonContainer>
                     </ImageContainer>
                 </MyImageContainer>
                 <NickNameContainer>
-                    <MenuContainer>닉네임</MenuContainer>
-                    <MenuWrapper>
-                        <TextInput
-                            width="100%"
-                            id="nickname"
-                            value={nickname}
-                            onChange={handleNicknameChange}
-                        />
-                        <TextButton
-                            text="수정"
-                            width="100px"
-                            height="40px"
-                            fontSize={20}
-                            colorType="primary"
-                            onClick={handleNicknameSubmit}
-                        />
-                    </MenuWrapper>
+                    <TextInput
+                        width="70%"
+                        id="nickname"
+                        value={nickname}
+                        labelText="닉네임"
+                        onChange={handleNicknameChange}
+                    />
+                    <TextButton
+                        text="수정"
+                        width="20%"
+                        height="40px"
+                        fontSize={20}
+                        colorType="primary"
+                        onClick={handleNicknameSubmit}
+                    />
                 </NickNameContainer>
                 <PhoneContainer>
-                    <MenuContainer>전화번호</MenuContainer>
-                    <MenuWrapper>
-                        <TextInput
-                            width="100%"
-                            id="phone"
-                            value={phone}
-                            source="/assets/icons/phone-icon.svg"
-                            onChange={handlePhoneChange}
-                        />
-
-                        <TextButton
-                            text="수정"
-                            width="100px"
-                            height="40px"
-                            fontSize={20}
-                            colorType="primary"
-                            onClick={handlePhoneSubmit}
-                        />
-                    </MenuWrapper>
+                    <TextInput
+                        width="70%"
+                        id="phone"
+                        value={phone}
+                        labelText="전화번호"
+                        source="/assets/icons/phone-icon.svg"
+                        onChange={handlePhoneChange}
+                    />
+                    <TextButton
+                        text="수정"
+                        width="20%"
+                        height="40px"
+                        fontSize={20}
+                        colorType="primary"
+                        onClick={handlePhoneSubmit}
+                    />
                 </PhoneContainer>
                 <AddressContainer>
-                    <MenuContainer>주소</MenuContainer>
-                    <MenuWrapper>
+                    <DropdownWrapper>
                         <InputDropdown
-                            width="25%"
+                            width="20%"
                             height="6em"
                             id="address"
                             value={address}
                             required
+                            labelText="주소"
                             itemList={addressList}
                             onChange={handleAddressChange}
                         />
-                        <TextButton
-                            text="수정"
-                            width="100px"
-                            height="40px"
-                            fontSize={20}
-                            colorType="primary"
-                            onClick={handleAddressSubmit}
-                        />
-                    </MenuWrapper>
+                    </DropdownWrapper>
+                    <TextButton
+                        text="수정"
+                        width="20%"
+                        height="40px"
+                        fontSize={20}
+                        colorType="primary"
+                        onClick={handleAddressSubmit}
+                    />
                 </AddressContainer>
             </UserInfoContainer>
         </>
