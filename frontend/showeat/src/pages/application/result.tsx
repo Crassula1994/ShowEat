@@ -15,8 +15,8 @@ const HeaderContainer = styled("div")`
 `;
 
 const HeaderWrapper = styled("div")`
-    font-size: 50px;
-    font-weight: 700;
+    font-size: 40px;
+    font-weight: 900;
     text-align: center;
     width: 800px;
     height: 60px;
@@ -29,14 +29,15 @@ const ProgressBox = styled("div")`
     align-items: center;
 `;
 
-const StepBox = styled("div")`
+const StepBox = styled("div")<{ colorType: "black" | "primary" }>`
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: ${(props) => props.backgroundColor};
+    background-color: ${(props) =>
+        props.colorType === "black" ? "black" : `${props.theme.colors.primary3}`};
 `;
 
 const StepLine = styled.div`
@@ -76,11 +77,11 @@ function Result() {
             <HeaderContainer>
                 <HeaderWrapper>셀러 계정 신청</HeaderWrapper>
                 <ProgressBox>
-                    <StepBox backgroundColor="black" />
+                    <StepBox colorType="black" />
                     <StepLine />
-                    <StepBox backgroundColor="black" />
+                    <StepBox colorType="black" />
                     <StepLine />
-                    <StepBox backgroundColor="#fdb757" />
+                    <StepBox colorType="primary" />
                 </ProgressBox>
             </HeaderContainer>
             <ResultBox>
