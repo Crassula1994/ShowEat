@@ -1,179 +1,112 @@
 /* Import */
+import { BusinessType } from "@customTypes/apiProps";
+import { formatBusinessNumber, formatPhoneNumber } from "@utils/format";
 import { getBusinessRegiInfo } from "@apis/seller";
 import styled from "@emotion/styled";
+import Table from "@components/common/table";
 import { useEffect, useState } from "react";
 import useSellerState from "@hooks/useSellerState";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const BusinessRegiInfoContainer = styled("div")`
-    display: inline-flex;
+const BasicInfoContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 6%;
-    margin-top: 3%;
+
+    // Box Model Attribute
+    margin-top: 5em;
 `;
 
-const BusinessRegiAccountInfoContainer = styled("div")`
-    display: flex;
-    width: 800px;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-`;
+const SubTitleWrapper = styled("div")`
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 0.5em;
 
-const BusinessRegiTitleWrapper = styled("div")`
-    color: #000;
+    // Text Attribute
     text-align: center;
-    font-family: Pretendard;
+    font-weight: 900;
     font-size: 30px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    color: ${(props) => props.theme.colors.secondary3};
 `;
 
-const BusinessRegiDetailInfoContainer = styled("div")`
-    display: flex;
-    width: 800px;
-    align-items: flex-start;
-    gap: 30px;
+const Line = styled("div")`
+    // Box Model Attribute
+    width: 100%;
+    height: 1px;
+    margin: 5em 0;
+
+    // Style Attribute
+    border: none;
+    background-color: ${(props) => props.theme.colors.gray2};
 `;
 
-const BusinessRegiDetailLeftContainer = styled("div")`
-    display: flex;
-    width: 180px;
-    height: 209px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    flex-shrink: 0;
-`;
-
-const BusinessRegiDetailRightContainer = styled("div")`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-`;
-
-const BusinessRegiDetailInfoTitleWrapper = styled("div")`
-    color: #000;
-    font-family: Pretendard;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-`;
-
-const BusinessRegiDetailInfoContentWrapper = styled("div")`
-    color: #000;
-    font-family: Pretendard;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-`;
+// ----------------------------------------------------------------------------------------------------
 
 /* Profile Basic Information Tab Component */
 function ProfileBasicInfoTab() {
     const [seller] = useSellerState();
-    const [businessRegiInfoState, setBusinessRegiInfoState] = useState({
-        businessName: "aa",
-        businessNumber: "bb",
-        businessAddress: "cc",
-        businessPhone: "dd",
-        businessCeo: "ee",
-        businessEmail: "ff",
-        businessAccountHolder: "gg",
-        businessAccount: "hh",
+    const [businessData, setBusinessData] = useState<Partial<BusinessType>>({
+        businessName: "",
+        businessNumber: "",
+        businessAddress: "",
+        businessPhone: "",
+        businessCeo: "",
+        businessEmail: "",
+        businessAccountHolder: "",
+        businessAccount: "",
     });
+    const representativeInfo: string[] = [
+        businessData.businessCeo as string,
+        businessData.businessEmail as string,
+    ];
+    const businessInfo: string[] = [
+        businessData.businessName as string,
+        formatBusinessNumber(businessData.businessNumber as string),
+        businessData.businessAddress as string,
+        formatPhoneNumber(businessData.businessPhone as string),
+    ];
+    const accountInfo: string[] = [
+        businessData.businessAccountHolder as string,
+        businessData.businessAccount as string,
+    ];
 
+    // Hooks for Getting Profile Basic Information
     useEffect(() => {
         const { sellerId } = seller;
 
         if (sellerId !== 0) {
             getBusinessRegiInfo(sellerId).then((result) => {
-                console.log(result.data);
-                setBusinessRegiInfoState(result.data);
+                setBusinessData(result.data);
             });
         }
     }, [seller]);
 
     return (
-        <BusinessRegiInfoContainer>
-            <BusinessRegiDetailInfoContainer>
-                <BusinessRegiDetailLeftContainer>
-                    <BusinessRegiDetailInfoTitleWrapper>
-                        상호 또는 법인명
-                    </BusinessRegiDetailInfoTitleWrapper>
-                    <BusinessRegiDetailInfoTitleWrapper>
-                        사업자 등록 번호
-                    </BusinessRegiDetailInfoTitleWrapper>
-                    <BusinessRegiDetailInfoTitleWrapper>주소</BusinessRegiDetailInfoTitleWrapper>
-                    <BusinessRegiDetailInfoTitleWrapper>연락처</BusinessRegiDetailInfoTitleWrapper>
-                </BusinessRegiDetailLeftContainer>
-                <BusinessRegiDetailRightContainer>
-                    <BusinessRegiDetailInfoContentWrapper>
-                        {businessRegiInfoState.businessName}
-                    </BusinessRegiDetailInfoContentWrapper>
-                    <BusinessRegiDetailInfoContentWrapper>
-                        {businessRegiInfoState.businessNumber}
-                    </BusinessRegiDetailInfoContentWrapper>
-                    <BusinessRegiDetailInfoContentWrapper>
-                        {businessRegiInfoState.businessAddress}
-                    </BusinessRegiDetailInfoContentWrapper>
-                    <BusinessRegiDetailInfoContentWrapper>
-                        {businessRegiInfoState.businessPhone}
-                    </BusinessRegiDetailInfoContentWrapper>
-                </BusinessRegiDetailRightContainer>
-            </BusinessRegiDetailInfoContainer>
-
-            <BusinessRegiAccountInfoContainer>
-                <BusinessRegiTitleWrapper>대표자 정보</BusinessRegiTitleWrapper>
-                <BusinessRegiDetailInfoContainer>
-                    <BusinessRegiDetailLeftContainer>
-                        <BusinessRegiDetailInfoTitleWrapper>
-                            대표자명
-                        </BusinessRegiDetailInfoTitleWrapper>
-                        <BusinessRegiDetailInfoTitleWrapper>
-                            대표자 이메일
-                        </BusinessRegiDetailInfoTitleWrapper>
-                    </BusinessRegiDetailLeftContainer>
-                    <BusinessRegiDetailRightContainer>
-                        <BusinessRegiDetailInfoContentWrapper>
-                            {businessRegiInfoState.businessCeo}
-                        </BusinessRegiDetailInfoContentWrapper>
-                        <BusinessRegiDetailInfoContentWrapper>
-                            {businessRegiInfoState.businessEmail}
-                        </BusinessRegiDetailInfoContentWrapper>
-                    </BusinessRegiDetailRightContainer>
-                </BusinessRegiDetailInfoContainer>
-            </BusinessRegiAccountInfoContainer>
-
-            <BusinessRegiAccountInfoContainer>
-                <BusinessRegiTitleWrapper>정산 정보</BusinessRegiTitleWrapper>
-                <BusinessRegiDetailInfoContainer>
-                    <BusinessRegiDetailLeftContainer>
-                        <BusinessRegiDetailInfoTitleWrapper>
-                            예금주명
-                        </BusinessRegiDetailInfoTitleWrapper>
-                        <BusinessRegiDetailInfoTitleWrapper>
-                            계좌정보
-                        </BusinessRegiDetailInfoTitleWrapper>
-                    </BusinessRegiDetailLeftContainer>
-                    <BusinessRegiDetailRightContainer>
-                        <BusinessRegiDetailInfoContentWrapper>
-                            {businessRegiInfoState.businessAccountHolder}
-                        </BusinessRegiDetailInfoContentWrapper>
-                        <BusinessRegiDetailInfoContentWrapper>
-                            {businessRegiInfoState.businessAccount}
-                        </BusinessRegiDetailInfoContentWrapper>
-                    </BusinessRegiDetailRightContainer>
-                </BusinessRegiDetailInfoContainer>
-            </BusinessRegiAccountInfoContainer>
-        </BusinessRegiInfoContainer>
+        <BasicInfoContainer>
+            <SubTitleWrapper>대표자 정보</SubTitleWrapper>
+            <Table
+                headerWidth="30%"
+                headers={["대표자명", "대표자 이메일"]}
+                contents={representativeInfo}
+            />
+            <Line />
+            <SubTitleWrapper>사업자 정보</SubTitleWrapper>
+            <Table
+                headerWidth="30%"
+                headers={["상호/법인명", "사업자 등록번호", "주소", "연락처"]}
+                contents={businessInfo}
+            />
+            <Line />
+            <SubTitleWrapper>정산 정보</SubTitleWrapper>
+            <Table headerWidth="30%" headers={["예금주명", "계좌 정보"]} contents={accountInfo} />
+        </BasicInfoContainer>
     );
 }
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
 export default ProfileBasicInfoTab;

@@ -43,6 +43,8 @@ function FundingCancelErrorModal(props: FundingCancelErrorModalProps) {
     // Function for Making Error Message
     const makeErrorMessage = () => {
         switch (errorCode) {
+            case 401:
+                return "로그인이 필요한 서비스입니다.\n\n로그인 페이지로 이동하시겠습니까?";
             case 452:
                 return "해당 펀딩이 더 이상 존재하지 않습니다.";
             case 481:

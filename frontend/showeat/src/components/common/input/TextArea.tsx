@@ -81,7 +81,7 @@ const TextareaLabelWrapper = styled("label")<{ labelFontSize?: string }>`
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Textarea Button Component */
+/* Textarea Input Component */
 function Textarea({
     width,
     height = "80px",

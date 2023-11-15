@@ -58,7 +58,7 @@ async function fetchGet(props: FetchProps) {
         if (fetchResult && fetchResult.statusCode === 200) {
             return fetchResult;
         }
-        return handleFetchError(fetchResult.statusCode);
+        return handleFetchError(fetchResult.statusCode || fetchResult.status);
     } catch (error) {
         throw error;
     }
@@ -130,7 +130,7 @@ async function fetchModify(props: FetchProps) {
         if (fetchResult && fetchResult.statusCode === 200) {
             return fetchResult;
         }
-        return handleFetchError(fetchResult.statusCode);
+        return handleFetchError(fetchResult.statusCode || fetchResult.status);
     } catch (error) {
         throw error;
     }

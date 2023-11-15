@@ -178,6 +178,13 @@ function Header() {
         });
     };
 
+    // Function for Handling Login
+    const handleLogin = () => {
+        deleteCookie("access-token");
+        deleteCookie("refresh-token");
+        router.push("/sign-in");
+    };
+
     // Function for Handling Logout
     const handleLogout = () => {
         const accessToken = getCookie("access-token");
@@ -206,7 +213,7 @@ function Header() {
             return (
                 <TextButton
                     width="150px"
-                    onClick={() => router.push("/sellers/profile/basic-info")}
+                    onClick={() => router.push("/sellers/profile/seller-info")}
                     text="셀러 전환"
                     curve="round"
                 />
@@ -337,12 +344,8 @@ function Header() {
                     </>
                 ) : (
                     <>
-                        <ButtonWrapper onClick={() => router.push("/sign-in")}>
-                            로그인
-                        </ButtonWrapper>
-                        <ButtonWrapper onClick={() => router.push("/sign-in")}>
-                            회원가입
-                        </ButtonWrapper>
+                        <ButtonWrapper onClick={handleLogin}>로그인</ButtonWrapper>
+                        <ButtonWrapper onClick={handleLogin}>회원가입</ButtonWrapper>
                     </>
                 )}
             </NavigationContainer>

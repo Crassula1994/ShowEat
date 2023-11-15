@@ -1,10 +1,13 @@
 /* Import */
 import { changeFontWeight } from "@utils/format";
 import Image from "next/image";
+import { patchSellerProfile } from "@apis/seller";
+import { patchUpdateUserProfile } from "@apis/users";
 import styled from "@emotion/styled";
 import { SetStateAction, useRef } from "react";
-import { pathSellerImg } from "@apis/seller";
-import { TextButton } from "../button";
+import { TextButton } from "@components/common/button";
+import useSellerState from "@hooks/useSellerState";
+import useUserState from "@hooks/useUserState";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -22,6 +25,8 @@ interface FileInputProps {
     uploadedFiles: File[];
     setUploadedFiles: React.Dispatch<SetStateAction<File[]>>;
     modifyProfile?: boolean;
+    profileType?: "" | "BUYER" | "SELLER";
+    userId?: number;
     fundingForm?: boolean;
 }
 
@@ -35,7 +40,6 @@ interface FilesListContainerTypes {
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-
 const FileInputContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -167,9 +171,13 @@ function FileInput({
     uploadedFiles,
     setUploadedFiles,
     modifyProfile = false,
+    profileType = "",
+    userId = 0,
     fundingForm = false,
 }: FileInputProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const [, setUser] = useUserState();
+    const [, setSeller] = useSellerState();
 
     const handleInputButton = () => {
         if (inputRef.current) {
@@ -179,17 +187,26 @@ function FileInput({
 
     const handleUploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
-        console.log("handleUploadFiles");
         if (files) {
             const fileList = Array.from(files);
 
             if (fileList.length + uploadedFiles.length <= count) {
                 setUploadedFiles([...uploadedFiles, ...fileList]);
                 if (modifyProfile) {
-                    pathSellerImg(fileList).then((result) => {
-                        console.log(result);
-                        setUploadedFiles([]);
-                    });
+                    if (profileType === "BUYER") {
+                        patchUpdateUserProfile(userId, fileList).then((result) => {
+                            console.log(result);
+                            const newBuyerProfile: string = result.data;
+                            setUploadedFiles([]);
+                            setUser((prev) => ({ ...prev, userImgUrl: newBuyerProfile }));
+                        });
+                    } else {
+                        patchSellerProfile(fileList).then((result) => {
+                            const newSellerProfile: string = result.data;
+                            setUploadedFiles([]);
+                            setSeller((prev) => ({ ...prev, sellerImgUrl: newSellerProfile }));
+                        });
+                    }
                 }
                 setUploadedFiles([...uploadedFiles, ...Array.from(fileList)]);
             } else {

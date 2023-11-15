@@ -2,6 +2,8 @@
 export interface BusinessType {
     businessId: number;
     businessImgUrl: string;
+    businessAccountHolder?: string;
+    businessAccount?: string;
     businessAddress: string;
     businessBio: string;
     businessCeo: string;
@@ -11,10 +13,7 @@ export interface BusinessType {
     businessNumber: string;
     businessOperatingTime: string;
     businessPhone: string;
-    sellerMenuResponseDtos: {
-        menuId: number;
-        menu: string;
-    };
+    sellerMenuResponseDtos: MenuType[];
 }
 
 export interface CouponType {
@@ -87,6 +86,11 @@ export interface FundingType {
     }[];
     bookmarkCount: number;
     fundingIsBookmark: boolean;
+}
+
+export interface MenuType {
+    menuId: number;
+    menu: string;
 }
 
 export interface MonthlyStatisticsType {

@@ -11,7 +11,7 @@ import Image from "next/image";
 import { changeFontWeight } from "@utils/format";
 import Modal from "@components/composite/modal";
 import FileInput from "@components/common/input/FileInput";
-import { addNewMenu, getMenuList } from "@apis/menu";
+import { getMenuList, postMenu } from "@apis/menu";
 import { createFunding, postGiftcardImage } from "@/apis/fundings";
 import { useRouter } from "next/router";
 
@@ -557,11 +557,7 @@ function FundingForm() {
     };
 
     const submitModalData = () => {
-        addNewMenu({
-            menu: menuName,
-            price: originPrice,
-            multipartFiles: uploadedFiles,
-        }).then((res) => {
+        postMenu(menuName, originPrice, uploadedFiles).then((res) => {
             setMenuList(res.data);
             setIsModalOpen(false);
         });

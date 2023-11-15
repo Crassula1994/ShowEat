@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 // ----------------------------------------------------------------------------------------------------
 
 /* Type */
-interface FundingApplyErrorModalProps {
+interface FundingFavoriteErrorModalProps {
     errorCode: number;
 }
 
@@ -36,7 +36,7 @@ const TextWrapper = styled("div")`
 // ----------------------------------------------------------------------------------------------------
 
 /* Funding Apply Error Modal Component */
-function FundingApplyErrorModal(props: FundingApplyErrorModalProps) {
+function FundingFavoriteErrorModal(props: FundingFavoriteErrorModalProps) {
     // States and Variables
     const { errorCode } = props;
 
@@ -45,16 +45,6 @@ function FundingApplyErrorModal(props: FundingApplyErrorModalProps) {
         switch (errorCode) {
             case 401:
                 return "로그인이 필요한 서비스입니다.\n\n로그인 페이지로 이동하시겠습니까?";
-            case 452:
-                return "해당 펀딩이 더 이상 존재하지 않습니다.";
-            case 481:
-                return "이미 종료된 펀딩은 참여할 수 없습니다.";
-            case 482:
-                return "해당 펀딩의 최대 참여 인원 제한에 도달했습니다.\n\n아쉽지만, 다음 펀딩을 기대해 주세요.";
-            case 483:
-                return "이미 참여한 펀딩에 중복 참여할 수 없습니다.";
-            case 484:
-                return "해당 펀딩에 참여할 캐시카우가 부족합니다.\n\n충전 페이지로 이동하시겠습니까?";
             case 500:
                 return "서버에서 예측하지 못한 에러가 발생했습니다.\n\n잠시 후 다시 시도해주시기 바랍니다.";
             default:
@@ -79,4 +69,4 @@ function FundingApplyErrorModal(props: FundingApplyErrorModalProps) {
 // ----------------------------------------------------------------------------------------------------
 
 /* Export */
-export default FundingApplyErrorModal;
+export default FundingFavoriteErrorModal;

@@ -3,6 +3,9 @@ function handleFetchError(statusCode: number) {
     switch (statusCode) {
         case 400:
             return "요청이 실패했습니다.";
+        case 401:
+            // Unauthorized
+            return 401;
         case 410:
             return "유효하지 않은 조건입니다.";
         case 411:

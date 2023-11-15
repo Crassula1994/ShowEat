@@ -132,7 +132,7 @@ function SignUp() {
                 setUser((prevState) => ({
                     ...prevState,
                     userNickname: nickname,
-                    userPhone: phone,
+                    userPhone: rawPhone,
                     userAddress: address,
                     visited: true,
                 }));

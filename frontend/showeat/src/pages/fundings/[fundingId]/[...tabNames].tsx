@@ -10,6 +10,7 @@ import {
     FundingApplyErrorModal,
     FundingCancelErrorModal,
     FundingCancelModal,
+    FundingFavoriteErrorModal,
     FundingShareModal,
 } from "@components/custom/modal";
 import { fundingTabMenu } from "@configs/tabMenu";
@@ -62,7 +63,7 @@ interface FundingTabProps {
 
 /* Style */
 const FundingContainer = styled("div")`
-    width: 100vw;
+    width: 100%;
     box-sizing: border-box;
     padding: 5% 15%;
 `;
@@ -296,6 +297,7 @@ function FundingTab(props: FundingTabProps) {
     const [isApplyErrorModalOpen, setIsApplyErrorModalOpen] = useState<boolean>(false);
     const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
     const [isCancelErrorModalOpen, setIsCancelErrorModalOpen] = useState<boolean>(false);
+    const [isFavoriteErrorModalOpen, setIsFavoriteErrorModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
     // Function for Opening Cancel Confirm Modal
@@ -333,7 +335,12 @@ function FundingTab(props: FundingTabProps) {
 
     // Function for Removing Favorite Funding
     const handleFavorite = () => {
-        postBookmark(fundingId).then(() => {
+        postBookmark(fundingId).then((result) => {
+            if (typeof result === "number") {
+                setErrorCode(result);
+                setIsFavoriteErrorModalOpen(true);
+                return;
+            }
             if (isFavorite) {
                 setFavoriteCount((prev) => prev - 1);
             } else {
@@ -568,7 +575,7 @@ function FundingTab(props: FundingTabProps) {
                         setIsOpen={setIsCancelErrorModalOpen}
                         modalTitle="펀딩 참여 취소 실패"
                         childComponent={<FundingCancelErrorModal errorCode={errorCode} />}
-                        buttonType="confirm"
+                        buttonType={errorCode === 401 ? "submit" : "confirm"}
                         buttonWidth="40%"
                     />
                     <Modal
@@ -578,9 +585,21 @@ function FundingTab(props: FundingTabProps) {
                         setIsOpen={setIsApplyErrorModalOpen}
                         modalTitle="펀딩 참여 실패"
                         childComponent={<FundingApplyErrorModal errorCode={errorCode} />}
-                        buttonType={errorCode === 484 ? "submit" : "confirm"}
+                        buttonType={errorCode === 401 || errorCode === 484 ? "submit" : "confirm"}
                         buttonWidth="40%"
                         onSubmit={() => router.push("/buyers/pay")}
+                        submitButtonText="이동"
+                    />
+                    <Modal
+                        width="400px"
+                        height="auto"
+                        isOpen={isFavoriteErrorModalOpen}
+                        setIsOpen={setIsFavoriteErrorModalOpen}
+                        modalTitle="관심 펀딩 등록 실패"
+                        childComponent={<FundingFavoriteErrorModal errorCode={errorCode} />}
+                        buttonType={errorCode === 401 ? "submit" : "confirm"}
+                        buttonWidth="40%"
+                        onSubmit={() => router.push("/sign-in")}
                         submitButtonText="이동"
                     />
                     <Modal

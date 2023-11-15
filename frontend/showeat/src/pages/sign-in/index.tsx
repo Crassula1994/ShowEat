@@ -1,4 +1,5 @@
 /* Import */
+import Head from "next/head";
 import Image from "next/image";
 import { LoginButton } from "@components/common/button";
 import { ReactNode } from "react";
@@ -77,30 +78,36 @@ function SignIn() {
     };
 
     return (
-        <SignInContainer>
-            <HeaderWrapper>쑈잇 시작하기</HeaderWrapper>
-            <DescriptionWrapper>
-                서비스 이용을 위해 <b>카카오</b> 또는 <b>구글</b>로 간편하게 시작해 보세요.
-            </DescriptionWrapper>
-            <ImageWrapper>
-                <Image
-                    src="/assets/images/customer-cow.png"
-                    width={200}
-                    height={200}
-                    alt="customer-cow"
-                    priority
-                />
-            </ImageWrapper>
-            <ButtonContainer>
-                <LoginButton
-                    width="25%"
-                    onClick={handleKakaoLogin}
-                    colorType="kakao"
-                    text="카카오로 시작하기"
-                />
-                <LoginButton width="25%" colorType="google" text="구글로 시작하기" />
-            </ButtonContainer>
-        </SignInContainer>
+        <>
+            <Head>
+                <title>쑈잇 시작하기</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <SignInContainer>
+                <HeaderWrapper>쑈잇 시작하기</HeaderWrapper>
+                <DescriptionWrapper>
+                    서비스 이용을 위해 <b>카카오</b> 또는 <b>구글</b>로 간편하게 시작해 보세요.
+                </DescriptionWrapper>
+                <ImageWrapper>
+                    <Image
+                        src="/assets/images/customer-cow.png"
+                        width={200}
+                        height={200}
+                        alt="customer-cow"
+                        priority
+                    />
+                </ImageWrapper>
+                <ButtonContainer>
+                    <LoginButton
+                        width="25%"
+                        onClick={handleKakaoLogin}
+                        colorType="kakao"
+                        text="카카오로 시작하기"
+                    />
+                    <LoginButton width="25%" colorType="google" text="구글로 시작하기" />
+                </ButtonContainer>
+            </SignInContainer>
+        </>
     );
 }
 

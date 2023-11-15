@@ -1,5 +1,6 @@
 /* Import */
 import getReviewList from "@apis/review";
+import Image from "next/image";
 import PaginationBar from "@components/composite/paginationBar";
 import ReviewBox from "@components/composite/reviewBox";
 import styled from "@emotion/styled";
@@ -28,6 +29,28 @@ const ReviewContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
+`;
+
+const BlankWrapper = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
 `;
 
 const ReviewListWrapper = styled("div")`
@@ -60,11 +83,25 @@ function FundingReviewTab(props: FundingReviewTabProps) {
 
     return (
         <ReviewContainer>
-            <ReviewListWrapper>
-                {curReviewList.map((reviewData, index) => (
-                    <ReviewBox key={index} reviewData={reviewData} />
-                ))}
-            </ReviewListWrapper>
+            {curReviewList.length === 0 ? (
+                <BlankWrapper>
+                    <Image
+                        src="/assets/images/crying-cook-cow.png"
+                        width={150}
+                        height={150}
+                        alt="crying-cook-cow"
+                        priority
+                    />
+                    <TextWrapper>아쉽게도, 리뷰가 존재하지 않소!</TextWrapper>
+                </BlankWrapper>
+            ) : (
+                <ReviewListWrapper>
+                    {curReviewList.map((reviewData, index) => (
+                        <ReviewBox key={index} reviewData={reviewData} />
+                    ))}
+                </ReviewListWrapper>
+            )}
+
             <PaginationBar
                 pageCount={reviewPage}
                 selectedPage={curPage}

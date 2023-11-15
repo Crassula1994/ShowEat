@@ -1,6 +1,7 @@
 /* Import */
 import { getLoginWithKakao } from "@apis/auth";
 import { getBusinessInfo } from "@apis/business";
+import Head from "next/head";
 import LoadingSpinner from "@components/composite/loadingSpinner";
 import { setCookie } from "cookies-next";
 import styled from "@emotion/styled";
@@ -98,9 +99,15 @@ function SignInLoading() {
     }, []);
 
     return (
-        <LoadingContainer>
-            <LoadingSpinner />
-        </LoadingContainer>
+        <>
+            <Head>
+                <title>쑈잇 시작하기</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <LoadingContainer>
+                <LoadingSpinner />
+            </LoadingContainer>
+        </>
     );
 }
 
