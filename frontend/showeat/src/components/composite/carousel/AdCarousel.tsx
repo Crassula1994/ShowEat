@@ -181,7 +181,7 @@ function AdCarousel({ height, adData }: CarouselProps) {
             <Slider {...settings} ref={sliderRef}>
                 {adData.map((content, idx) => (
                     <CarouselAdWrapper key={`${content}-${idx}`} height={height}>
-                        <CarouselAdBox fill src={content.imgUrl} alt="advertise" />
+                        <CarouselAdBox fill src={content.imgUrl} alt="advertise" priority />
                     </CarouselAdWrapper>
                 ))}
             </Slider>

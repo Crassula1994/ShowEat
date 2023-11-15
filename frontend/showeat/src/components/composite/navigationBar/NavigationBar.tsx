@@ -151,6 +151,12 @@ const MenuWrapper = styled("div")<{ isSelected: boolean }>`
     cursor: pointer;
 `;
 
+const QRButtonWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Function */
@@ -268,6 +274,15 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     </MenuWrapper>
                 ))}
             </MenuContainer>
+            <QRButtonWrapper>
+                <TextButton
+                    text="QR 인식"
+                    width="180px"
+                    height="40px"
+                    fontSize={20}
+                    colorType="primary"
+                />
+            </QRButtonWrapper>
         </NavigationBarContainer>
     );
 }

@@ -366,7 +366,7 @@ function RedeemResult() {
     const [couponData, setCouponData] = useState<CouponType | null>(null);
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(true);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [isStatus, setIsStatus] = useState<string>("UNKNOWN");
     const [isUseMoney, setIsUseMoney] = useState("");
     const [user] = useUserState();

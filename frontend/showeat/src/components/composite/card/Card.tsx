@@ -338,6 +338,7 @@ function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: C
                     }
                     alt="card-img"
                     fill
+                    sizes="250px"
                 />
                 <CardUpperContentContainer>
                     <HeartContainer>
