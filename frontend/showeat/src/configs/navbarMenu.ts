@@ -27,7 +27,6 @@ function navbarMenu(isBuyer: boolean) {
             link: "/sellers/statistics/monthly",
             contain: ["/sellers/statistics/monthly", "/sellers/statistics/total"],
         },
-        { text: "쿠폰 발행 현황", link: "/sellers/coupons", contain: ["/sellers/coupons"] },
         { text: "진행 중 펀딩", link: "/sellers/onboard", contain: ["/sellers/onboard"] },
         { text: "종료된 펀딩", link: "/sellers/closed", contain: ["/sellers/closed"] },
     ];

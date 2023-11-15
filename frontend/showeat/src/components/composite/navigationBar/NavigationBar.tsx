@@ -211,6 +211,10 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
         router.push("/buyers/pay");
     };
 
+    const handleQR = () => {
+        router.push("/sellers/redeem");
+    };
+
     return (
         <NavigationBarContainer>
             <ProfileBoxContainer>
@@ -274,15 +278,18 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     </MenuWrapper>
                 ))}
             </MenuContainer>
-            <QRButtonWrapper>
-                <TextButton
-                    text="QR 인식"
-                    width="180px"
-                    height="40px"
-                    fontSize={20}
-                    colorType="primary"
-                />
-            </QRButtonWrapper>
+            {!isBuyer && (
+                <QRButtonWrapper>
+                    <TextButton
+                        text="QR 인식"
+                        width="180px"
+                        height="40px"
+                        fontSize={20}
+                        colorType="primary"
+                        onClick={() => handleQR}
+                    />
+                </QRButtonWrapper>
+            )}
         </NavigationBarContainer>
     );
 }

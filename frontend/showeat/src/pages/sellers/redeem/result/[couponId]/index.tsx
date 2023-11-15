@@ -422,7 +422,7 @@ function RedeemResult() {
                     patchUseCoupon(couponData.couponId).then((res) => {
                         if (res.statusCode === 200) {
                             setIsSuccessModalOpen(true);
-                        } else if (res.statusCode === 463) {
+                        } else if (res === 463) {
                             setIsStatus("NONEBUSINESS");
                             setIsMultiModalOpen(true);
                         } else {
@@ -437,7 +437,7 @@ function RedeemResult() {
                     }).then((res) => {
                         if (res.statusCode === 200) {
                             setIsSuccessModalOpen(true);
-                        } else if (res.statusCode === 463) {
+                        } else if (res === 463) {
                             setIsStatus("NONEBUSINESS");
                             setIsMultiModalOpen(true);
                         } else {
