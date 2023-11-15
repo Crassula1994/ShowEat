@@ -1,20 +1,16 @@
 /* Address Config */
 const adData = [
     {
-        businessName: "야옹",
-        imgUrl: "/assets/images/ad/cat.png",
+        businessName: "Service-Main",
+        imgUrl: "/assets/images/ad/home-banner-main.png",
     },
     {
-        businessName: "댕댕",
-        imgUrl: "/assets/images/ad/dog.jpeg",
+        businessName: "Service-Sub1",
+        imgUrl: "/assets/images/ad/home-banner-sub1.png",
     },
     {
-        businessName: "라쿤",
-        imgUrl: "/assets/images/ad/raccoon.jpg",
-    },
-    {
-        businessName: "레서판다",
-        imgUrl: "/assets/images/ad/lesserpanda.jpg",
+        businessName: "Service-Sub2",
+        imgUrl: "/assets/images/ad/home-banner-sub2.png",
     },
 ];
 const carouselAlwaysData = [
