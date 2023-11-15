@@ -176,7 +176,7 @@ function SellerInfo({
             document.body.appendChild(script);
         };
 
-        if (!window.daum) {
+        if (window.daum) {
             loadDaumPostcode();
         }
     }, []);

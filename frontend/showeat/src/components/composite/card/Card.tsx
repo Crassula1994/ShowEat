@@ -302,9 +302,10 @@ function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: C
         return "";
     }
 
-    const progressPercent = parseFloat(
-        ((fundingData.curCount / fundingData.minLimit) * 100).toFixed(0),
-    );
+    const progressPercent =
+        fundingData.minLimit > 0
+            ? parseFloat(((fundingData.curCount / fundingData.minLimit) * 100).toFixed(0))
+            : parseFloat(((fundingData.curCount / 1) * 100).toFixed(0));
 
     const formattedOriginPrice = numberWithCommas(fundingData.price);
     const formattedSalePrice = numberWithCommas(fundingData.discountPrice);
