@@ -1,8 +1,45 @@
+/* Import */
 import styled from "@emotion/styled";
 import { ChangeEvent, useState, useRef, useEffect } from "react";
 import { TextInput } from "@components/common/input";
 import TextButton from "@components/common/button/TextButton";
+import Head from "next/head";
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Type */
+declare global {
+    interface Window {
+        daum: {
+            Postcode: {
+                new (options: { oncomplete: (data: IAddr) => void }): {
+                    open: () => void;
+                };
+            };
+        };
+    }
+}
+
+interface IAddr {
+    address: string;
+    zonecode: string;
+}
+
+interface SellerInfoProps {
+    onBusinessNameChange: (value: string) => void;
+    onStartDateChange: (value: string) => void;
+    onBusinessNumberChange: (value: string) => void;
+    onBusinessAddressChange: (value: string) => void;
+    onZonecodeChange: (value: string) => void;
+    onBusinessAddressDetailChange: (value: string) => void;
+    onBusinessPhoneChange: (value: string) => void;
+    onFileNameChange: (value: string) => void;
+    onFormDataChange: (value: FormData) => void;
+}
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const InputContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -50,35 +87,9 @@ const InputBox = styled("div")`
     gap: 54px;
 `;
 
-declare global {
-    interface Window {
-        daum: {
-            Postcode: {
-                new (options: { oncomplete: (data: IAddr) => void }): {
-                    open: () => void;
-                };
-            };
-        };
-    }
-}
+// ----------------------------------------------------------------------------------------------------
 
-interface IAddr {
-    address: string;
-    zonecode: string;
-}
-
-interface SellerInfoProps {
-    onBusinessNameChange: (value: string) => void;
-    onStartDateChange: (value: string) => void;
-    onBusinessNumberChange: (value: string) => void;
-    onBusinessAddressChange: (value: string) => void;
-    onZonecodeChange: (value: string) => void;
-    onBusinessAddressDetailChange: (value: string) => void;
-    onBusinessPhoneChange: (value: string) => void;
-    onFileNameChange: (value: string) => void;
-    onFormDataChange: (value: FormData) => void;
-}
-
+/* Seller Info Component */
 function SellerInfo({
     onBusinessNameChange,
     onStartDateChange,
@@ -125,15 +136,15 @@ function SellerInfo({
     };
 
     const handleBusinessAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.trim();
-        setBusinessAddress(value);
-        onBusinessAddressChange(value);
+        const newValue = event.target.value;
+        setBusinessAddress(newValue);
+        onBusinessAddressChange(newValue);
     };
 
     const handleBusinessAddressDetailChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.trim();
-        setBusinessAddressDetail(value);
-        onBusinessAddressDetailChange(value);
+        const newValue = event.target.value;
+        setBusinessAddressDetail(newValue);
+        onBusinessAddressDetailChange(newValue);
     };
 
     const handleBusinessPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -195,102 +206,112 @@ function SellerInfo({
     };
 
     return (
-        <InputContainer>
-            <SellerInfoWrapper>사업자 정보</SellerInfoWrapper>
-            <InputBox>
-                <LabelWrapper>상호 또는 법인명</LabelWrapper>
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="businessName"
-                    value={businessName}
-                    placeholder="쑈잇"
-                    onChange={handleBusinessNameChange}
+        <>
+            <Head>
+                <title>사업자 등록 정보 입력</title>
+                <meta
+                    name="description"
+                    content="사업자 등록 번호를 조회하고, 업체 정보를 입력해주세요."
                 />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper>사업 시작일</LabelWrapper>
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="startDate"
-                    value={startDate}
-                    placeholder="20231111"
-                    onChange={handleStartDateChange}
-                />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper>사업자등록번호</LabelWrapper>
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="businessNumber"
-                    value={businessNumber}
-                    placeholder="1098177256"
-                    onChange={handleBusinessNumberChange}
-                />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper>주소</LabelWrapper>
-                <TextInput
-                    width="575px"
-                    height="40px"
-                    id="zonecode"
-                    value={zonecode}
-                    placeholder="우편번호"
-                    onChange={handleZonecodeChange}
-                />
-                <ButtonWrapper>
-                    <TextButton width="100px" text="검색" onClick={onClickAddress} />
-                </ButtonWrapper>
-            </InputBox>
-            <InputBox>
-                <LabelWrapper />
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="businessAddress"
-                    value={businessAddress}
-                    placeholder="도로명주소"
-                    onChange={handleBusinessAddressChange}
-                />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper />
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="businessAddressDetail"
-                    value={businessAddressDetail}
-                    placeholder="상세주소"
-                    onChange={handleBusinessAddressDetailChange}
-                />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper>연락처</LabelWrapper>
-                <TextInput
-                    width="727px"
-                    height="40px"
-                    id="businessPhone"
-                    value={businessPhone}
-                    placeholder="01012341234"
-                    onChange={handleBusinessPhoneChange}
-                />
-            </InputBox>
-            <InputBox>
-                <LabelWrapper>사업자등록증</LabelWrapper>
-                <input
-                    type="file"
-                    ref={businessRegistrationInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleBusinessRegistrationChange}
-                />
-                <BusinessRegistrationWrapper>
-                    <TextButton width="100px" text="업로드" onClick={handleButtonClick} />
-                    {fileName}
-                </BusinessRegistrationWrapper>
-            </InputBox>
-        </InputContainer>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <InputContainer>
+                <SellerInfoWrapper>사업자 정보</SellerInfoWrapper>
+                <InputBox>
+                    <LabelWrapper>상호 또는 법인명</LabelWrapper>
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="businessName"
+                        value={businessName}
+                        placeholder="쑈잇"
+                        onChange={handleBusinessNameChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper>사업 시작일</LabelWrapper>
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="startDate"
+                        value={startDate}
+                        placeholder="20231111"
+                        onChange={handleStartDateChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper>사업자등록번호</LabelWrapper>
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="businessNumber"
+                        value={businessNumber}
+                        placeholder="1098177256"
+                        onChange={handleBusinessNumberChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper>주소</LabelWrapper>
+                    <TextInput
+                        width="575px"
+                        height="40px"
+                        id="zonecode"
+                        value={zonecode}
+                        placeholder="우편번호"
+                        onChange={handleZonecodeChange}
+                    />
+                    <ButtonWrapper>
+                        <TextButton width="100px" text="검색" onClick={onClickAddress} />
+                    </ButtonWrapper>
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper />
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="businessAddress"
+                        value={businessAddress}
+                        placeholder="도로명주소"
+                        onChange={handleBusinessAddressChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper />
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="businessAddressDetail"
+                        value={businessAddressDetail}
+                        placeholder="상세주소"
+                        onChange={handleBusinessAddressDetailChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper>연락처</LabelWrapper>
+                    <TextInput
+                        width="727px"
+                        height="40px"
+                        id="businessPhone"
+                        value={businessPhone}
+                        placeholder="01012341234"
+                        onChange={handleBusinessPhoneChange}
+                    />
+                </InputBox>
+                <InputBox>
+                    <LabelWrapper>사업자등록증</LabelWrapper>
+                    <input
+                        type="file"
+                        ref={businessRegistrationInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleBusinessRegistrationChange}
+                    />
+                    <BusinessRegistrationWrapper>
+                        <TextButton width="100px" text="업로드" onClick={handleButtonClick} />
+                        {fileName}
+                    </BusinessRegistrationWrapper>
+                </InputBox>
+            </InputContainer>
+        </>
     );
 }
 

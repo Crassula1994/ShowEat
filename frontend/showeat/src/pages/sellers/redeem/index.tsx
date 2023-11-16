@@ -7,7 +7,6 @@ import styled from "@emotion/styled";
 import SingleLayout from "@layouts/SingleLayout";
 import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
-import getQRCode from "@apis/qr";
 import Modal from "@components/composite/modal";
 import Head from "next/head";
 
@@ -112,47 +111,49 @@ function Redeem() {
     };
 
     const readQRCode = (imageSrc: string) => {
-        const canvas = document.createElement("canvas");
-        const img = new Image();
+        return new Promise<string | null>((resolve) => {
+            const canvas = document.createElement("canvas");
+            const img = new Image();
 
-        img.src = imageSrc;
+            img.src = imageSrc;
 
-        img.onload = function loadImage() {
-            if (img.width && img.height) {
-                canvas.width = img.width;
-                canvas.height = img.height;
+            img.onload = function loadImage() {
+                if (img.width && img.height) {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
 
-                const context = canvas.getContext("2d");
-                if (context) {
-                    context.drawImage(img, 0, 0, img.width, img.height);
+                    const context = canvas.getContext("2d");
+                    if (context) {
+                        context.drawImage(img, 0, 0, img.width, img.height);
 
-                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
 
-                    if (code) {
-                        return code.data;
+                        if (code) {
+                            resolve(code.data);
+                        } else {
+                            resolve(null);
+                        }
+                    } else {
+                        resolve(null);
                     }
+                } else {
+                    resolve(null);
                 }
-            }
-            return null;
-        };
-        return null;
+            };
+        });
     };
 
     const capture = () => {
         const imageSrc = webcamRef.current?.getScreenshot() || "";
 
-        const qrCode = readQRCode(imageSrc);
-        if (qrCode) {
-            console.log("QR Code:", qrCode);
-            getQRCode(imageSrc).then((res) => {
-                console.log(res);
-                // 임시로 써둔 코드, api 돌아오면 url을 통한거로 바꿀 것.
-                router.push(`/sellers/redeem/result/${imageSrc}`);
-            });
-        } else {
-            setIsOpen(true);
-        }
+        readQRCode(imageSrc).then((res) => {
+            if (res) {
+                router.push(res);
+            } else {
+                setIsOpen(true);
+            }
+        });
     };
 
     return (
@@ -216,7 +217,7 @@ function Redeem() {
 /* Middleware */
 const RedeemWithAuth = withAuth({
     WrappedComponent: Redeem,
-    guardType: "USER_ONLY",
+    // guardType: "USER_ONLY",
 });
 
 // ----------------------------------------------------------------------------------------------------

@@ -167,6 +167,7 @@ function MyFundings() {
                                 fundingData={funding}
                                 onFundingClick={() => handleCard(funding.fundingId)}
                                 onBookmark={() => handleBookmark(funding)}
+                                inMyPage
                             />
                         ))}
                     </CardsContainer>

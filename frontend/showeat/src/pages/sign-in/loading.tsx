@@ -34,7 +34,7 @@ function SignInLoading() {
     // States and Variables
     const router = useRouter();
     const [, setUser] = useUserState();
-    const [, setSeller] = useSellerState();
+    const [seller, setSeller] = useSellerState();
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -84,9 +84,9 @@ function SignInLoading() {
                         });
                     });
                 }
-                const returnUrl = params.get("state");
-                if (returnUrl) {
-                    router.replace(returnUrl);
+
+                if (seller.couponUrl) {
+                    router.replace(seller.couponUrl);
                 } else if (visited) {
                     router.replace("/");
                 } else {

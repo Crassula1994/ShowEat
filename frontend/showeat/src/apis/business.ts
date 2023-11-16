@@ -57,6 +57,9 @@ const postAccountInfo = async (
     };
 
     const result = await fetchModify(props);
+
+    console.log(result);
+
     return result;
 };
 

@@ -477,7 +477,7 @@ function Search({
     const [fundingDatas, setFundingDatas] = useState<FundingType[]>(searchResultData);
     const [isFilterd, setIsFiltered] = useState<boolean>(false);
     const [isSelectedSort, setIsSelectedSort] = useState<string>(sortType || "POPULARITY");
-    const [pageNum, setPageNum] = useState(1);
+    const [pageNum, setPageNum] = useState(0);
     const [isLastPage, setIsLastPage] = useState(isLast);
     const [isChange, setIsChange] = useState(false);
     const [minMoney, setMinMoney] = useState(min);
@@ -601,6 +601,7 @@ function Search({
 
     const handleMoreButton = () => {
         if (!isLastPage) {
+            const nextPage = pageNum + 1;
             if (keyword && keyword !== "") {
                 searchFundings({
                     keyword,
@@ -610,21 +611,7 @@ function Search({
                     max,
                     searchType,
                     sortType: isSelectedSort,
-                    page: pageNum,
-                }).then((res) => {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
-                    setFundingDatas((prev) => {
-                        return [...prev, ...res.data.content];
-                    });
-                    setPageNum((prev) => prev + 1);
-                });
-            } else if (category) {
-                getCategoryFundings({
-                    category: typeof category === "string" ? category : category[0],
-                    sortType: isSelectedSort,
-                    page: pageNum,
+                    page: nextPage,
                 }).then((res) => {
                     if (res.data.last) {
                         setIsLastPage(true);
@@ -633,7 +620,32 @@ function Search({
                         setFundingDatas((prev) => {
                             return [...prev, ...res.data.content];
                         });
-                        setPageNum((prev) => prev + 1);
+                        setPageNum(nextPage);
+                    } else if (res === 520) {
+                        setErrorMessage("알 수 없는 오류가 발생했습니다.");
+                        setIsMultiModalOpen(true);
+                    } else {
+                        setErrorMessage(
+                            errorMessages.find((e) => e.status === res)?.message ||
+                                "알 수 없는 오류가 발생했습니다.",
+                        );
+                        setIsMultiModalOpen(true);
+                    }
+                });
+            } else if (category) {
+                getCategoryFundings({
+                    category: typeof category === "string" ? category : category[0],
+                    sortType: isSelectedSort,
+                    page: nextPage,
+                }).then((res) => {
+                    if (res.data.last) {
+                        setIsLastPage(true);
+                    }
+                    if (res.statusCode === 200) {
+                        setFundingDatas((prev) => {
+                            return [...prev, ...res.data.content];
+                        });
+                        setPageNum(nextPage);
                     } else if (res === 520) {
                         setErrorMessage("알 수 없는 오류가 발생했습니다.");
                         setIsMultiModalOpen(true);

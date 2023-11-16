@@ -13,6 +13,7 @@ import { formatMoney } from "@/utils/format";
 import { TextInput } from "@/components/common/input";
 import useUserState from "@/hooks/useUserState";
 import Head from "next/head";
+import useSellerState from "@/hooks/useSellerState";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -258,8 +259,7 @@ function LoginModal() {
     // Function for Redirecting to Kakao Login Page
     const handleKakaoLogin = () => {
         const KAKAO_BASE_URL: string = "https://kauth.kakao.com/oauth/authorize";
-        const currentUrl = window.location.pathname;
-        window.location.href = `${KAKAO_BASE_URL}?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&state=${currentUrl}`;
+        window.location.href = `${KAKAO_BASE_URL}?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
     };
     return (
         <LoginModalContainer>
@@ -335,10 +335,10 @@ function MultiModal(isStatus: string) {
 
 function SuccessModal() {
     const router = useRouter();
-    const goRedeem = () => {
-        router.replace("/sellers/redeem");
+    const goSeller = () => {
+        router.replace("/sellers/profile/seller-info");
     };
-    const closeWindow = () => {
+    const goMain = () => {
         router.replace("/");
     };
 
@@ -348,13 +348,13 @@ function SuccessModal() {
                 성공적으로 처리 완료됐습니다.
             </SuccessModalDescriptionWrapper>
             <SuccessModalButtonContainer>
-                <TextButton text="QR 페이지로" width="180px" height="40px" onClick={goRedeem} />
                 <TextButton
-                    text="메인으로"
+                    text="셀러 페이지로"
                     width="180px"
                     height="40px"
-                    onClick={() => closeWindow()}
+                    onClick={() => goSeller()}
                 />
+                <TextButton text="메인으로" width="180px" height="40px" onClick={() => goMain()} />
             </SuccessModalButtonContainer>
         </MultiModalContainer>
     );
@@ -370,6 +370,7 @@ function RedeemResult() {
     const [isStatus, setIsStatus] = useState<string>("UNKNOWN");
     const [isUseMoney, setIsUseMoney] = useState("");
     const [user] = useUserState();
+    const [, setSeller] = useSellerState();
 
     useEffect(() => {
         const { couponId } = router.query;
@@ -384,19 +385,34 @@ function RedeemResult() {
                 }
             });
         }
+
+        if (user.userId === 0) {
+            setSeller((prev) => ({
+                ...prev,
+                couponUrl: `/sellers/redeem/result/${couponId}`,
+            }));
+        } else {
+            setSeller((prev) => ({
+                ...prev,
+                couponUrl: "",
+            }));
+        }
     }, [router.query, user]);
 
     const isSingleCoupon = couponData?.couponType === "SINGLE";
-    const tableHeaders: string[] = [
-        "펀딩명",
-        "유효 기간",
-        isSingleCoupon ? "메뉴 가격" : "쿠폰 잔액",
-        isSingleCoupon && "구입 가격",
-    ]
-        .filter(Boolean)
-        .map((item) => item as string);
+    const tableHeaders =
+        couponData &&
+        [
+            "펀딩명",
+            "유효 기간",
+            isSingleCoupon ? "메뉴 가격" : "쿠폰 잔액",
+            isSingleCoupon && "구입 가격",
+        ]
 
-    const tableContents: (string | number)[] = [
+            .filter(Boolean)
+            .map((item) => item as string);
+
+    const tableContents = [
         couponData?.fundingTitle || "데이터가 없습니다.",
         couponData?.expirationDate || "데이터가 없습니다.",
         isSingleCoupon
@@ -435,6 +451,8 @@ function RedeemResult() {
                         couponId: couponData.couponId,
                         couponAmount: parseFloat(isUseMoney),
                     }).then((res) => {
+                        console.log(res);
+
                         if (res.statusCode === 200) {
                             setIsSuccessModalOpen(true);
                         } else if (res === 463) {
@@ -483,16 +501,27 @@ function RedeemResult() {
                 </TitleContainer>
                 <ContentContainer>
                     <SellerInfoContainer>
-                        <SellerNameContainer>야미화니 커피</SellerNameContainer>
-                        <MenuNameContainer>카페라떼</MenuNameContainer>
+                        {couponData && (
+                            <SellerNameContainer>{couponData?.businessName}</SellerNameContainer>
+                        )}
+
+                        <MenuNameContainer>
+                            {(couponData &&
+                                (couponData?.couponType === "SINGLE"
+                                    ? couponData?.fundingMenu
+                                    : "금액권")) ||
+                                "데이터를 찾지 못 했습니다."}
+                        </MenuNameContainer>
                     </SellerInfoContainer>
                     <TableContainer>
-                        <Table
-                            headers={tableHeaders}
-                            contents={tableContents}
-                            headerWidth="30%"
-                            gap="1em"
-                        />
+                        {tableHeaders && (
+                            <Table
+                                headers={tableHeaders}
+                                contents={tableContents}
+                                headerWidth="30%"
+                                gap="1em"
+                            />
+                        )}
                     </TableContainer>
                     {couponData?.couponType === "GIFTCARD" && (
                         <MoneyInputContainer>

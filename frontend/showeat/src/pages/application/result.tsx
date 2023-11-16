@@ -5,7 +5,11 @@ import SingleLayout from "@layouts/SingleLayout";
 import { ReactNode } from "react";
 import TextButton from "@components/common/button/TextButton";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const HeaderContainer = styled("div")`
     display: flex;
     flex-direction: column;
@@ -66,6 +70,9 @@ const ButtonWrapper = styled("div")`
     justify-content: center;
 `;
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Result Component */
 function Result() {
     const router = useRouter();
     const handleButtonClick = () => {
@@ -74,6 +81,11 @@ function Result() {
 
     return (
         <>
+            <Head>
+                <title>셀러 등록 결과</title>
+                <meta name="description" content="셀러 등록이 성공적으로 완료되었습니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
             <HeaderContainer>
                 <HeaderWrapper>셀러 계정 신청</HeaderWrapper>
                 <ProgressBox>

@@ -12,7 +12,7 @@ interface CardProps {
     fundingData: FundingType;
     onFundingClick?: (fundingId: number) => void;
     onBookmark?: (fundingId: number) => void;
-    inCarousel?: boolean;
+    inMyPage?: boolean;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ const RemainingTimeWrapper = styled("span")`
 // ----------------------------------------------------------------------------------------------------
 
 /* Card Component */
-function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: CardProps) {
+function Card({ fundingData, onFundingClick, onBookmark, inMyPage = false }: CardProps) {
     const [user] = useUserState();
 
     const maxPeopleText =
@@ -342,7 +342,7 @@ function Card({ fundingData, onFundingClick, onBookmark, inCarousel = false }: C
                 />
                 <CardUpperContentContainer>
                     <HeartContainer>
-                        {!inCarousel &&
+                        {inMyPage &&
                             user &&
                             user.userId !== 0 &&
                             (fundingData.fundingIsBookmark ? (

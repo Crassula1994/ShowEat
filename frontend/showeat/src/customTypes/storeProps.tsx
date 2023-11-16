@@ -17,4 +17,5 @@ export interface SellerType {
     sellerId: number;
     sellerName: string;
     sellerImgUrl: string;
+    couponUrl: string;
 }

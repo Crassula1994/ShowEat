@@ -1,3 +1,4 @@
+/* Import */
 import styled from "@emotion/styled";
 import withAuth from "@libs/withAuth";
 import SingleLayout from "@layouts/SingleLayout";
@@ -8,13 +9,20 @@ import Modal from "@components/composite/modal";
 import { useRouter } from "next/router";
 import { postBusinessInfo } from "@apis/business";
 import LoadingSpinner from "@components/composite/loadingSpinner";
+import Head from "next/head";
 import SellerInfo from "./seller-info";
 import OwnerInfo from "./owner-info";
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Type */
 interface StepBoxProps {
     backgroundColor: string;
 }
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const LoadingContainer = styled("div")`
     // Layout Attribute
     display: flex;
@@ -74,6 +82,8 @@ const ResultBox = styled("div")`
     flex-direction: column;
     align-items: center;
     gap: 80px;
+
+    padding-bottom: 2em;
 `;
 
 const ButtonWrapper = styled("div")`
@@ -81,6 +91,9 @@ const ButtonWrapper = styled("div")`
     justify-content: center;
 `;
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Registration Page */
 function Registration() {
     const router = useRouter();
     const [ceo, setCeo] = useState<string>("");
@@ -173,6 +186,11 @@ function Registration() {
 
     return (
         <>
+            <Head>
+                <title>셀러 등록 신청</title>
+                <meta name="description" content="셀러로 등록하실 당신의 정보를 입력해주세요." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
             {isLoading ? (
                 <LoadingContainer>
                     <LoadingSpinner />

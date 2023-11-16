@@ -171,17 +171,29 @@ const RightArrowWrapper = styled("div")<Partial<CardCarouselProps>>`
     }
 `;
 
-const NoDataWrapper = styled("div")<Partial<CardCarouselProps>>`
+const BlankWrapper = styled("div")<Partial<CardCarouselProps>>`
+    // Layout Attribute
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2em;
+
     width: ${(props) => `${props.width}px`};
     height: ${(props) => `${props.height}px`};
 
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center;
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
 
-    font-size: 26px;
+const TextWrapper = styled("div")`
+    // Text Attribute
     font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -259,14 +271,20 @@ function CardCarousel(props: CardCarouselProps) {
                                     onBookmark={() => {
                                         handleBookmark(cardData.fundingId);
                                     }}
-                                    inCarousel
                                 />
                             </CardWrapper>
                         ))
                     ) : (
-                        <NoDataWrapper width={width} height={height}>
-                            데이터가 없습니다.
-                        </NoDataWrapper>
+                        <BlankWrapper width={width} height={height}>
+                            <Image
+                                src="/assets/images/crying-cook-cow.png"
+                                width={150}
+                                height={150}
+                                alt="crying-cook-cow"
+                                priority
+                            />
+                            <TextWrapper>해당 펀딩이 존재하지 않소!</TextWrapper>
+                        </BlankWrapper>
                     )}
                 </Slider>
                 <RightArrowWrapper height={height} onClick={goToNext} cardList={cardList}>

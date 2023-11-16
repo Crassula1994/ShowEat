@@ -90,6 +90,8 @@ function Home(props: HomeProps) {
 
     useEffect(() => {
         if (user && user.userId !== 0) {
+            console.log(user, user.userId, "펀딩 목록 가져오기 시도중!!!");
+
             const promises = [getUserFundings(0), getFavoriteFundings(0)];
             Promise.all(promises).then((results) => {
                 if (results[0].data) {
