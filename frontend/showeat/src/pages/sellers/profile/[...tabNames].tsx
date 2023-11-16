@@ -32,9 +32,19 @@ const ProfileContainer = styled("div")`
     align-items: center;
 
     // Box Model Attribute
-    width: 100vw;
+    width: 100%;
     box-sizing: border-box;
     padding: 5% 15%;
+`;
+
+const TitleWrapper = styled("div")`
+    // Text Attribute
+    font-size: 30px;
+    font-weight: 900;
+
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 2em;
 `;
 
 const TabContainer = styled("div")`
@@ -94,6 +104,7 @@ function SellerProfileTab(props: SellerProfileTabProps) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <ProfileContainer>
+                <TitleWrapper>셀러 정보</TitleWrapper>
                 <TabBar>
                     {sellersProfileTabMenu.map((tab) => (
                         <Tab

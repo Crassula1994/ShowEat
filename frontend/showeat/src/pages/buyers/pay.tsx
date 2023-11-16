@@ -1,21 +1,23 @@
 /* Import */
-import { TextButton } from "@components/common/button";
-import { RadioButton } from "@/components/common/input";
+import { getUserInfo } from "@apis/users";
+import Head from "next/head";
+import { PaymentWidgetInstance, loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
+import { postRequestPayments } from "@apis/payments";
+import { RadioButton } from "@components/common/input";
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import SingleLayout from "@layouts/SingleLayout";
 import styled from "@emotion/styled";
-import withAuth from "@libs/withAuth";
-import { getUserInfo } from "@apis/users";
-import useUserState from "@hooks/useUserState";
-import { postRequestPayments } from "@apis/payments";
-import { PaymentWidgetInstance, loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
+import { TextButton } from "@components/common/button";
 import { useAsync } from "react-use";
-import Head from "next/head";
+import useUserState from "@hooks/useUserState";
+import withAuth from "@libs/withAuth";
+
+// ----------------------------------------------------------------------------------------------------
 
 /* Variables */
 const FRONT_ENDPOINT = process.env.NEXT_PUBLIC_FRONTEND_ENDPOINT;
-const clientKey = "test_ck_QbgMGZzorzyKv2BGY6djVl5E1em4";
-const customerKey = "test_sk_Ba5PzR0ArnWLjDw7vPe18vmYnNeD";
+const CLIENT_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY;
+const SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -26,44 +28,112 @@ const PaymentContainer = styled("div")`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1em;
 
     // Box Model Attribute
-    height: calc(100vh - 80px);
-    min-height: 1200px;
-    margin-top: 60px;
-    margin-bottom: 7%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5% 10%;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
 `;
 
-const SelectAmountContainer = styled("div")`
-    width: 50%;
-    height: 45%;
-    margin-bottom: 7%;
-`;
-
-const BuyerInfoContainer = styled("div")`
-    width: 50%;
-    height: 25%;
-    margin-bottom: 1%;
-`;
-
-const BuyerInfoTitleWrapper = styled("div")`
-    margin-bottom: 5%;
-    color: #000;
-
-    font-family: Pretendard;
-    font-size: 30px;
-    font-style: normal;
+const TitleWrapper = styled("div")`
+    // Text Attribute
     font-weight: 700;
-    line-height: normal;
+    font-size: 40px;
+`;
+
+const DescriptionWrapper = styled("div")`
+    // Text Attribute
+    color: ${(props) => props.theme.colors.gray4};
+    font-size: 20px;
+    b {
+        font-size: 20px;
+    }
+`;
+
+const PaymentBox = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    // Box Model Attribute
+    width: 50%;
+    margin-top: 3em;
+`;
+
+const Line = styled("div")`
+    // Box Model Attribute
+    width: 100%;
+    height: 1px;
+
+    // Style Attribute
+    background-color: ${(props) => props.theme.colors.gray2};
+`;
+
+const RadioButtonContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    // Box Model Attribute
+    width: 100%;
+`;
+
+const RadioButtonBox = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+
+    // Box Model Attribute
+    width: 25%;
+    margin: 1em 0;
+`;
+
+const TotalAmountWrapper = styled("div")`
+    // Layout Attribute
+    display: flex;
+    justify-content: space-between;
+
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 5em;
+`;
+
+const SubTitleWrapper = styled("div")`
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 1em;
+
+    // Text Attribute
+    font-size: 30px;
+    font-weight: 700;
+    color: ${(props) => props.theme.colors.secondary3};
 `;
 
 const BuyerInfoTextBox = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    gap: 2em;
+
+    // Box Model Attribute
     width: 100%;
-    gap: 30px; /* 원하는 간격 값으로 조정 */
+    margin-bottom: 5em;
 `;
 
 const BuyerInfoTextWrapper = styled("div")`
@@ -74,108 +144,37 @@ const BuyerInfoTextWrapper = styled("div")`
 `;
 
 const BuyerInfoTextLeft = styled("div")`
-    width: 150px;
-    height: 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    // Box Model Attribute
+    width: 50%;
 
-    color: #000;
-    font-family: Pretendard;
+    // Text Attribute
     font-size: 24px;
-    font-style: normal;
     font-weight: 700;
-    line-height: 60px;
 `;
 
 const BuyerInfoTextRight = styled("div")`
-    width: 150px;
-    height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    // Box Model Attribute
+    width: 50%;
 
-    color: #000;
+    // Text Attribute
     text-align: right;
-    font-family: Pretendard;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 60px;
-`;
-
-const CashChargeWrapper = styled("div")`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #000;
-
-    text-align: center;
-    font-family: Pretendard;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 60px; /* 150% */
-    margin-bottom: 30px;
-`;
-
-const RadioButtonContainer = styled("div")`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 70%;
-    margin-bottom: 3%;
-`;
-
-const RadioButtonBox = styled("div")`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 60%;
-    height: 80%;
-`;
-
-const RadioButtons = styled("div")`
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-`;
-
-const HorizontalLine = styled("div")`
-    width: 100%;
-    height: 0.5px;
-    background-color: gray;
-`;
-
-const TotalAmountWrapper = styled("div")`
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: flex-start;
+    font-size: 24px;
+    b {
+        font-size: 24px;
+    }
 `;
 
 const TotalAmountText = styled("div")`
-    color: #000;
-
-    font-family: Pretendard;
     font-size: 24px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
 `;
 
 const PaymentWidget = styled("div")`
-    width: 50%;
+    width: 100%;
 `;
 
 const Agreement = styled("div")`
-    width: 50%;
+    width: 100%;
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -183,16 +182,15 @@ const Agreement = styled("div")`
 /* Payment Page */
 function Payment() {
     // States and Variables
-    const [selectedValue, setSelectedValue] = useState("5,000");
     const [user] = useUserState();
-    const [currentPoint, setCurrentPoint] = useState(0);
-    const [afterPoint, setAfterPoint] = useState(0);
-
+    const [selectedValue, setSelectedValue] = useState<string>("5,000");
+    const [currentPoint, setCurrentPoint] = useState<number>(0);
+    const [afterPoint, setAfterPoint] = useState<number>(0);
+    const [amount, setAmount] = useState<number>(5000);
     const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
     const paymentMethodsWidgetRef = useRef<ReturnType<
         PaymentWidgetInstance["renderPaymentMethods"]
     > | null>(null);
-    const [amount, setAmount] = useState(5000);
 
     useEffect(() => {
         const { userId } = user;
@@ -200,13 +198,11 @@ function Payment() {
         if (userId !== 0) {
             getUserInfo(userId).then((result) => {
                 const { userMoney } = result.data;
-
                 setCurrentPoint(userMoney);
             });
         }
     }, [user]);
 
-    // 선택한 금액에 따라 포인트 계산
     useEffect(() => {
         if (selectedValue) {
             const selectedAmount = parseInt(selectedValue.replace(/[^0-9]/g, ""), 10);
@@ -216,19 +212,15 @@ function Payment() {
         }
     }, [selectedValue, currentPoint]);
 
-    // 포인트를 ,000 형식으로 포맷하는 함수
     const formatPoint = (point: number) => {
         return point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
     // handlePayment 함수
-    // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
     const handlePayment = () => {
-        // 1. 결제 요청에 필요한 데이터를 생성
         const payType = "CARD";
-        const orderName = "카우카우 화폐";
+        const orderName = "캐시카우 포인트";
 
-        // 2. 백엔드의 결제 요청 API로 POST 요청을 보낸다.
         postRequestPayments(
             user.userId,
             payType,
@@ -239,7 +231,6 @@ function Payment() {
             user.userNickname,
         )
             .then((result) => {
-                console.log(result.data);
                 const { orderId } = result.data;
                 const paymentWidget = paymentWidgetRef.current;
 
@@ -254,30 +245,19 @@ function Payment() {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                throw error;
             });
     };
 
     useAsync(async () => {
-        // ------  결제위젯 초기화 ------
-        const paymentWidget = await loadPaymentWidget(clientKey, customerKey); // 회원 결제
-
-        // ------  결제 UI 렌더링 ------
-        // 결제 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
-        // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
+        const paymentWidget = await loadPaymentWidget(CLIENT_KEY as string, SECRET_KEY as string);
         const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
             "#payment-widget",
             { value: amount },
-            // 렌더링하고 싶은 결제 UI의 variantKey
             { variantKey: "DEFAULT" },
         );
 
-        // ------  이용약관 UI 렌더링 ------
-        // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
-        paymentWidget.renderAgreement(
-            "#agreement",
-            { variantKey: "AGREEMENT" }, // 기본 이용약관 UI 렌더링
-        );
+        paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
         paymentWidgetRef.current = paymentWidget;
         paymentMethodsWidgetRef.current = paymentMethodsWidget;
     }, []);
@@ -289,8 +269,6 @@ function Payment() {
             return;
         }
 
-        // ------ 금액 업데이트 ------
-        // 새로운 결제 금액을 넣어주세요.
         paymentMethodsWidget.updateAmount(amount);
     }, [amount]);
 
@@ -305,171 +283,178 @@ function Payment() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <PaymentContainer>
-                <SelectAmountContainer>
-                    <CashChargeWrapper>캐시카우 충전</CashChargeWrapper>
+                <TitleWrapper>캐시카우 충전하기</TitleWrapper>
+                <DescriptionWrapper>
+                    <b>캐시카우</b>는 쑈잇에서 사용하실 수 있는 전용 포인트입니다.
+                </DescriptionWrapper>
+                <PaymentBox>
+                    <SubTitleWrapper>충전금액 선택</SubTitleWrapper>
+                    <Line />
                     <RadioButtonContainer>
-                        <HorizontalLine />
                         <RadioButtonBox>
-                            <RadioButtons>
-                                <RadioButton
-                                    width="100%"
-                                    id="1"
-                                    name="payment"
-                                    value="5000"
-                                    radioName="￦5,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("5,000");
-                                        setAmount(5000);
-                                    }}
-                                    defaultCheck
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="2"
-                                    name="payment"
-                                    value="10000"
-                                    radioName="￦10,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("10,000");
-                                        setAmount(10000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="3"
-                                    name="payment"
-                                    value="20000"
-                                    radioName="￦20,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("20,000");
-                                        setAmount(20000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="4"
-                                    name="payment"
-                                    value="30000"
-                                    radioName="￦30,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("30,000");
-                                        setAmount(30000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="4"
-                                    name="payment"
-                                    value="50000"
-                                    radioName="￦50,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("50,000");
-                                        setAmount(50000);
-                                    }}
-                                />
-                            </RadioButtons>
-                            <RadioButtons>
-                                <RadioButton
-                                    width="100%"
-                                    id="6"
-                                    name="payment"
-                                    value="100000"
-                                    radioName="￦100,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("100,000");
-                                        setAmount(100000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="7"
-                                    name="payment"
-                                    value="200000"
-                                    radioName="￦200,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("200,000");
-                                        setAmount(200000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="8"
-                                    name="payment"
-                                    value="300000"
-                                    radioName="￦300,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("300,000");
-                                        setAmount(300000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="9"
-                                    name="payment"
-                                    value="500000"
-                                    radioName="￦500,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("500,000");
-                                        setAmount(500000);
-                                    }}
-                                />
-                                <RadioButton
-                                    width="100%"
-                                    id="10"
-                                    name="payment"
-                                    value="1000000"
-                                    radioName="￦1,000,000"
-                                    iconURL="/assets/icons/cashcow-coin-icon.svg"
-                                    onClick={() => {
-                                        setSelectedValue("1,000,000");
-                                        setAmount(1000000);
-                                    }}
-                                />
-                            </RadioButtons>
+                            <RadioButton
+                                width="100%"
+                                id="1"
+                                name="payment"
+                                value="5000"
+                                radioName="5,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("5,000");
+                                    setAmount(5000);
+                                }}
+                                defaultCheck
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="2"
+                                name="payment"
+                                value="10000"
+                                radioName="10,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("10,000");
+                                    setAmount(10000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="3"
+                                name="payment"
+                                value="20000"
+                                radioName="20,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("20,000");
+                                    setAmount(20000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="4"
+                                name="payment"
+                                value="30000"
+                                radioName="30,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("30,000");
+                                    setAmount(30000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="4"
+                                name="payment"
+                                value="50000"
+                                radioName="50,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("50,000");
+                                    setAmount(50000);
+                                }}
+                            />
                         </RadioButtonBox>
-                        <HorizontalLine />
+                        <RadioButtonBox>
+                            <RadioButton
+                                width="100%"
+                                id="6"
+                                name="payment"
+                                value="100000"
+                                radioName="100,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("100,000");
+                                    setAmount(100000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="7"
+                                name="payment"
+                                value="200000"
+                                radioName="200,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("200,000");
+                                    setAmount(200000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="8"
+                                name="payment"
+                                value="300000"
+                                radioName="300,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("300,000");
+                                    setAmount(300000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="9"
+                                name="payment"
+                                value="500000"
+                                radioName="500,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("500,000");
+                                    setAmount(500000);
+                                }}
+                            />
+                            <RadioButton
+                                width="100%"
+                                id="10"
+                                name="payment"
+                                value="1000000"
+                                radioName="1,000,000"
+                                iconURL="/assets/icons/cashcow-coin-icon.svg"
+                                onClick={() => {
+                                    setSelectedValue("1,000,000");
+                                    setAmount(1000000);
+                                }}
+                            />
+                        </RadioButtonBox>
                     </RadioButtonContainer>
+                    <Line />
                     <TotalAmountWrapper>
                         <TotalAmountText>총 결제 금액</TotalAmountText>
                         <TotalAmountText>￦{selectedValue}</TotalAmountText>
                     </TotalAmountWrapper>
-                </SelectAmountContainer>
-                <BuyerInfoContainer>
-                    <BuyerInfoTitleWrapper>바이어 정보</BuyerInfoTitleWrapper>
+                    <SubTitleWrapper>충전 정보 확인</SubTitleWrapper>
+                    <Line />
                     <BuyerInfoTextBox>
                         <BuyerInfoTextWrapper>
                             <BuyerInfoTextLeft>닉네임</BuyerInfoTextLeft>
                             <BuyerInfoTextRight>{user.userNickname}</BuyerInfoTextRight>
                         </BuyerInfoTextWrapper>
                         <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>보유 포인트</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>{formatPoint(currentPoint)} P</BuyerInfoTextRight>
+                            <BuyerInfoTextLeft>보유 캐시카우</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>
+                                <b>{formatPoint(currentPoint)}</b>&nbsp; 캐시카우
+                            </BuyerInfoTextRight>
                         </BuyerInfoTextWrapper>
                         <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>결제 후 포인트</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>{formatPoint(afterPoint)} P</BuyerInfoTextRight>
+                            <BuyerInfoTextLeft>결제 후 캐시카우</BuyerInfoTextLeft>
+                            <BuyerInfoTextRight>
+                                <b>{formatPoint(afterPoint)}</b>&nbsp; 캐시카우
+                            </BuyerInfoTextRight>
                         </BuyerInfoTextWrapper>
                     </BuyerInfoTextBox>
-                </BuyerInfoContainer>
-                <PaymentWidget id="payment-widget" />
-                <Agreement id="agreement" />
-                <TextButton
-                    width="15%"
-                    type="button"
-                    text="결제"
-                    curve="curved"
-                    fontSize={27}
-                    onClick={handlePayment}
-                />
+                    <SubTitleWrapper>결제 수단 선택</SubTitleWrapper>
+                    <Line />
+                    <PaymentWidget id="payment-widget" />
+                    <Agreement id="agreement" />
+                    <TextButton
+                        width="100%"
+                        type="button"
+                        text="캐시카우 충전"
+                        curve="curved"
+                        fontSize={20}
+                        onClick={handlePayment}
+                    />
+                </PaymentBox>
             </PaymentContainer>
         </>
     );

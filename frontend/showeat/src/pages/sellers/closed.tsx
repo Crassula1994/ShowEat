@@ -1,37 +1,40 @@
 /* Import */
-import { ReactNode, useEffect, useState } from "react";
-import { TextButton, ScrollButton } from "@components/common/button";
-import SellerLayout from "@layouts/SellerLayout";
-import withAuth from "@libs/withAuth";
-import styled from "@emotion/styled";
 import Card from "@components/composite/card";
-import { getSellerInactiveFunding } from "@apis/fundings";
 import { FundingType } from "@customTypes/apiProps";
-import { useRouter } from "next/router";
+import { getSellerInactiveFunding } from "@apis/fundings";
 import Head from "next/head";
+import { ReactNode, useEffect, useState } from "react";
+import { ScrollButton, TextButton } from "@components/common/button";
+import SellerLayout from "@layouts/SellerLayout";
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
 const FavoritesContainer = styled("div")`
+    // Layout Attribute
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    // Box Model Attribute
     width: 100%;
     min-width: 478px;
-    height: 100%;
-
-    padding-bottom: 2em;
-    margin: 0;
+    box-sizing: border-box;
+    padding: 5% 15%;
 `;
 
-const TitleWrapper = styled("span")`
-    font-size: 40px;
-    font-weight: 700;
+const TitleWrapper = styled("div")`
+    // Text Attribute
+    font-size: 30px;
+    font-weight: 900;
 
-    padding: 1em;
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 2em;
 `;
 
 const NoDataWrapper = styled("div")`
@@ -112,7 +115,7 @@ function ClosedFunding() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <FavoritesContainer>
-                <TitleWrapper>종료된 목록</TitleWrapper>
+                <TitleWrapper>종료된 펀딩</TitleWrapper>
                 {fundingData.length === 0 ? (
                     <NoDataWrapper>종료된 펀딩이 없습니다.</NoDataWrapper>
                 ) : (

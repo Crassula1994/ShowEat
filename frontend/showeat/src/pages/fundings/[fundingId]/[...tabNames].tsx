@@ -1,4 +1,5 @@
 /* Import */
+import { BusinessType, FundingType, ReviewType } from "@customTypes/apiProps";
 import {
     calcExpiryDate,
     calcRemainTime,
@@ -6,6 +7,13 @@ import {
     formatMoney,
     getCategoryValue,
 } from "@utils/format";
+import {
+    deleteFundingJoin,
+    getFundingDetail,
+    getFundingUserDetail,
+    getSellerFundingList,
+    postFundingJoin,
+} from "@apis/fundings";
 import {
     FundingApplyErrorModal,
     FundingCancelErrorModal,
@@ -15,14 +23,6 @@ import {
 } from "@components/custom/modal";
 import { fundingTabMenu } from "@configs/tabMenu";
 import { FundingReviewTab, FundingStoreTab } from "@components/custom/tab";
-import { BusinessType, FundingType, ReviewType } from "@customTypes/apiProps";
-import {
-    deleteFundingJoin,
-    getFundingDetail,
-    getFundingUserDetail,
-    getSellerFundingList,
-    postFundingJoin,
-} from "@apis/fundings";
 import { getBusinessInfo } from "@apis/business";
 import getReviewList from "@apis/review";
 import { GetServerSideProps } from "next";
@@ -268,7 +268,7 @@ function FundingTab(props: FundingTabProps) {
         tabName,
     } = props;
     const router = useRouter();
-    const [user] = useUserState();
+    const [user, setUser] = useUserState();
     const {
         title,
         category,
@@ -317,6 +317,7 @@ function FundingTab(props: FundingTabProps) {
             setIsCancelModalOpen(false);
             setIsJoined(false);
             setJoinCount((prev) => prev - 1);
+            setUser((prevState) => ({ ...prevState, userMoney: user.userMoney + discountPrice }));
         });
     };
 
@@ -330,6 +331,7 @@ function FundingTab(props: FundingTabProps) {
             }
             setIsJoined(true);
             setJoinCount((prev) => prev + 1);
+            setUser((prevState) => ({ ...prevState, userMoney: user.userMoney - discountPrice }));
         });
     };
 

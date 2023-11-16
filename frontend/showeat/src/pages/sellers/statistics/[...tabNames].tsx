@@ -31,9 +31,19 @@ const StatisticsContainer = styled("div")`
     align-items: center;
 
     // Box Model Attribute
-    width: 100vw;
+    width: 100%;
     box-sizing: border-box;
     padding: 5% 15%;
+`;
+
+const TitleWrapper = styled("div")`
+    // Text Attribute
+    font-size: 30px;
+    font-weight: 900;
+
+    // Box Model Attribute
+    width: 100%;
+    margin-bottom: 2em;
 `;
 
 const TabContainer = styled("div")`
@@ -87,6 +97,7 @@ function StatisticsTab(props: StatisticsTabProps) {
 
     return (
         <StatisticsContainer>
+            <TitleWrapper>매출 통계</TitleWrapper>
             <TabBar>
                 {statisticsTabMenu.map((tab) => (
                     <Tab

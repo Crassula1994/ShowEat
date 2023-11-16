@@ -1,102 +1,81 @@
 /* Import */
+import Head from "next/head";
+import Image from "next/image";
+import { getUserInfo } from "@apis/users";
+import { ReactNode, useEffect } from "react";
 import SingleLayout from "@layouts/SingleLayout";
-import withAuth from "@libs/withAuth";
-import { ReactNode } from "react";
 import styled from "@emotion/styled";
-import useUserState from "@hooks/useUserState";
+import Table from "@components/common/table";
 import { TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import useUserState from "@hooks/useUserState";
+import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Style */
-const Container = styled("div")`
+const PayResultContainer = styled("div")`
+    // Layout Attribute
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    text-align: center;
-    margin: 20px;
-    height: 20vh;
-`;
-
-const BuyerInfoContainer = styled("div")`
-    width: 50%;
-    height: 25%;
-    margin-bottom: 1%;
-`;
-
-const ReturnButtonWrapper = styled("div")`
-    margin-top: 20px;
     align-items: center;
     justify-content: center;
-    display: flex;
+
+    // Box Model Attribute
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5% 10%;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
 `;
 
-const BuyerInfoTitleWrapper = styled("div")`
-    margin-bottom: 5%;
-    color: green;
+const HeaderContainer = styled("div")`
+    // Layout Attribute
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+`;
 
-    font-family: Pretendard;
+const TitleWrapper = styled("div")`
+    // Text Attribute
+    color: ${(props) => props.theme.colors.normalGreen};
     font-size: 30px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
 `;
 
-const BuyerInfoTextBox = styled("div")`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 30px;
+const ContentContainer = styled("div")`
+    // Box Model Attribute
+    width: 50%;
+    box-sizing: border-box;
+    padding: 1em 2em;
+    margin: 1em 0;
+
+    // Style Attribute
+    border: 1px solid ${(props) => props.theme.colors.gray2};
+    border-radius: 20px;
 `;
 
-const BuyerInfoTextWrapper = styled("div")`
-    width: 100%;
+const ButtonWrapper = styled("div")`
+    // Layout Attribute
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const BuyerInfoTextLeft = styled("div")`
-    width: 150px;
-    height: 40px;
-    display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 
-    color: #000;
-    font-family: Pretendard;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 60px;
-`;
-
-const BuyerInfoTextRight = styled("div")`
-    width: 450px;
-    height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    color: #000;
-    text-align: right;
-    font-family: Pretendard;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 60px;
+    // Box Model Attribute
+    width: 50%;
 `;
 
 // ----------------------------------------------------------------------------------------------------
 
 /* Buyer Pay Result Page */
 function PayResult() {
-    const [user] = useUserState();
+    const [user, setUser] = useUserState();
     const router = useRouter();
 
     const queryString = window.location.search;
@@ -121,7 +100,6 @@ function PayResult() {
             second: "numeric",
         }) ?? "날짜 없음";
 
-    // 포인트를 ,000 형식으로 포맷하는 함수
     const formatPoint = (point: number) => {
         return point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
@@ -130,6 +108,26 @@ function PayResult() {
         return point.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
+    const formattedPointString: string =
+        balanceAmount !== null ? formatPointString(balanceAmount) : "N/A";
+
+    useEffect(() => {
+        if (balanceAmount === null) {
+            router.replace("/buyers/pay");
+        }
+    }, []);
+
+    useEffect(() => {
+        const { userId } = user;
+
+        if (userId !== 0) {
+            getUserInfo(userId).then((result) => {
+                const { userMoney } = result.data;
+                setUser((prevState) => ({ ...prevState, userMoney }));
+            });
+        }
+    }, [user]);
+
     return (
         <>
             <Head>
@@ -137,51 +135,45 @@ function PayResult() {
                 <meta name="description" content="요청하신 캐시카우를 충전 완료되었습니다." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
-            <Container>
-                <BuyerInfoContainer>
-                    <BuyerInfoTitleWrapper>결제가 완료되었습니다.</BuyerInfoTitleWrapper>
-                    <BuyerInfoTextBox>
-                        <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>주문 완료 시각</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>{formattedApprovedAt}</BuyerInfoTextRight>
-                        </BuyerInfoTextWrapper>
-                        <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>결제 금액</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>
-                                {balanceAmount !== null ? formatPointString(balanceAmount) : "N/A"}
-                                원
-                            </BuyerInfoTextRight>
-                        </BuyerInfoTextWrapper>
-                        <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>결제 수단</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>{method}</BuyerInfoTextRight>
-                        </BuyerInfoTextWrapper>
-                        <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>주문 번호</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>{orderId}</BuyerInfoTextRight>
-                        </BuyerInfoTextWrapper>
-                        <BuyerInfoTextWrapper>
-                            <BuyerInfoTextLeft>결제 후 포인트</BuyerInfoTextLeft>
-                            <BuyerInfoTextRight>
-                                {formatPoint(
-                                    user.userMoney +
-                                        (balanceAmount ? parseInt(balanceAmount, 10) : 0),
-                                )}{" "}
-                                P
-                            </BuyerInfoTextRight>
-                        </BuyerInfoTextWrapper>
-                    </BuyerInfoTextBox>
-                    <ReturnButtonWrapper>
-                        <TextButton
-                            text="돌아가기"
-                            width="100px"
-                            height="40px"
-                            fontSize={20}
-                            onClick={() => router.replace("/buyers/profile")}
-                        />
-                    </ReturnButtonWrapper>
-                </BuyerInfoContainer>
-            </Container>
+            <PayResultContainer>
+                <HeaderContainer>
+                    <Image
+                        src="/assets/images/happy-cook-cow.png"
+                        width={150}
+                        height={150}
+                        alt="happy-cook-cow"
+                    />
+                    <TitleWrapper>충전이 완료되었소!</TitleWrapper>
+                </HeaderContainer>
+                <ContentContainer>
+                    <Table
+                        headerWidth="30%"
+                        headers={[
+                            "주문 완료 시각",
+                            "결제 금액",
+                            "결제 수단",
+                            "주문번호",
+                            "결제 후 캐시카우",
+                        ]}
+                        contents={[
+                            `${formattedApprovedAt}`,
+                            `${formattedPointString}`,
+                            `${method}`,
+                            `${orderId}`,
+                            `${formatPoint(user.userMoney)} 캐시카우`,
+                        ]}
+                        contentAlign="right"
+                    />
+                </ContentContainer>
+                <ButtonWrapper>
+                    <TextButton
+                        text="이전 페이지로 돌아가기"
+                        width="50%"
+                        fontSize={20}
+                        onClick={() => router.replace("/")}
+                    />
+                </ButtonWrapper>
+            </PayResultContainer>
         </>
     );
 }
