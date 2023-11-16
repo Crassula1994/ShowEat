@@ -147,7 +147,7 @@ function FundingStoreTab(props: FundingStoreTabProps) {
 
     // Hooks for Loading Kakao Map API
     useEffect(() => {
-        if (kakao.maps) {
+        if (kakao && kakao.maps) {
             kakao.maps.load(() => {
                 const geocoder = new kakao.maps.services.Geocoder();
                 const mapContainer = document.getElementById("map");
@@ -172,7 +172,7 @@ function FundingStoreTab(props: FundingStoreTabProps) {
                 });
             });
         }
-    }, [kakao.maps]);
+    }, [kakao]);
 
     useEffect(() => {
         setFundingList(filteredFundingList);

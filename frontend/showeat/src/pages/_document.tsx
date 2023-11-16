@@ -1,6 +1,5 @@
 /* Import */
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -26,14 +25,14 @@ function Document() {
                     type="text/css"
                     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                 />
-                <Script
+                <script
                     type="text/javascript"
-                    strategy="beforeInteractive"
+                    defer
                     src="https://developers.kakao.com/sdk/js/kakao.min.js"
                 />
-                <Script
+                <script
                     type="text/javascript"
-                    strategy="beforeInteractive"
+                    defer
                     src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_API_KEY}&libraries=services&autoload=false`}
                 />
             </Head>
