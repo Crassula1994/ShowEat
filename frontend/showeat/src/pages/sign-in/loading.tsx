@@ -85,6 +85,8 @@ function SignInLoading() {
                     });
                 }
 
+                console.log(seller.couponUrl);
+
                 if (seller.couponUrl) {
                     router.replace(seller.couponUrl);
                 } else if (visited) {

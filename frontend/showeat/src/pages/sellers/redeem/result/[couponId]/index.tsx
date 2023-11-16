@@ -382,6 +382,8 @@ function RedeemResult() {
                     setIsMultiModalOpen(true);
                 } else {
                     setCouponData(res.data);
+                    console.log(res);
+                    console.log(couponData);
                 }
             });
         }
