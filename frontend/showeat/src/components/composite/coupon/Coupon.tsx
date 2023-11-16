@@ -247,9 +247,7 @@ function Coupon({ coupon, onClick }: CouponProps) {
                 <SellerTextContainer>
                     <BusinessNameWrapper>{coupon.businessName}</BusinessNameWrapper>
                     <MenuNameWrapper>
-                        {coupon.couponType === "SINGLE"
-                            ? coupon.fundingMenu
-                            : `${coupon.fundingMenu}`}
+                        {coupon.couponType === "SINGLE" ? coupon.fundingMenu : "금액권"}
                     </MenuNameWrapper>
                 </SellerTextContainer>
                 <SellerImageWrapper

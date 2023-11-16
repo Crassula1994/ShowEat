@@ -122,6 +122,10 @@ const MoneyInputContainer = styled("div")`
     align-items: center;
 
     width: 80%;
+
+    @media (max-width: 767px) {
+        width: 90%;
+    }
 `;
 
 const InputLabelWrapper = styled("label")`
@@ -133,12 +137,8 @@ const InputLabelWrapper = styled("label")`
     font-size: 16px;
     font-weight: 700;
 
-    padding: 1em;
+    padding: 0 1em;
     box-sizing: border-box;
-
-    @media (max-width: 767px) {
-        font-size: 12px;
-    }
 `;
 
 const InputWrapper = styled("div")`

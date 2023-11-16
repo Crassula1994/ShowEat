@@ -205,7 +205,6 @@ function CouponsTab(props: CouponsTabProps) {
                         setHasMorePage(!isLastPage);
                     }
                 } else {
-                    setCouponData([]);
                     setHasMorePage(false);
                 }
             });
@@ -264,24 +263,24 @@ function CouponsTab(props: CouponsTabProps) {
                 )}
                 {selectedCoupon && (
                     <Modal
-                        width="auto"
+                        width="600px"
                         height="auto"
                         isOpen={isModalOpen}
                         setIsOpen={setIsModalOpen}
                         childComponent={<BuyersCouponsModal coupon={selectedCoupon} />}
-                        onSubmit={() => openReviewModal()}
+                        onSubmit={openReviewModal}
                         buttonType={
                             selectedCoupon.couponStatus === "USED" &&
                             !selectedCoupon.writeCouponReview
                                 ? "review"
                                 : "close"
                         }
-                        buttonWidth="150px"
+                        buttonWidth="25%"
                     />
                 )}
                 {selectedCoupon && (
                     <Modal
-                        width="auto"
+                        width="600px"
                         height="auto"
                         isOpen={reviewModalOpen}
                         setIsOpen={setReviewModalOpen}
@@ -294,7 +293,7 @@ function CouponsTab(props: CouponsTabProps) {
                             />
                         }
                         buttonType="none"
-                        buttonWidth="150px"
+                        buttonWidth="25%"
                     />
                 )}
             </CouponContainer>

@@ -238,7 +238,7 @@ function AccountInfo() {
                     ...prev,
                     sellerId: res.data.businessId,
                     sellerName: res.data.businessName,
-                    sellerImgUrl: res.databusinessImgUrl,
+                    sellerImgUrl: res.data.businessImgUrl,
                 }));
                 setIsStatus("SUCCESS");
                 setIsMultiModalOpen(true);

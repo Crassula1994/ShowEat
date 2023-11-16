@@ -268,6 +268,33 @@ const GiftcardImageInputWrapper = styled("div")`
     height: 70px;
 `;
 
+const MultiModalContainer = styled("div")`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+`;
+
+const MultiModalTitleWrapper = styled("span")`
+    font-size: 30px;
+    font-weight: 700;
+
+    padding: 0.5em;
+`;
+
+const MultiModalDescriptionWrapper = styled("span")`
+    font-size: 18px;
+
+    padding: 2em 0;
+
+    @media (max-width: 767px) {
+        font-size: 14px;
+    }
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Add Menu Modal Component */
@@ -338,11 +365,49 @@ function AddMenu({
     );
 }
 
+/* Multi Modal Component */
+function MultiModal(isStatus: string) {
+    const renderText = [
+        {
+            status: "SUCCESS",
+            title: "펀딩 생성 완료",
+            description: "펀딩을 생성 완료했습니다.",
+        },
+        {
+            status: "NOSELLER",
+            title: "등록된 셀러가 아닙니다.",
+            description: "펀딩 생성은 셀러만 가능합니다.",
+        },
+        {
+            status: "FAILED",
+            title: "요청 실패",
+            description: "등록 요청이 실패했습니다.",
+        },
+        {
+            status: "UNKNOWN",
+            title: "알 수 없는 오류",
+            description: "개발진에게 문의해주세요.",
+        },
+    ];
+    return (
+        <MultiModalContainer>
+            <MultiModalTitleWrapper>
+                {renderText.find((text) => text.status === isStatus)?.title}
+            </MultiModalTitleWrapper>
+            <MultiModalDescriptionWrapper>
+                {renderText.find((text) => text.status === isStatus)?.description}
+            </MultiModalDescriptionWrapper>
+        </MultiModalContainer>
+    );
+}
+
 /* Seller Funding Form Page */
 function FundingForm() {
     const router = useRouter();
     const [isFundingType, setIsFundingType] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
+    const [isStatus, setIsStatus] = useState("");
     const [textFormData, setTextFormData] = useState([
         {
             type: "title",
@@ -559,8 +624,13 @@ function FundingForm() {
 
     const submitModalData = () => {
         postMenu(menuName, originPrice, uploadedFiles).then((res) => {
-            setMenuList(res.data);
-            setIsModalOpen(false);
+            if (res.statusCode === 200) {
+                setMenuList(res.data);
+                setIsModalOpen(false);
+            } else {
+                setIsStatus("FAILED");
+                setIsMultiModalOpen(true);
+            }
         });
     };
 
@@ -577,8 +647,23 @@ function FundingForm() {
                 title: textFormData[0].data,
                 menuId: menuData.data.menuId,
                 discountPrice: parseFloat(menuData.data.discountPrice),
-            }).then(() => {
-                router.push("/sellers/profile/seller-info");
+            }).then((res) => {
+                if (res.statusCode === 200) {
+                    setIsStatus("SUCCESS");
+                    setIsMultiModalOpen(true);
+                    setTimeout(() => {
+                        router.push("/sellers/profile/seller-info");
+                    }, 2000);
+                } else if (res === 520) {
+                    setIsStatus("UNKNOWN");
+                    setIsMultiModalOpen(true);
+                } else if (res === 451) {
+                    setIsStatus("NOSELLER");
+                    setIsMultiModalOpen(true);
+                } else {
+                    setIsStatus("FAILED");
+                    setIsMultiModalOpen(true);
+                }
             });
         } else if (isFundingType === "GIFT_CARD") {
             createFunding({
@@ -595,8 +680,32 @@ function FundingForm() {
             }).then((res) => {
                 if (res.statusCode === 200) {
                     postGiftcardImage(giftcardImage[0], res.data).then(() => {
-                        router.push("/sellers/profile/seller-info");
+                        if (res.statusCode === 200) {
+                            setIsStatus("SUCCESS");
+                            setIsMultiModalOpen(true);
+                            setTimeout(() => {
+                                router.push("/sellers/profile/seller-info");
+                            }, 2000);
+                        } else if (res === 520) {
+                            setIsStatus("UNKNOWN");
+                            setIsMultiModalOpen(true);
+                        } else if (res === 451) {
+                            setIsStatus("NOSELLER");
+                            setIsMultiModalOpen(true);
+                        } else {
+                            setIsStatus("FAILED");
+                            setIsMultiModalOpen(true);
+                        }
                     });
+                } else if (res === 520) {
+                    setIsStatus("UNKNOWN");
+                    setIsMultiModalOpen(true);
+                } else if (res === 451) {
+                    setIsStatus("NOSELLER");
+                    setIsMultiModalOpen(true);
+                } else {
+                    setIsStatus("FAILED");
+                    setIsMultiModalOpen(true);
                 }
             });
         }
@@ -853,6 +962,17 @@ function FundingForm() {
                         setUploadedFiles,
                     })}
                     onSubmit={submitModalData}
+                />
+                <Modal
+                    childComponent={MultiModal(isStatus)}
+                    width="500px"
+                    height="300px"
+                    isOpen={isMultiModalOpen}
+                    setIsOpen={setIsMultiModalOpen}
+                    buttonType="close"
+                    buttonWidth="200px"
+                    buttonHeight="50px"
+                    buttonFontSize={20}
                 />
             </FundingFormContainer>
         </>

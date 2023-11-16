@@ -25,6 +25,7 @@ export interface CouponType {
     couponStatus: "ACTIVE" | "USED" | "EXPIRED";
     couponType: "SINGLE" | "GIFTCARD";
     expirationDate: string;
+    fundingId: number;
     fundingDiscountPrice: number;
     fundingImgUrl: string;
     fundingMenu: string;

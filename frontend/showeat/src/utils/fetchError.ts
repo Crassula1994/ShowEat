@@ -26,6 +26,8 @@ function handleFetchError(statusCode: number) {
             return "사용된 쿠폰에 한해서 리뷰가 작성 가능합니다.";
         case 450:
             return "사용자를 찾을 수 없습니다.";
+        case 451:
+            return 451;
         case 452:
             return 452;
         case 460:

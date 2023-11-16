@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { userDefaultValue } from "@stores/users";
 import { useRouter } from "next/router";
 import useUserState from "@hooks/useUserState";
+import useSellerState from "@/hooks/useSellerState";
+import { sellerDefaultValue } from "@/stores/sellers";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -173,6 +175,7 @@ function Header() {
     // States and Variables
     const router = useRouter();
     const [user, setUser] = useUserState();
+    const [, setSeller] = useSellerState();
     const [hasAccessToken, setHasAccessToken] = useState<boolean>(false);
     const [isNotificationVisible, setIsNotificationVisible] = useState<boolean>(false);
     const [isNotificationExist, setIsNotificationExist] = useState<boolean>(false);
@@ -203,6 +206,7 @@ function Header() {
             deleteCookie("refresh-token");
             setHasAccessToken(false);
             setUser(userDefaultValue);
+            setSeller(sellerDefaultValue);
             router.replace("/");
         });
     };
