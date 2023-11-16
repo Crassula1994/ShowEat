@@ -51,6 +51,10 @@ const HeaderContainer = styled("div")`
 const LogoImageWrapper = styled("div")`
     // Interaction Attribute
     cursor: pointer;
+
+    @media (max-width: 450px) {
+        display: none;
+    }
 `;
 
 const LogoImage = styled(Image)`
@@ -154,6 +158,12 @@ const NotificationWrapper = styled("div")`
     height: 100%;
     align-items: center;
     margin-left: 30px;
+`;
+
+const RenderButtonWrapper = styled("div")`
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;
 
 // ----------------------------------------------------------------------------------------------------
@@ -344,7 +354,7 @@ function Header() {
                         <ProfileBoxWrapper onClick={() => router.push("/buyers/profile")}>
                             <ProfileBox source={user.userImgUrl} nickname={user.userNickname} />
                         </ProfileBoxWrapper>
-                        {renderButton()}
+                        <RenderButtonWrapper>{renderButton()}</RenderButtonWrapper>
                     </>
                 ) : (
                     <>

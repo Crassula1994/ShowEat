@@ -24,7 +24,7 @@ const FavoritesContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
-    min-width: 478px;
+    min-width: 750px;
     box-sizing: border-box;
     padding: 5em 10em;
 `;

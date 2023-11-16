@@ -25,6 +25,7 @@ const UserInfoContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
+    min-width: 700px;
     box-sizing: border-box;
     padding: 5em 10em;
 `;
@@ -62,6 +63,7 @@ const NickNameContainer = styled("div")`
 
     // Box Model Attribute
     width: 50%;
+    min-width: 350px;
 `;
 
 const PhoneContainer = styled("div")`
@@ -72,6 +74,7 @@ const PhoneContainer = styled("div")`
 
     // Box Model Attribute
     width: 50%;
+    min-width: 350px;
 `;
 
 const AddressContainer = styled("div")`
@@ -82,6 +85,7 @@ const AddressContainer = styled("div")`
 
     // Box Model Attribute
     width: 50%;
+    min-width: 350px;
 `;
 
 const DropdownWrapper = styled("div")`

@@ -40,6 +40,7 @@ const CouponContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
+    min-width: 750px;
     height: calc(100vh - 80px);
     box-sizing: border-box;
     padding: 5em 10em;
