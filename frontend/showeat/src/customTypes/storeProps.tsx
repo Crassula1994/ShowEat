@@ -18,4 +18,5 @@ export interface SellerType {
     sellerName: string;
     sellerImgUrl: string;
     couponUrl: string;
+    isLoginTry: boolean;
 }

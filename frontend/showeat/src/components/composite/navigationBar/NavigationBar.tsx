@@ -75,7 +75,7 @@ const PointContainer = styled("div")`
     justify-content: center;
     align-items: center;
 
-    padding: 0.8em 0;
+    padding-top: 0.8em;
 `;
 
 const PointHeader = styled("div")`
@@ -122,7 +122,7 @@ const ButtonContainer = styled("div")`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.6em;
 
     // Box Model Attribute
     width: 100%;
@@ -136,7 +136,7 @@ const MenuContainer = styled("div")`
     justify-content: center;
     align-items: center;
 
-    padding: 1.4em 0;
+    padding-top: 1em;
 `;
 
 const MenuWrapper = styled("div")<{ isSelected: boolean }>`
@@ -231,47 +231,26 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                         : seller.sellerName || "가게 이름이 없습니다."}
                 </ProfileNickname>
             </ProfileBoxContainer>
-            {isBuyer ? (
-                <PointContainer>
-                    <PointHeader>보유한 캐시카우</PointHeader>
-                    <HoldingPointContainer>
-                        <CashCowIcon
-                            src="/assets/icons/cashcow-coin-icon.svg"
-                            alt="cashcow-coin"
-                            width={30}
-                            height={30}
-                        />
-                        <HoldingPoint fontSize={pointFontSize}>
-                            {formattedHoldingPoint}
-                        </HoldingPoint>
-                    </HoldingPointContainer>
-                    <TextButton
-                        text="캐시카우 충전"
-                        width="150px"
-                        height="30px"
-                        colorType="primary"
-                        fontSize={14}
-                        onClick={handleCharge}
+            <PointContainer>
+                <PointHeader>보유한 캐시카우</PointHeader>
+                <HoldingPointContainer>
+                    <CashCowIcon
+                        src="/assets/icons/cashcow-coin-icon.svg"
+                        alt="cashcow-coin"
+                        width={30}
+                        height={30}
                     />
-                </PointContainer>
-            ) : (
-                <ButtonContainer>
-                    <TextButton
-                        text="펀딩 생성하기"
-                        width="60%"
-                        fontSize={18}
-                        colorType="secondary"
-                        onClick={handleCreateFunding}
-                    />
-                    <TextButton
-                        text="QR 인식하기"
-                        width="60%"
-                        fontSize={18}
-                        colorType="secondary"
-                        onClick={handleQR}
-                    />
-                </ButtonContainer>
-            )}
+                    <HoldingPoint fontSize={pointFontSize}>{formattedHoldingPoint}</HoldingPoint>
+                </HoldingPointContainer>
+                <TextButton
+                    text="캐시카우 충전"
+                    width="150px"
+                    height="30px"
+                    colorType={isBuyer ? "primary" : "secondary"}
+                    fontSize={14}
+                    onClick={handleCharge}
+                />
+            </PointContainer>
 
             <MenuContainer>
                 {menuList.map((menu, idx) => (
@@ -284,6 +263,42 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     </MenuWrapper>
                 ))}
             </MenuContainer>
+            {!isBuyer && (
+                // <ButtonContainer>
+                //     <TextButton
+                //         text="펀딩 생성하기"
+                //         width="40%"
+                //         fontSize={14}
+                //         colorType="secondary"
+                //         onClick={handleCreateFunding}
+                //     />
+                //     <TextButton
+                //         text="QR 인식하기"
+                //         width="40%"
+                //         fontSize={14}
+                //         colorType="secondary"
+                //         onClick={handleQR}
+                //     />
+                // </ButtonContainer>
+                <ButtonContainer>
+                    <TextButton
+                        text="펀딩 생성하기"
+                        width="60%"
+                        height="30px"
+                        fontSize={14}
+                        colorType="secondary"
+                        onClick={handleCreateFunding}
+                    />
+                    <TextButton
+                        text="QR 인식하기"
+                        width="60%"
+                        height="30px"
+                        fontSize={14}
+                        colorType="secondary"
+                        onClick={handleQR}
+                    />
+                </ButtonContainer>
+            )}
         </NavigationBarContainer>
     );
 }

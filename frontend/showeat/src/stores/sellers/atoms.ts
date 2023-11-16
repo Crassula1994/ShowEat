@@ -21,6 +21,7 @@ const sellerDefaultValue: SellerType = {
     sellerName: "",
     sellerImgUrl: "https://showeatbucket.s3.ap-northeast-2.amazonaws.com/user/basic-profile.png",
     couponUrl: "",
+    isLoginTry: false,
 };
 
 const sellerState = atom<SellerType>({

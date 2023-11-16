@@ -36,69 +36,75 @@ function SignInLoading() {
     const [, setUser] = useUserState();
     const [seller, setSeller] = useSellerState();
 
-    useEffect(() => {
+    const loginKaKao = () => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
         if (code) {
             getLoginWithKakao(code).then((userResult) => {
-                const { accessToken, refreshToken } = userResult.data.tokenDto;
-                const {
-                    userId,
-                    userNickname,
-                    userImgUrl,
-                    userAddress,
-                    userBusiness,
-                    userMoney,
-                    userPhone,
-                    credentialId,
-                    userEmail,
-                    visited,
-                    businessId,
-                } = userResult.data;
+                if (userResult.data && userResult.data.tokenDto) {
+                    const { accessToken, refreshToken } = userResult.data.tokenDto;
+                    const {
+                        userId,
+                        userNickname,
+                        userImgUrl,
+                        userAddress,
+                        userBusiness,
+                        userMoney,
+                        userPhone,
+                        credentialId,
+                        userEmail,
+                        visited,
+                        businessId,
+                    } = userResult.data;
 
-                setCookie("access-token", accessToken);
-                setCookie("refresh-token", refreshToken);
-                setUser({
-                    userId,
-                    userNickname,
-                    userImgUrl,
-                    userAddress,
-                    userBusiness,
-                    userBusinessId: businessId,
-                    userMoney,
-                    credentialId,
-                    userEmail,
-                    userPhone,
-                    visited,
-                });
-                if (userBusiness) {
-                    getBusinessInfo(businessId).then((sellerResult) => {
-                        const { businessName, businessImgUrl } = sellerResult.data;
-                        setSeller((prev) => {
-                            return {
-                                ...prev,
-                                sellerId: businessId,
-                                sellerName: businessName,
-                                sellerImgUrl: businessImgUrl,
-                            };
-                        });
+                    setCookie("access-token", accessToken);
+                    setCookie("refresh-token", refreshToken);
+                    setUser({
+                        userId,
+                        userNickname,
+                        userImgUrl,
+                        userAddress,
+                        userBusiness,
+                        userBusinessId: businessId,
+                        userMoney,
+                        credentialId,
+                        userEmail,
+                        userPhone,
+                        visited,
                     });
-                }
+                    if (userBusiness) {
+                        getBusinessInfo(businessId).then((sellerResult) => {
+                            const { businessName, businessImgUrl } = sellerResult.data;
+                            setSeller((prev) => {
+                                return {
+                                    ...prev,
+                                    sellerId: businessId,
+                                    sellerName: businessName,
+                                    sellerImgUrl: businessImgUrl,
+                                };
+                            });
+                        });
+                    }
 
-                console.log(seller.couponUrl);
-
-                if (seller.couponUrl) {
-                    router.replace(seller.couponUrl);
-                } else if (visited) {
-                    router.replace("/");
-                } else {
-                    router.replace("/sign-up");
+                    if (seller.couponUrl && seller.couponUrl !== "") {
+                        router.replace(seller.couponUrl);
+                    } else if (visited) {
+                        router.replace("/");
+                    } else {
+                        router.replace("/sign-up");
+                    }
                 }
             });
         } else {
             router.replace("/sign-in");
         }
-    }, []);
+    };
+
+    useEffect(() => {
+        if (seller && seller.isLoginTry) {
+            loginKaKao();
+        }
+    }, [seller]);
 
     return (
         <>

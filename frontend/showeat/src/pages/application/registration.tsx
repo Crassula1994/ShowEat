@@ -4,14 +4,14 @@ import withAuth from "@libs/withAuth";
 import SingleLayout from "@layouts/SingleLayout";
 import { ReactNode, ChangeEvent, useState } from "react";
 import TextButton from "@components/common/button/TextButton";
-import SellerRegisterFailModal from "@/components/custom/modal/SellerRegisterFailModal";
+import SellerRegisterFailModal from "@components/custom/modal/SellerRegisterFailModal";
 import Modal from "@components/composite/modal";
 import { useRouter } from "next/router";
 import { postBusinessInfo } from "@apis/business";
 import LoadingSpinner from "@components/composite/loadingSpinner";
 import Head from "next/head";
-import SellerInfo from "./seller-info";
-import OwnerInfo from "./owner-info";
+import SellerInfo from "../../components/custom/form/seller-info";
+import OwnerInfo from "../../components/custom/form/owner-info";
 
 // ----------------------------------------------------------------------------------------------------
 

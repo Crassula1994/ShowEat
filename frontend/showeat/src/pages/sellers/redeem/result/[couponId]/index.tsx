@@ -9,11 +9,12 @@ import { CouponType } from "@customTypes/apiProps";
 import { LoginButton, TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
 import Modal from "@components/composite/modal";
-import { formatMoney } from "@/utils/format";
-import { TextInput } from "@/components/common/input";
-import useUserState from "@/hooks/useUserState";
+import { formatMoney } from "@utils/format";
+import { TextInput } from "@components/common/input";
+import useUserState from "@hooks/useUserState";
 import Head from "next/head";
-import useSellerState from "@/hooks/useSellerState";
+import useSellerState from "@hooks/useSellerState";
+import { deleteCookie } from "cookies-next";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -255,9 +256,14 @@ function LoginModal() {
     // States and Variables
     const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
     const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+    const [, setSeller] = useSellerState();
 
     // Function for Redirecting to Kakao Login Page
     const handleKakaoLogin = () => {
+        setSeller((prev) => ({
+            ...prev,
+            isLoginTry: true,
+        }));
         const KAKAO_BASE_URL: string = "https://kauth.kakao.com/oauth/authorize";
         window.location.href = `${KAKAO_BASE_URL}?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
     };
@@ -382,8 +388,6 @@ function RedeemResult() {
                     setIsMultiModalOpen(true);
                 } else {
                     setCouponData(res.data);
-                    console.log(res);
-                    console.log(couponData);
                 }
             });
         }
@@ -453,8 +457,6 @@ function RedeemResult() {
                         couponId: couponData.couponId,
                         couponAmount: parseFloat(isUseMoney),
                     }).then((res) => {
-                        console.log(res);
-
                         if (res.statusCode === 200) {
                             setIsSuccessModalOpen(true);
                         } else if (res === 463) {
@@ -486,6 +488,8 @@ function RedeemResult() {
     };
 
     const handleLogin = () => {
+        deleteCookie("access-token");
+        deleteCookie("refresh-token");
         setIsLoginModalOpen(true);
     };
 
