@@ -147,30 +147,32 @@ function FundingStoreTab(props: FundingStoreTabProps) {
 
     // Hooks for Loading Kakao Map API
     useEffect(() => {
-        kakao.maps.load(() => {
-            const geocoder = new kakao.maps.services.Geocoder();
-            const mapContainer = document.getElementById("map");
-            const options = {
-                center: new kakao.maps.LatLng(37.5012, 127.0396),
-            };
-            const sellerMap = new kakao.maps.Map(mapContainer as HTMLElement, options);
+        if (kakao.maps) {
+            kakao.maps.load(() => {
+                const geocoder = new kakao.maps.services.Geocoder();
+                const mapContainer = document.getElementById("map");
+                const options = {
+                    center: new kakao.maps.LatLng(37.5012, 127.0396),
+                };
+                const sellerMap = new kakao.maps.Map(mapContainer as HTMLElement, options);
 
-            geocoder.addressSearch(formatAddress(businessAddress), (result, status) => {
-                if (status === kakao.maps.services.Status.OK) {
-                    const newLocation = new kakao.maps.LatLng(+result[0].y, +result[0].x);
-                    const marker = new kakao.maps.Marker({
-                        map: sellerMap,
-                        position: newLocation,
-                    });
-                    const infoWindow = new kakao.maps.InfoWindow({
-                        content: `<div style="width: 150px; padding: 6px 0; text-align: center; font-weight: 700">${businessName}</div>`,
-                    });
-                    infoWindow.open(sellerMap, marker);
-                    sellerMap.setCenter(newLocation);
-                }
+                geocoder.addressSearch(formatAddress(businessAddress), (result, status) => {
+                    if (status === kakao.maps.services.Status.OK) {
+                        const newLocation = new kakao.maps.LatLng(+result[0].y, +result[0].x);
+                        const marker = new kakao.maps.Marker({
+                            map: sellerMap,
+                            position: newLocation,
+                        });
+                        const infoWindow = new kakao.maps.InfoWindow({
+                            content: `<div style="width: 150px; padding: 6px 0; text-align: center; font-weight: 700">${businessName}</div>`,
+                        });
+                        infoWindow.open(sellerMap, marker);
+                        sellerMap.setCenter(newLocation);
+                    }
+                });
             });
-        });
-    }, []);
+        }
+    }, [kakao.maps]);
 
     useEffect(() => {
         setFundingList(filteredFundingList);

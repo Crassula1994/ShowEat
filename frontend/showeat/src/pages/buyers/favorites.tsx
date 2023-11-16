@@ -10,6 +10,7 @@ import { TextButton, ScrollButton } from "@components/common/button";
 import postBookmark from "@apis/bookmark";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import useUserState from "@hooks/useUserState";
 import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
@@ -88,8 +89,9 @@ const MoreButtonWrapper = styled("div")`
 /* Buyer Favorites Page */
 function Favorites() {
     const router = useRouter();
+    const [user] = useUserState();
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState<number>(0);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     const handleLoadMore = () => {
@@ -129,15 +131,18 @@ function Favorites() {
                     }
                 }
             } else {
-                setFundingData([]);
                 setHasMorePage(false);
             }
         });
     };
 
     useEffect(() => {
+        const { userId } = user;
+        if (userId !== 0) {
+            fetchFundingData();
+        }
         fetchFundingData();
-    }, [page]);
+    }, [user, page]);
 
     return (
         <>

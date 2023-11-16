@@ -336,9 +336,10 @@ function Card({ fundingData, onFundingClick, onBookmark, inMyPage = false }: Car
                             ? fundingData.fundingImageResponseDtos[0].imageUrl
                             : "/assets/images/service-logo.png"
                     }
-                    alt="card-img"
+                    alt="card-profile"
                     fill
-                    sizes="250px"
+                    sizes="(min-width: 50em) 25vw, (min-width: 20em) 50vw, 100vw"
+                    style={{ objectFit: "cover" }}
                 />
                 <CardUpperContentContainer>
                     <HeartContainer>
@@ -389,7 +390,7 @@ function Card({ fundingData, onFundingClick, onBookmark, inMyPage = false }: Car
                     </MenuPriceContainer>
                 </MenuContainer>
                 <RemainingTimeWrapper>
-                    {remainTime === "이미 마감되었습니다" || remainTime === "오늘이 마감!"
+                    {remainTime === "이미 마감되었습니다." || remainTime === "오늘이 마감!"
                         ? remainTime
                         : `마감까지 ${remainTime}`}
                 </RemainingTimeWrapper>

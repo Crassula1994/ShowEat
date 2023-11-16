@@ -4,7 +4,7 @@ import Head from "next/head";
 import { PaymentWidgetInstance, loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { postRequestPayments } from "@apis/payments";
 import { RadioButton } from "@components/common/input";
-import React, { ReactNode, useState, useEffect, useRef } from "react";
+import { ReactNode, useState, useEffect, useRef } from "react";
 import SingleLayout from "@layouts/SingleLayout";
 import styled from "@emotion/styled";
 import { TextButton } from "@components/common/button";

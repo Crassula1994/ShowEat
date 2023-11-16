@@ -10,6 +10,7 @@ import { ReactNode, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { ScrollButton, TextButton } from "@components/common/button";
 import { useRouter } from "next/router";
+import useUserState from "@hooks/useUserState";
 import withAuth from "@libs/withAuth";
 
 // ----------------------------------------------------------------------------------------------------
@@ -88,12 +89,13 @@ const MoreButtonWrapper = styled("div")`
 /* Buyer Participating Fundings Page */
 function MyFundings() {
     const router = useRouter();
+    const [user] = useUserState();
     const [fundingData, setFundingData] = useState<FundingType[]>([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState<number>(0);
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     const handleLoadMore = () => {
-        setPage(page + 1); // 더보기 : 페이지 + 1
+        setPage(page + 1);
     };
     const handleCard = (fundingId: number) => {
         router.push(`/fundings/${fundingId}/store`);
@@ -129,15 +131,17 @@ function MyFundings() {
                     }
                 }
             } else {
-                setFundingData([]);
                 setHasMorePage(false);
             }
         });
     };
 
     useEffect(() => {
-        fetchFundingData();
-    }, [page]);
+        const { userId } = user;
+        if (userId !== 0) {
+            fetchFundingData();
+        }
+    }, [user, page]);
 
     return (
         <>

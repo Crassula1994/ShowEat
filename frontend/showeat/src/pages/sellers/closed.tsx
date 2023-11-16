@@ -3,6 +3,7 @@ import Card from "@components/composite/card";
 import { FundingType } from "@customTypes/apiProps";
 import { getSellerInactiveFunding } from "@apis/fundings";
 import Head from "next/head";
+import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { ScrollButton, TextButton } from "@components/common/button";
 import SellerLayout from "@layouts/SellerLayout";
@@ -37,10 +38,26 @@ const TitleWrapper = styled("div")`
     margin-bottom: 2em;
 `;
 
-const NoDataWrapper = styled("div")`
+const BlankWrapper = styled("div")`
+    // Layout Attribute
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 2em;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
 `;
 
 const CardsContainer = styled("div")`
@@ -77,7 +94,7 @@ function ClosedFunding() {
     const [hasMorePage, setHasMorePage] = useState<boolean>(false);
 
     const handleLoadMore = () => {
-        setPage(page + 1); // 더보기 : 페이지 + 1
+        setPage(page + 1);
     };
 
     const handleCard = (fundingId: number) => {
@@ -110,14 +127,23 @@ function ClosedFunding() {
                 <title>종료된 펀딩</title>
                 <meta
                     name="description"
-                    content="셀러님께서 과거에 진행한 이미 종료된 펀딩 목록입니다."
+                    content="셀러 님께서 과거에 진행한 이미 종료된 펀딩 목록입니다."
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <FavoritesContainer>
                 <TitleWrapper>종료된 펀딩</TitleWrapper>
                 {fundingData.length === 0 ? (
-                    <NoDataWrapper>종료된 펀딩이 없습니다.</NoDataWrapper>
+                    <BlankWrapper>
+                        <Image
+                            src="/assets/images/crying-cook-cow.png"
+                            width={150}
+                            height={150}
+                            alt="crying-cook-cow"
+                            priority
+                        />
+                        <TextWrapper>종료된 펀딩이 존재하지 않소!</TextWrapper>
+                    </BlankWrapper>
                 ) : (
                     <CardsContainer>
                         {fundingData.map((funding, index) => (

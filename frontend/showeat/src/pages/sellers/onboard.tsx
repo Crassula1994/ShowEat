@@ -3,6 +3,7 @@ import Card from "@components/composite/card";
 import { FundingType } from "@customTypes/apiProps";
 import { getSellerActiveFunding } from "@apis/fundings";
 import Head from "next/head";
+import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import SellerLayout from "@layouts/SellerLayout";
 import styled from "@emotion/styled";
@@ -37,10 +38,26 @@ const TitleWrapper = styled("span")`
     margin-bottom: 2em;
 `;
 
-const NoDataWrapper = styled("div")`
+const BlankWrapper = styled("div")`
+    // Layout Attribute
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 2em;
+
+    // Interaction Attribute
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+`;
+
+const TextWrapper = styled("div")`
+    // Text Attribute
+    font-weight: 700;
+    font-size: 30px;
+    color: ${(props) => props.theme.colors.gray4};
 `;
 
 const CardsContainer = styled("div")`
@@ -114,7 +131,16 @@ function OnBoardingFunding() {
             <FavoritesContainer>
                 <TitleWrapper>진행 중 펀딩</TitleWrapper>
                 {fundingData.length === 0 ? (
-                    <NoDataWrapper>진행 중인 펀딩이 없습니다.</NoDataWrapper>
+                    <BlankWrapper>
+                        <Image
+                            src="/assets/images/crying-cook-cow.png"
+                            width={150}
+                            height={150}
+                            alt="crying-cook-cow"
+                            priority
+                        />
+                        <TextWrapper>종료된 펀딩이 존재하지 않소!</TextWrapper>
+                    </BlankWrapper>
                 ) : (
                     <CardsContainer>
                         {fundingData.map((funding, index) => (
