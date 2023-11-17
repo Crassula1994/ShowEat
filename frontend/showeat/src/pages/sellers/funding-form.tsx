@@ -295,6 +295,27 @@ const MultiModalDescriptionWrapper = styled("span")`
     }
 `;
 
+const SuccessModalDescriptionWrapper = styled("span")`
+    font-size: 22px;
+    font-weight: 700;
+
+    padding: 1em 0;
+
+    @media (max-width: 767px) {
+        font-size: 14px;
+    }
+`;
+
+const SuccessCowWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 90%;
+
+    box-sizing: border-box;
+`;
+
 // ----------------------------------------------------------------------------------------------------
 
 /* Add Menu Modal Component */
@@ -365,14 +386,27 @@ function AddMenu({
     );
 }
 
+function SuccessModal() {
+    return (
+        <MultiModalContainer>
+            <SuccessCowWrapper>
+                <Image
+                    src="/assets/images/happy-cook-cow.png"
+                    alt="happy-cow"
+                    width={150}
+                    height={150}
+                />
+            </SuccessCowWrapper>
+            <SuccessModalDescriptionWrapper>
+                펀딩 생성을 완료했습니다.
+            </SuccessModalDescriptionWrapper>
+        </MultiModalContainer>
+    );
+}
+
 /* Multi Modal Component */
 function MultiModal(isStatus: string) {
     const renderText = [
-        {
-            status: "SUCCESS",
-            title: "펀딩 생성 완료",
-            description: "펀딩을 생성 완료했습니다.",
-        },
         {
             status: "NOSELLER",
             title: "등록된 셀러가 아닙니다.",
@@ -407,6 +441,7 @@ function FundingForm() {
     const [isFundingType, setIsFundingType] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [isStatus, setIsStatus] = useState("");
     const [textFormData, setTextFormData] = useState([
         {
@@ -437,7 +472,7 @@ function FundingForm() {
             price: number;
             businessMenuImageResponseDtos: [];
         }[]
-    >([]); // API로 메뉴 목록 받아와야함
+    >([]);
     const [menuData, setMenuData] = useState({
         type: "menuRequestDtos",
         text: "메뉴 정보",
@@ -469,8 +504,8 @@ function FundingForm() {
     function getToday() {
         const todayDate = new Date();
         const year = todayDate.getFullYear();
-        const month = (todayDate.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
-        const day = todayDate.getDate().toString().padStart(2, "0"); // 일도 2자리로 포맷팅
+        const month = (todayDate.getMonth() + 1).toString().padStart(2, "0");
+        const day = todayDate.getDate().toString().padStart(2, "0");
 
         return `${year}-${month}-${day}`;
     }
@@ -649,8 +684,7 @@ function FundingForm() {
                 discountPrice: parseFloat(menuData.data.discountPrice),
             }).then((res) => {
                 if (res.statusCode === 200) {
-                    setIsStatus("SUCCESS");
-                    setIsMultiModalOpen(true);
+                    setIsSuccessModalOpen(true);
                     setTimeout(() => {
                         router.push("/sellers/profile/seller-info");
                     }, 2000);
@@ -681,8 +715,7 @@ function FundingForm() {
                 if (res.statusCode === 200) {
                     postGiftcardImage(giftcardImage[0], res.data).then(() => {
                         if (res.statusCode === 200) {
-                            setIsStatus("SUCCESS");
-                            setIsMultiModalOpen(true);
+                            setIsSuccessModalOpen(true);
                             setTimeout(() => {
                                 router.push("/sellers/profile/seller-info");
                             }, 2000);
@@ -974,6 +1007,17 @@ function FundingForm() {
                     buttonHeight="50px"
                     buttonFontSize={20}
                 />
+                <Modal
+                    childComponent={SuccessModal()}
+                    width="500px"
+                    height="300px"
+                    isOpen={isSuccessModalOpen}
+                    setIsOpen={setIsSuccessModalOpen}
+                    buttonType="none"
+                    buttonWidth="200px"
+                    buttonHeight="50px"
+                    buttonFontSize={20}
+                />
             </FundingFormContainer>
         </>
     );
@@ -984,7 +1028,7 @@ function FundingForm() {
 /* Middleware */
 const FundingFormWithAuth = withAuth({
     WrappedComponent: FundingForm,
-    // guardType: "USER_ONLY",
+    guardType: "USER_ONLY",
 });
 
 // ----------------------------------------------------------------------------------------------------

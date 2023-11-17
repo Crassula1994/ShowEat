@@ -195,7 +195,6 @@ function FileInput({
                 if (modifyProfile) {
                     if (profileType === "BUYER") {
                         patchUpdateUserProfile(userId, fileList).then((result) => {
-                            console.log(result);
                             const newBuyerProfile: string = result.data;
                             setUploadedFiles([]);
                             setUser((prev) => ({ ...prev, userImgUrl: newBuyerProfile }));
@@ -209,9 +208,6 @@ function FileInput({
                     }
                 }
                 setUploadedFiles([...uploadedFiles, ...Array.from(fileList)]);
-            } else {
-                // 다른거로 표시해줘야 할 듯
-                console.log(`이미지는 ${count}개까지만 올릴 수 있습니다.`);
             }
         }
     };
@@ -235,9 +231,6 @@ function FileInput({
 
         if (fileList.length + uploadedFiles.length <= count) {
             setUploadedFiles([...uploadedFiles, ...Array.from(fileList)]);
-        } else {
-            // 다른거로 표시해줘야 할 듯
-            console.log(`이미지는 ${count}개까지만 올릴 수 있습니다.`);
         }
         e.currentTarget.classList.remove("dragging-over");
     };

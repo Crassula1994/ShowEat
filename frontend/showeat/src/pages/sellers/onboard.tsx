@@ -102,17 +102,16 @@ function OnBoardingFunding() {
     };
 
     const fetchFundingData = () => {
-        getSellerActiveFunding(page).then((data) => {
-            if (data.data && data.data.content && data.data.content.length > 0) {
-                const isLastPage: boolean = data.data.last;
-                const fundingList: FundingType[] = data.data.content || [];
-                if (page === 0) {
-                    setFundingData(fundingList);
-                    setHasMorePage(!isLastPage);
-                } else {
-                    setFundingData([...fundingData, ...fundingList]);
+        getSellerActiveFunding(page).then((res) => {
+            if (res.statusCode === 200) {
+                if (res.data && res.data.content) {
+                    const isLastPage: boolean = res.data.last;
+                    const fundingList = res.data.content;
+                    setFundingData((prev) => [...prev, ...fundingList]);
                     setHasMorePage(!isLastPage);
                 }
+            } else {
+                setHasMorePage(false);
             }
         });
     };
@@ -139,7 +138,7 @@ function OnBoardingFunding() {
                             alt="crying-cook-cow"
                             priority
                         />
-                        <TextWrapper>종료된 펀딩이 존재하지 않소!</TextWrapper>
+                        <TextWrapper>진행 중인 펀딩이 존재하지 않소!</TextWrapper>
                     </BlankWrapper>
                 ) : (
                     <CardsContainer>

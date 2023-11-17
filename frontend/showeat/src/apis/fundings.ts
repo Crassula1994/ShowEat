@@ -41,7 +41,7 @@ const getFundingUserDetail = async (userId: number, fundingId: string) => {
     return result;
 };
 
-/* Function for get Funding datas */
+/* Function for Getting Funding data */
 const getMainPageList = async (type: string) => {
     const props: FetchProps = {
         url: "funding/home",
@@ -66,7 +66,7 @@ const postFundingJoin = async (fundingId: string) => {
     return result;
 };
 
-/* Function for Create Funding */
+/* Function for Creating Funding */
 interface CreateFundingProps {
     fundingType: string;
     category: string;
@@ -118,7 +118,7 @@ const createFunding = async ({
     return result;
 };
 
-/* Function for Post Gift Card Image */
+/* Function for Posting Gift Card Image */
 const postGiftcardImage = async (multipartFile: File, fundingId: number) => {
     const formData = new FormData();
 
@@ -173,7 +173,7 @@ const getSellerInactiveFunding = async (page: number) => {
     return result;
 };
 
-/* Function for user Fundings */
+/* Function for Getting User Fundings */
 const getUserFundings = async (page: number) => {
     const props: FetchProps = {
         url: `funding/user/${page}`,
@@ -184,7 +184,7 @@ const getUserFundings = async (page: number) => {
     return result;
 };
 
-/* Function for user favorite Fundings */
+/* Function for Getting User Favorite Fundings */
 const getFavoriteFundings = async (page: number) => {
     const props: FetchProps = {
         url: `funding/user/bookmark/${page}`,
@@ -195,7 +195,7 @@ const getFavoriteFundings = async (page: number) => {
     return result;
 };
 
-/* Function for Search Fundings */
+/* Function for Searching Fundings */
 interface SearchFundingsProps {
     keyword: string;
     category?: string[] | string | undefined;
@@ -264,7 +264,7 @@ const searchFundings = async ({
     return result;
 };
 
-/* Function for Search One Category Fundings */
+/* Function for Searching One Category Fundings */
 interface CategoryFundingProps {
     category: string;
     sortType?: string;
@@ -287,7 +287,7 @@ const getCategoryFundings = async ({
     return result;
 };
 
-/* Function for Get Funding Reviews */
+/* Function for Getting Funding Reviews */
 const getFundingReview = async (fundingId: number, page: number) => {
     const props: FetchProps = {
         url: `review`,

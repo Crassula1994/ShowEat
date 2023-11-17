@@ -102,17 +102,16 @@ function ClosedFunding() {
     };
 
     const fetchFundingData = () => {
-        getSellerInactiveFunding(page).then((data) => {
-            if (data.data.content && data.data.content.length > 0) {
-                const isLastPage: boolean = data.data.last;
-                const fundingList: FundingType[] = data.data.content || [];
-                if (page === 0) {
-                    setFundingData(fundingList);
-                    setHasMorePage(!isLastPage);
-                } else {
-                    setFundingData([...fundingData, ...fundingList]);
+        getSellerInactiveFunding(page).then((res) => {
+            if (res.statusCode === 200) {
+                if (res.data && res.data.content) {
+                    const isLastPage: boolean = res.data.last;
+                    const fundingList = res.data.content;
+                    setFundingData((prev) => [...prev, ...fundingList]);
                     setHasMorePage(!isLastPage);
                 }
+            } else {
+                setHasMorePage(false);
             }
         });
     };

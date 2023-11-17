@@ -63,6 +63,7 @@ const patchUpdateUserProfile = async (userId: number, imageFile: File[]) => {
     return result;
 };
 
+/* Function for Patching User Nickname */
 const patchNickname = async (userId: number, userNickname: string) => {
     const props: FetchProps = {
         url: "users/nickname",
@@ -74,6 +75,7 @@ const patchNickname = async (userId: number, userNickname: string) => {
     return result;
 };
 
+/* Function for Patching User Phone Number */
 const patchPhone = async (userId: number, userPhone: string) => {
     const props: FetchProps = {
         url: "users/phone",
@@ -85,6 +87,7 @@ const patchPhone = async (userId: number, userPhone: string) => {
     return result;
 };
 
+/* Function for Patching User Address */
 const patchAddress = async (userId: number, userAddress: string) => {
     const props: FetchProps = {
         url: "users/address",

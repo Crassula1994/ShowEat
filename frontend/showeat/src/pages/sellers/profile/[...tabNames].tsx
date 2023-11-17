@@ -33,6 +33,7 @@ const ProfileContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
+    min-width: 400px;
     box-sizing: border-box;
     padding: 5% 15%;
 `;

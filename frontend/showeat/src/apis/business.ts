@@ -4,7 +4,7 @@ import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function for Verify Business */
+/* Function for Verifying Business Information */
 const postBusinessInfo = async (
     ceo: string,
     email: string,
@@ -36,7 +36,7 @@ const postBusinessInfo = async (
     return result;
 };
 
-/* Function for Business Account */
+/* Function for Posting Business Account Information */
 const postAccountInfo = async (
     accountHolder: string,
     accountBank: string,
@@ -57,8 +57,6 @@ const postAccountInfo = async (
     };
 
     const result = await fetchModify(props);
-
-    console.log(result);
 
     return result;
 };

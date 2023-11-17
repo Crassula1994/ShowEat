@@ -18,4 +18,5 @@ const postBookmark = async (fundingId: string) => {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Export */
 export default postBookmark;

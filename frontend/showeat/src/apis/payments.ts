@@ -1,6 +1,9 @@
 import { FetchProps } from "@customTypes/apiProps";
 import { fetchModify, fetchGet } from "@utils/api";
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Function for Posting Request of Payments */
 const postRequestPayments = async (
     userId: number,
     payType: string,
@@ -22,6 +25,7 @@ const postRequestPayments = async (
     return result;
 };
 
+/* Function for Getting Request of Payment Approval */
 const getRequestPaymentApproval = async (
     paymentType: string,
     orderId: string,
@@ -40,4 +44,7 @@ const getRequestPaymentApproval = async (
     return result;
 };
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
 export { postRequestPayments, getRequestPaymentApproval };

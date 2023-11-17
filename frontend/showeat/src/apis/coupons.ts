@@ -28,7 +28,7 @@ const getCouponDetails = async (couponId: number) => {
     return result;
 };
 
-/* Function for Use Single Coupon */
+/* Function for Using Single Coupon */
 const patchUseCoupon = async (couponId: number) => {
     const props: FetchProps = {
         url: `coupon/update/status/${couponId}`,
@@ -40,7 +40,7 @@ const patchUseCoupon = async (couponId: number) => {
     return result;
 };
 
-/* Function for Use Single Coupon */
+/* Function for Using Single Coupon */
 interface PatchUseGiftcardProps {
     couponId: number;
     couponAmount: number;
@@ -58,6 +58,7 @@ const patchUseGiftcard = async ({ couponId, couponAmount }: PatchUseGiftcardProp
     return result;
 };
 
+/* Function for Posting Review */
 const postReview = async (couponId: number, message: string) => {
     const reviewData = {
         couponId,

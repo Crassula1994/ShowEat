@@ -250,34 +250,35 @@ function Header() {
     useEffect(() => {
         if (user.userId !== 0) {
             getNotificationExist().then((res) => {
-                console.log("getNotificationExist", res);
                 if (res.data) {
                     setIsNotificationExist(true);
                 } else {
                     setIsNotificationExist(false);
                 }
             });
-            console.log("getNotificationExist");
         }
     }, [user.userId]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const notificationContainer = document.getElementById("notification-container");
+            const notificationIconButton = document.getElementById("notification-icon-button");
 
             if (
                 notificationContainer &&
                 !notificationContainer.contains(event.target as Node) &&
-                isNotificationVisible
+                isNotificationVisible &&
+                notificationIconButton &&
+                !notificationIconButton.contains(event.target as Node)
             ) {
                 setIsNotificationVisible(false);
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mouseup", handleClickOutside);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mouseup", handleClickOutside);
         };
     }, [isNotificationVisible]);
 
@@ -337,6 +338,7 @@ function Header() {
                             </NotificationContainer>
                         )}
                         <IconButton
+                            id="notification-icon-button"
                             width="30"
                             onClick={() => {
                                 handleNotification();
@@ -350,6 +352,7 @@ function Header() {
                             alternative="alarm-read-icon"
                         />
                         <IconButton
+                            id="notification-icon-button"
                             width="30"
                             onClick={handleLogout}
                             source="/assets/icons/logout-icon.svg"

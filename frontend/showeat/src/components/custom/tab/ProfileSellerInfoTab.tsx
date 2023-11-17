@@ -52,6 +52,7 @@ const ProfileContainer = styled("div")`
 
     // Box Model Attribute
     width: 100%;
+    min-width: 200px;
     gap: 1em;
 `;
 
@@ -89,6 +90,8 @@ const ProfileImage = styled(Image)`
     // Style Attribute
     border-radius: 50%;
     border: 3px solid ${(props) => props.theme.colors.secondary3};
+
+    object-fit: cover;
 `;
 
 const SellerInfoMenuContentContainer = styled("div")`

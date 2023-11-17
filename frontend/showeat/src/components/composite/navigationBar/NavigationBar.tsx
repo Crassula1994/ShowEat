@@ -60,6 +60,8 @@ const ProfileImageWrapper = styled("div")`
 
 const ProfileImage = styled(Image)`
     border-radius: 50%;
+
+    object-fit: cover;
 `;
 
 const ProfileNickname = styled("span")`
@@ -199,7 +201,6 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
 
     const handleMenu = (menu: { text: string; link: string; contain: string[] }) => {
         setSelectedMenu(menu.text);
-        // 일단 메뉴 버튼 안에서 이동은 replace로
         router.replace(`${menu.link}`);
     };
 
@@ -222,7 +223,9 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                     <ProfileImage
                         src={isBuyer ? user.userImgUrl : seller.sellerImgUrl}
                         alt="profile-img"
-                        fill
+                        width={120}
+                        height={120}
+                        priority
                     />
                 </ProfileImageWrapper>
                 <ProfileNickname>
@@ -264,22 +267,6 @@ function NavigationBar({ isBuyer }: NavigationBarProps) {
                 ))}
             </MenuContainer>
             {!isBuyer && (
-                // <ButtonContainer>
-                //     <TextButton
-                //         text="펀딩 생성하기"
-                //         width="40%"
-                //         fontSize={14}
-                //         colorType="secondary"
-                //         onClick={handleCreateFunding}
-                //     />
-                //     <TextButton
-                //         text="QR 인식하기"
-                //         width="40%"
-                //         fontSize={14}
-                //         colorType="secondary"
-                //         onClick={handleQR}
-                //     />
-                // </ButtonContainer>
                 <ButtonContainer>
                     <TextButton
                         text="펀딩 생성하기"

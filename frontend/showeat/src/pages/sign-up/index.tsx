@@ -75,14 +75,11 @@ const ButtonWrapper = styled("div")`
 /* Server Side Rendering */
 export const getServerSideProps: GetServerSideProps = async () => {
     const userId = getCookie("user-id");
-    // console.log(userId);
     if (userId) {
-        // console.log("대체 왜?");
         const result = await getUserInfo(+userId);
         const { visited } = result.data;
 
         if (visited) {
-            // console.log("왜 안됨?");
             return {
                 redirect: {
                     destination: "/",

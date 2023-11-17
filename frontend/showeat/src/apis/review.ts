@@ -19,4 +19,5 @@ const getReviewList = async (businessId: number, page: number) => {
 
 // ----------------------------------------------------------------------------------------------------
 
+/* Export */
 export default getReviewList;

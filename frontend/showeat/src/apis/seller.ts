@@ -2,6 +2,8 @@
 import { fetchGet, fetchModify } from "@utils/api";
 import { FetchProps } from "@customTypes/apiProps";
 
+// ----------------------------------------------------------------------------------------------------
+
 /* Function for Getting User Information */
 const getSellerInfo = async (sellerId: number) => {
     const props: FetchProps = {
@@ -14,6 +16,7 @@ const getSellerInfo = async (sellerId: number) => {
     return result;
 };
 
+/* Function for Getting Seller Registration Information */
 const getBusinessRegiInfo = async (sellerId: number) => {
     const props: FetchProps = {
         url: `business/registration/${sellerId}`,
@@ -42,6 +45,7 @@ const patchSellerProfile = async (file: File[]) => {
     return result;
 };
 
+/* Function for Patching Seller Bio */
 const patchSellerBio = async (businessBio: string) => {
     const props: FetchProps = {
         url: "business/seller/bio",
@@ -94,6 +98,8 @@ const patchSettingInfo = async (
 
     return result;
 };
+
+// ----------------------------------------------------------------------------------------------------
 
 /* Export */
 export {

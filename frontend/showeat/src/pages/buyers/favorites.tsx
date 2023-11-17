@@ -118,8 +118,6 @@ function Favorites() {
 
     const fetchFundingData = () => {
         getFavoriteFundings(page).then((res) => {
-            console.log(res);
-
             if (res.statusCode === 200) {
                 if (res.data && res.data.content) {
                     const isLastPage: boolean = res.data.last;

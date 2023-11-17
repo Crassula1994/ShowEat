@@ -109,7 +109,7 @@ function SellerInfo({
     const [businessAddressDetail, setBusinessAddressDetail] = useState<string>("");
     const [businessPhone, setBusinessPhone] = useState<string>("");
     const [fileName, setFileName] = useState<string>("");
-    const [formData, setFormData] = useState<FormData>(new FormData());
+    const [, setFormData] = useState<FormData>(new FormData());
 
     const handleBusinessNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.trim();
@@ -172,7 +172,6 @@ function SellerInfo({
             newFormData.append("businessRegistration", selectedFile);
             setFormData(newFormData);
             onFormDataChange(newFormData);
-            console.log(formData);
         }
     };
 
@@ -180,9 +179,7 @@ function SellerInfo({
         const loadDaumPostcode = () => {
             const script = document.createElement("script");
 
-            // script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
             script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-            console.log(script);
             script.async = true;
             document.body.appendChild(script);
         };
@@ -315,4 +312,7 @@ function SellerInfo({
     );
 }
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Export */
 export default SellerInfo;

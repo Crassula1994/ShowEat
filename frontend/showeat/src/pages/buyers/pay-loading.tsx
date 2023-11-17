@@ -13,7 +13,6 @@ function PayLoading() {
 
     useEffect(() => {
         // 성공 처리: 결제 승인 API를 호출하세요
-        console.log("결제 성공");
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -33,8 +32,6 @@ function PayLoading() {
 
             getRequestPaymentApproval(paymentType, orderId, paymentKey, amount)
                 .then((approvalResult) => {
-                    console.log(approvalResult);
-                    // const { accessToken, refreshToken } = approvalResult.data;
                     const { approvedAt, balanceAmount, method } = approvalResult.data;
                     router.replace({
                         pathname: "/buyers/pay-result",
@@ -46,14 +43,9 @@ function PayLoading() {
                         },
                     });
                 })
-                .catch((approvalError) => {
-                    console.error(approvalError);
-
+                .catch(() => {
                     router.replace("/buyers/pay");
                 });
-        } else {
-            // Handle the case where paymentType is null
-            console.error("paymentType or paymentKey is null");
         }
     }, []);
 

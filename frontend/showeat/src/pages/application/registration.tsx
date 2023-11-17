@@ -105,9 +105,8 @@ function Registration() {
     const [zonecode, setZonecode] = useState<string>("");
     const [businessAddressDetail, setBusinessAddressDetail] = useState<string>("");
     const [businessPhone, setBusinessPhone] = useState<string>("");
-    const [fileName, setFileName] = useState<string>("");
+    const [, setFileName] = useState<string>("");
     const [formData, setFormData] = useState<FormData>(new FormData());
-    const [, setIsModalOpen] = useState<boolean>(false);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -161,7 +160,6 @@ function Registration() {
 
     const handleButtonClick = () => {
         setIsLoading(true);
-        console.log(fileName);
         const newBusinessAddress = `(${zonecode}) ${businessAddress} ${businessAddressDetail}`;
         postBusinessInfo(
             ceo,
@@ -178,7 +176,6 @@ function Registration() {
                 router.replace("/application/account-info");
             }
             if (res === 520) {
-                setIsModalOpen(true);
                 openModal();
             }
         });

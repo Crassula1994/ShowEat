@@ -16,6 +16,7 @@ const getNotification = async () => {
     return result;
 };
 
+/* Function for Getting Notification Exist */
 const getNotificationExist = async () => {
     const props: FetchProps = {
         url: "notification/exist",

@@ -227,7 +227,6 @@ function AccountInfo() {
 
     const handleSubmit = () => {
         postAccountInfo(accountHolder, accountBank, accountNumber, formData).then((res) => {
-            console.log(res);
             if (res.statusCode === 200) {
                 setUser((prev) => ({
                     ...prev,

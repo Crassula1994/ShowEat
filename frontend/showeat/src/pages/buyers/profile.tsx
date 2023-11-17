@@ -43,6 +43,9 @@ const MyImageContainer = styled("div")`
 const ImageContainer = styled("div")`
     display: flex;
     flex-direction: column;
+
+    min-width: 150px;
+    min-height: 150px;
 `;
 
 const ButtonContainer = styled("div")`
@@ -53,6 +56,8 @@ const ButtonContainer = styled("div")`
 
 const ProfileImage = styled(Image)`
     border-radius: 50%;
+
+    object-fit: cover;
 `;
 
 const NickNameContainer = styled("div")`
@@ -221,7 +226,7 @@ function BuyerProfile() {
                         id="nickname"
                         value={nickname}
                         labelText="닉네임"
-                        onChange={handleNicknameChange}
+                        onChange={(e) => handleNicknameChange(e)}
                     />
                     <TextButton
                         text="수정"
@@ -239,7 +244,7 @@ function BuyerProfile() {
                         value={phone}
                         labelText="전화번호"
                         source="/assets/icons/phone-icon.svg"
-                        onChange={handlePhoneChange}
+                        onChange={(e) => handlePhoneChange(e)}
                     />
                     <TextButton
                         text="수정"
@@ -260,7 +265,7 @@ function BuyerProfile() {
                             required
                             labelText="주소"
                             itemList={addressList}
-                            onChange={handleAddressChange}
+                            onChange={(e) => handleAddressChange(e)}
                         />
                     </DropdownWrapper>
                     <TextButton

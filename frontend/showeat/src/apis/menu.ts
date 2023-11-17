@@ -4,7 +4,7 @@ import { FetchProps } from "@customTypes/apiProps";
 
 // ----------------------------------------------------------------------------------------------------
 
-/* Function for Get Seller's Menu List */
+/* Function for Getting Seller's Menu List */
 const getMenuList = async () => {
     const props: FetchProps = {
         url: "business/menu",

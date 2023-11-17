@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 interface IconButtonProps extends ButtonProps {
     source: string;
     alternative: string;
+    id?: string;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -62,10 +63,11 @@ const ImageWrapper = styled("div")`
 /* Icon Button Component */
 function IconButton(props: IconButtonProps) {
     // States and Variables
-    const { width, height = Number(width), onClick, source, alternative } = props;
+    const { width, height = Number(width), onClick, source, alternative, id } = props;
 
     return (
         <ButtonContainer
+            id={id}
             width={Number(width) * 1.2}
             height={Number(height) * 1.2}
             onClick={onClick}

@@ -72,6 +72,7 @@ const CouponUpperContainer = styled("div")`
 
 const CouponImageWrapper = styled(Image)<{ couponStatus: string }>`
     border-radius: 20px;
+    object-fit: cover;
 
     filter: ${(props) => props.couponStatus !== "ACTIVE" && "grayscale(80%)"};
 `;
@@ -228,7 +229,8 @@ function Coupon({ coupon, onClick }: CouponProps) {
                     className="coupon-image"
                     src={coupon.fundingImgUrl}
                     alt="coupon-image"
-                    fill
+                    width={200}
+                    height={200}
                     couponStatus={coupon.couponStatus}
                 />
                 {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
