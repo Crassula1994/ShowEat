@@ -57,7 +57,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void reissueToken(HttpServletRequest request, HttpServletResponse response) {
+    public String reissueToken(HttpServletRequest request, HttpServletResponse response) {
         log.info("AuthService_reissueToken -> AccessToken 재발행");
         String refreshToken = request.getHeader("refresh-token");
 
@@ -74,10 +74,12 @@ public class AuthService {
             // 엑세스 토큰 재발행
             response.setHeader("access-token", newAccessToken.getAccessToken());
             log.info(email + "님의 accessToken 재발급 : " + newAccessToken.getAccessToken());
+            return newAccessToken.getAccessToken();
         } else {
             log.info("유효하지 않거나 만료된 리프레시 토큰");
             // 유효하지 않거나 만료된 리프레시 토큰
             new InvalidRefreshTokenException();
+            return null;
         }
     }
 }

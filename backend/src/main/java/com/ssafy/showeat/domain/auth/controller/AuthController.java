@@ -82,8 +82,8 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseResult reissue(HttpServletRequest request, HttpServletResponse response) {
         log.info("AuthController_reissue -> AccessToken 재발행");
-        authService.reissueToken(request, response);
-        return ResponseResult.successResponse;
+        String newAccessToken = authService.reissueToken(request, response);
+        return new SingleResponseResult<>(newAccessToken);
     }
 
     @ApiOperation(value = "Access Token 유효성 검사", notes = "사용자의 Access Token을 검사합니다.")
