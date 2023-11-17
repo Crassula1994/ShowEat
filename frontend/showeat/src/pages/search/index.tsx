@@ -480,8 +480,8 @@ function Search({
     const [pageNum, setPageNum] = useState(0);
     const [isLastPage, setIsLastPage] = useState(isLast);
     const [isChange, setIsChange] = useState(false);
-    const [minMoney, setMinMoney] = useState(min);
-    const [maxMoney, setMaxMoney] = useState(max);
+    const [minMoney, setMinMoney] = useState(min?.toString() || "0");
+    const [maxMoney, setMaxMoney] = useState(max?.toString() || "100000000");
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -510,8 +510,12 @@ function Search({
             })),
         );
         setIsSelectedSort(sortType || "POPULARITY");
-        setMinMoney(min);
-        setMaxMoney(max);
+        if (min) {
+            setMinMoney(min.toString());
+        }
+        if (max) {
+            setMaxMoney(max.toString());
+        }
         setPageNum(0);
         setIsLastPage(isLast);
     }, [searchResultData, keyword, category, address, min, max, searchType, sortType, isLast]);
@@ -665,14 +669,14 @@ function Search({
     const changeMinMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         if (/^\d+$/.test(newValue) || newValue === "") {
-            setMinMoney(parseFloat(newValue));
+            setMinMoney(newValue);
         }
     };
 
     const changeMaxMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         if (/^\d+$/.test(newValue) || newValue === "") {
-            setMaxMoney(parseFloat(newValue));
+            setMaxMoney(newValue);
         }
     };
 
@@ -682,8 +686,8 @@ function Search({
                 keyword,
                 category: filterCategory.filter((one) => one.isChecked).map((one) => one.id),
                 address: filterAddress.filter((one) => one.isChecked).map((one) => one.address),
-                min: minMoney,
-                max: maxMoney,
+                min: parseFloat(minMoney),
+                max: parseFloat(maxMoney),
                 searchType: filterTypes.filter((one) => one.isChecked).map((one) => one.value),
                 sortType: isSelectedSort,
                 page: 0,
@@ -881,7 +885,7 @@ function Search({
                                                     </PriceLabeltWrapper>
                                                     <PriceInputWrapper>
                                                         <TextInput
-                                                            value={minMoney?.toString() || ""}
+                                                            value={minMoney || ""}
                                                             width="150px"
                                                             height="40px"
                                                             id="min-money"
@@ -896,7 +900,7 @@ function Search({
                                                     </PriceLabeltWrapper>
                                                     <PriceInputWrapper>
                                                         <TextInput
-                                                            value={maxMoney?.toString() || ""}
+                                                            value={maxMoney || ""}
                                                             width="150px"
                                                             height="40px"
                                                             id="max-money"

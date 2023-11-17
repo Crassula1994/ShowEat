@@ -371,6 +371,21 @@ function FundingTab(props: FundingTabProps) {
         }
     }, [user]);
 
+    useEffect(() => {
+        const { userId } = user;
+
+        setJoinCount(curCount);
+        setFavoriteCount(bookmarkCount);
+
+        if (userId !== 0) {
+            getFundingUserDetail(userId, fundingId).then((result) => {
+                const { fundingIsZzim, fundingIsParticipate } = result.data;
+                setIsFavorite(fundingIsZzim);
+                setIsJoined(fundingIsParticipate);
+            });
+        }
+    }, [fundingId]);
+
     return (
         <>
             <Head>

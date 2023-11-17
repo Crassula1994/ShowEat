@@ -386,6 +386,7 @@ function AddMenu({
     );
 }
 
+/* Success Modal Component */
 function SuccessModal() {
     return (
         <MultiModalContainer>
