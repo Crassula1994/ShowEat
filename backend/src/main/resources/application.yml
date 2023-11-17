@@ -1,0 +1,97 @@
+spring:
+  profiles: # profiles 설정
+    active: dev # 다른 설정이 없을 때 default 환경 값
+  # jpa설정
+  jpa:
+    properties: # property 사용 설정
+      hibernate: # hibernate property 설정
+        format_sql: true # 보여지는 쿼리를 예쁘게 포맷팅 -> 사용하지 않으면 긴 줄 형태로 출력됨
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 100MB
+  #security
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: e7241531adb08e465feca7b14ecea6d9
+            client-secret: dbBLjfYWuIXyROt2TBaeuOTS8hb7yjQj
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+
+server:
+  port: 8081
+
+# 로그 레벨 설정
+logging:
+  level:
+    # hibernate 가 남기는 모든 로그가 debug모드로 설정
+    # jpa hibernate가 생성하는 sql이 로거를 통해서 찍히도록 하는 설정
+#    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+
+ #   org.hibernate.orm.jdbc.bind: trace
+    org.springframework.web.socket: trace
+
+# s3
+cloud:
+  aws:
+    s3:
+      bucket: showeatbucket
+    credentials:
+      access-key: AKIAUVNMCFRSKJUQDXFP
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+# jwt
+jwt:
+  secret: asdlfkjp124112asAWghFDkk21923kkkj14238H3G3sdaASDasd124asdfjlhSLDKHsldhflSDJHF1237SA218SASDkcv2df
+  authorities:
+    key: "auth"
+  bearer:
+    type: "Bearer"
+    prefix: "Bearer "
+  filter:
+    skip:
+      paths: auth/login/kakao
+#      ,/auth/logout
+
+clova:
+  url: "https://ntuel8zci6.apigw.ntruss.com/custom/v1/25840/11e8d01964315380ff54eb2db300bc588129efabbc17f82a56444f20d8867303/infer"
+  secretKey: "bGtVZFl5T29SUkh3TGFwRE16WVlWUENxb2J1dGF4UEo="
+
+business:
+  url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey="
+  secretKey: "4SlBHvxNa576fRWhPJN31xw3YYDXDhysrpBFU8sDMMgR9oZJi%2FVsGSsqvkhiJP5%2FCLueZqxvPobQMMVPQMzxIA%3D%3D"
+
+sms:
+  key: "NCSLC4FNKZ8P694C"
+  secretKey: "Z4QQIAQPPITWUUW1DEZK6GJ0CDGRKLUB"
+  sender: "01064731506"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
