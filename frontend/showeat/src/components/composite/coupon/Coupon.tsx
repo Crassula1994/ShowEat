@@ -229,8 +229,7 @@ function Coupon({ coupon, onClick }: CouponProps) {
                     className="coupon-image"
                     src={coupon.fundingImgUrl}
                     alt="coupon-image"
-                    width={200}
-                    height={200}
+                    fill
                     couponStatus={coupon.couponStatus}
                 />
                 {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
