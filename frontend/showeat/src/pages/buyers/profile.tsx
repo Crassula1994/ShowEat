@@ -28,6 +28,7 @@ const UserInfoContainer = styled("div")`
     min-width: 700px;
     box-sizing: border-box;
     padding: 5em 10em;
+    margin-bottom: 5em;
 `;
 
 const MyInfoContainer = styled("div")`
@@ -125,8 +126,10 @@ function BuyerProfile() {
         setPhone(formatPhoneNumber(event.target.value));
     };
 
-    // Function for Handling Phone Number Change
+    // Function for Handling Address Change
     const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value);
+
         setAddress(event.target?.value);
     };
 

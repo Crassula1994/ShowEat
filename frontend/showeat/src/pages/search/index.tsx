@@ -23,34 +23,25 @@ import Head from "next/head";
 /* Type */
 interface SearchParams {
     keyword?: string;
-    category?: string[] | string | undefined;
-    address?: string[] | undefined;
-    searchType?: string[] | undefined;
-    sortType?: string | undefined;
-    min?: number | undefined;
-    max?: number | undefined;
-}
-
-interface SearchParams {
-    newKeyword?: string | undefined;
-    newCategory?: string[] | undefined;
-    newAddress?: string[] | undefined;
-    newSearchType?: string[] | undefined;
-    newSortType?: string | undefined;
-    newMin?: number | undefined;
-    newMax?: number | undefined;
+    category?: string[];
+    address?: string[];
+    searchType?: string[];
+    sortType?: string;
+    min?: number;
+    max?: number;
 }
 
 interface SearchResultDataProps {
     searchResultData: FundingType[];
     keyword?: string;
-    category?: string[] | undefined;
-    address?: string[] | undefined;
-    min?: number | undefined;
-    max?: number | undefined;
-    searchType?: string[] | undefined;
-    sortType?: string | undefined;
+    category?: string[];
+    address?: string[];
+    min?: number;
+    max?: number;
+    searchType?: string[];
+    sortType?: string;
     isLast: boolean;
+    totalCnt: number;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -147,7 +138,6 @@ const FilterButtonContainer = styled("div")`
 
 const FilterContainer = styled("div")`
     width: 100%;
-    /* height: 800px; */
 `;
 
 const FilterSlideInContainer = styled("div")<{ isFilterd: boolean }>`
@@ -396,6 +386,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         isLast = false;
     }
 
+    const totalCnt = (result.data && result.data.totalElements) || 0;
+
     return {
         props: {
             searchResultData,
@@ -407,6 +399,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             searchType,
             sortType,
             isLast,
+            totalCnt,
         },
     };
 };
@@ -433,6 +426,7 @@ function Search({
     searchType,
     sortType,
     isLast,
+    totalCnt,
 }: SearchResultDataProps) {
     const router = useRouter();
     const sortList = [
@@ -533,9 +527,7 @@ function Search({
                 page: 0,
             }).then((res) => {
                 if (res.statusCode === 200) {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
+                    setIsLastPage(res.data.last);
                     setFundingDatas(res.data.content);
                     setIsSelectedSort(type);
                     setPageNum(1);
@@ -557,9 +549,7 @@ function Search({
                 page: 0,
             }).then((res) => {
                 if (res.statusCode === 200) {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
+                    setIsLastPage(res.data.last);
                     setFundingDatas(res.data.content);
                     setIsSelectedSort(type);
                     setPageNum(1);
@@ -617,9 +607,7 @@ function Search({
                     sortType: isSelectedSort,
                     page: nextPage,
                 }).then((res) => {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
+                    setIsLastPage(res.data.last);
                     if (res.statusCode === 200) {
                         setFundingDatas((prev) => {
                             return [...prev, ...res.data.content];
@@ -642,9 +630,7 @@ function Search({
                     sortType: isSelectedSort,
                     page: nextPage,
                 }).then((res) => {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
+                    setIsLastPage(res.data.last);
                     if (res.statusCode === 200) {
                         setFundingDatas((prev) => {
                             return [...prev, ...res.data.content];
@@ -693,9 +679,7 @@ function Search({
                 page: 0,
             }).then((res) => {
                 if (res.statusCode === 200) {
-                    if (res.data.last) {
-                        setIsLastPage(true);
-                    }
+                    setIsLastPage(res.data.last);
                     setFundingDatas(res.data.content);
                     setPageNum(1);
                 } else if (res === 520) {
@@ -720,14 +704,11 @@ function Search({
                     검색 결과 :&nbsp;
                     {keyword !== ""
                         ? keyword
-                        : menuCategoryList.map((one) => {
-                              if (typeof category === "string") {
-                                  if (one.id === category) {
-                                      return one.value;
-                                  }
-                              }
-                              return null;
-                          })}
+                        : (category &&
+                              menuCategoryList.find(
+                                  (one) => typeof category === "string" && one.id === category,
+                              )?.value) ||
+                          ""}
                 </title>
                 <meta
                     name="description"
@@ -757,11 +738,8 @@ function Search({
                                     <SearchResultWrapper>&nbsp; 검색 결과</SearchResultWrapper>
                                 </ResultTitleContainer>
                                 <ResultDescriptionWrapper>
-                                    총{" "}
-                                    <ResultCountWrapper>
-                                        {fundingDatas && fundingDatas.length}건
-                                    </ResultCountWrapper>
-                                    의 결과가 검색되었어요!
+                                    총 <ResultCountWrapper>{totalCnt}건</ResultCountWrapper>의
+                                    결과가 검색되었어요!
                                 </ResultDescriptionWrapper>
                             </SearchResultHeaderContainer>
                             <FilterButtonContainer>
