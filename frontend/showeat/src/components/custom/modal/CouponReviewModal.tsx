@@ -5,11 +5,26 @@ import { useState } from "react";
 import { TextButton } from "@components/common/button";
 import { postReview } from "@apis/coupons";
 import { CouponType } from "@/customTypes/apiProps";
+import Image from "next/image";
+import Modal from "@/components/composite/modal";
 
+// ----------------------------------------------------------------------------------------------------
+
+/* Type */
+
+interface CouponReviewModalProps {
+    couponId: number;
+    closeReviewModal: () => void;
+    setCouponData: React.Dispatch<React.SetStateAction<CouponType[]>>;
+    setSelectedCoupon: React.Dispatch<React.SetStateAction<CouponType | null>>;
+}
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Style */
 const ReviewWrapper = styled("div")`
     display: flex;
     flex-direction: column;
-    font-family: Pretendard;
     font-size: 20px;
     align-items: center;
     background: #fff;
@@ -19,38 +34,91 @@ const ReviewWrapper = styled("div")`
 const ReviewContainer = styled("div")`
     color: #000;
     text-align: center;
-    font-family: Pretendard;
     font-size: 30px;
-    font-style: normal;
     font-weight: 900;
-    line-height: normal;
     margin-bottom: 20px;
 `;
 
 const TextAreaContainer = styled("div")`
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 98%;
+
+    box-sizing: border-box;
 `;
 
 const TextButtonContainer = styled("div")`
-    width: 100%;
+    width: 80%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-around;
     overflow-x: hidden;
     overflow-y: hidden;
 `;
 
+const SuceessModalContainer = styled("div")`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+`;
+
+const SuccessModalDescriptionWrapper = styled("span")`
+    font-size: 22px;
+    font-weight: 700;
+
+    padding: 1em 0;
+
+    @media (max-width: 767px) {
+        font-size: 14px;
+    }
+`;
+
+const SuccessCowWrapper = styled("div")`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 90%;
+
+    box-sizing: border-box;
+`;
+
+// ----------------------------------------------------------------------------------------------------
+
+/* Success Modal Component */
+function SuccessModal() {
+    return (
+        <SuceessModalContainer>
+            <SuccessCowWrapper>
+                <Image
+                    src="/assets/images/happy-cook-cow.png"
+                    alt="happy-cow"
+                    width={150}
+                    height={150}
+                />
+            </SuccessCowWrapper>
+            <SuccessModalDescriptionWrapper>
+                리뷰 등록을 완료했습니다.
+            </SuccessModalDescriptionWrapper>
+        </SuceessModalContainer>
+    );
+}
+
+/* Coupon Review Modal Component */
 function CouponReviewModal({
     couponId,
     closeReviewModal,
     setCouponData,
     setSelectedCoupon,
-}: {
-    couponId: number;
-    closeReviewModal: () => void;
-    setCouponData: React.Dispatch<React.SetStateAction<CouponType[]>>;
-    setSelectedCoupon: React.Dispatch<React.SetStateAction<CouponType | null>>;
-}) {
+}: CouponReviewModalProps) {
     const [message, setMessage] = useState("");
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
     const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value;
         setMessage(newValue);
@@ -80,7 +148,11 @@ function CouponReviewModal({
                     return null;
                 });
 
-                closeReviewModal();
+                setIsSuccessModalOpen(true);
+                setTimeout(() => {
+                    setIsSuccessModalOpen(false);
+                    closeReviewModal();
+                }, 2000);
             }
         });
     };
@@ -90,7 +162,7 @@ function CouponReviewModal({
             <TextAreaContainer>
                 <TextArea
                     id="message"
-                    width="550px"
+                    width="100%"
                     maxLength={400}
                     value={message}
                     textareaName=""
@@ -106,13 +178,33 @@ function CouponReviewModal({
             <TextButtonContainer>
                 <TextButton
                     text="저장"
-                    width="140px"
+                    width="160px"
                     height="40px"
                     fontSize={20}
                     colorType="primary"
                     onClick={handleReviewSubmit}
                 />
+                <TextButton
+                    text="취소"
+                    width="160px"
+                    height="40px"
+                    fontSize={20}
+                    fill="negative"
+                    colorType="primary"
+                    onClick={closeReviewModal}
+                />
             </TextButtonContainer>
+            <Modal
+                childComponent={SuccessModal()}
+                width="500px"
+                height="300px"
+                isOpen={isSuccessModalOpen}
+                setIsOpen={setIsSuccessModalOpen}
+                buttonType="none"
+                buttonWidth="200px"
+                buttonHeight="50px"
+                buttonFontSize={20}
+            />
         </ReviewWrapper>
     );
 }

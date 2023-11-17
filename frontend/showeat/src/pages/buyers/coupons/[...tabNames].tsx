@@ -214,9 +214,7 @@ function CouponsTab(props: CouponsTabProps) {
     return (
         <>
             <Head>
-                <title>
-                    내 {buyersCouponsTabMenu.find((tab) => tab.id === tabName)?.labelText} 쿠폰
-                </title>
+                <title>내 쿠폰</title>
                 <meta name="description" content="바이어님께서 보유하신 쿠폰 목록입니다." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>

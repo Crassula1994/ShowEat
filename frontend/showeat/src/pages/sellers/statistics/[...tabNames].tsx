@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import { Tab, TabBar } from "@components/composite/tabBar";
 import { useRouter } from "next/router";
 import withAuth from "@libs/withAuth";
+import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -96,23 +97,30 @@ function StatisticsTab(props: StatisticsTabProps) {
     };
 
     return (
-        <StatisticsContainer>
-            <TitleWrapper>매출 통계</TitleWrapper>
-            <TabBar>
-                {statisticsTabMenu.map((tab) => (
-                    <Tab
-                        key={tab.id}
-                        width="30%"
-                        labelText={tab.labelText}
-                        isActive={activeTab === tab.id}
-                        onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
-                    />
-                ))}
-            </TabBar>
-            <TabContainer>
-                {activeTab === "monthly" ? <StatisticsMonthlyTab /> : <StatisticsTotalTab />}
-            </TabContainer>
-        </StatisticsContainer>
+        <>
+            <Head>
+                <title>셀러 매출 통계</title>
+                <meta name="description" content="셀러님의 매출 통계 페이지입니다." />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <StatisticsContainer>
+                <TitleWrapper>매출 통계</TitleWrapper>
+                <TabBar>
+                    {statisticsTabMenu.map((tab) => (
+                        <Tab
+                            key={tab.id}
+                            width="30%"
+                            labelText={tab.labelText}
+                            isActive={activeTab === tab.id}
+                            onClick={() => handleTabClick(tab.id, tab.redirectUrl)}
+                        />
+                    ))}
+                </TabBar>
+                <TabContainer>
+                    {activeTab === "monthly" ? <StatisticsMonthlyTab /> : <StatisticsTotalTab />}
+                </TabContainer>
+            </StatisticsContainer>
+        </>
     );
 }
 
