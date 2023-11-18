@@ -279,7 +279,7 @@ const getCategoryFundings = async ({
     const props: FetchProps = {
         url: `funding/home/category`,
         method: "GET",
-        isAuth: true,
+        isAuth: false,
         params: { category, sortType, page: page.toString() },
     };
     const result = await fetchGet(props);

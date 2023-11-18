@@ -530,7 +530,7 @@ function Search({
                     setIsLastPage(res.data.last);
                     setFundingDatas(res.data.content);
                     setIsSelectedSort(type);
-                    setPageNum(1);
+                    setPageNum(0);
                 } else if (res === 520) {
                     setErrorMessage("알 수 없는 오류가 발생했습니다.");
                     setIsMultiModalOpen(true);
@@ -552,7 +552,7 @@ function Search({
                     setIsLastPage(res.data.last);
                     setFundingDatas(res.data.content);
                     setIsSelectedSort(type);
-                    setPageNum(1);
+                    setPageNum(0);
                 } else if (res === 520) {
                     setErrorMessage("알 수 없는 오류가 발생했습니다.");
                     setIsMultiModalOpen(true);
