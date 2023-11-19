@@ -233,7 +233,9 @@ function Coupon({ coupon, onClick }: CouponProps) {
                     alt="coupon-image"
                     fill
                 />
-                {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
+                {coupon.couponStatus === "ACTIVE" && days && (
+                    <CouponPeriodWrapper>{days}</CouponPeriodWrapper>
+                )}
                 {coupon.couponStatus !== "ACTIVE" && (
                     <CouponCheckBorderWrapper couponStatus={coupon.couponStatus}>
                         <CouponCheckWrapper couponStatus={coupon.couponStatus}>
