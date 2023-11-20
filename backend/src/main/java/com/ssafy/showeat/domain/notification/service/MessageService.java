@@ -51,7 +51,6 @@ public class MessageService {
 		message.setFrom(sender);
 		message.setTo(notification.getUser().getUserPhone());
 		message.setSubject(SHOWEAT
-			+ notification.getFunding().getFundingTitle()
 			+ notification.getNotificationType().getSubject());
 		message.setText(notification.getNotificationMessage());
 
@@ -79,7 +78,6 @@ public class MessageService {
 			message.setFrom(sender);
 			message.setTo(notification.getUser().getUserPhone());
 			message.setSubject(SHOWEAT
-				+ notification.getFunding().getFundingTitle()
 				+ notification.getNotificationType().getSubject());
 			message.setText(notification.getNotificationMessage());
 			message.setType(MessageType.MMS);

@@ -201,14 +201,23 @@ function Header() {
     // Function for Handling Logout
     const handleLogout = () => {
         const accessToken = getCookie("access-token");
-        patchLogout(user.userId, accessToken).then(() => {
-            deleteCookie("access-token");
-            deleteCookie("refresh-token");
-            setHasAccessToken(false);
-            setUser(userDefaultValue);
-            setSeller(sellerDefaultValue);
-            router.replace("/");
-        });
+        patchLogout(user.userId, accessToken)
+            .then(() => {
+                deleteCookie("access-token");
+                deleteCookie("refresh-token");
+                setHasAccessToken(false);
+                setUser(userDefaultValue);
+                setSeller(sellerDefaultValue);
+                router.replace("/");
+            })
+            .catch(() => {
+                deleteCookie("access-token");
+                deleteCookie("refresh-token");
+                setHasAccessToken(false);
+                setUser(userDefaultValue);
+                setSeller(sellerDefaultValue);
+                router.replace("/");
+            });
     };
 
     // Function for Rendering Buttons

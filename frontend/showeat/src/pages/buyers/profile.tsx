@@ -4,14 +4,14 @@ import BuyerLayout from "@layouts/BuyerLayout";
 import { ChangeEvent, ReactNode, useEffect, useState } from "react";
 import { FileInput, TextInput } from "@components/common/input";
 import { formatPhoneNumber } from "@utils/format";
+import Head from "next/head";
+import Image from "next/image";
+import { InputDropdown } from "@components/common/dropdown";
 import { patchAddress, patchDeleteUserProfile, patchNickname, patchPhone } from "@apis/users";
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { TextButton } from "@components/common/button";
-import { InputDropdown } from "@components/common/dropdown";
 import useUserState from "@hooks/useUserState";
 import withAuth from "@libs/withAuth";
-import Head from "next/head";
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ const UserInfoContainer = styled("div")`
     min-width: 700px;
     box-sizing: border-box;
     padding: 5em 10em;
+    margin-bottom: 5em;
 `;
 
 const MyInfoContainer = styled("div")`
@@ -109,7 +110,7 @@ const MenuContainer = styled("div")`
 /* Buyer Profile Page */
 function BuyerProfile() {
     const [user, setUser] = useUserState();
-    const { userNickname, userAddress, userImgUrl, userPhone, userId } = user;
+    const { userAddress, userNickname, userId, userImgUrl, userPhone } = user;
     const [nickname, setNickname] = useState<string>(userNickname);
     const [phone, setPhone] = useState<string>(userPhone);
     const [address, setAddress] = useState<string>(userAddress);
@@ -125,8 +126,10 @@ function BuyerProfile() {
         setPhone(formatPhoneNumber(event.target.value));
     };
 
-    // Function for Handling Phone Number Change
+    // Function for Handling Address Change
     const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value);
+
         setAddress(event.target?.value);
     };
 
@@ -152,7 +155,7 @@ function BuyerProfile() {
         patchPhone(user.userId, rawPhone).then(() => {
             setUser((prevState) => ({
                 ...prevState,
-                userPhone: phone,
+                userPhone: rawPhone,
             }));
         });
     };
@@ -265,7 +268,7 @@ function BuyerProfile() {
                             required
                             labelText="주소"
                             itemList={addressList}
-                            onChange={(e) => handleAddressChange(e)}
+                            onChange={(event) => handleAddressChange(event)}
                         />
                     </DropdownWrapper>
                     <TextButton

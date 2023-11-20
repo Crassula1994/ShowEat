@@ -18,6 +18,7 @@ import com.ssafy.showeat.domain.coupon.entity.CouponStatus;
 import com.ssafy.showeat.domain.coupon.entity.CouponType;
 import com.ssafy.showeat.domain.coupon.repository.CouponRepository;
 import com.ssafy.showeat.domain.funding.entity.Funding;
+import com.ssafy.showeat.domain.funding.entity.FundingType;
 import com.ssafy.showeat.domain.funding.entity.UserFunding;
 import com.ssafy.showeat.domain.user.entity.User;
 import com.ssafy.showeat.domain.user.repository.UserRepository;
@@ -104,8 +105,13 @@ public class CouponServiceImpl implements CouponService {
 		for (UserFunding userFunding : funding.getUserFundings()) {
 			// 쿠폰 발급
 			User user = userFunding.getUser();
-			Coupon coupon = Coupon.createCouponByFundingSuccess(user, funding);
-			couponList.add(coupon);
+			if(funding.getFundingType() == FundingType.MENU) {
+				Coupon coupon = Coupon.createSingleCouponByFundingSuccess(user, funding, CouponType.SINGLE);
+				couponList.add(coupon);
+			} else {
+				Coupon coupon = Coupon.createGiftCardCouponByFundingSuccess(user, funding, CouponType.GIFTCARD);
+				couponList.add(coupon);
+			}
 		}
 		if (!couponList.isEmpty())
 			couponRepository.saveAll(couponList);

@@ -60,7 +60,7 @@ const CouponContainer = styled("div")<{ couponStatus: string }>`
     }
 `;
 
-const CouponUpperContainer = styled("div")`
+const CouponUpperContainer = styled("div")<{ couponStatus: string }>`
     width: 100%;
     height: 75%;
 
@@ -68,13 +68,15 @@ const CouponUpperContainer = styled("div")`
 
     border: 3px solid ${(props) => props.theme.colors.primary3};
     border-radius: 20px;
+
+    img {
+        filter: ${(props) => props.couponStatus !== "ACTIVE" && "grayscale(80%)"};
+    }
 `;
 
-const CouponImageWrapper = styled(Image)<{ couponStatus: string }>`
+const CouponImageWrapper = styled(Image)`
     border-radius: 20px;
     object-fit: cover;
-
-    filter: ${(props) => props.couponStatus !== "ACTIVE" && "grayscale(80%)"};
 `;
 
 const CouponPeriodWrapper = styled("div")`
@@ -224,15 +226,16 @@ function Coupon({ coupon, onClick }: CouponProps) {
             onClick={() => onClick(coupon.couponId)}
             couponStatus={coupon.couponStatus}
         >
-            <CouponUpperContainer>
+            <CouponUpperContainer couponStatus={coupon.couponStatus}>
                 <CouponImageWrapper
                     className="coupon-image"
                     src={coupon.fundingImgUrl}
                     alt="coupon-image"
                     fill
-                    couponStatus={coupon.couponStatus}
                 />
-                {days && <CouponPeriodWrapper>{days}</CouponPeriodWrapper>}
+                {coupon.couponStatus === "ACTIVE" && days && (
+                    <CouponPeriodWrapper>{days}</CouponPeriodWrapper>
+                )}
                 {coupon.couponStatus !== "ACTIVE" && (
                     <CouponCheckBorderWrapper couponStatus={coupon.couponStatus}>
                         <CouponCheckWrapper couponStatus={coupon.couponStatus}>

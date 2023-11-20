@@ -167,7 +167,7 @@ function PayResult() {
                 </ContentContainer>
                 <ButtonWrapper>
                     <TextButton
-                        text="이전 페이지로 돌아가기"
+                        text="홈으로 돌아가기"
                         width="50%"
                         fontSize={20}
                         onClick={() => router.replace("/")}

@@ -109,11 +109,22 @@ public class Coupon extends BaseTimeEntity {
 		this.couponQrCodeImgUrl = s3QrCodeImageUrl;
 	}
 
-	public static Coupon createCouponByFundingSuccess(User user, Funding funding) {
+	public static Coupon createSingleCouponByFundingSuccess(User user, Funding funding, CouponType couponType) {
 		return Coupon.builder()
 			.couponPrice(funding.getFundingDiscountPrice())
 			.couponStatus(CouponStatus.ACTIVE)
-			.couponType(funding.getFundingType() == FundingType.MENU ? CouponType.SINGLE : CouponType.GIFTCARD)
+			.couponType(couponType)
+			.couponExpirationDate(LocalDate.now().plusDays(180))
+			.user(user)
+			.funding(funding)
+			.build();
+	}
+
+	public static Coupon createGiftCardCouponByFundingSuccess(User user, Funding funding, CouponType couponType) {
+		return Coupon.builder()
+			.couponPrice(funding.getFundingPrice())
+			.couponStatus(CouponStatus.ACTIVE)
+			.couponType(couponType)
 			.couponExpirationDate(LocalDate.now().plusDays(180))
 			.user(user)
 			.funding(funding)

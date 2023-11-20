@@ -69,6 +69,8 @@ public class KakaoAuthService {
 			log.info("존재하지 않는 회원정보입니다. 새로 저장합니다.");
 			userRepository.save(user);
 			log.info("member_id = {}", user.getUserId());
+			//관심 주소 초기값 설정
+			user.updateAddress("강남구");
 		}
 
 		Long userId = user.getUserId();
@@ -80,9 +82,6 @@ public class KakaoAuthService {
 		log.info("grantType = {}", tokenDto.getGrantType());
 		log.info("accessToken = {}", tokenDto.getAccessToken());
 		log.info("refreshToken = {}", tokenDto.getRefreshToken());
-
-		//관심 주소 초기값 설정
-		user.updateAddress("강남구");
 
 		//refreshToken을 Redis에 저장
 		redisService.setValues(credential.getEmail() + "_refreshToken", tokenDto.getRefreshToken());
