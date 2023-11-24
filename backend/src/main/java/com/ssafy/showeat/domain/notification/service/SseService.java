@@ -24,13 +24,14 @@ public class SseService {
 	private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
 
 	public void send(Long notificationId, Long receiverId) {
-		log.info("SseService - send");
+		log.info("SseService - send 시도");
 		emitterRepository.get(receiverId).ifPresentOrElse(it -> {
 				try {
 					it.send(SseEmitter.event()
 						.id(notificationId.toString())
 						.name(SSE_NAME)
 						.data("send notification"));
+					log.info("SseService - send 성공");
 				} catch (IOException exception) {
 					emitterRepository.delete(receiverId);
 					throw new SseConnectException();

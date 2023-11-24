@@ -257,18 +257,6 @@ function Header() {
     }, [user]);
 
     useEffect(() => {
-        if (user.userId !== 0) {
-            getNotificationExist().then((res) => {
-                if (res.data) {
-                    setIsNotificationExist(true);
-                } else {
-                    setIsNotificationExist(false);
-                }
-            });
-        }
-    }, [user.userId]);
-
-    useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const notificationContainer = document.getElementById("notification-container");
             const notificationIconButton = document.getElementById("notification-icon-button");
@@ -290,6 +278,43 @@ function Header() {
             document.removeEventListener("mouseup", handleClickOutside);
         };
     }, [isNotificationVisible]);
+
+    // SSE 알림
+    const [, setEventSource] = useState<EventSource | undefined>(undefined);
+
+    const handleGetAlarm = () => {
+        getNotificationExist().then((res) => {
+            if (res.data) {
+                setIsNotificationExist(true);
+            } else {
+                setIsNotificationExist(false);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (user.userId !== 0) {
+            handleGetAlarm();
+            const source = new EventSource(
+                `http://localhost:8081/api/notification/subscribe/${user.userId}`,
+            );
+            setEventSource(source);
+
+            source.addEventListener("open", function (event) {
+                console.log("connection opened", event);
+            });
+
+            source.addEventListener("sse", function (event) {
+                console.log("sse", event.data);
+                handleGetAlarm();
+            });
+
+            source.addEventListener("error", function (event) {
+                console.log("error", event);
+                source.close();
+            });
+        }
+    }, []);
 
     return (
         <HeaderContainer>

@@ -76,6 +76,7 @@ public class SecurityConfig {
                 .antMatchers("/api/business/seller/**").permitAll()
                 .antMatchers("/api/coupon/**").permitAll()
                 .antMatchers("/api/review").permitAll()
+                .antMatchers("/api/notification/subscribe/**").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity
