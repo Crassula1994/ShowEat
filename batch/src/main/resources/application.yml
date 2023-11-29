@@ -26,9 +26,9 @@ logging:
     org.springframework.web.socket: trace
 
 sms:
-  key: ""
-  secretKey: ""
-  sender: ""
+  key:
+  secretKey:
+  sender:
 
 # s3
 cloud:

@@ -1,136 +1,122 @@
 # ShowEat
-![플젝로고](/uploads/6f3b4e24a14fa26ef72a7d0f187ad558/플젝로고.PNG)
+
+![플젝로고](https://github.com/SSuSG/ShowEat/assets/33506590/7cda7718-b6c8-402f-bc63-e6060584e69f)
 
 ## 📖목차
-- [README](#readme)
-	- [🗓프로젝트 진행 기간](#-프로젝트-진행-기간)
-	- [📑주제](#-주제)
-	- [🎉프로젝트 기획](#-프로젝트-기획)
-	- [🔑 핵심 기능](#-핵심-기능)
-    - [🔑 주요 기능](#-주요-기능)
-	- [🖥 서비스 화면](#-서비스-화면)
-	- [🏗️ 아키텍쳐](#-아키텍쳐)
-	- [🛠 기술 스택](#-기술-스택)
-	- [📂 파일 구조](#-파일-구조)
-	- [📝 설계 문서](#-설계-문서)
-	    - [ERD](#erd)
-	    - [API](#api)
-	    - [FIGMA](#figma)
-	- [📚 컨벤션](#-컨벤션)
-	    - [Ground Rule](#ground-rule)
-		- [Git Branch](#git-branch)
-		- [Git Commit](#git-commit)
-		- [Codding](#codding)
-		- [Jira](#jira)
-	- [📄 문서 정리](#-문서-정리)
-	    - [회의록](#-회의록)
-	    - [지식 공유](#-지식-공유)
-	- [💾 결과물](#-결과물)
-	    - [UCC](#UCC)
-	    - [데모](#데모)
-	    - [PPT](#PPT)
-	    - [포팅매뉴얼](#포팅메뉴얼)
-	- [❤ 팀 소개](#-팀-소개)
-	    - [팀명](#팀명)
-	    - [팀명의 의미](#팀명의-의미)
-		- [프론트](#프론트)
-		- [백](#백)
+
+- [README](#readme) - [🗓프로젝트 진행 기간](#-프로젝트-진행-기간) - [📑주제](#-주제) - [🎉프로젝트 기획](#-프로젝트-기획) - [🔑 핵심 기능](#-핵심-기능) - [🔑 주요 기능](#-주요-기능) - [🖥 서비스 화면](#-서비스-화면) - [🏗️ 아키텍쳐](#-아키텍쳐) - [🛠 기술 스택](#-기술-스택) - [📂 파일 구조](#-파일-구조) - [📝 설계 문서](#-설계-문서) - [ERD](#erd) - [API](#api) - [FIGMA](#figma) - [📚 컨벤션](#-컨벤션) - [Ground Rule](#ground-rule) - [Git Branch](#git-branch) - [Git Commit](#git-commit) - [Codding](#codding) - [Jira](#jira) - [📄 문서 정리](#-문서-정리) - [회의록](#-회의록) - [지식 공유](#-지식-공유) - [💾 결과물](#-결과물) - [UCC](#UCC) - [데모](#데모) - [PPT](#PPT) - [포팅매뉴얼](#포팅메뉴얼) - [❤ 팀 소개](#-팀-소개) - [팀명](#팀명) - [팀명의 의미](#팀명의-의미) - [프론트](#프론트) - [백](#백)
 <!-- <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small> -->
 
-
 ---
+
 ## 🗓 프로젝트 진행 기간
+
 `2023.10.09 ~ 2023.11.17 (약 6주)`
 
 ---
+
 ## 📑 주제
-확정 매출 보장형 소상공인 펀딩 플랫폼 
+
+확정 매출 보장형 소상공인 펀딩 플랫폼
 
 ---
+
 ## 🎉 프로젝트 기획
-<img src="/uploads/f4ba0c982142360fca23d05341347d28/image.png" width="500px" height="400px" />
-<img src="/uploads/4988edc20a35eb5337e56faa7b5c5299/image.png" width="500px" height="400px" />
-<img src="/uploads/0a248a1ff23ef2af62958cd9c8d62006/image.png" width="500px" height="400px" />
+
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/25d2c66b-0892-4488-8d22-2efb33c69757" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/7b3a2003-ccab-42e7-92b4-0ca27f30dcf6" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a970b2ca-427b-430b-b205-3683960643c9" width="500px" height="400px" />
 
 ---
-## 🔑 핵심 기능
-<img src="/uploads/850491a330a43456aea9b52fc6ff4f9e/image.png" width="500px" height="400px" />
-<img src="/uploads/137e40b2b40a28d09359ae4b5ddda347/image.png" width="500px" height="400px" />
 
+## 🔑 핵심 기능
+
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/34881b58-ff77-441a-9e03-f8379f282e05" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a6b1de96-3cb1-40c8-8908-fdb35611aa1c" width="500px" height="400px" />
 
 ## 🔑 주요 기능
 <img src="/uploads/0ec81232fb78eeecb9e5b28e89ee398a/image.png" width="500px" height="400px" />
 <img src="/uploads/bba888159baa721c89c6c01cc87e2373/image.png" width="500px" height="400px" />
 <img src="/uploads/8149e9d989e9768274f426af86da1a1b/image.png" width="500px" height="400px" />
 
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/b568535d-0f69-4ea8-b90d-b23b8ded8073" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e2182da5-ea7b-4ff0-9f99-dc50f370225e" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3a73e0c1-49ba-4cdf-a17f-fda08db37198" width="500px" height="400px" />
 
 ---
+
 ## 🖥 서비스 화면
 
 # 메인 페이지
-<img src="/uploads/399038a06999079e4b7d0d3d3dd3b40b/메인-페이지.gif" width="600px" height="400px" />
 
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c07eff07-0db3-4702-9909-ed557b6e81ff" width="600px" height="400px" />
 
-# 로그인 
-<img src="/uploads/a0643d3587fca4f66db364eb74d1c4d1/카카오-로그인.gif" width="600px" height="400px" />
+# 로그인
+
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/631017f7-b0e5-4efe-be4a-86d83cb6647d" width="600px" height="400px" />
 
 # 펀딩 검색/필터링/정렬
+
 <div>
-<img src="/uploads/11a069de19a2054e5f6f32e2143a8560/펀딩-검색.gif" width="500px" height="400px" />
-<img src="/uploads/d4cf83bb4cdee48d9b68a80b0e381db5/펀딩-검색-필터링.gif" width="500px" height="400px" />
-<img src="/uploads/5836a26846a70275d4138f40fe0d6ccd/펀딩-조건별-정렬.gif" width="500px" height="400px" />
-<img src="/uploads/1ce2102676dce851de35bb3b738b8dd5/카테고리별-펀딩-조회.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8d8fe1fd-2497-40d2-be47-a1b2e7211a3c" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c952ddd6-1162-4b05-9717-120af7282a4c" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cf75177c-fbcc-4d00-aeae-147011fd0f9a" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/db6b1c99-7259-46dd-93eb-cc0d211d4272" width="600px" height="400px" />
 </div>
 
-
 # 펀딩/리뷰 조회
+
 <div>
-<img src="/uploads/687679f2e491686cdd91b9a35cdb2966/펀딩-상세-조회.gif" width="500px" height="400px" />
-<img src="/uploads/18f87db0aa85e142993db5f5914a1b74/펀딩-참여_-알림_-문자.gif" width="500px" height="400px" />
-<img src="/uploads/c80ef4b94042f6014597e24c0975fbfe/업체-정보_-리뷰-조회_1.gif" width="500px" height="400px" />
-<img src="/uploads/c605ab5abc35e7e6a6449cbe631e2096/쿠폰-조회_-리뷰-작성_1.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/96f58efa-f963-4613-8912-45c95af845bb" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e36399ee-5903-46fd-bd2a-f5854381c97e" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f805966d-b953-4f32-b400-94f5dd9f9249" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4a7512ad-2c6b-46bf-8958-b22bce95fafb" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4fb77bec-4187-429c-b130-50aa144cd930" width="600px" height="400px" />
 </div>
 
 # 내 정보 및 캐시카우 충전
+
 <div>
-<img src="/uploads/e1f45cf0dac4e58bfa4b368e3265627c/자신의참여펀딩_관심펀딩조회_2.gif" width="500px" height="400px" />
-<img src="/uploads/38ae7bdcc35923c97c8741bb14504995/내정보조회_수정_2.gif" width="500px" height="400px" />
-<img src="/uploads/aa2e7bb8b5c98d5e7979c1f7a7bb0c9d/캐시카우충전.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a9a86dc0-85c0-4ce5-9160-3fcde76fd26a" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f3c4ee30-ca5f-4856-882b-8bd1376e5995" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/012234a3-56f3-4a3a-809f-eabfd16578a1" width="600px" height="400px" />
 </div>
 
 # 셀러 신청 및 조회
+
 <div>
-<img src="/uploads/e6dfc0eb1272f7b966d3a6368f84c2f2/쑈잇-UCC-풀영상-셀러-계정-신청.gif" width="500px" height="400px" />
-<img src="/uploads/b9cbf8b1a0e22d86cda194ed5afb4b1e/쑈잇-UCC-풀영상-사업자-등록-정보-조회.gif" width="500px" height="400px" />
-<img src="/uploads/d6e2fe1923b3f84d5661194ef1daded7/쑈잇-UCC-풀영상-셀러-정보-페이지.gif" width="500px" height="400px" />
-<img src="/uploads/4c41b8245eb88b570ed8ffb3cc446a3d/진행중_종료된펀딩.gif" width="500px" height="400px" />
-<img src="/uploads/3e458374cd0468abb99daca0ac5fbc2a/월별_누적매출통계.gif" width="500px" height="400px" />
-<img src="/uploads/8a4d2b0aab2a828d680fd06afb502229/쑈잇-UCC-풀영상-메뉴-추가.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/d75a8b39-de87-4ecf-8991-f2eb971bb302" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8f218d5e-6259-4dec-bf80-fbabe776c85b" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e236894e-49c9-47db-b32c-aeb93507552f" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cbc31b55-0fe0-4d9e-a4e9-223f1497aa81" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a0bf6d5f-289f-4d7a-beee-adebc8353f8e" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/40b76051-bf0d-4219-894c-b8b6f56b8e6e" width="600px" height="400px" />
 </div>
 
-
 # 펀딩 생성
+
 <div>
-<img src="/uploads/9de7a7f57b8eec5364c9bdc3e3254fec/펀딩생성단일메뉴.gif" width="500px" height="400px" />
-<img src="/uploads/68b395fa3cf0257b1c4b780a5d102958/펀딩생성금액권.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3686488d-f17b-408b-a4c2-cab15bb21703" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c98d8e60-62ac-49bd-be4a-14d1576de293" width="600px" height="400px" />
 </div>
 
 # 쿠폰 사용
+
 <div>
-<img src="/uploads/6a8061370ef70f0af26316f1c1709020/셀러-쿠폰-사용-단일메뉴.gif" width="500px" height="400px" />
-<img src="/uploads/d30553c84076de0b3dd8dd0fcf2afa4f/셀러-쿠폰사용-금액권.gif" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/9d815e0f-b0e6-40cb-8e6f-213c1b731699" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/79a32843-b135-4fdf-b41f-be9d183a2d95" width="600px" height="400px" />
 </div>
 
-
 ---
+
 ## 🏗️ 아키텍쳐
-![아키텍처1](/uploads/fa5e4e4f2b7ea08ed870fb173c3d7a8d/아키텍처1.png)
 
+![아키텍처1](https://github.com/SSuSG/ShowEat/assets/33506590/aeb3d719-6e13-44be-850e-253d660bb357)
 
----
 ## 🛠 기술 스택
 
 ### 기술 스택
+
 <div align=center>
     <img src="https://img.shields.io/badge/-GitLab-FCA121?style=flat-square&logo=gitlab&logoColor=white">
     <img src="https://img.shields.io/badge/-Jira-0052CC?style=flat-square&logo=jira&logoColor=white">
@@ -162,21 +148,20 @@
 <img src="https://img.shields.io/badge/-Grafana-F46800?style=flat-square&logo=grafana&logoColor=white">
 <img src="https://img.shields.io/badge/-nGrinder-F46800?style=flat-square"> 
 </div>
-    
 
-### 상세 기술 스택 
+### 상세 기술 스택
 
 <details>
   <summary>더보기</summary>
     <div markdown="1">       
-        ![기술스택1](/uploads/d94fde22ca4a97ef9a48d3303d176d3a/기술스택1.PNG)
-        ![기술스택2](/uploads/f6468fa2522015f0c5360c79aeda7785/기술스택2.PNG)
+        ![기술스택1](https://github.com/SSuSG/ShowEat/assets/33506590/6dd37622-7e35-4765-bc4c-f64ce53a5d47)
+![기술스택2](https://github.com/SSuSG/ShowEat/assets/33506590/89a9c689-1a52-492f-970c-79ded1bb5163)
     </div>
     
 </details>
 
-    
 ---
+
 ## 📂 파일 구조
 
 <details  style="margin-left: 5px;">
@@ -355,22 +340,26 @@
 </details>
 
 ---
+
 ## 📝 설계 문서
 
 ### ERD
+
 <details>
 <summary>ERD</summary>
 <div markdown="1">       
-    ![erd1](/uploads/b9137cbe31611301a815bca1fec2933e/erd1.PNG)
+<img src="https://github.com/Haaarimmm/TIL/assets/108309396/c8896df5-7f59-4590-9285-8305faac0f40" />
 </div>
 </details>
 
-
 ### API
+
 <details>
 <summary>전체 문서</summary>
-<div markdown="1">       
-    
+<div markdown="1">   
+<img src="https://github.com/Haaarimmm/TIL/assets/108309396/32cc47e9-d3ab-4d3a-892e-03eee625a0bc" />
+<img src="https://github.com/Haaarimmm/TIL/assets/108309396/93c12925-3d43-40f5-9412-775d0880bd7c" />
+
 </div>
 </details>
 
@@ -381,36 +370,32 @@
 </div>
 </details>
 
-
-
 <details>
 <summary>Response</summary>
 <div markdown="1">       
     <img src="https://hackmd.io/_uploads/H1J86Gjh3.png" alt="Response 페이지"/>
 </div>
-</details> 
-
+</details>
 
 ### FIGMA
 
 <details>
 <summary>FIGMA</summary>
-<div markdown="1">       
-    ![피그마1](/uploads/da3ae50150da29d382e04346f585d5d0/피그마1.PNG)
+<div markdown="1"> 
+<img src="https://github.com/Haaarimmm/TIL/assets/108309396/5bb0c5c1-1dda-4bc7-9b66-e97713bc3c9d" />
 </div>
-</details> 
-
+</details>
 
 ---
+
 ## 📚 컨벤션
 
-
 ### Ground Rule
+
 <details>
   <summary>클릭하여 내용 표시/숨기기</summary>
 
 > GROUND RULE
-> 
 
 ## 🥇 프로젝트 수칙
 
@@ -468,19 +453,16 @@
 4. **협력** : 팀원이 힘들어하는 부분이 있다면, 웃으면서 도와주어야 합니다. 도움을 줄수록 나의 실력도 함께 올라갑니다.
 5. **신뢰** : 다른 팀원들의 책임감과 실력에 대해 믿음을 잃지 맙시다.
 
-
-
 </details>
 
-
 ### Git Branch
+
 <details>
   <summary>클릭하여 내용 표시/숨기기</summary>
 
 # 브랜치 명명 컨벤션
 
 > BRANCH NAMING CONVENTION
-> 
 
 ## Git flow
 
@@ -490,10 +472,11 @@
 - **develop** - 다음 출시 버전을 개발하는 브랜치 → 기능 완성 후 중간에 취합하는 용도
 - **feature** - 각종 기능을 개발하는 브랜치 → feat/login, feat/join 등으로 기능 분류 후 작업
 - **hotfix** - 출시 버전에서 발생한 버그를 수정하는 브랜치
-    
+
 </details>
 
 ### Git Commit
+
 <details>
   <summary>클릭하여 내용 표시/숨기기</summary>
 ## 📖 **커밋 메시지 규칙**
@@ -508,33 +491,33 @@
 ## 📖 **커밋 유형의 종류**
 
 - **Init**
-    - 새로 브랜치를 생성하여 처음으로 커밋을 하는 경우
-    - (예) `Init: Create feat/S09P11A203-52-document-scan branch`
+  - 새로 브랜치를 생성하여 처음으로 커밋을 하는 경우
+  - (예) `Init: Create feat/S09P11A203-52-document-scan branch`
 - **Chore**
-    - 그래들(Gradle) 또는 `package.json` 파일에 의존성을 추가하거나 수정하는 경우
-    - 도커(Docker) 파일을 추가하거나 수정하는 경우
-    - 기타 설정 파일을 추가하거나 수정하는 경우
-    - (예) `Chore: Add env.yml file`
+  - 그래들(Gradle) 또는 `package.json` 파일에 의존성을 추가하거나 수정하는 경우
+  - 도커(Docker) 파일을 추가하거나 수정하는 경우
+  - 기타 설정 파일을 추가하거나 수정하는 경우
+  - (예) `Chore: Add env.yml file`
 - **Feat**
-    - 새로운 기능을 추가한 경우
-    - CSS 또는 스타일을 수정한 경우
-    - (예) `Feat: Add document scan feature`
+  - 새로운 기능을 추가한 경우
+  - CSS 또는 스타일을 수정한 경우
+  - (예) `Feat: Add document scan feature`
 - **Fix**
-    - 버그를 고친 경우
-    - 급하게 치명적인 버그를 고쳐야 하는 경우
-    - (예) `Fix: Modify word addition bug`
+  - 버그를 고친 경우
+  - 급하게 치명적인 버그를 고쳐야 하는 경우
+  - (예) `Fix: Modify word addition bug`
 - **Merge**
-    - 브랜치에서 기능 구현 완료 후 다른 브랜치와 통합하는 경우
-    - (예) `Merge: Merge feat/S09P11A203-52-document-scan branch to develop branch`
+  - 브랜치에서 기능 구현 완료 후 다른 브랜치와 통합하는 경우
+  - (예) `Merge: Merge feat/S09P11A203-52-document-scan branch to develop branch`
 - **Refactor**
-    - 효율적인 코드를 위해 코드 수정 및 리팩토링을 진행한 경우
-    - 파일을 삭제하는 작업만 수행하는 경우
-    - 파일, 폴더명을 수정하거나 옮기는 작업만 진행한 경우
-    - (예) `Refactor: Modify folder structure`
+  - 효율적인 코드를 위해 코드 수정 및 리팩토링을 진행한 경우
+  - 파일을 삭제하는 작업만 수행하는 경우
+  - 파일, 폴더명을 수정하거나 옮기는 작업만 진행한 경우
+  - (예) `Refactor: Modify folder structure`
 - **Test**
-    - 기능에 대한 테스트 코드를 작성하는 경우
-    - (예) `Test: Add funding test code`
-    
+  - 기능에 대한 테스트 코드를 작성하는 경우
+  - (예) `Test: Add funding test code`
+
 </details>
     
     
@@ -543,7 +526,6 @@
   <summary>클릭하여 내용 표시/숨기기</summary>
 
 > CODING CONVENTION
-> 
 
 - 1문자의 이름은 사용하지 않는다.
 - 네임스페이스, 오브젝트, 함수 그리고 인스턴스에는 camelCase를 사용한다 `ex) camelCase`
@@ -551,105 +533,104 @@
 - 약어 및 이니셜은 항상 모두 대문자이거나 모두 소문자여야 한다. `ex) NFT`
 - 클래스명과 변수명은 `명사 사용`
 - 메서드명은 `동사 사용`
-- 상수명은 대문자를 사용하고, 단어와 단어 사이는 _로 연결한다.
+- 상수명은 대문자를 사용하고, 단어와 단어 사이는 \_로 연결한다.
 - component는 PascalCase를 사용한다.
 
 </details>
 
 ### Jira
+
 <details>
   <summary>클릭하여 내용 표시/숨기기</summary>
 
 > JIRA CONVENTION
-> 
 
 1. 매주 월요일 오전 스크럼 회의 이후 각자의 이슈 티켓을 생성한다.
 2. 이슈 생성 시 확인해야 할 부분
-    - ****************************************************************************************담당자가 본인****************************************************************************************으로 설정되어 있는지
-    - **컴포넌트**가 지정되어 있는지 (FE, BE, 공통 중 택1)
-    - **Epic Link**가 지정되어 있는지 (설계, FE개발, BE개발, 회의, 학습…)
-    - 스프린트의 **총 Story Points가 40 이상**인지
-3. 이슈 티켓 이름은 **************[말머리] 구체적인 기능************** 으로 적는다.
-    - ****************************기능 관련 이슈일 경우 **************[말머리]**************는 기능 명세서의 대분류를 따른다.
+   - ******************************************\*\*\*\*******************************************담당자가 본인******************************************\*\*\*\*******************************************으로 설정되어 있는지
+   - **컴포넌트**가 지정되어 있는지 (FE, BE, 공통 중 택1)
+   - **Epic Link**가 지정되어 있는지 (설계, FE개발, BE개발, 회의, 학습…)
+   - 스프린트의 **총 Story Points가 40 이상**인지
+3. 이슈 티켓 이름은 ******\*\*******[말머리] 구체적인 기능******\*\******* 으로 적는다.
+   - ************\*\*\*\*************기능 관련 이슈일 경우 ******\*\*******[말머리]******\*\*******는 기능 명세서의 대분류를 따른다.
 4. 매일 오전 스크럼 회의 이후 그 날 처리할 이슈 티켓을 **진행 중**으로 이동시킨다.
-    - 실시간으로 이슈를 처리할 때마다 **완료** 처리한다.
+   - 실시간으로 이슈를 처리할 때마다 **완료** 처리한다.
 
 </details>
 
 ---
+
 ## 📄 문서 정리
-    
+
 ### 회의록
+
 <details>
 <summary>페이지 전체 모습</summary>
-<div markdown="1">       
-    ![image](/uploads/1d76a161573d9c9995898649c0ffcbf6/image.png)
-    ![image](/uploads/9085b86c1125a92ca4be065dd7a58255/image.png)
-    ![image](/uploads/99f1c5b529132fd8e2affece6afc45e1/image.png)
+<div markdown="1">    
+	<img src="https://github.com/Haaarimmm/TIL/assets/108309396/56819b16-7349-4a64-8eb8-37358ef0c91c" />
 </div>
 </details>
-
 
 </details>
 <details>
 <summary>스크럼 페이지 세부 모습</summary>
-<div markdown="1">       
-    ![image](/uploads/3e81a93fe41c91f9f1b7a0ccea357302/image.png)
+<div markdown="1"> 
+	<img src="https://github.com/Haaarimmm/TIL/assets/108309396/d4e2c362-2459-433f-960d-cd9370068c34" />
 </div>
 </details>
 <details>
 <summary>스프린트 페이지 세부 모습</summary>
-<div markdown="1">       
-    ![image](/uploads/6fd266058b23952a76eb99991df3b4d1/image.png)
+<div markdown="1">
+	<img src="https://github.com/Haaarimmm/TIL/assets/108309396/4c639d72-a22d-4fed-a0ea-6be03dfba390" />
 </div>
 </details>
   
 ### 지식 공유
 <details>
 <summary>페이지 전체 모습</summary>
-<div markdown="1">       
-    ![image](/uploads/5d43e95ad7299c7605f1c05e5c7e15af/image.png)
+<div markdown="1">    
+	<img src="https://github.com/Haaarimmm/TIL/assets/108309396/1dc05c58-2788-4fb7-8ebb-52ddcc3dc82b" />
 </div>
 </details>
 
-
 ---
+
 ## 💾 결과물
-    
 
 ### UCC
+
 https://www.youtube.com/watch?v=4qqfbgUPDNE&t=6s
 
 ### 시연 영상
+
 https://youtu.be/s2JSZ5LAmCs?si=W-nynO6U6YPOTYGU
-    
+
 ### 포팅메뉴얼
+
 [포팅메뉴얼 참조](./exec/showeat_포팅매뉴얼.pdf)
 
 ---
+
 ## ❤ 팀 소개
-<img src="/uploads/3141f2b6eae0c0b249ab9569286214b9/Frame_1.png" width="300px" height="300px" />
 
-
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/13bbc15a-d2a8-4c30-9c7b-e7025358505b" width="300px" height="300px" />
 
 ### 팀명
->📢 안녕하세요! 삼성 청년 소프트웨어 아카데미(SSAFY) 서울 2반 교육생으로 조직된 프로젝트 팀 ‘스택플로(Stackflow)’입니다. 프로젝트 진행 과정에서 발생할 많은 문제를 팀원 간 공유하고 해결책을 모색하면서 극복해 나가겠습니다. 또한, 각자 공부하고 싶은 최신 기술 스택을 함께 공부하며 교학상장(敎學相長)하는 기회로 삼겠습니다. 감사합니다.
 
+> 📢 안녕하세요! 삼성 청년 소프트웨어 아카데미(SSAFY) 서울 2반 교육생으로 조직된 프로젝트 팀 ‘스택플로(Stackflow)’입니다. 프로젝트 진행 과정에서 발생할 많은 문제를 팀원 간 공유하고 해결책을 모색하면서 극복해 나가겠습니다. 또한, 각자 공부하고 싶은 최신 기술 스택을 함께 공부하며 교학상장(敎學相長)하는 기회로 삼겠습니다. 감사합니다.
 
 ### 팀명의 의미
+
 프로젝트 팀명은 유명한 개발 커뮤니티 사이트 ‘스택 오버플로(Stack Overflow)’에서 착안하였습니다. 스택(Stack)은 프로젝트를 통해 학습할 기술 스택과 쌓여갈 개발 능력을 의미하고, 플로(Flow)는 프로젝트를 통해 얻게 될 성과와 성취를 의미합니다. 즉, 프로젝트를 통해 성장하면서 각자 원하는 성과를 달성하고자 하는 바람을 담았습니다.
 
 ### Frontend
-|![](https://hackmd.io/_uploads/SJJgizo3h.png)|![image](/uploads/5b6f2c2e5bab7008db80cc6e0c06b5f5/image.png)|
-|:---------:|:--------:|
-| [고건](https://github.com/Crassula1994)| [구본웅](https://github.com/Narn99)|
+
+| ![](https://hackmd.io/_uploads/SJJgizo3h.png) | ![image](https://github.com/Haaarimmm/TIL/assets/108309396/6a1c2c5d-d82d-4b4b-9001-c8469e8f475a) |
+| :-------------------------------------------: | :----------------------------------------------------------------------------------------------: |
+|    [고건](https://github.com/Crassula1994)    |                               [구본웅](https://github.com/Narn99)                                |
 
 ### Backend
-    
-|![](https://hackmd.io/_uploads/SyeUsMjnh.png)|![](https://hackmd.io/_uploads/H1zwjMonh.png)| ![](https://hackmd.io/_uploads/Sk3djMinh.png)| ![](https://hackmd.io/_uploads/SyiQhGi2h.png)|
-|:---------:|:--------:|:---------:|:--------:|
-| [김하림](https://github.com/Haaarimmm)| [문수정]() | [박시균](https://github.com/SSuSG)| [오유정](https://github.com/yj0111) |
 
-
-
-
+| ![](https://hackmd.io/_uploads/SyeUsMjnh.png) | ![](https://hackmd.io/_uploads/H1zwjMonh.png) | ![](https://hackmd.io/_uploads/Sk3djMinh.png) | ![](https://hackmd.io/_uploads/SyiQhGi2h.png) |
+| :-------------------------------------------: | :-------------------------------------------: | :-------------------------------------------: | :-------------------------------------------: |
+|    [김하림](https://github.com/Haaarimmm)     |                  [문수정]()                   |      [박시균](https://github.com/SSuSG)       |      [오유정](https://github.com/yj0111)      |
