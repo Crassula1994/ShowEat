@@ -3,8 +3,39 @@
 ![플젝로고](https://github.com/SSuSG/ShowEat/assets/33506590/7cda7718-b6c8-402f-bc63-e6060584e69f)
 
 ## 📖목차
-
-- [README](#readme) - [🗓프로젝트 진행 기간](#-프로젝트-진행-기간) - [📑주제](#-주제) - [🎉프로젝트 기획](#-프로젝트-기획) - [🔑 핵심 기능](#-핵심-기능) - [🔑 주요 기능](#-주요-기능) - [🖥 서비스 화면](#-서비스-화면) - [🏗️ 아키텍쳐](#-아키텍쳐) - [🛠 기술 스택](#-기술-스택) - [📂 파일 구조](#-파일-구조) - [📝 설계 문서](#-설계-문서) - [ERD](#erd) - [API](#api) - [FIGMA](#figma) - [📚 컨벤션](#-컨벤션) - [Ground Rule](#ground-rule) - [Git Branch](#git-branch) - [Git Commit](#git-commit) - [Codding](#codding) - [Jira](#jira) - [📄 문서 정리](#-문서-정리) - [회의록](#-회의록) - [지식 공유](#-지식-공유) - [💾 결과물](#-결과물) - [UCC](#UCC) - [데모](#데모) - [PPT](#PPT) - [포팅매뉴얼](#포팅메뉴얼) - [❤ 팀 소개](#-팀-소개) - [팀명](#팀명) - [팀명의 의미](#팀명의-의미) - [프론트](#프론트) - [백](#백)
+- [README](#readme)
+	- [🗓프로젝트 진행 기간](#-프로젝트-진행-기간)
+	- [📑주제](#-주제)
+	- [🎉프로젝트 기획](#-프로젝트-기획)
+	- [🔑 핵심 기능](#-핵심-기능)
+    - [🔑 주요 기능](#-주요-기능)
+	- [🖥 서비스 화면](#-서비스-화면)
+	- [🏗️ 아키텍쳐](#-아키텍쳐)
+	- [🛠 기술 스택](#-기술-스택)
+	- [📂 파일 구조](#-파일-구조)
+	- [📝 설계 문서](#-설계-문서)
+	    - [ERD](#erd)
+	    - [API](#api)
+	    - [FIGMA](#figma)
+	- [📚 컨벤션](#-컨벤션)
+	    - [Ground Rule](#ground-rule)
+		- [Git Branch](#git-branch)
+		- [Git Commit](#git-commit)
+		- [Codding](#codding)
+		- [Jira](#jira)
+	- [📄 문서 정리](#-문서-정리)
+	    - [회의록](#-회의록)
+	    - [지식 공유](#-지식-공유)
+	- [💾 결과물](#-결과물)
+	    - [UCC](#UCC)
+	    - [데모](#데모)
+	    - [PPT](#PPT)
+	    - [포팅매뉴얼](#포팅메뉴얼)
+	- [❤ 팀 소개](#-팀-소개)
+	    - [팀명](#팀명)
+	    - [팀명의 의미](#팀명의-의미)
+		- [프론트](#프론트)
+		- [백](#백)
 <!-- <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small> -->
 
 ---
@@ -23,22 +54,22 @@
 
 ## 🎉 프로젝트 기획
 
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/25d2c66b-0892-4488-8d22-2efb33c69757" width="500px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/7b3a2003-ccab-42e7-92b4-0ca27f30dcf6" width="500px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a970b2ca-427b-430b-b205-3683960643c9" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/25d2c66b-0892-4488-8d22-2efb33c69757" width="500px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/7b3a2003-ccab-42e7-92b4-0ca27f30dcf6" width="500px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a970b2ca-427b-430b-b205-3683960643c9" width="500px" height="337.5px" />
 
 ---
 
 ## 🔑 핵심 기능
 
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/34881b58-ff77-441a-9e03-f8379f282e05" width="500px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a6b1de96-3cb1-40c8-8908-fdb35611aa1c" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/34881b58-ff77-441a-9e03-f8379f282e05" width="500px" height="337.5px />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a6b1de96-3cb1-40c8-8908-fdb35611aa1c" width="500px" height="337.5px" />
 
 ## 🔑 주요 기능
 
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/b568535d-0f69-4ea8-b90d-b23b8ded8073" width="500px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e2182da5-ea7b-4ff0-9f99-dc50f370225e" width="500px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3a73e0c1-49ba-4cdf-a17f-fda08db37198" width="500px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/b568535d-0f69-4ea8-b90d-b23b8ded8073" width="500px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e2182da5-ea7b-4ff0-9f99-dc50f370225e" width="500px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3a73e0c1-49ba-4cdf-a17f-fda08db37198" width="500px" height="337.5px" />
 
 ---
 
