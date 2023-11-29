@@ -35,6 +35,9 @@
 <img src="https://github.com/SSuSG/ShowEat/assets/33506590/a6b1de96-3cb1-40c8-8908-fdb35611aa1c" width="500px" height="400px" />
 
 ## 🔑 주요 기능
+<img src="/uploads/0ec81232fb78eeecb9e5b28e89ee398a/image.png" width="500px" height="400px" />
+<img src="/uploads/bba888159baa721c89c6c01cc87e2373/image.png" width="500px" height="400px" />
+<img src="/uploads/8149e9d989e9768274f426af86da1a1b/image.png" width="500px" height="400px" />
 
 <img src="https://github.com/SSuSG/ShowEat/assets/33506590/b568535d-0f69-4ea8-b90d-b23b8ded8073" width="500px" height="400px" />
 <img src="https://github.com/SSuSG/ShowEat/assets/33506590/e2182da5-ea7b-4ff0-9f99-dc50f370225e" width="500px" height="400px" />
@@ -110,8 +113,6 @@
 
 ![아키텍처1](https://github.com/SSuSG/ShowEat/assets/33506590/aeb3d719-6e13-44be-850e-253d660bb357)
 
----
-
 ## 🛠 기술 스택
 
 ### 기술 스택
@@ -147,7 +148,6 @@
 <img src="https://img.shields.io/badge/-Grafana-F46800?style=flat-square&logo=grafana&logoColor=white">
 <img src="https://img.shields.io/badge/-nGrinder-F46800?style=flat-square"> 
 </div>
-
 
 ### 상세 기술 스택
 

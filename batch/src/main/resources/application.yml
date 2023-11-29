@@ -34,7 +34,7 @@ sms:
 cloud:
   aws:
     s3:
-      bucket: showeatbucket
+      bucket:
     credentials:
       access-key:
       secret-key:
