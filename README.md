@@ -46,62 +46,62 @@
 
 # 메인 페이지
 
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c07eff07-0db3-4702-9909-ed557b6e81ff" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c07eff07-0db3-4702-9909-ed557b6e81ff" width="600px" height="337.5px" />
 
 # 로그인
 
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/631017f7-b0e5-4efe-be4a-86d83cb6647d" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/631017f7-b0e5-4efe-be4a-86d83cb6647d" width="600px" height="337.5px" />
 
 # 펀딩 검색/필터링/정렬
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8d8fe1fd-2497-40d2-be47-a1b2e7211a3c" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c952ddd6-1162-4b05-9717-120af7282a4c" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cf75177c-fbcc-4d00-aeae-147011fd0f9a" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/db6b1c99-7259-46dd-93eb-cc0d211d4272" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8d8fe1fd-2497-40d2-be47-a1b2e7211a3c" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c952ddd6-1162-4b05-9717-120af7282a4c" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cf75177c-fbcc-4d00-aeae-147011fd0f9a" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/db6b1c99-7259-46dd-93eb-cc0d211d4272" width="600px" height="337.5px" />
 </div>
 
 # 펀딩/리뷰 조회
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/96f58efa-f963-4613-8912-45c95af845bb" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e36399ee-5903-46fd-bd2a-f5854381c97e" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f805966d-b953-4f32-b400-94f5dd9f9249" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4a7512ad-2c6b-46bf-8958-b22bce95fafb" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4fb77bec-4187-429c-b130-50aa144cd930" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/96f58efa-f963-4613-8912-45c95af845bb" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e36399ee-5903-46fd-bd2a-f5854381c97e" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f805966d-b953-4f32-b400-94f5dd9f9249" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4a7512ad-2c6b-46bf-8958-b22bce95fafb" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/4fb77bec-4187-429c-b130-50aa144cd930" width="600px" height="337.5px" />
 </div>
 
 # 내 정보 및 캐시카우 충전
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a9a86dc0-85c0-4ce5-9160-3fcde76fd26a" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f3c4ee30-ca5f-4856-882b-8bd1376e5995" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/012234a3-56f3-4a3a-809f-eabfd16578a1" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a9a86dc0-85c0-4ce5-9160-3fcde76fd26a" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/f3c4ee30-ca5f-4856-882b-8bd1376e5995" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/012234a3-56f3-4a3a-809f-eabfd16578a1" width="600px" height="337.5px" />
 </div>
 
 # 셀러 신청 및 조회
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/d75a8b39-de87-4ecf-8991-f2eb971bb302" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8f218d5e-6259-4dec-bf80-fbabe776c85b" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e236894e-49c9-47db-b32c-aeb93507552f" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cbc31b55-0fe0-4d9e-a4e9-223f1497aa81" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a0bf6d5f-289f-4d7a-beee-adebc8353f8e" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/40b76051-bf0d-4219-894c-b8b6f56b8e6e" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/d75a8b39-de87-4ecf-8991-f2eb971bb302" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/8f218d5e-6259-4dec-bf80-fbabe776c85b" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/e236894e-49c9-47db-b32c-aeb93507552f" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/cbc31b55-0fe0-4d9e-a4e9-223f1497aa81" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/a0bf6d5f-289f-4d7a-beee-adebc8353f8e" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/40b76051-bf0d-4219-894c-b8b6f56b8e6e" width="600px" height="337.5px" />
 </div>
 
 # 펀딩 생성
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3686488d-f17b-408b-a4c2-cab15bb21703" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c98d8e60-62ac-49bd-be4a-14d1576de293" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/3686488d-f17b-408b-a4c2-cab15bb21703" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/c98d8e60-62ac-49bd-be4a-14d1576de293" width="600px" height="337.5px" />
 </div>
 
 # 쿠폰 사용
 
 <div>
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/9d815e0f-b0e6-40cb-8e6f-213c1b731699" width="600px" height="400px" />
-<img src="https://github.com/SSuSG/ShowEat/assets/33506590/79a32843-b135-4fdf-b41f-be9d183a2d95" width="600px" height="400px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/9d815e0f-b0e6-40cb-8e6f-213c1b731699" width="600px" height="337.5px" />
+<img src="https://github.com/SSuSG/ShowEat/assets/33506590/79a32843-b135-4fdf-b41f-be9d183a2d95" width="600px" height="337.5px" />
 </div>
 
 ---
